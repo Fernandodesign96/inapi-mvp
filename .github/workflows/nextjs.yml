@@ -35,9 +35,6 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        with:
-          # Esto configurará automáticamente el basePath de Next.js si es necesario
-          static_site_generator: next
 
       - name: Install dependencies
         run: npm ci
@@ -45,13 +42,15 @@ jobs:
       - name: Build with Next.js
         run: npm run build
         env:
-          # Si tienes variables de Firebase, agrégalas aquí y en los Secrets del repo
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
           NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
           NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
           NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
+
+      - name: Verify Build Output (Debug)
+        run: ls -la ./out
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
