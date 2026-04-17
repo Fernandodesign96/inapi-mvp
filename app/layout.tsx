@@ -28,7 +28,8 @@ export default function RootLayout({
       lang="es"
       className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
-      {/* Microsoft Clarity */}
+      <body className="min-h-full flex flex-col font-sans">{children}
+              {/* Microsoft Clarity */}
         <Script id="clarity" strategy="afterInteractive">
           {`
             (function(c,l,a,r,i,t,y){
@@ -52,7 +53,7 @@ export default function RootLayout({
             gtag('config', 'G-71ZZCB5SY2');
           `}
         </Script>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      </body>
     </html>
   );
 }
