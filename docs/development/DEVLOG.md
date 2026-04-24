@@ -91,4 +91,36 @@ El uso de `output: 'export'` en Next.js 16 con App Router requiere un manejo cui
 
 ---
 
+## [2026-04-24] - Full Stack | Sprint 4: Optimización Institucional y Motor de Inteligencia
+
+### Contexto y objetivos
+El objetivo final del MVP fue elevar la fidelidad del portal a un estándar de producción institucional. Se eliminaron fricciones de navegación (landing de solicitud), se rediseñó el acceso de seguridad y se implementó el motor de "Pesquisa de Marca" para reducir el riesgo de rechazo legal.
+
+### Implementación técnica
+- **Rediseño de Autenticación:** Migración del modal de login a una `AuthPage` independiente. Se implementó una UI premium con placeholders institucionales ("Mail Usuario") y un acceso destacado para **Clave Única**, utilizando el sistema de diseño de 8px y sombras profundas.
+- **Flujo de Registro Optimizado (4 Pasos):**
+  - Se eliminó el "Paso 0" (Landing) para permitir un inicio inmediato del trámite.
+  - El stepper se consolidó en 4 hitos críticos: Datos Titular, Pesquisa, Configuración de Marca y Revisión/Pago.
+- **Motor de Pesquisa (Fuse.js):** Integración de un validador de marcas en `components/PesquisaMarca.tsx`. Utiliza una base de datos `marcas-mock.json` para calcular un porcentaje de similitud basado en denominación y descripción, alertando visualmente al usuario si su marca tiene alto riesgo de rechazo.
+- **Asistente IA (Claude 3 Haiku):** Implementación de un endpoint API (`api/chat/route.ts`) que consume Anthropic para resolver dudas ciudadanas sobre la Clasificación de Niza y procesos legales en lenguaje cotidiano.
+- **Sistema Visual (Inter):** Migración global de la familia tipográfica a **Inter** en `app/layout.tsx` y actualización de tokens en `DESIGN_SYSTEM.md` para cumplir con la identidad corporativa INAPI.
+
+### 💡 Repaso técnico: Sanitización de Firestore
+Se detectó un error crítico `FirebaseError: Function updateDoc() called with invalid data. Unsupported field value: undefined`. Para mitigarlo, se desarrolló la utilidad `sanitizeForFirestore` en el hook `useSolicitud`, la cual recorre el objeto de estado de forma recursiva y elimina cualquier propiedad con valor `undefined` (común en campos opcionales como el representante) antes de la persistencia.
+
+### Errores y Soluciones
+1. **Fallo de Hidratación en Analytics:**
+   - *Problema:* El script de Microsoft Clarity causaba desincronización al inyectarse directamente en el HTML estático.
+   - *Solución:* Creación del componente `ClarityScript.tsx` que utiliza `useEffect` para asegurar que la inyección ocurra únicamente en el lado del cliente y solo en entornos de producción.
+2. **Error de Persistencia por Campos Vacíos:**
+   - *Problema:* El formulario fallaba al intentar actualizar documentos de Firestore con campos de representante opcionales no definidos.
+   - *Solución:* Implementación de un middleware de limpieza de datos previo a cada escritura, garantizando que solo datos primitivos válidos lleguen a la base de datos.
+
+### Próximos Pasos
+- **Integración API Real:** Reemplazar el mock de marcas por la API oficial de consulta de INAPI.
+- **Pasarela de Pago:** Conexión con el portal de Tesorería para el pago de la primera tasa (1 UTM).
+- **Auditoría de Ciberseguridad:** Validación de los flujos de Clave Única con el equipo de infraestructura.
+
+---
+
 *Documento v1.0 · Registro de Ingeniería · Proyecto GRI INAPI · Abril 2026*
