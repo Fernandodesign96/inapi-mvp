@@ -1,44 +1,39 @@
-import type { Metadata } from "next";
-import { Inter, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { ClarityScript } from '@/components/ClarityScript'
 import Script from 'next/script'
 
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: "Portal INAPI - Solicitud de Marca",
-  description: "Portal oficial para el registro de marcas comerciales - INAPI Chile",
-};
+  title: 'Portal INAPI — Solicitud de Registro de Marca',
+  description:
+    'Portal oficial de INAPI para el registro de marcas comerciales en Chile. Proceso guiado, rápido y seguro.',
+  keywords: 'registro de marca, INAPI, marca comercial, Chile, propiedad intelectual',
+  openGraph: {
+    title: 'Portal INAPI — Solicitud de Registro de Marca',
+    description:
+      'Registra tu marca con seguridad y sin complicaciones. El portal oficial de INAPI te guía paso a paso.',
+    locale: 'es_CL',
+    type: 'website',
+  },
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="es"
-      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col font-sans">{children}
-              {/* Microsoft Clarity */}
-        <Script id="clarity" strategy="afterInteractive">
-          {`
-            (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "wcuqei4rxp");
-          `}
-        </Script>
+    <html lang="es" className={`${inter.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col font-sans">
+        <ClarityScript />
+        {children}
 
         {/* Google Analytics */}
         <Script
@@ -55,5 +50,5 @@ export default function RootLayout({
         </Script>
       </body>
     </html>
-  );
+  )
 }
