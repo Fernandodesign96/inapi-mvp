@@ -107,23 +107,16 @@ En el GRI, el sistema semáforo se aplica al **stepper de progreso**, no a notif
 
 | Familia | Fuente | Rol | Import |
 |---|---|---|---|
-| **Primaria** | DM Sans | UI, headings, labels, botones, microcopy | `next/font/google` |
-| **Secundaria / Mono** | DM Mono | Números de solicitud, RUT, IDs, costos | `next/font/google` |
+| **Primaria** | Inter | UI, headings, labels, botones, microcopy | `next/font/google` |
+| **Secundaria / Mono** | Inter | Números de solicitud, RUT, IDs, costos | `next/font/google` |
 
 ```tsx
 // app/layout.tsx
-import { DM_Sans, DM_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-sans',
-})
-
-const dmMono = DM_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-mono',
+  variable: '--font-inter',
 })
 ```
 

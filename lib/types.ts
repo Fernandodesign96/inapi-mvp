@@ -33,6 +33,15 @@ export interface RepresentanteData extends PersonaData {
   poderNumero?: string
 }
 
+export interface PesquisaResultado {
+  id: string
+  nombre: string
+  clase: number
+  estado: 'vigente' | 'caducada' | 'en_tramite'
+  descripcion: string
+  similitud: number // 0–100
+}
+
 export interface SolicitudBorrador {
   id?: string
   tipo: 'marca' | 'patente'
@@ -40,6 +49,7 @@ export interface SolicitudBorrador {
   traduccion?: string
   idiomaTraduccion?: string
   transliteracion?: string
+  descripcionMarca?: string      // Descripción breve para pesquisa
   preguntasPerfil: {
     p1: string // ¿Qué reciben los clientes?
     p2: string // Palabras clave / Frase corta
@@ -47,6 +57,8 @@ export interface SolicitudBorrador {
   }
   clases: Cobertura[]
   prioridad: boolean
+  pesquisaRealizada?: boolean    // Flag: ¿el usuario completó la pesquisa?
+  pesquisaSimilitud?: number     // Porcentaje de similitud encontrado (0–100)
   solicitante?: PersonaData
   representante?: RepresentanteData
   tasas?: {

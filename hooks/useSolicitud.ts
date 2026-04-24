@@ -6,14 +6,26 @@ import { db } from '@/lib/firebase'
 import type { SolicitudBorrador, Cobertura, SeccionEstado, PersonaData, RepresentanteData } from '@/lib/types'
 
 const SECCIONES_INICIALES: SeccionEstado[] = [
-  { id: 'datos', nombre: 'Datos', estado: 'activa' },
-  { id: 'clases', nombre: 'Clases', estado: 'pendiente' },
-  { id: 'prioridad', nombre: 'Prioridad', estado: 'pendiente' },
-  { id: 'solicitante', nombre: 'Solicitante', estado: 'pendiente' },
-  { id: 'representante', nombre: 'Representante', estado: 'pendiente' },
-  { id: 'tasas', nombre: 'Tasas', estado: 'pendiente' },
-  { id: 'revision', nombre: 'Revisión', estado: 'pendiente' },
+  { id: 'solicitante', nombre: 'Tus Datos',      estado: 'activa'    },
+  { id: 'pesquisa',    nombre: '¿Ya existe?',     estado: 'pendiente' },
+  { id: 'marca',       nombre: 'Tu Marca',         estado: 'pendiente' },
+  { id: 'revision',    nombre: 'Revisión y Pago',  estado: 'pendiente' },
 ]
+
+// Elimina claves con valor undefined para evitar el error de Firestore:
+// "Unsupported field value: undefined"
+function sanitizeForFirestore<T extends object>(obj: T): Partial<T> {
+  return Object.fromEntries(
+    Object.entries(obj)
+      .filter(([, v]) => v !== undefined)
+      .map(([k, v]) => [
+        k,
+        v && typeof v === 'object' && !Array.isArray(v) && !(v instanceof Date)
+          ? sanitizeForFirestore(v as object)
+          : v,
+      ])
+  ) as Partial<T>
+}
 
 function avanzarSecciones(
   secciones: SeccionEstado[],
@@ -33,9 +45,12 @@ export function useSolicitud() {
     denominacion: '',
     traduccion: '',
     transliteracion: '',
+    descripcionMarca: '',
     preguntasPerfil: { p1: '', p2: '', p3: '' },
     clases: [],
     prioridad: false,
+    pesquisaRealizada: false,
+    pesquisaSimilitud: 0,
     secciones: SECCIONES_INICIALES,
   })
   const [docId, setDocId] = useState<string | null>(null)
@@ -44,6 +59,10 @@ export function useSolicitud() {
 
   const actualizarDenominacion = (denominacion: string) => {
     setSolicitud(prev => ({ ...prev, denominacion }))
+  }
+
+  const actualizarDescripcionMarca = (descripcionMarca: string) => {
+    setSolicitud(prev => ({ ...prev, descripcionMarca }))
   }
 
   const actualizarPreguntasPerfil = (preguntas: Partial<SolicitudBorrador['preguntasPerfil']>) => {
@@ -56,9 +75,17 @@ export function useSolicitud() {
   const actualizarTraduccion = (v: string) => setSolicitud(prev => ({ ...prev, traduccion: v }))
   const actualizarTransliteracion = (v: string) => setSolicitud(prev => ({ ...prev, transliteracion: v }))
   const actualizarPrioridad = (v: boolean) => setSolicitud(prev => ({ ...prev, prioridad: v }))
-  
+
   const actualizarSolicitante = (v: PersonaData) => setSolicitud(prev => ({ ...prev, solicitante: v }))
   const actualizarRepresentante = (v: RepresentanteData) => setSolicitud(prev => ({ ...prev, representante: v }))
+
+  const actualizarPesquisa = (similitud: number, realizada: boolean) => {
+    setSolicitud(prev => ({
+      ...prev,
+      pesquisaSimilitud: similitud,
+      pesquisaRealizada: realizada,
+    }))
+  }
 
   const completarSeccion = (completarId: string, activarId: string) => {
     setSolicitud(prev => ({
@@ -92,9 +119,10 @@ export function useSolicitud() {
   const guardarEnFirestore = useCallback(async () => {
     setGuardando(true)
     try {
+      const data = sanitizeForFirestore(solicitud)
       if (!docId) {
         const ref = await addDoc(collection(db, 'solicitudes'), {
-          ...solicitud,
+          ...data,
           estado: 'borrador',
           creadoEn: serverTimestamp(),
           actualizadoEn: serverTimestamp(),
@@ -102,7 +130,7 @@ export function useSolicitud() {
         setDocId(ref.id)
       } else {
         await updateDoc(doc(db, 'solicitudes', docId), {
-          ...solicitud,
+          ...data,
           actualizadoEn: serverTimestamp(),
         })
       }
@@ -118,23 +146,24 @@ export function useSolicitud() {
       primeraVez.current = false
       return
     }
-    // Autoguardado optimizado
     const timer = setTimeout(() => {
       guardarEnFirestore()
     }, 2000)
     return () => clearTimeout(timer)
-  }, [solicitud.denominacion, solicitud.clases, solicitud.preguntasPerfil, guardarEnFirestore])
+  }, [solicitud.denominacion, solicitud.clases, solicitud.preguntasPerfil, solicitud.pesquisaRealizada, guardarEnFirestore])
 
   return {
     solicitud,
     guardando,
     actualizarDenominacion,
+    actualizarDescripcionMarca,
     actualizarPreguntasPerfil,
     actualizarTraduccion,
     actualizarTransliteracion,
     actualizarPrioridad,
     actualizarSolicitante,
     actualizarRepresentante,
+    actualizarPesquisa,
     agregarClase,
     eliminarClase,
     guardarEnFirestore,
