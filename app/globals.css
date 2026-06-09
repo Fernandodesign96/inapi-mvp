@@ -39,17 +39,22 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Radius shadcn → kit GOB (Fase 1) */
+  --radius-sm: var(--radius-gob-sm);   /* 4px  — badges */
+  --radius-md: var(--radius-gob-md);   /* 8px  — inputs */
+  --radius-lg: var(--radius-gob-lg);   /* 16px — cards */
+  --radius-xl: var(--radius-gob-xl);   /* 24px — modales */
+  --radius-2xl: var(--radius-gob-xl);  /* alias */
+  --radius-3xl: var(--radius-gob-xl);
+  --radius-4xl: var(--radius-gob-xl);
   
-  /* Colores de Marca Portal INAPI */
-  --color-inapi-blue: #0033A0;
-  --color-inapi-red: #EE3124;
+  /* Legacy INAPI — redirigidos a GOB (Fase 1) */
+  --color-inapi-blue: var(--gob-primary-dark);
+  --color-inapi-red: var(--gob-accent);
+
+  /* Alias útil para CTAs oscuros */
+  --color-primary-dark: var(--gob-primary-dark);
 
   /* ── UI Kit v3.0.1 — tokens GOB (Fase 0, aditivos) ── */
 
@@ -139,32 +144,7 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: #0033A0;
-  --primary-foreground: #FFFFFF;
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: #0033A0;
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: #EE3124;
-  --accent-foreground: #FFFFFF;
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: #0033A0;
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  
-  /* ── UI Kit v3.0.1 — variables fuente (Fase 0) ── */
+  /* ── 1. Variables fuente UI Kit v3.0.1 (Fase 0) ── */
 
   /* Primario GOB.COLOR.PRIMARIO */
   --gob-primary: #4282E0;
@@ -194,12 +174,12 @@
   --gob-focus: #FFBE5C;
   --gob-focus-contrast: #373737;
 
-  /* Stepper GRI (mapeo §10.2 design system) */
+  /* Stepper GRI */
   --stepper-active: #FF5722;
   --stepper-active-bg: #FBE9E7;
   --stepper-done: #4CAF50;
   --stepper-done-bg: #E8F5E9;
-  --stepper-pending: #9CA3AF;   /* TBD: GOB.COLOR.GRIS */
+  --stepper-pending: #9CA3AF;
   --stepper-pending-bg: #F3F4F6;
   --stepper-error: #FB3B3B;
   --stepper-error-bg: #FFEBEF;
@@ -210,16 +190,56 @@
   --gob-border: #E5E7EB;
   --gob-border-strong: #D1D5DB;
 
-  /* Excepción header INAPI (no es token GOB) */
+  /* Excepción header INAPI */
   --inapi-header: #FF4134;
   --inapi-header-sub: #005fff;
 
-  /* Elevación (calibración inicial — afinar en QA) */
+  /* Elevación */
   --elevation-01: 0 1px 2px rgba(0, 0, 0, 0.06);
   --elevation-02: 0 1px 3px rgba(0, 0, 0, 0.08);
   --elevation-03: 0 4px 12px rgba(0, 0, 0, 0.10);
   --elevation-04: 0 6px 16px rgba(0, 0, 0, 0.12);
   --elevation-05: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+  /* ── 2. Aliases shadcn → GOB (Fase 1) ── */
+
+  --background: #F9FAFB;
+  --foreground: var(--gob-text);
+
+  --card: var(--gob-surface);
+  --card-foreground: var(--gob-text);
+
+  --popover: var(--gob-surface);
+  --popover-foreground: var(--gob-text);
+
+  --primary: var(--gob-primary);
+  --primary-foreground: var(--gob-primary-foreground);
+
+  --secondary: var(--gob-surface-elevated);
+  --secondary-foreground: var(--gob-text);
+
+  --muted: var(--gob-surface-elevated);
+  --muted-foreground: #9CA3AF;
+
+  --accent: var(--gob-accent);
+  --accent-foreground: var(--gob-text-inverse);
+
+  --destructive: var(--gob-danger);
+
+  --border: var(--gob-border);
+  --input: var(--gob-border);
+
+  --ring: var(--gob-focus);
+
+  /* Radius base shadcn = kit lg (16px) */
+  --radius: 16px;
+
+  /* Charts (sin cambio por ahora) */
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
 }
 
 .dark {
@@ -276,4 +296,35 @@
   .text-heading {
     font-family: var(--font-slab, var(--font-sans));
   }
+
+  /* Elevación semántica (Fase 1) */
+  .shadow-card {
+    box-shadow: var(--elevation-02);
+  }
+  
+  .shadow-elevated {
+    box-shadow: var(--elevation-03);
+  }
+  
+  .shadow-modal {
+    box-shadow: var(--elevation-05);
+  }
+}
+
+/* Shimmer para skeletons de carga — DESIGN_SYSTEM §14 */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--gob-surface-elevated) 25%,
+    var(--gob-border) 50%,
+    var(--gob-surface-elevated) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-gob-lg);
 }

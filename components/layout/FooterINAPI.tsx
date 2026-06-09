@@ -10,13 +10,13 @@ export function FooterINAPI() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Columna Logo */}
         <div className="space-y-6">
-          <div className="bg-white p-2 rounded w-fit">
+          <div>
             <Image 
-              src="/inapi-mvp/inapi-logo.png" 
+              src="/inapi-mvp/inapi-logo.jpg" 
               alt="INAPI Logo" 
               width={120} 
               height={50} 
-              className="h-10 w-auto"
+              className="h-40 w-auto"
             />
           </div>
           <div className="text-xs leading-loose text-white/70 font-bold uppercase tracking-tighter">

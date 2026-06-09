@@ -15,13 +15,13 @@ export function HeaderINAPI() {
 
         {/* Logo e Insititución */}
         <div className="flex items-center gap-4 relative z-10">
-          <div className="bg-white p-1 rounded">
+          <div>
             <Image 
               src="/inapi-mvp/inapi-logo.jpg" 
               alt="INAPI Logo" 
-              width={100} 
+              width={10} 
               height={40} 
-              className="h-8 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
           </div>
           <div className="hidden lg:block text-[10px] leading-tight font-bold uppercase tracking-tighter">
