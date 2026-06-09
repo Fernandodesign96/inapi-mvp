@@ -112,4 +112,28 @@ export const GOB_COLOR = {
     '#FF4134': { token: 'inapi-header',       tailwind: 'bg-inapi-header' },
   } as const
   
+  /** Escala tipográfica GRI — docs/DESIGN_SYSTEM.md §5.6 */
+  export const GRI_TYPOGRAPHY = {
+    display: { size: '48px', weight: 400, lineHeight: 1.5, family: 'slab' },
+    h1:      { size: '25px', weight: 500, lineHeight: 1.5, family: 'slab' },
+    h2:      { size: '19px', weight: 500, lineHeight: 1.5, family: 'sans' },
+    body:    { size: '16px', weight: 400, lineHeight: 1.5, family: 'sans' },
+    bodySm:  { size: '14px', weight: 400, lineHeight: 1.5, family: 'sans' },
+    bodyXs:  { size: '12px', weight: 400, lineHeight: 1.5, family: 'sans' },
+    btn:     { size: '16px', weight: 500, lineHeight: 1.5, family: 'sans' },
+    label:   { size: '11px', weight: 600, lineHeight: 1.5, family: 'sans' },
+    mono:    { size: '13px', weight: 500, lineHeight: 1.25, family: 'mono' },
+  } as const
+  
+  /** Clases Tailwind recomendadas por nivel GRI */
+  export const GRI_TYPO_CLASSES = {
+    sectionTitle: 'gri-section-title',
+    sectionSubtitle: 'gri-section-subtitle',
+    fieldLabel: 'gri-field-label',
+    body: 'gri-body',
+    bodySm: 'gri-body-sm',
+    btn: 'gri-btn-text',
+    mono: 'gri-mono',
+  } as const
+  
   export type LegacyHex = keyof typeof LEGACY_HEX_MAP

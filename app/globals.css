@@ -7,9 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-inter);
+  --font-sans: var(--font-roboto-sans), system-ui, sans-serif;
+  --font-mono: ui-monospace, 'Courier New', monospace;
+  --font-slab: var(--font-roboto-slab), Georgia, serif;
+  --font-heading: var(--font-roboto-slab), Georgia, serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -57,10 +58,6 @@
   --color-primary-dark: var(--gob-primary-dark);
 
   /* ── UI Kit v3.0.1 — tokens GOB (Fase 0, aditivos) ── */
-
-  /* Tipografía (se conectan en Fase 2) */
-  --font-slab: var(--font-roboto-slab, var(--font-inter));
-  --font-heading: var(--font-roboto-slab, var(--font-inter));
 
   /* Primario */
   --color-gob-primary: var(--gob-primary);
@@ -141,6 +138,46 @@
   --breakpoint-gob-xl: 1440px;
   --container-gob-tablet: 840px;
   --container-gob-desktop: 1040px;
+
+    /* ── Tipografía UI Kit — escala GRI (Fase 2) ── */
+  /* Roboto Slab — encabezados institucionales */
+  --text-gri-display: 3rem;          /* 48px desktop XL */
+  --text-gri-display--line-height: 1.5;
+  --text-gri-display--font-weight: 400;
+
+  --text-gri-h1: 1.5625rem;         /* 25px — Slab Heading-S desktop */
+  --text-gri-h1--line-height: 1.5;
+  --text-gri-h1--font-weight: 500;
+
+  --text-gri-h2: 1.1875rem;         /* 19px — Sans Heading-S desktop */
+  --text-gri-h2--line-height: 1.5;
+  --text-gri-h2--font-weight: 500;
+
+  /* Roboto — cuerpo y UI */
+  --text-gri-body: 1rem;            /* 16px — Body-S */
+  --text-gri-body--line-height: 1.5;
+  --text-gri-body--font-weight: 400;
+
+  --text-gri-body-sm: 0.875rem;     /* 14px — Body-XS */
+  --text-gri-body-sm--line-height: 1.5;
+  --text-gri-body-sm--font-weight: 400;
+
+  --text-gri-body-xs: 0.75rem;      /* 12px — mínimo kit */
+  --text-gri-body-xs--line-height: 1.5;
+  --text-gri-body-xs--font-weight: 400;
+
+  --text-gri-btn: 1rem;             /* 16px — Body-button-small */
+  --text-gri-btn--line-height: 1.5;
+  --text-gri-btn--font-weight: 500;
+
+  --text-gri-label: 0.6875rem;      /* 11px — labels UPPERCASE GRI */
+  --text-gri-label--line-height: 1.5;
+  --text-gri-label--font-weight: 600;
+  --text-gri-label--letter-spacing: 0.05em;
+
+  --text-gri-mono: 0.8125rem;       /* 13px — RUT, clases, costos */
+  --text-gri-mono--line-height: 1.25;
+  --text-gri-mono--font-weight: 500;
 }
 
 :root {
@@ -281,20 +318,59 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground text-gri-body;
   }
+
   html {
     @apply font-sans;
   }
 
-  /* ── Utilidades semánticas GRI (Fase 0) ── */
-
-  .focus-gob {
-    @apply outline-none ring-2 ring-gob-focus ring-offset-2 ring-offset-background;
+  /* Encabezados institucionales → Roboto Slab */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading leading-normal;
   }
-  
+
+  /* ── Utilidades semánticas GRI ── */
+
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .font-slab {
+    font-family: var(--font-slab);
+  }
+
   .text-heading {
-    font-family: var(--font-slab, var(--font-sans));
+    @apply font-heading;
+  }
+
+  /* Títulos de sección GRI (mapeo §5.6) */
+  .gri-section-title {
+    @apply font-heading text-gri-h1;
+  }
+
+  .gri-section-subtitle {
+    @apply text-gri-h2;
+  }
+
+  .gri-field-label {
+    @apply text-gri-label uppercase tracking-wide;
+  }
+
+  .gri-body {
+    @apply text-gri-body;
+  }
+
+  .gri-body-sm {
+    @apply text-gri-body-sm;
+  }
+
+  .gri-btn-text {
+    @apply text-gri-btn;
+  }
+
+  .gri-mono {
+    @apply font-mono text-gri-mono;
   }
 
   /* Elevación semántica (Fase 1) */
