@@ -401,7 +401,7 @@ Hydration ocurre una vez por carga de página, automáticamente. Para `app/solic
 | **Búsqueda** | Fuse.js | 7.x | Búsqueda fuzzy en browser — clasificador N2 |
 | **Backend** | Firebase Firestore | 10.x | Persistencia de borradores — BaaS |
 | **Package manager** | Bun | Latest | Instalación 10-25x más rápida que npm |
-| **Fuentes** | DM Sans + DM Mono | — | Via `next/font/google` |
+| **Fuentes** | Inter | — | Via `next/font/google` |
 | **Iconos** | Lucide React | Latest | Iconografía consistente |
 
 ---

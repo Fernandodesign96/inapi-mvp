@@ -50,6 +50,92 @@
   /* Colores de Marca Portal INAPI */
   --color-inapi-blue: #0033A0;
   --color-inapi-red: #EE3124;
+
+  /* ── UI Kit v3.0.1 — tokens GOB (Fase 0, aditivos) ── */
+
+  /* Tipografía (se conectan en Fase 2) */
+  --font-slab: var(--font-roboto-slab, var(--font-inter));
+  --font-heading: var(--font-roboto-slab, var(--font-inter));
+
+  /* Primario */
+  --color-gob-primary: var(--gob-primary);
+  --color-gob-primary-dark: var(--gob-primary-dark);
+  --color-gob-primary-foreground: var(--gob-primary-foreground);
+
+  /* Accent */
+  --color-gob-accent: var(--gob-accent);
+
+  /* Texto AA */
+  --color-gob-text: var(--gob-text);
+  --color-gob-text-inverse: var(--gob-text-inverse);
+
+  /* Estados semánticos */
+  --color-gob-success: var(--gob-success);
+  --color-gob-success-bg: var(--gob-success-bg);
+  --color-gob-warning: var(--gob-warning);
+  --color-gob-warning-bg: var(--gob-warning-bg);
+  --color-gob-danger: var(--gob-danger);
+  --color-gob-danger-bg: var(--gob-danger-bg);
+  --color-gob-info: var(--gob-info);
+  --color-gob-info-bg: var(--gob-info-bg);
+
+  /* Enlaces y focus */
+  --color-gob-link: var(--gob-link);
+  --color-gob-link-visited: var(--gob-link-visited);
+  --color-gob-focus: var(--gob-focus);
+  --color-gob-focus-contrast: var(--gob-focus-contrast);
+
+  /* Stepper GRI */
+  --color-stepper-active: var(--stepper-active);
+  --color-stepper-active-bg: var(--stepper-active-bg);
+  --color-stepper-done: var(--stepper-done);
+  --color-stepper-done-bg: var(--stepper-done-bg);
+  --color-stepper-pending: var(--stepper-pending);
+  --color-stepper-pending-bg: var(--stepper-pending-bg);
+  --color-stepper-error: var(--stepper-error);
+  --color-stepper-error-bg: var(--stepper-error-bg);
+
+  /* Superficies neutras GRI */
+  --color-gob-surface: var(--gob-surface);
+  --color-gob-surface-elevated: var(--gob-surface-elevated);
+  --color-gob-border: var(--gob-border);
+  --color-gob-border-strong: var(--gob-border-strong);
+
+  /* Excepción marca INAPI (header rojo — decisión pendiente Fase 4) */
+  --color-inapi-header: var(--inapi-header);
+  --color-inapi-header-sub: var(--inapi-header-sub);
+
+  /* Espaciado kit: 4·8·12·16·24·36·48·64 */
+  --spacing-gob-1: 4px;
+  --spacing-gob-2: 8px;
+  --spacing-gob-3: 12px;
+  --spacing-gob-4: 16px;
+  --spacing-gob-5: 24px;
+  --spacing-gob-6: 36px;
+  --spacing-gob-7: 48px;
+  --spacing-gob-8: 64px;
+
+  /* Radius kit: 0·4·8·16·24 */
+  --radius-gob-none: 0px;
+  --radius-gob-sm: 4px;
+  --radius-gob-md: 8px;
+  --radius-gob-lg: 16px;
+  --radius-gob-xl: 24px;
+
+  /* Elevación kit */
+  --shadow-elevation-01: var(--elevation-01);
+  --shadow-elevation-02: var(--elevation-02);
+  --shadow-elevation-03: var(--elevation-03);
+  --shadow-elevation-04: var(--elevation-04);
+  --shadow-elevation-05: var(--elevation-05);
+
+  /* Grilla kit */
+  --breakpoint-gob-sm: 600px;
+  --breakpoint-gob-md: 905px;
+  --breakpoint-gob-lg: 1240px;
+  --breakpoint-gob-xl: 1440px;
+  --container-gob-tablet: 840px;
+  --container-gob-desktop: 1040px;
 }
 
 :root {
@@ -77,6 +163,63 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
+  
+  /* ── UI Kit v3.0.1 — variables fuente (Fase 0) ── */
+
+  /* Primario GOB.COLOR.PRIMARIO */
+  --gob-primary: #4282E0;
+  --gob-primary-dark: #0F69C4;
+  --gob-primary-foreground: #FFFFFF;
+
+  /* Accent GOB.COLOR.ACCENT */
+  --gob-accent: #FF4731;
+
+  /* Texto accesible AA */
+  --gob-text: #373737;
+  --gob-text-inverse: #FFFFFF;
+
+  /* Estados semánticos (base + fondo lighten) */
+  --gob-success: #4CAF50;
+  --gob-success-bg: #E8F5E9;
+  --gob-warning: #FF5722;
+  --gob-warning-bg: #FBE9E7;
+  --gob-danger: #FB3B3B;
+  --gob-danger-bg: #FFEBEF;
+  --gob-info: #2196F3;
+  --gob-info-bg: #E3F2FD;
+
+  /* Enlaces y focus */
+  --gob-link: #1D70B8;
+  --gob-link-visited: #4C2C92;
+  --gob-focus: #FFBE5C;
+  --gob-focus-contrast: #373737;
+
+  /* Stepper GRI (mapeo §10.2 design system) */
+  --stepper-active: #FF5722;
+  --stepper-active-bg: #FBE9E7;
+  --stepper-done: #4CAF50;
+  --stepper-done-bg: #E8F5E9;
+  --stepper-pending: #9CA3AF;   /* TBD: GOB.COLOR.GRIS */
+  --stepper-pending-bg: #F3F4F6;
+  --stepper-error: #FB3B3B;
+  --stepper-error-bg: #FFEBEF;
+
+  /* Superficies */
+  --gob-surface: #FFFFFF;
+  --gob-surface-elevated: #F3F4F6;
+  --gob-border: #E5E7EB;
+  --gob-border-strong: #D1D5DB;
+
+  /* Excepción header INAPI (no es token GOB) */
+  --inapi-header: #FF4134;
+  --inapi-header-sub: #005fff;
+
+  /* Elevación (calibración inicial — afinar en QA) */
+  --elevation-01: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --elevation-02: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --elevation-03: 0 4px 12px rgba(0, 0, 0, 0.10);
+  --elevation-04: 0 6px 16px rgba(0, 0, 0, 0.12);
+  --elevation-05: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .dark {
@@ -122,5 +265,15 @@
   }
   html {
     @apply font-sans;
+  }
+
+  /* ── Utilidades semánticas GRI (Fase 0) ── */
+
+  .focus-gob {
+    @apply outline-none ring-2 ring-gob-focus ring-offset-2 ring-offset-background;
+  }
+  
+  .text-heading {
+    font-family: var(--font-slab, var(--font-sans));
   }
 }

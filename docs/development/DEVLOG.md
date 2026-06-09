@@ -6,6 +6,7 @@ Este documento describe el proceso de desarrollo del **Portal de Solicitud de Ma
 - [[2026-04-10] - Frontend | Sprint 1: Génesis del MVP, Arquitectura Base y Niza N1](#2026-04-10---frontend--sprint-1-génesis-del-mvp-arquitectura-base-y-niza-n1)
 - [[2026-04-17] - Frontend | Sprint 2: Optimización de Niza N2 y Refinamiento UX](#2026-04-17---frontend--sprint-2-optimización-de-niza-n2-y-refinamiento-ux)
 - [[2026-04-20] - Frontend | Sprint 3: Despliegue, Accesibilidad y Analítica Final](#2026-04-20---frontend--sprint-3-despliegue-accesibilidad-y-analítica-final)
+- [[2026-04-24] - Full Stack | Sprint 4: Optimización Institucional y Motor de Inteligencia](#2026-04-24---full-stack--sprint-4-optimización-institucional-y-motor-de-inteligencia)
 
 ---
 

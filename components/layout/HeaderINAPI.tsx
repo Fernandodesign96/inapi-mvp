@@ -17,7 +17,7 @@ export function HeaderINAPI() {
         <div className="flex items-center gap-4 relative z-10">
           <div className="bg-white p-1 rounded">
             <Image 
-              src="/inapi-mvp/inapi-logo.png" 
+              src="/inapi-mvp/inapi-logo.jpg" 
               alt="INAPI Logo" 
               width={100} 
               height={40} 
