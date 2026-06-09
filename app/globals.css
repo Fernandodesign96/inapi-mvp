@@ -139,7 +139,7 @@
   --container-gob-tablet: 840px;
   --container-gob-desktop: 1040px;
 
-    /* ── Tipografía UI Kit — escala GRI (Fase 2) ── */
+  /* ── Tipografía UI Kit — escala GRI (Fase 2) ── */
   /* Roboto Slab — encabezados institucionales */
   --text-gri-display: 3rem;          /* 48px desktop XL */
   --text-gri-display--line-height: 1.5;
