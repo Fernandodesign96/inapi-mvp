@@ -35,11 +35,11 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Barra superior institucional */}
-      <div className="bg-[#1E3A8A] px-6 py-3 flex items-center gap-3">
+      <div className="bg-primary-dark px-gob-4 min-[600px]:px-gob-5 py-gob-3 flex items-center gap-gob-3">
         <Image
-          src="/inapi-mvp/inapi-logo.png"
+          src="/inapi-mvp/inapi-logo.jpg"
           alt="INAPI"
           width={72}
           height={28}

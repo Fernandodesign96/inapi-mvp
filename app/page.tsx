@@ -15,6 +15,7 @@ import {
 import { HeaderINAPI } from '@/components/layout/HeaderINAPI'
 import { FooterINAPI } from '@/components/layout/FooterINAPI'
 import { ChatFAB } from '@/components/layout/ChatFAB'
+import { ContainerGRI } from '@/components/layout/ContainerGRI'
 
 const cards = [
   {
@@ -72,7 +73,7 @@ const pasos = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <HeaderINAPI />
 
       <main className="flex-1">
@@ -86,7 +87,7 @@ export default function HomePage() {
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
             }}
           />
-          <div className="relative max-w-4xl mx-auto px-4 py-20 sm:py-28 text-center space-y-8">
+          <ContainerGRI size="desktop" className="relative py-gob-7 min-[600px]:py-gob-8 text-center space-y-gob-5">
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-white/80">
               Portal Oficial · INAPI Chile
             </div>
@@ -125,11 +126,12 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-          </div>
+          </ContainerGRI>
         </section>
 
         {/* ── ABOVE THE FOLD — 3 cards ── */}
-        <section className="max-w-4xl mx-auto px-4 py-16 space-y-8">
+        <section className="py-gob-7">
+        <ContainerGRI size="desktop" className="space-y-gob-5">
           <div className="text-center space-y-2">
             <h2 className="text-2xl sm:text-3xl font-black text-[#111827] tracking-tighter">
               ¿Qué necesitas saber antes de empezar?
@@ -149,11 +151,12 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </ContainerGRI>
         </section>
 
         {/* ── PROCESO PASO A PASO ── */}
-        <section id="proceso" className="bg-white border-y border-[#E5E7EB]">
-          <div className="max-w-3xl mx-auto px-4 py-16 space-y-10">
+        <section id="proceso" className="bg-card border-y border-border">
+          <ContainerGRI size="desktop" className="py-gob-7 space-y-gob-6">
             <div className="text-center space-y-2">
               <h2 className="text-2xl sm:text-3xl font-black text-[#111827] tracking-tighter">
                 El proceso de registro, paso a paso
@@ -215,12 +218,12 @@ export default function HomePage() {
                 actualizado antes de que confirmes el pago.
               </p>
             </div>
-          </div>
+          </ContainerGRI>
         </section>
 
         {/* ── CTA FINAL ── */}
-        <section className="bg-[#1A56DB]">
-          <div className="max-w-3xl mx-auto px-4 py-16 text-center space-y-6">
+        <section className="bg-primary">
+          <ContainerGRI size="desktop" className="py-gob-7 text-center space-y-gob-5">
             <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tighter">
               ¿Listo para proteger tu marca?
             </h2>
@@ -240,7 +243,7 @@ export default function HomePage() {
                 Tengo dudas — hablar con un ejecutivo
               </button>
             </div>
-          </div>
+          </ContainerGRI>
         </section>
       </main>
 

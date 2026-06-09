@@ -13,6 +13,7 @@ import { FormPersona } from '@/components/solicitud/FormPersona'
 import { useSolicitud } from '@/hooks/useSolicitud'
 import { HeaderINAPI } from '@/components/layout/HeaderINAPI'
 import { FooterINAPI } from '@/components/layout/FooterINAPI'
+import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { ChatFAB } from '@/components/layout/ChatFAB'
 import { RepresentanteData } from '@/lib/types'
 import { extractKeywords, UTM_VALOR } from '@/lib/utils'
@@ -141,10 +142,13 @@ export default function SolicitudPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9FAFB]">
+    <div className="flex flex-col min-h-screen bg-background">
       <HeaderINAPI />
-      <main className="flex-1">
-        <div className="max-w-3xl mx-auto px-4 py-8 space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      <main className="flex-1 py-gob-5">
+        <ContainerGRI
+          size="desktop"
+          className="space-y-gob-5 animate-in fade-in slide-in-from-bottom-2 duration-500"
+        >
           {/* Indicador de autoguardado */}
           <div className="flex items-center justify-between text-xs text-[#9CA3AF] px-1">
             <span className="font-black uppercase tracking-widest">Solicitud de Marca</span>
@@ -505,7 +509,7 @@ export default function SolicitudPage() {
               </CardContent>
             </Card>
           )}
-        </div>
+        </ContainerGRI>
       </main>
 
       {/* Modal confirmación */}

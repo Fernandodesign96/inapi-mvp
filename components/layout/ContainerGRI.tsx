@@ -23,10 +23,13 @@ export function ContainerGRI({
   return (
     <Component
       className={cn(
-        'mx-auto w-full px-gob-4',                          // 16px margen mobile
-        'min-[600px]:px-gob-5',                             // 24px tablet pequeña
-        size === 'tablet' && 'max-w-[var(--container-gob-tablet)]',
-        size === 'desktop' && 'max-w-[var(--container-gob-desktop)]',
+        'mx-auto w-full px-gob-4',
+        'min-[600px]:px-gob-5',
+        size === 'fluid' && 'max-w-none',
+        size === 'tablet' &&
+          'min-[905px]:max-w-[var(--container-gob-tablet)]',
+        size === 'desktop' &&
+          'min-[905px]:max-w-[var(--container-gob-tablet)] min-[1440px]:max-w-[var(--container-gob-desktop)]',
         className,
       )}
     >
