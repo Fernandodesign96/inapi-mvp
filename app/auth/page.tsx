@@ -3,11 +3,12 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { KeyRound, ArrowRight, Eye, EyeOff } from 'lucide-react'
+import { ArrowRight, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { SkipLink } from '@/components/layout/SkipLink'
 import { ThemeToggle } from '@/components/theme/ThemeToggle'
+import { ClaveUnicaButton } from '@/components/auth/ClaveUnicaButton'
 
 export default function AuthPage() {
   const router = useRouter()
@@ -46,7 +47,7 @@ export default function AuthPage() {
           alt="INAPI"
           width={72}
           height={28}
-          className="object-contain brightness-0 invert"
+          className="object-contain h-14 w-auto"
         />
         <div className="w-px h-5 bg-white/20" />
         <span className="flex-1 text-gob-text-inverse/80 text-gri-body-xs font-semibold uppercase tracking-wider">
@@ -66,14 +67,13 @@ export default function AuthPage() {
             <div className="px-gob-6 pt-gob-6 pb-gob-7 space-y-gob-5">
               {/* Logo + Título */}
               <div className="flex flex-col items-center gap-gob-4 text-center">
-                <div className="bg-gob-surface-elevated rounded-gob-lg p-gob-4">
+                <div className="p-gob-4">
                   <Image
                     src="/inapi-mvp/inapi-logo.jpg"
-                    alt="INAPI — Instituto Nacional de Propiedad Industrial"
-                    width={110}
-                    height={42}
-                    className="object-contain"
-                    priority
+                    alt="INAPI"
+                    width={72}
+                    height={28}
+                    className="object-contain h-28 w-auto"
                   />
                 </div>
                 <div className="space-y-2">
@@ -157,23 +157,11 @@ export default function AuthPage() {
                   <div className="flex-1 h-px bg-gob-border" />
                 </div>
 
-                <Button
-                  type="button"
+                <ClaveUnicaButton
                   onClick={() => simularAuth('clave-unica')}
-                  disabled={cargandoInstitucional || cargandoClaveUnica}
-                  variant="outline"
-                  size="form"
-                  className="w-full font-semibold gap-2 hover:border-primary hover:bg-primary/5"
-                >
-                  {cargandoClaveUnica ? (
-                    <div className="w-4 h-4 border-2 border-muted-foreground/30 border-t-primary rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      <KeyRound className="w-4 h-4 text-primary" />
-                      <span className="text-gob-text">Clave Única</span>
-                    </>
-                  )}
-                </Button>
+                  disabled={cargandoInstitucional}
+                  loading={cargandoClaveUnica}
+                />
               </div>
             </div>
           </div>

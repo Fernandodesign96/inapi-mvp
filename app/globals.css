@@ -41,6 +41,16 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
 
+  /* Clave Única */
+  --color-claveunica-bg: var(--claveunica-bg);
+  --color-claveunica-bg-hover: var(--claveunica-bg-hover);
+  --color-claveunica-bg-active: var(--claveunica-bg-active);
+  --color-claveunica-bg-focus: var(--claveunica-bg-focus);
+  --color-claveunica-bg-disabled: var(--claveunica-bg-disabled);
+  --color-claveunica-border-active: var(--claveunica-border-active);
+  --color-claveunica-fg: var(--claveunica-fg);
+  --color-claveunica-fg-disabled: var(--claveunica-fg-disabled);
+
   /* Radius shadcn → kit GOB (Fase 1) */
   --radius-sm: var(--radius-gob-sm);   /* 4px  — badges */
   --radius-md: var(--radius-gob-md);   /* 8px  — inputs */
@@ -192,6 +202,16 @@
   --gob-primary: #4282E0;
   --gob-primary-dark: #0F69C4;
   --gob-primary-foreground: #FFFFFF;
+
+  /* Botón ClaveÚnica — UI Kit Gobierno Digital */
+  --claveunica-bg: #0F69C4;
+  --claveunica-bg-hover: #0A4F96;
+  --claveunica-bg-active: #0F69C4;
+  --claveunica-bg-focus: #0B1F33;
+  --claveunica-bg-disabled: #A8C5E8;
+  --claveunica-border-active: #FFBE5C;
+  --claveunica-fg: #FFFFFF;
+  --claveunica-fg-disabled: rgba(255, 255, 255, 0.7);
 
   /* Accent GOB.COLOR.ACCENT */
   --gob-accent: #FF4731;
