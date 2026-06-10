@@ -69,30 +69,31 @@ export function BuscadorClases({ clasesAgregadas, onAgregar, onEliminar, initial
         </p>
       </div>
 
-        <Command shouldFilter={false} className="rounded-2xl border border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden bg-white">
-        <div className="relative flex items-center w-full bg-white group select-none">
-          <div className="pl-6 text-slate-400">
+      <Command shouldFilter={false} className="rounded-gob-lg border border-gob-border shadow-elevation-03 overflow-hidden bg-gob-surface">
+        <div className="relative flex items-center w-full bg-gob-surface group select-none">
+          <div className="pl-gob-5 text-muted-foreground">
             <Search className="w-5 h-5 flex-shrink-0" />
           </div>
           <CommandPrimitive.Input
             placeholder="Ej: software, ropa deportiva, café..."
             value={query}
             onValueChange={setQuery}
-            className="h-16 text-lg pr-16 pl-4 w-full border-none focus:outline-none focus:ring-0 shadow-none bg-transparent text-slate-700 placeholder:text-slate-300"
+            className="h-11 text-gri-body pr-gob-6 pl-gob-4 w-full border-none focus:outline-none focus:ring-0 shadow-none bg-transparent text-gob-text placeholder:text-muted-foreground/50"
           />
           {query.length > 0 && (
             <button
+              type="button"
               onClick={limpiar}
-              className="absolute right-5 p-2 rounded-full hover:bg-red-50 text-red-500 transition-colors z-10"
-              title="Borrar búsqueda"
+              className="absolute right-gob-4 p-2 rounded-full hover:bg-gob-danger-bg text-destructive transition-colors z-10"
+              aria-label="Borrar búsqueda"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </button>
           )}
         </div>
         <CommandList className="max-h-[300px]">
           {query.length >= 2 && sugerencias.length === 0 && (
-            <CommandEmpty className="py-6 text-slate-500 font-medium">
+            <CommandEmpty className="py-gob-5 text-muted-foreground font-medium">
               No encontramos coberturas para ese término. Intenta con otras palabras.
             </CommandEmpty>
           )}
@@ -106,24 +107,24 @@ export function BuscadorClases({ clasesAgregadas, onAgregar, onEliminar, initial
                     onSelect={() => !yaAgregada && handleSeleccionar(cobertura)}
                     className={cn(
                       "py-3 px-4 transition-colors",
-                      yaAgregada ? 'opacity-40 grayscale cursor-not-allowed' : 'cursor-pointer hover:bg-slate-50'
+                      yaAgregada ? 'opacity-40 grayscale cursor-not-allowed' : 'cursor-pointer hover:bg-gob-surface-elevated'
                     )}
                   >
                     <div className="flex items-center justify-between w-full gap-4">
                       <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <Badge variant="outline" className="text-[10px] font-black uppercase shrink-0 bg-slate-50 border-slate-200 text-slate-600">
+                        <Badge variant="outline" className="font-semibold uppercase shrink-0">
                           Clase {cobertura.clase}
                         </Badge>
-                        <span className="text-sm font-medium text-slate-700 truncate">{cobertura.descripcion}</span>
+                        <span className="text-gri-body-sm font-medium text-gob-text truncate">{cobertura.descripcion}</span>
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
                         {cobertura.tipo === 'ICPA' && (
-                          <Badge className="text-[10px] bg-green-100 text-green-700 hover:bg-green-100 border-none font-black px-1.5 py-0.5">
+                          <Badge variant="success" className="font-semibold">
                             <GlosarioTerm termino="ICPA">ICPA</GlosarioTerm>
                           </Badge>
                         )}
                         {yaAgregada && (
-                          <Badge variant="outline" className="text-[10px] font-bold uppercase border-slate-300 text-slate-400 bg-slate-50">
+                          <Badge variant="outline" className="font-semibold uppercase text-muted-foreground">
                             Agregada
                           </Badge>
                         )}
@@ -140,33 +141,31 @@ export function BuscadorClases({ clasesAgregadas, onAgregar, onEliminar, initial
       {/* Clases agregadas */}
       {clasesAgregadas.length > 0 && (
         <div className="space-y-3 pt-4">
-          <p className="text-xs font-black uppercase text-slate-400 tracking-widest pl-1">
+          <p className="text-gri-label font-semibold uppercase text-muted-foreground tracking-widest pl-1">
             Clases seleccionadas para tu solicitud
           </p>
           <div className="space-y-2">
             {clasesAgregadas.map(cobertura => (
               <div
                 key={cobertura.id}
-                className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-slate-50/50 group hover:border-primary transition-all shadow-sm"
+                className="flex items-center justify-between p-gob-4 rounded-gob-lg border border-gob-border bg-gob-surface-elevated/50 group hover:border-primary transition-all shadow-elevation-02"
               >
                 <div className="flex items-center gap-3">
-                  <Badge variant="outline" className="text-[10px] font-black bg-white border-slate-200">
+                  <Badge variant="outline" className="font-semibold uppercase shrink-0">
                     Clase {cobertura.clase}
                   </Badge>
-                  <span className="text-sm font-semibold text-slate-700">
+                  <span className="text-gri-body-sm font-semibold text-gob-text">
                     {cobertura.descripcion}
                   </span>
                   {cobertura.tipo === 'ICPA' && (
-                    <Badge className="text-[10px] bg-green-100 text-green-700 font-black">
-                      ICPA
-                    </Badge>
+                    <Badge variant="success" className="font-semibold">ICPA</Badge>
                   )}
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => onEliminar(cobertura.id)}
-                  className="text-slate-400 hover:text-red-500 hover:bg-red-50 h-8 px-3 rounded-xl transition-colors font-bold text-xs uppercase"
+                  className="text-muted-foreground hover:text-destructive hover:bg-gob-danger-bg font-semibold text-gri-label uppercase"
                 >
                   Eliminar
                 </Button>
@@ -178,45 +177,46 @@ export function BuscadorClases({ clasesAgregadas, onAgregar, onEliminar, initial
 
       {/* Dialog de confirmación */}
       <Dialog open={dialogAbierto} onOpenChange={setDialogAbierto}>
-        <DialogContent className="sm:max-w-md border-none shadow-2xl rounded-[32px] overflow-hidden p-0">
+        <DialogContent className="sm:max-w-md border-none shadow-elevation-04 rounded-gob-xl overflow-hidden p-0">
           <div className="h-2 bg-primary" />
           <div className="p-8 space-y-6">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-black text-slate-900 tracking-tighter uppercase">Confirmar Cobertura</DialogTitle>
-              <DialogDescription className="text-slate-500 font-medium leading-relaxed pt-2 text-base">
+              <DialogTitle className="font-heading text-gri-h1 font-medium text-gob-text tracking-tight uppercase">
+                Confirmar Cobertura
+              </DialogTitle>
+              <DialogDescription className="text-muted-foreground font-medium leading-relaxed pt-gob-2 text-gri-body">
                 ¿Deseas agregar esta descripción oficial a tu solicitud?
               </DialogDescription>
             </DialogHeader>
             {seleccionada && (
-              <div className="p-6 rounded-3xl border border-slate-100 bg-slate-50 space-y-3 shadow-inner">
+              <div className="p-gob-5 rounded-gob-xl border border-gob-border bg-gob-surface-elevated space-y-gob-3">
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="bg-white font-black">Clase {seleccionada.clase}</Badge>
-                  {seleccionada.tipo === 'ICPA' && (
-                    <Badge className="bg-green-100 text-green-700 font-black">
-                      ICPA
-                    </Badge>
+                    <Badge variant="outline" className="font-semibold">Clase {seleccionada.clase}</Badge>
+                    {seleccionada.tipo === 'ICPA' && (
+                    <Badge variant="success" className="font-semibold">ICPA</Badge>
                   )}
                 </div>
-                <p className="text-base font-bold text-slate-800 leading-tight">
+                <p className="text-gri-body font-semibold text-gob-text leading-tight">
                   {seleccionada.descripcion}
                 </p>
-                <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                <p className="text-gri-body-xs text-muted-foreground leading-relaxed font-medium">
                   Esta es una <span className="text-primary font-bold">cobertura preaprobada</span> por INAPI. 
                   Su uso garantiza rapidez en el examen legal de tu marca.
                 </p>
               </div>
             )}
             <DialogFooter className="gap-3 sm:flex-col sm:space-x-0">
-              <Button 
+              <Button
                 onClick={handleConfirmar}
-                className="w-full h-14 bg-primary hover:bg-primary-dark text-white font-black text-lg uppercase tracking-tight rounded-2xl shadow-xl shadow-primary/20"
+                size="form"
+                className="w-full font-semibold text-gri-btn uppercase tracking-tight"
               >
                 Agregar a mi solicitud
               </Button>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 onClick={handleCancelar}
-                className="w-full h-12 font-bold text-slate-400 uppercase text-[10px] tracking-widest"
+                className="w-full font-semibold text-muted-foreground uppercase text-gri-label tracking-widest"
               >
                 Seguir buscando
               </Button>

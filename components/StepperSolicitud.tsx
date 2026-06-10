@@ -11,27 +11,27 @@ interface Props {
 
 const estadoConfig = {
   pendiente: {
-    circle: 'bg-[#F3F4F6] text-[#9CA3AF] border-[#E5E7EB]',
-    linea: 'bg-[#E5E7EB]',
-    label: 'text-[#9CA3AF]',
-    icono: (num: number) => <span className="text-xs font-semibold">{num}</span>,
+    circle: 'bg-stepper-pending-bg text-stepper-pending border-gob-border',
+    linea: 'bg-gob-border',
+    label: 'text-stepper-pending',
+    icono: (num: number) => <span className="text-gri-body-xs font-semibold">{num}</span>,
   },
   activa: {
-    circle: 'bg-[#FEF3C7] text-[#D97706] border-[#D97706] ring-4 ring-[#D97706]/10 scale-110',
-    linea: 'bg-[#E5E7EB]',
-    label: 'text-[#D97706] font-bold',
-    icono: (num: number) => <span className="text-xs font-bold">{num}</span>,
+    circle: 'bg-stepper-active-bg text-stepper-active border-stepper-active ring-4 ring-stepper-active/10 scale-110',
+    linea: 'bg-gob-border',
+    label: 'text-stepper-active font-bold',
+    icono: (num: number) => <span className="text-gri-body-xs font-bold">{num}</span>,
   },
   completada: {
-    circle: 'bg-[#D1FAE5] text-[#059669] border-[#059669] shadow-sm shadow-green-100',
-    linea: 'bg-[#059669]',
-    label: 'text-[#059669] font-medium',
+    circle: 'bg-stepper-done-bg text-stepper-done border-stepper-done shadow-sm shadow-stepper-done/20',
+    linea: 'bg-stepper-done',
+    label: 'text-stepper-done font-medium',
     icono: () => <Check className="w-3.5 h-3.5" strokeWidth={3} />,
   },
   error: {
-    circle: 'bg-[#FEE2E2] text-[#DC2626] border-[#DC2626]',
-    linea: 'bg-[#E5E7EB]',
-    label: 'text-[#DC2626] font-medium',
+    circle: 'bg-stepper-error-bg text-stepper-error border-stepper-error',
+    linea: 'bg-gob-border',
+    label: 'text-stepper-error font-medium',
     icono: () => <X className="w-3.5 h-3.5" strokeWidth={3} />,
   },
 }
@@ -43,23 +43,21 @@ export function StepperSolicitud({ secciones }: Props) {
   const pasoActualNum = idxActiva >= 0 ? idxActiva + 1 : completadas + 1
 
   return (
-    <div className="w-full py-5 px-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-[#E5E7EB] shadow-sm space-y-6">
+    <div className="w-full py-gob-5 px-gob-4 bg-gob-surface/80 backdrop-blur-sm rounded-gob-lg border border-gob-border shadow-elevation-02 space-y-gob-5">
       {/* Encabezado con progreso */}
       <div className="flex items-end justify-between px-1">
         <div className="space-y-0.5">
-          {/* Vista móvil */}
-          <p className="text-xs font-black text-slate-500 uppercase tracking-widest sm:hidden">
+          <p className="text-gri-label font-semibold text-muted-foreground uppercase tracking-widest sm:hidden">
             Paso {pasoActualNum} de {secciones.length}
           </p>
-          {/* Vista desktop */}
-          <h3 className="hidden sm:block text-sm font-black text-slate-900 tracking-tight uppercase">
+          <h3 className="hidden sm:block font-heading text-gri-body-sm font-medium text-gob-text tracking-tight uppercase">
             Avance de Solicitud
           </h3>
-          <p className="hidden sm:block text-xs text-slate-500 font-medium">
+          <p className="hidden sm:block text-gri-body-xs text-muted-foreground font-medium">
             {completadas} de {secciones.length} etapas procesadas
           </p>
         </div>
-        <span className="text-2xl font-black text-[#1A56DB] tabular-nums font-mono">
+        <span className="text-2xl font-black text-gob-primary tabular-nums font-mono">
           {porcentaje}%
         </span>
       </div>
@@ -71,10 +69,10 @@ export function StepperSolicitud({ secciones }: Props) {
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label="Progreso del formulario"
-        className="relative w-full h-2 bg-[#F3F4F6] rounded-full overflow-hidden"
+        className="relative w-full h-2 bg-gob-surface-elevated rounded-full overflow-hidden"
       >
         <div
-          className="absolute top-0 left-0 h-full bg-[#1A56DB] rounded-full transition-all duration-700 ease-out"
+          className="absolute top-0 left-0 h-full bg-gob-primary rounded-full transition-all duration-700 ease-out"
           style={{ width: `${porcentaje}%` }}
         />
       </div>
@@ -95,8 +93,8 @@ export function StepperSolicitud({ secciones }: Props) {
                     className={cn(
                       'absolute top-[18px] left-[50%] w-full h-[2px] -z-10 transition-colors duration-500',
                       prevCompletada || seccion.estado === 'completada'
-                        ? 'bg-[#059669]'
-                        : 'bg-[#E5E7EB]'
+                        ? 'bg-stepper-done'
+                        : 'bg-gob-border'
                     )}
                   />
                 )}
@@ -108,6 +106,7 @@ export function StepperSolicitud({ secciones }: Props) {
                     config.circle
                   )}
                   aria-current={seccion.estado === 'activa' ? 'step' : undefined}
+                  aria-label={`${seccion.nombre}: ${seccion.estado === 'completada' ? 'completada' : seccion.estado === 'activa' ? 'paso actual' : seccion.estado === 'error' ? 'con error' : 'pendiente'}`}
                 >
                   {config.icono(index + 1)}
                 </div>
@@ -116,7 +115,7 @@ export function StepperSolicitud({ secciones }: Props) {
                 <div className="mt-2.5 text-center px-1">
                   <span
                     className={cn(
-                      'block text-[10px] uppercase tracking-wider font-bold transition-colors duration-300 leading-tight',
+                      'block text-gri-label uppercase tracking-wider font-bold transition-colors duration-300 leading-tight',
                       config.label
                     )}
                   >
@@ -132,7 +131,7 @@ export function StepperSolicitud({ secciones }: Props) {
       {/* Vista móvil — nombre del paso actual */}
       <div className="sm:hidden">
         {secciones.map((s, i) => s.estado === 'activa' && (
-          <p key={s.id} className="text-sm font-bold text-[#D97706] text-center">
+          <p key={s.id} className="text-gri-body-sm font-bold text-stepper-active text-center">
             {i + 1}. {s.nombre}
           </p>
         ))}

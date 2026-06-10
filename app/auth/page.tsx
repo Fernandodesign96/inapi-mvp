@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { KeyRound, ArrowRight, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { SkipLink } from '@/components/layout/SkipLink'
+import { ThemeToggle } from '@/components/theme/ThemeToggle'
 
 export default function AuthPage() {
   const router = useRouter()
@@ -35,36 +37,38 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
+      <SkipLink />
       {/* Barra superior institucional */}
-      <div className="bg-[#1E3A8A] px-6 py-3 flex items-center gap-3">
+      <div className="bg-primary-dark px-gob-4 min-[600px]:px-gob-5 py-gob-3 flex items-center gap-gob-3">
         <Image
-          src="/inapi-mvp/inapi-logo.png"
+          src="/inapi-mvp/inapi-logo.jpg"
           alt="INAPI"
           width={72}
           height={28}
           className="object-contain brightness-0 invert"
         />
         <div className="w-px h-5 bg-white/20" />
-        <span className="text-white/80 text-xs font-semibold uppercase tracking-wider">
+        <span className="flex-1 text-gob-text-inverse/80 text-gri-body-xs font-semibold uppercase tracking-wider">
           Portal de Solicitud de Marca
         </span>
+        <ThemeToggle variant="plain" />
       </div>
 
       {/* Contenido centrado */}
-      <div className="flex-1 flex items-center justify-center px-4 py-12">
+      <main id="contenido-principal" tabIndex={-1} className="flex-1 flex items-center justify-center px-gob-4 py-gob-7 outline-none">
         <div className="w-full max-w-md">
           {/* Card principal */}
-          <div className="bg-white rounded-3xl shadow-xl border border-[#E5E7EB] overflow-hidden">
-            {/* Franja azul superior */}
-            <div className="h-1.5 bg-gradient-to-r from-[#1A56DB] to-[#1E3A8A]" />
+          <div className="bg-card text-card-foreground rounded-gob-xl shadow-elevation-04 border border-gob-border overflow-hidden">
+            {/* Franja superior */}
+            <div className="h-1.5 bg-gradient-to-r from-gob-primary to-gob-primary-dark" />
 
-            <div className="px-8 pt-8 pb-10 space-y-7">
+            <div className="px-gob-6 pt-gob-6 pb-gob-7 space-y-gob-5">
               {/* Logo + Título */}
-              <div className="flex flex-col items-center gap-5 text-center">
-                <div className="bg-[#F3F4F6] rounded-2xl p-4">
+              <div className="flex flex-col items-center gap-gob-4 text-center">
+                <div className="bg-gob-surface-elevated rounded-gob-lg p-gob-4">
                   <Image
-                    src="/inapi-mvp/inapi-logo.png"
+                    src="/inapi-mvp/inapi-logo.jpg"
                     alt="INAPI — Instituto Nacional de Propiedad Industrial"
                     width={110}
                     height={42}
@@ -73,19 +77,19 @@ export default function AuthPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <h1 className="text-xl font-black text-[#111827] leading-tight">
+                  <h1 className="font-heading text-gri-h2 font-medium text-gob-text leading-tight">
                     Bienvenido al Portal INAPI
                   </h1>
-                  <p className="text-sm text-[#4B5563] leading-relaxed">
+                  <p className="text-gri-body-sm text-muted-foreground leading-relaxed">
                     Inicia sesión para comenzar tus trámites.
                   </p>
                 </div>
               </div>
 
               {/* Formulario institucional */}
-              <form onSubmit={handleLoginForm} className="space-y-4">
+              <form onSubmit={handleLoginForm} className="space-y-gob-4">
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-xs font-black uppercase tracking-widest text-[#9CA3AF] block">
+                  <label htmlFor="email" className="gri-field-label block">
                     Mail Usuario
                   </label>
                   <Input
@@ -94,14 +98,14 @@ export default function AuthPage() {
                     placeholder="Mail Usuario"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="h-12 border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB] focus:ring-offset-2 text-sm"
+                    className="h-11 text-gri-body-sm"
                     aria-required="true"
                     autoComplete="email"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="password" className="text-xs font-black uppercase tracking-widest text-[#9CA3AF] block">
+                  <label htmlFor="password" className="gri-field-label block">
                     Contraseña Institucional
                   </label>
                   <div className="relative">
@@ -111,14 +115,14 @@ export default function AuthPage() {
                       placeholder="Contraseña institucional"
                       value={password}
                       onChange={e => setPassword(e.target.value)}
-                      className="h-12 border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB] focus:ring-offset-2 text-sm pr-11"
+                      className="h-11 text-gri-body-sm pr-11"
                       aria-required="true"
                       autoComplete="current-password"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPass(s => !s)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#4B5563] transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-gob-text transition-colors"
                       aria-label={showPass ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                     >
                       {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -129,7 +133,8 @@ export default function AuthPage() {
                 <Button
                   type="submit"
                   disabled={!email || !password || cargandoInstitucional || cargandoClaveUnica}
-                  className="w-full h-12 bg-[#1A56DB] hover:bg-[#1E3A8A] text-white font-bold rounded-xl gap-2 disabled:opacity-40 disabled:cursor-not-allowed mt-2"
+                  size="form"
+                  className="w-full font-semibold gap-2 mt-2"
                 >
                   {cargandoInstitucional ? (
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -143,13 +148,13 @@ export default function AuthPage() {
               </form>
 
               {/* Separador Clave Única */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex-1 h-px bg-[#E5E7EB]" />
-                  <span className="text-xs font-bold text-[#9CA3AF] whitespace-nowrap">
+              <div className="space-y-gob-4">
+                <div className="flex items-center gap-gob-3">
+                  <div className="flex-1 h-px bg-gob-border" />
+                  <span className="text-gri-body-xs font-semibold text-muted-foreground whitespace-nowrap">
                     O puedes ingresar con tu clave única
                   </span>
-                  <div className="flex-1 h-px bg-[#E5E7EB]" />
+                  <div className="flex-1 h-px bg-gob-border" />
                 </div>
 
                 <Button
@@ -157,14 +162,15 @@ export default function AuthPage() {
                   onClick={() => simularAuth('clave-unica')}
                   disabled={cargandoInstitucional || cargandoClaveUnica}
                   variant="outline"
-                  className="w-full h-12 border-[#D1D5DB] hover:border-[#1A56DB] hover:bg-[#1A56DB]/5 font-bold rounded-xl gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                  size="form"
+                  className="w-full font-semibold gap-2 hover:border-primary hover:bg-primary/5"
                 >
                   {cargandoClaveUnica ? (
-                    <div className="w-4 h-4 border-2 border-slate-300 border-t-[#1A56DB] rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-muted-foreground/30 border-t-primary rounded-full animate-spin" />
                   ) : (
                     <>
-                      <KeyRound className="w-4 h-4 text-[#1A56DB]" />
-                      <span className="text-[#111827]">Clave Única</span>
+                      <KeyRound className="w-4 h-4 text-primary" />
+                      <span className="text-gob-text">Clave Única</span>
                     </>
                   )}
                 </Button>
@@ -173,12 +179,12 @@ export default function AuthPage() {
           </div>
 
           {/* Footer legal */}
-          <p className="text-center text-[11px] text-[#9CA3AF] mt-6 leading-relaxed">
+          <p className="text-center text-gri-label text-muted-foreground mt-gob-5 leading-relaxed">
             Este portal es propiedad del Estado de Chile · INAPI ·{' '}
             <span className="font-semibold">Acceso seguro HTTPS</span>
           </p>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

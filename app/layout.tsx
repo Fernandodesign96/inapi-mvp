@@ -1,14 +1,25 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Roboto, Roboto_Slab } from 'next/font/google'
 import './globals.css'
 import { ClarityScript } from '@/components/ClarityScript'
+import { ThemeProvider } from '@/components/theme/ThemeProvider'
 import Script from 'next/script'
 
-const inter = Inter({
-  variable: '--font-inter',
+const robotoSans = Roboto({
   subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-roboto-sans',
   display: 'swap',
 })
+
+const robotoSlab = Roboto_Slab({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-roboto-slab',
+  display: 'swap',
+})
+
+const themeInitScript = `(function(){try{var t=localStorage.getItem('gri-theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`
 
 export const metadata: Metadata = {
   title: 'Portal INAPI — Solicitud de Registro de Marca',
@@ -30,10 +41,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${inter.variable} h-full antialiased`}>
+    <html
+      lang="es"
+      className={`${robotoSans.variable} ${robotoSlab.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         <ClarityScript />
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
 
         {/* Google Analytics */}
         <Script

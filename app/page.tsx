@@ -15,6 +15,8 @@ import {
 import { HeaderINAPI } from '@/components/layout/HeaderINAPI'
 import { FooterINAPI } from '@/components/layout/FooterINAPI'
 import { ChatFAB } from '@/components/layout/ChatFAB'
+import { ContainerGRI } from '@/components/layout/ContainerGRI'
+import { SkipLink } from '@/components/layout/SkipLink'
 
 const cards = [
   {
@@ -72,13 +74,13 @@ const pasos = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
+      <SkipLink />
       <HeaderINAPI />
 
-      <main className="flex-1">
+      <main id="contenido-principal" tabIndex={-1} className="flex-1 outline-none">
         {/* ── HERO ── */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#1A56DB] to-[#1E3A8A] text-white">
-          {/* Patrón geométrico */}
+        <section className="relative overflow-hidden bg-gradient-to-br from-gob-brand-from to-gob-brand-to text-gob-text-inverse">
           <div
             className="absolute inset-0 pointer-events-none opacity-[0.07]"
             aria-hidden="true"
@@ -86,161 +88,158 @@ export default function HomePage() {
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
             }}
           />
-          <div className="relative max-w-4xl mx-auto px-4 py-20 sm:py-28 text-center space-y-8">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-white/80">
+          <ContainerGRI size="desktop" className="relative py-gob-7 min-[600px]:py-gob-8 text-center space-y-gob-5">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-gob-4 py-1.5 text-gri-label font-semibold uppercase tracking-widest text-gob-text-inverse/80">
               Portal Oficial · INAPI Chile
             </div>
             <h1 className="text-3xl sm:text-5xl font-black leading-tight tracking-tighter">
               Registra tu marca con seguridad<br className="hidden sm:block" /> y sin complicaciones
             </h1>
-            <p className="max-w-2xl mx-auto text-base sm:text-lg text-white/80 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-base sm:text-lg text-gob-text-inverse/80 leading-relaxed">
               El portal oficial de INAPI te guía paso a paso para proteger el nombre, logo o símbolo
               que identifica tu negocio en Chile.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href="/auth"
-                className="inline-flex items-center justify-center gap-2 h-14 px-8 bg-white text-[#1A56DB] font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all text-base"
+                className="inline-flex items-center justify-center gap-2 h-14 px-gob-6 bg-gob-surface text-primary font-black rounded-gob-lg shadow-elevation-04 hover:shadow-elevation-04 hover:scale-[1.02] transition-all text-gri-body"
               >
                 Comenzar mi registro
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <a
                 href="#proceso"
-                className="inline-flex items-center justify-center gap-2 h-14 px-8 border-2 border-white/30 text-white font-bold rounded-2xl hover:bg-white/10 transition-all text-base"
+                className="inline-flex items-center justify-center gap-2 h-14 px-gob-6 border-2 border-white/30 text-gob-text-inverse font-bold rounded-gob-lg hover:bg-white/10 transition-all text-gri-body"
               >
                 Ver cómo funciona
               </a>
             </div>
-            {/* Stats */}
-            <div className="flex flex-col sm:flex-row gap-8 justify-center pt-4 text-center">
+            <div className="flex flex-col sm:flex-row gap-8 justify-center pt-gob-4 text-center">
               {[
                 { valor: '+50.000', label: 'marcas registradas al año' },
                 { valor: '6–8 meses', label: 'tiempo promedio del proceso' },
                 { valor: '10 años', label: 'de protección renovable' },
               ].map(s => (
                 <div key={s.label} className="space-y-0.5">
-                  <p className="text-2xl font-black text-white">{s.valor}</p>
-                  <p className="text-xs text-white/60 font-medium">{s.label}</p>
+                  <p className="text-2xl font-black text-gob-text-inverse">{s.valor}</p>
+                  <p className="text-gri-label text-gob-text-inverse/60 font-medium">{s.label}</p>
                 </div>
               ))}
             </div>
-          </div>
+          </ContainerGRI>
         </section>
 
         {/* ── ABOVE THE FOLD — 3 cards ── */}
-        <section className="max-w-4xl mx-auto px-4 py-16 space-y-8">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-black text-[#111827] tracking-tighter">
-              ¿Qué necesitas saber antes de empezar?
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-5">
-            {cards.map(({ icon: Icon, titulo, texto }) => (
-              <div
-                key={titulo}
-                className="bg-white rounded-2xl border border-[#E5E7EB] p-6 space-y-4 hover:shadow-lg hover:border-[#1A56DB]/20 transition-all group"
-              >
-                <div className="w-11 h-11 rounded-xl bg-[#1A56DB]/10 flex items-center justify-center group-hover:bg-[#1A56DB]/20 transition-colors">
-                  <Icon className="w-5 h-5 text-[#1A56DB]" />
+        <section className="py-gob-7">
+          <ContainerGRI size="desktop" className="space-y-gob-5">
+            <div className="text-center space-y-2">
+              <h2 className="font-heading text-2xl sm:text-3xl font-medium text-gob-text tracking-tight">
+                ¿Qué necesitas saber antes de empezar?
+              </h2>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-gob-4">
+              {cards.map(({ icon: Icon, titulo, texto }) => (
+                <div
+                  key={titulo}
+                  className="bg-card text-card-foreground rounded-gob-lg border border-gob-border p-gob-5 space-y-gob-4 hover:shadow-elevation-03 hover:border-primary/20 transition-all group"
+                >
+                  <div className="w-11 h-11 rounded-gob-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-gob-text text-gri-body">{titulo}</h3>
+                  <p className="text-gri-body-sm text-muted-foreground leading-relaxed">{texto}</p>
                 </div>
-                <h3 className="font-black text-[#111827] text-base">{titulo}</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">{texto}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </ContainerGRI>
         </section>
 
         {/* ── PROCESO PASO A PASO ── */}
-        <section id="proceso" className="bg-white border-y border-[#E5E7EB]">
-          <div className="max-w-3xl mx-auto px-4 py-16 space-y-10">
+        <section id="proceso" className="bg-card border-y border-border">
+          <ContainerGRI size="desktop" className="py-gob-7 space-y-gob-6">
             <div className="text-center space-y-2">
-              <h2 className="text-2xl sm:text-3xl font-black text-[#111827] tracking-tighter">
+              <h2 className="font-heading text-2xl sm:text-3xl font-medium text-gob-text tracking-tight">
                 El proceso de registro, paso a paso
               </h2>
-              <p className="text-[#4B5563]">
+              <p className="text-muted-foreground">
                 Antes de empezar, conoce exactamente qué vas a hacer y cuánto te va a costar.
               </p>
             </div>
 
-            {/* Pasos verticales */}
             <div className="space-y-0">
               {pasos.map(({ num, icon: Icon, titulo, desc }, i) => (
-                <div key={num} className="flex gap-5 group">
-                  {/* Línea + círculo */}
+                <div key={num} className="flex gap-gob-4 group">
                   <div className="flex flex-col items-center">
-                    <div className="w-10 h-10 rounded-xl bg-[#1A56DB] text-white flex items-center justify-center shrink-0 shadow-md shadow-[#1A56DB]/20 group-hover:scale-110 transition-transform">
+                    <div className="w-10 h-10 rounded-gob-md bg-primary text-primary-foreground flex items-center justify-center shrink-0 shadow-elevation-02 group-hover:scale-110 transition-transform">
                       <Icon className="w-5 h-5" />
                     </div>
                     {i < pasos.length - 1 && (
-                      <div className="w-px flex-1 bg-[#E5E7EB] my-2" />
+                      <div className="w-px flex-1 bg-gob-border my-2" />
                     )}
                   </div>
-                  {/* Contenido */}
-                  <div className={`pb-8 space-y-1.5 ${i === pasos.length - 1 ? '' : ''}`}>
+                  <div className="pb-gob-6 space-y-1.5">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-black text-[#9CA3AF] uppercase tracking-widest">
+                      <span className="text-gri-label font-semibold text-muted-foreground uppercase tracking-widest">
                         Paso {num}
                       </span>
                     </div>
-                    <h3 className="font-black text-[#111827] text-base leading-snug">{titulo}</h3>
-                    <p className="text-sm text-[#4B5563] leading-relaxed">{desc}</p>
+                    <h3 className="font-semibold text-gob-text text-gri-body leading-snug">{titulo}</h3>
+                    <p className="text-gri-body-sm text-muted-foreground leading-relaxed">{desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Box de costos */}
-            <div className="bg-[#F3F4F6] border border-[#E5E7EB] rounded-2xl p-6 space-y-4">
+            <div className="bg-card text-card-foreground border border-gob-border rounded-gob-lg p-gob-5 space-y-gob-4">
               <div className="flex items-center gap-2">
-                <Info className="w-5 h-5 text-[#1A56DB] shrink-0" />
-                <h3 className="font-black text-[#111827]">¿Cuánto voy a pagar en total?</h3>
+                <Info className="w-5 h-5 text-primary shrink-0" />
+                <h3 className="font-semibold text-gob-text">¿Cuánto voy a pagar en total?</h3>
               </div>
-              <ul className="space-y-2 text-sm text-[#4B5563]">
+              <ul className="space-y-2 text-gri-body-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
-                  <span className="text-[#1A56DB] font-black mt-0.5">•</span>
-                  <span><strong className="text-[#111827]">Tasa de solicitud:</strong> ~$70.000 CLP por clase de Niza</span>
+                  <span className="text-primary font-semibold mt-0.5">•</span>
+                  <span><strong className="text-gob-text">Tasa de solicitud:</strong> ~$70.000 CLP por clase de Niza</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-[#1A56DB] font-black mt-0.5">•</span>
-                  <span><strong className="text-[#111827]">Publicación en Diario Oficial:</strong> costo adicional cobrado por INAPI</span>
+                  <span className="text-primary font-semibold mt-0.5">•</span>
+                  <span><strong className="text-gob-text">Publicación en Diario Oficial:</strong> costo adicional cobrado por INAPI</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-[#1A56DB] font-black mt-0.5">•</span>
-                  <span><strong className="text-[#111827]">Arancel de registro:</strong> costo final al emitirse el certificado</span>
+                  <span className="text-primary font-semibold mt-0.5">•</span>
+                  <span><strong className="text-gob-text">Arancel de registro:</strong> costo final al emitirse el certificado</span>
                 </li>
               </ul>
-              <p className="text-xs text-[#9CA3AF] leading-relaxed">
+              <p className="text-gri-body-xs text-muted-foreground leading-relaxed">
                 Los montos exactos se calculan en UTM y pueden variar. Te mostraremos el total
                 actualizado antes de que confirmes el pago.
               </p>
             </div>
-          </div>
+          </ContainerGRI>
         </section>
 
         {/* ── CTA FINAL ── */}
-        <section className="bg-[#1A56DB]">
-          <div className="max-w-3xl mx-auto px-4 py-16 text-center space-y-6">
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tighter">
+        <section className="bg-gradient-to-br from-gob-brand-from to-gob-brand-to">
+          <ContainerGRI size="desktop" className="py-gob-7 text-center space-y-gob-5">
+            <h2 className="font-heading text-2xl sm:text-3xl font-medium text-gob-text-inverse tracking-tight">
               ¿Listo para proteger tu marca?
             </h2>
-            <p className="text-white/80 text-base">
+            <p className="text-gob-text-inverse/80 text-gri-body">
               Completa el formulario guiado en menos de 15 minutos.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href="/auth"
-                className="inline-flex items-center justify-center gap-2 h-14 px-8 bg-white text-[#1A56DB] font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all text-base"
+                className="inline-flex items-center justify-center gap-2 h-14 px-gob-6 bg-gob-surface text-primary font-black rounded-gob-lg shadow-elevation-04 hover:shadow-elevation-04 hover:scale-[1.02] transition-all text-gri-body"
               >
                 Comenzar mi registro
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <button className="inline-flex items-center justify-center gap-2 h-14 px-8 border-2 border-white/30 text-white font-bold rounded-2xl hover:bg-white/10 transition-all text-base">
+              <button className="inline-flex items-center justify-center gap-2 h-14 px-gob-6 border-2 border-white/30 text-gob-text-inverse font-bold rounded-gob-lg hover:bg-white/10 transition-all text-gri-body">
                 <MessageCircle className="w-5 h-5" />
                 Tengo dudas — hablar con un ejecutivo
               </button>
             </div>
-          </div>
+          </ContainerGRI>
         </section>
       </main>
 

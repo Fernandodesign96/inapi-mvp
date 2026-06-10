@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useId } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,7 +13,9 @@ import { FormPersona } from '@/components/solicitud/FormPersona'
 import { useSolicitud } from '@/hooks/useSolicitud'
 import { HeaderINAPI } from '@/components/layout/HeaderINAPI'
 import { FooterINAPI } from '@/components/layout/FooterINAPI'
+import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { ChatFAB } from '@/components/layout/ChatFAB'
+import { SkipLink } from '@/components/layout/SkipLink'
 import { RepresentanteData } from '@/lib/types'
 import { extractKeywords, UTM_VALOR } from '@/lib/utils'
 import {
@@ -24,26 +26,34 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-// ── Acordeón simple ──────────────────────────────────────────
 function Acordeon({ titulo, children, defaultOpen = false }: {
   titulo: string; children: React.ReactNode; defaultOpen?: boolean
 }) {
   const [open, setOpen] = useState(defaultOpen)
+  const panelId = useId()
+  const headingId = useId()
   return (
-    <div className="border border-[#E5E7EB] rounded-2xl overflow-hidden">
+    <div className="border border-gob-border rounded-gob-lg overflow-hidden">
       <button
+        type="button"
+        id={headingId}
+        aria-expanded={open}
+        aria-controls={panelId}
         onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between px-5 py-4 text-left bg-[#F9FAFB] hover:bg-[#F3F4F6] transition-colors"
+        className="w-full flex items-center justify-between px-gob-4 py-gob-4 text-left bg-background hover:bg-gob-surface-elevated transition-colors focus-gob"
       >
-        <span className="text-sm font-black text-[#111827] uppercase tracking-wide">{titulo}</span>
-        <ChevronDown className={cn('w-4 h-4 text-[#9CA3AF] transition-transform', open && 'rotate-180')} />
+        <span className="text-gri-body-sm font-semibold text-gob-text uppercase tracking-wide">{titulo}</span>
+        <ChevronDown className={cn('w-4 h-4 text-muted-foreground transition-transform', open && 'rotate-180')} aria-hidden />
       </button>
-      {open && <div className="p-5 bg-white">{children}</div>}
+      {open && (
+        <div id={panelId} role="region" aria-labelledby={headingId} className="p-gob-4 bg-gob-surface">
+          {children}
+        </div>
+      )}
     </div>
   )
 }
 
-// ── Botones de navegación (fuera del componente para evitar recreación en render) ──
 function NavBtns({
   label = 'Siguiente',
   step,
@@ -60,9 +70,9 @@ function NavBtns({
   maxStep: number
 }) {
   return (
-    <div className="flex gap-4 pt-4">
+    <div className="flex gap-gob-4 pt-gob-4">
       {step > 1 && (
-        <Button variant="outline" onClick={irAtras} className="h-12 border-[#D1D5DB] font-bold gap-2">
+        <Button variant="outline" onClick={irAtras} size="form" className="font-semibold gap-2">
           <ArrowLeft className="w-4 h-4" /> Atrás
         </Button>
       )}
@@ -71,7 +81,9 @@ function NavBtns({
           onClick={irSiguiente}
           disabled={!puedeAvanzar}
           aria-disabled={!puedeAvanzar}
-          className="flex-1 h-12 bg-[#111827] hover:bg-black text-white font-black gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+          variant="primary-dark"
+          size="form"
+          className="flex-1 font-semibold gap-2"
         >
           {label} <ArrowRight className="w-4 h-4" />
         </Button>
@@ -80,7 +92,6 @@ function NavBtns({
   )
 }
 
-// ── Página principal ─────────────────────────────────────────
 export default function SolicitudPage() {
   const {
     solicitud, guardando,
@@ -97,7 +108,6 @@ export default function SolicitudPage() {
   const [modalConfirmar, setModalConfirmar] = useState(false)
   const [modalExito, setModalExito] = useState(false)
 
-  // IDs de secciones: solicitante | pesquisa | marca | revision
   const secIds = solicitud.secciones.map(s => s.id)
 
   const queryInteligente = useMemo(() => {
@@ -141,32 +151,40 @@ export default function SolicitudPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9FAFB]">
+    <div className="flex flex-col min-h-screen bg-background">
+      <SkipLink />
       <HeaderINAPI />
-      <main className="flex-1">
-        <div className="max-w-3xl mx-auto px-4 py-8 space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          {/* Indicador de autoguardado */}
-          <div className="flex items-center justify-between text-xs text-[#9CA3AF] px-1">
-            <span className="font-black uppercase tracking-widest">Solicitud de Marca</span>
-            {guardando && <span className="font-bold animate-pulse">Guardando borrador...</span>}
+      <main id="contenido-principal" tabIndex={-1} className="flex-1 py-gob-5 outline-none">
+        <ContainerGRI
+          size="desktop"
+          className="space-y-gob-5 animate-in fade-in slide-in-from-bottom-2 duration-500"
+        >
+          <div className="flex items-center justify-between text-gri-body-xs text-muted-foreground px-1">
+            <span className="font-semibold uppercase tracking-widest">Solicitud de Marca</span>
+            <span className="sr-only" aria-live="polite" aria-atomic="true">
+              {guardando ? 'Guardando borrador de la solicitud' : ''}
+            </span>
+            {guardando && (
+              <span className="font-semibold animate-pulse" aria-hidden>
+                Guardando borrador...
+              </span>
+            )}
           </div>
 
-          {/* Stepper */}
           <StepperSolicitud secciones={solicitud.secciones} />
 
-          {/* ── PASO 1 — Datos del Solicitante ── */}
           {step === 1 && (
-            <Card className="border-[#E5E7EB] shadow-xl shadow-slate-200/50">
-              <div className="h-1.5 bg-[#1A56DB] rounded-t-lg" />
+            <Card className="border-gob-border shadow-elevation-03">
+              <div className="h-1.5 bg-gob-primary rounded-t-lg" />
               <CardHeader>
-                <CardTitle className="text-2xl font-black text-[#111827]">
+                <CardTitle className="font-heading text-gri-h1 font-medium text-gob-text">
                   ¿Quién será el dueño de esta marca?
                 </CardTitle>
-                <CardDescription className="text-[#4B5563]">
+                <CardDescription>
                   Completa los datos de la persona o empresa que registrará la marca.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-5">
+              <CardContent className="space-y-gob-4">
                 <Acordeon titulo="Datos del titular" defaultOpen>
                   <FormPersona
                     initialData={solicitud.solicitante}
@@ -175,8 +193,8 @@ export default function SolicitudPage() {
                 </Acordeon>
 
                 <Acordeon titulo="¿Actúas como representante o agente? (opcional)">
-                  <div className="space-y-4">
-                    <p className="text-sm text-[#4B5563]">
+                  <div className="space-y-gob-4">
+                    <p className="text-gri-body-sm text-muted-foreground">
                       Si representas a otra persona o empresa, completa los datos del representante legal o agente PI.
                     </p>
                     {solicitud.representante ? (
@@ -190,7 +208,7 @@ export default function SolicitudPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => actualizarRepresentante(undefined as unknown as RepresentanteData)}
-                          className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                          className="text-destructive hover:text-destructive hover:bg-gob-danger-bg"
                         >
                           Quitar representante
                         </Button>
@@ -199,7 +217,7 @@ export default function SolicitudPage() {
                       <Button
                         variant="outline"
                         onClick={() => actualizarRepresentante({ tipo: 'natural', pais: 'Chile' } as RepresentanteData)}
-                        className="border-[#D1D5DB] font-bold"
+                        className="font-semibold"
                       >
                         + Agregar datos del representante
                       </Button>
@@ -208,19 +226,19 @@ export default function SolicitudPage() {
                 </Acordeon>
 
                 <Acordeon titulo="¿Ya registraste esta marca en otro país? (opcional)">
-                  <div className="flex items-center justify-between p-4 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB]">
+                  <label htmlFor="prioridad-marca" className="flex items-center justify-between p-gob-4 rounded-gob-md bg-background border border-gob-border cursor-pointer gap-gob-4">
                     <div>
-                      <p className="text-sm font-bold text-[#111827]">Activar derecho de prioridad</p>
-                      <p className="text-xs text-[#9CA3AF] mt-0.5">Solo aplica si tienes una solicitud extranjera previa.</p>
+                      <p className="text-gri-body-sm font-semibold text-gob-text">Activar derecho de prioridad</p>
+                      <p className="text-gri-body-xs text-muted-foreground mt-0.5">Solo aplica si tienes una solicitud extranjera previa.</p>
                     </div>
                     <input
+                      id="prioridad-marca"
                       type="checkbox"
-                      className="w-5 h-5 accent-[#1A56DB]"
+                      className="w-5 h-5 accent-primary shrink-0"
                       checked={solicitud.prioridad}
                       onChange={e => actualizarPrioridad(e.target.checked)}
-                      aria-label="Activar derecho de prioridad"
                     />
-                  </div>
+                  </label>
                 </Acordeon>
 
                 <NavBtns
@@ -232,11 +250,10 @@ export default function SolicitudPage() {
             </Card>
           )}
 
-          {/* ── PASO 2 — Pesquisa de Marca ── */}
           {step === 2 && (
-            <Card className="border-[#E5E7EB] shadow-xl shadow-slate-200/50">
-              <div className="h-1.5 bg-[#1A56DB] rounded-t-lg" />
-              <CardContent className="pt-8">
+            <Card className="border-gob-border shadow-elevation-03">
+              <div className="h-1.5 bg-gob-primary rounded-t-lg" />
+              <CardContent className="pt-gob-6">
                 <PesquisaMarca
                   nombreInicial={solicitud.denominacion}
                   onContinuar={(similitud) => {
@@ -248,8 +265,8 @@ export default function SolicitudPage() {
                   }}
                 />
                 {!solicitud.pesquisaRealizada && (
-                  <div className="mt-4 flex gap-3">
-                    <Button variant="outline" onClick={irAtras} className="h-12 border-[#D1D5DB] font-bold gap-2">
+                  <div className="mt-gob-4 flex gap-gob-3">
+                    <Button variant="outline" onClick={irAtras} size="form" className="font-semibold gap-2">
                       <ArrowLeft className="w-4 h-4" /> Atrás
                     </Button>
                   </div>
@@ -258,25 +275,23 @@ export default function SolicitudPage() {
             </Card>
           )}
 
-          {/* ── PASO 3 — Tu Marca ── */}
           {step === 3 && (
-            <Card className="border-[#E5E7EB] shadow-xl shadow-slate-200/50">
-              <div className="h-1.5 bg-[#1A56DB] rounded-t-lg" />
+            <Card className="border-gob-border shadow-elevation-03">
+              <div className="h-1.5 bg-gob-primary rounded-t-lg" />
               <CardHeader>
-                <CardTitle className="text-2xl font-black text-[#111827]">Tu Marca</CardTitle>
-                <CardDescription className="text-[#4B5563]">
+                <CardTitle className="font-heading text-gri-h1 font-medium text-gob-text">Tu Marca</CardTitle>
+                <CardDescription>
                   Define el nombre y las coberturas de lo que quieres proteger.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-7">
+              <CardContent className="space-y-gob-5">
                 <TooltipProvider>
-                  {/* Nombre */}
                   <div className="space-y-2">
-                    <label htmlFor="nombre-marca" className="text-sm font-bold text-[#111827] flex items-center gap-2">
-                      Nombre de tu marca <span className="text-red-500" aria-hidden>*</span>
+                    <label htmlFor="nombre-marca" className="gri-field-label flex items-center gap-2">
+                      Nombre de tu marca <span className="text-destructive" aria-hidden>*</span>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Info className="w-4 h-4 text-[#9CA3AF] cursor-help" />
+                          <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p className="max-w-xs">El nombre tal como aparecerá en el Registro de Marcas de INAPI.</p>
@@ -286,17 +301,16 @@ export default function SolicitudPage() {
                     <Input
                       id="nombre-marca"
                       placeholder="Ej: Cafetería El Valle"
-                      className="h-12 text-lg font-medium border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB] focus:ring-offset-2"
+                      className="h-11 text-gri-body font-medium"
                       value={solicitud.denominacion}
                       onChange={e => actualizarDenominacion(e.target.value)}
                       aria-required="true"
                     />
                   </div>
 
-                  {/* Traducción / Transliteración */}
-                  <div className="grid md:grid-cols-2 gap-5">
+                  <div className="grid md:grid-cols-2 gap-gob-4">
                     <div className="space-y-2">
-                      <label htmlFor="traduccion" className="text-xs font-bold text-[#9CA3AF] uppercase tracking-widest flex items-center gap-2">
+                      <label htmlFor="traduccion" className="gri-field-label flex items-center gap-2">
                         Traducción
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -312,11 +326,10 @@ export default function SolicitudPage() {
                         placeholder="Opcional"
                         value={solicitud.traduccion}
                         onChange={e => actualizarTraduccion(e.target.value)}
-                        className="border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB]"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="transliteracion" className="text-xs font-bold text-[#9CA3AF] uppercase tracking-widest flex items-center gap-2">
+                      <label htmlFor="transliteracion" className="gri-field-label flex items-center gap-2">
                         Transliteración
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -332,19 +345,17 @@ export default function SolicitudPage() {
                         placeholder="Opcional"
                         value={solicitud.transliteracion}
                         onChange={e => actualizarTransliteracion(e.target.value)}
-                        className="border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB]"
                       />
                     </div>
                   </div>
                 </TooltipProvider>
 
-                {/* Preguntas de perfil */}
-                <div className="p-5 bg-[#F9FAFB] rounded-2xl border border-[#E5E7EB] space-y-4">
-                  <p className="text-xs font-black text-[#9CA3AF] uppercase tracking-widest">
+                <div className="p-gob-4 bg-background rounded-gob-lg border border-gob-border space-y-gob-4">
+                  <p className="gri-field-label">
                     Cuéntanos sobre tu marca — esto mejora la clasificación automática
                   </p>
                   <div className="space-y-2">
-                    <label htmlFor="p1" className="text-sm font-bold text-[#111827] italic">
+                    <label htmlFor="p1" className="text-gri-body-sm font-semibold text-gob-text italic">
                       ¿Qué productos o servicios ofreces?
                     </label>
                     <Textarea
@@ -352,12 +363,12 @@ export default function SolicitudPage() {
                       placeholder="Ej: Vendo café orgánico de origen..."
                       value={solicitud.preguntasPerfil.p1}
                       onChange={e => actualizarPreguntasPerfil({ p1: e.target.value })}
-                      className="border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB] resize-none"
+                      className="resize-none"
                       rows={2}
                     />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="p2" className="text-sm font-bold text-[#111827] italic">
+                    <label htmlFor="p2" className="text-gri-body-sm font-semibold text-gob-text italic">
                       Describe tu marca en palabras clave
                     </label>
                     <Textarea
@@ -365,25 +376,23 @@ export default function SolicitudPage() {
                       placeholder="Ej: Artesanía, comercio justo, sostenible..."
                       value={solicitud.preguntasPerfil.p2}
                       onChange={e => actualizarPreguntasPerfil({ p2: e.target.value })}
-                      className="border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB] resize-none"
+                      className="resize-none"
                       rows={2}
                     />
                   </div>
                 </div>
 
-                {/* Buscador de clases */}
                 {queryInteligente && (
-                  <div className="p-3 bg-blue-50 border border-blue-100 rounded-xl flex gap-3 text-sm text-blue-800">
+                  <div className="p-gob-3 bg-gob-info-bg border border-gob-info/30 rounded-gob-md flex gap-gob-3 text-gri-body-sm text-gob-info">
                     <AlertCircle className="w-5 h-5 shrink-0" />
-                    <p>Análisis: <span className="italic font-bold">&quot;{queryInteligente}&quot;</span>. Selecciona las coberturas que mejor describan tu marca.</p>
+                    <p>Análisis: <span className="italic font-semibold">&quot;{queryInteligente}&quot;</span>. Selecciona las coberturas que mejor describan tu marca.</p>
                   </div>
                 )}
 
-                {/* Costo proyectado */}
                 {solicitud.clases.length > 0 && (
-                  <div className="flex items-center justify-between bg-[#F3F4F6] rounded-xl p-4 border border-[#E5E7EB]">
-                    <span className="text-xs font-black text-[#9CA3AF] uppercase tracking-wide">Costo proyectado</span>
-                    <span className="text-sm font-black text-[#1A56DB] font-mono">
+                  <div className="flex items-center justify-between bg-gob-surface-elevated rounded-gob-md p-gob-4 border border-gob-border">
+                    <span className="gri-field-label">Costo proyectado</span>
+                    <span className="text-gri-body-sm font-semibold text-gob-primary font-mono">
                       ${(solicitud.clases.length * UTM_VALOR).toLocaleString('es-CL')} CLP
                     </span>
                   </div>
@@ -405,35 +414,33 @@ export default function SolicitudPage() {
             </Card>
           )}
 
-          {/* ── PASO 4 — Revisión y Pago ── */}
           {step === 4 && (
-            <Card className="border-[#E5E7EB] shadow-xl shadow-slate-200/50 animate-in fade-in slide-in-from-bottom-2 duration-400">
-              <div className="h-1.5 bg-[#059669] rounded-t-lg" />
+            <Card className="border-gob-border shadow-elevation-03 animate-in fade-in slide-in-from-bottom-2 duration-400">
+              <div className="h-1.5 bg-stepper-done rounded-t-lg" />
               <CardHeader>
                 <div className="flex justify-between items-center">
-                  <CardTitle className="text-2xl font-black text-[#111827] tracking-tighter uppercase italic">
+                  <CardTitle className="font-heading text-gri-h1 font-medium text-gob-text tracking-tight uppercase italic">
                     Revisión Final
                   </CardTitle>
-                  <span className="text-xs font-bold text-[#059669] uppercase tracking-widest bg-[#D1FAE5] px-3 py-1 rounded-full">
+                  <span className="text-gri-label font-semibold text-stepper-done uppercase tracking-widest bg-stepper-done-bg px-gob-3 py-1 rounded-full">
                     Todo listo
                   </span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-8">
-                {/* Sección: Identidad */}
-                <section className="space-y-3">
-                  <h3 className="text-[10px] font-black text-[#9CA3AF] uppercase tracking-widest border-l-4 border-[#E5E7EB] pl-2">
+              <CardContent className="space-y-gob-6">
+                <section className="space-y-gob-3">
+                  <h3 className="gri-field-label border-l-4 border-gob-border pl-2">
                     Identidad de Marca
                   </h3>
-                  <div className="bg-white rounded-2xl border border-[#E5E7EB] divide-y divide-[#E5E7EB] px-5">
+                  <div className="bg-gob-surface rounded-gob-lg border border-gob-border divide-y divide-gob-border px-gob-4">
                     {[
                       { label: 'Nombre', val: `"${solicitud.denominacion}"`, bold: true },
                       { label: 'Traducción', val: solicitud.traduccion || 'No aplica' },
                       { label: 'Transliteración', val: solicitud.transliteracion || 'No aplica' },
                     ].map(r => (
                       <div key={r.label} className="grid grid-cols-3 py-3.5">
-                        <span className="text-[10px] font-black uppercase text-[#9CA3AF] tracking-widest">{r.label}</span>
-                        <span className={cn('col-span-2 text-sm', r.bold ? 'font-black text-lg text-[#111827]' : 'font-bold text-[#4B5563]')}>
+                        <span className="gri-field-label">{r.label}</span>
+                        <span className={cn('col-span-2 text-gri-body-sm', r.bold ? 'font-semibold text-gri-body text-gob-text' : 'font-semibold text-muted-foreground')}>
                           {r.val}
                         </span>
                       </div>
@@ -441,63 +448,61 @@ export default function SolicitudPage() {
                   </div>
                 </section>
 
-                {/* Sección: Clases */}
-                <section className="space-y-3">
-                  <h3 className="text-[10px] font-black text-[#9CA3AF] uppercase tracking-widest border-l-4 border-[#E5E7EB] pl-2">
+                <section className="space-y-gob-3">
+                  <h3 className="gri-field-label border-l-4 border-gob-border pl-2">
                     Clasificación de Niza
                   </h3>
-                  <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 space-y-2">
+                  <div className="bg-gob-surface rounded-gob-lg border border-gob-border p-gob-4 space-y-2">
                     {solicitud.clases.map(c => (
-                      <div key={c.id} className="flex gap-3 items-center p-3 bg-[#F9FAFB] rounded-xl border border-[#E5E7EB]">
-                        <span className="bg-[#1A56DB] text-white text-[10px] font-black px-2 py-1 rounded shrink-0">
+                      <div key={c.id} className="flex gap-gob-3 items-center p-gob-3 bg-background rounded-gob-md border border-gob-border">
+                        <span className="bg-gob-primary text-gob-text-inverse text-gri-label font-semibold px-2 py-1 rounded shrink-0">
                           CLASE {c.clase}
                         </span>
-                        <span className="text-sm font-bold text-[#4B5563]">{c.descripcion}</span>
+                        <span className="text-gri-body-sm font-semibold text-muted-foreground">{c.descripcion}</span>
                       </div>
                     ))}
                   </div>
                 </section>
 
-                {/* Sección: Titular */}
-                <section className="space-y-3">
-                  <h3 className="text-[10px] font-black text-[#9CA3AF] uppercase tracking-widest border-l-4 border-[#E5E7EB] pl-2">
+                <section className="space-y-gob-3">
+                  <h3 className="gri-field-label border-l-4 border-gob-border pl-2">
                     La persona o empresa que será dueña de la marca
                   </h3>
-                  <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 space-y-1">
-                    <p className="text-sm font-black text-[#111827]">
+                  <div className="bg-gob-surface rounded-gob-lg border border-gob-border p-gob-4 space-y-1">
+                    <p className="text-gri-body-sm font-semibold text-gob-text">
                       {solicitud.solicitante?.nombre
                         ? `${solicitud.solicitante.nombre} ${solicitud.solicitante.apellido}`
                         : solicitud.solicitante?.razonSocial}
                     </p>
-                    <p className="text-xs font-mono font-bold text-[#9CA3AF] uppercase">
+                    <p className="text-gri-body-xs font-mono font-semibold text-muted-foreground uppercase">
                       {solicitud.solicitante?.rut}
                     </p>
                   </div>
                 </section>
 
-                {/* Tasas */}
-                <section className="bg-[#111827] rounded-3xl p-6 text-white flex justify-between items-center shadow-xl shadow-slate-900/20">
+                <section className="bg-gob-text rounded-gob-xl p-gob-5 text-gob-text-inverse flex justify-between items-center shadow-elevation-04">
                   <div>
-                    <p className="text-[10px] font-black uppercase text-blue-300 tracking-widest mb-1">
+                    <p className="gri-field-label text-primary/70 mb-1">
                       Total a pagar (Tasa de solicitud)
                     </p>
                     <h4 className="text-4xl font-black font-mono">{solicitud.clases.length} UTM</h4>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold opacity-60">Equivalente a</p>
-                    <p className="text-2xl font-black text-blue-400 font-mono">
+                    <p className="text-gri-body-sm font-semibold opacity-60">Equivalente a</p>
+                    <p className="text-2xl font-black text-primary font-mono">
                       ${(solicitud.clases.length * UTM_VALOR).toLocaleString('es-CL')} CLP
                     </p>
                   </div>
                 </section>
 
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button variant="outline" onClick={irAtras} className="h-12 sm:w-1/3 border-[#D1D5DB] font-bold gap-2">
+                <div className="flex flex-col sm:flex-row gap-gob-3">
+                  <Button variant="outline" onClick={irAtras} size="form" className="sm:w-1/3 font-semibold gap-2">
                     <ArrowLeft className="w-4 h-4" /> Atrás
                   </Button>
                   <Button
                     onClick={handlePresentar}
-                    className="flex-1 h-14 bg-[#1A56DB] hover:bg-[#1E3A8A] text-white text-lg font-black uppercase shadow-2xl transition-all hover:scale-[1.02]"
+                    size="form"
+                    className="flex-1 font-semibold uppercase text-gri-btn transition-all hover:scale-[1.02]"
                   >
                     Pagar y Presentar
                   </Button>
@@ -505,45 +510,54 @@ export default function SolicitudPage() {
               </CardContent>
             </Card>
           )}
-        </div>
+        </ContainerGRI>
       </main>
 
-      {/* Modal confirmación */}
       <Dialog open={modalConfirmar} onOpenChange={setModalConfirmar}>
-        <DialogContent className="sm:max-w-md p-8 rounded-3xl border-0 shadow-2xl">
-          <DialogHeader className="space-y-3">
-            <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center">
+        <DialogContent className="sm:max-w-md p-gob-6 rounded-gob-xl border-0 shadow-elevation-04">
+          <DialogHeader className="space-y-gob-3">
+            <div className="w-12 h-12 bg-gob-warning-bg text-gob-warning rounded-gob-lg flex items-center justify-center">
               <AlertCircle className="w-6 h-6" />
             </div>
-            <DialogTitle className="text-2xl font-black uppercase tracking-tight italic">¿Confirmar Envío?</DialogTitle>
-            <DialogDescription className="text-[#4B5563] font-medium">
+            <DialogTitle className="font-heading text-gri-h1 font-medium uppercase tracking-tight italic">
+              ¿Confirmar Envío?
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground font-medium">
               Al confirmar, tu solicitud se enviará a INAPI y se procederá al portal de pago de la Tesorería General de la República.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex flex-col gap-3 mt-6">
-            <Button onClick={handleConfirmarEnvio} className="w-full h-14 bg-[#1A56DB] hover:bg-[#1E3A8A] text-white font-black text-lg uppercase shadow-lg shadow-blue-600/20">
+          <div className="flex flex-col gap-gob-3 mt-gob-5">
+            <Button onClick={handleConfirmarEnvio} size="form" className="w-full font-semibold uppercase text-gri-btn">
               Ir a Pagar Ahora
             </Button>
-            <Button variant="ghost" onClick={() => setModalConfirmar(false)} className="w-full h-12 text-[#9CA3AF] font-bold uppercase tracking-widest text-xs">
+            <Button
+              variant="ghost"
+              onClick={() => setModalConfirmar(false)}
+              className="w-full text-muted-foreground font-semibold uppercase tracking-widest text-gri-label"
+            >
               Cancelar y revisar
             </Button>
           </div>
         </DialogContent>
       </Dialog>
 
-      {/* Modal éxito */}
       <Dialog open={modalExito}>
-        <DialogContent className="sm:max-w-md p-10 text-center rounded-3xl">
-          <DialogTitle className="sr-only">Solicitud enviada correctamente</DialogTitle>
-          <DialogDescription className="sr-only">Tu solicitud de marca ha sido enviada. Recibirás el comprobante en tu correo.</DialogDescription>
-          <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+        <DialogContent className="sm:max-w-md p-gob-7 text-center rounded-gob-xl">
+          <div className="w-20 h-20 bg-gob-success-bg text-gob-success rounded-full flex items-center justify-center mx-auto mb-gob-5" aria-hidden>
             <CheckCircle2 className="w-12 h-12" />
           </div>
-          <h2 className="text-3xl font-black tracking-tighter text-[#111827]">¡Solicitud Enviada!</h2>
-          <p className="text-[#4B5563] mt-2">Recibirás el comprobante en tu correo electrónico.</p>
+          <DialogHeader className="space-y-2 text-center sm:text-center">
+            <DialogTitle className="font-heading text-3xl font-medium tracking-tight text-gob-text">
+              ¡Solicitud enviada!
+            </DialogTitle>
+            <DialogDescription>
+              Recibirás el comprobante en tu correo electrónico.
+            </DialogDescription>
+          </DialogHeader>
           <Button
             onClick={() => { window.location.href = '/inapi-mvp/' }}
-            className="w-full h-14 bg-[#1A56DB] hover:bg-[#1E3A8A] text-white font-black mt-8"
+            size="form"
+            className="w-full font-semibold mt-gob-6"
           >
             Volver al Inicio
           </Button>
