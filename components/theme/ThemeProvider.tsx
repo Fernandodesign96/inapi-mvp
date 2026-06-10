@@ -6,7 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
+  useSyncExternalStore,
 } from 'react'
 
 export type Theme = 'light' | 'dark' | 'system'
@@ -14,25 +14,76 @@ type ResolvedTheme = 'light' | 'dark'
 
 const STORAGE_KEY = 'gri-theme'
 
-interface ThemeContextValue {
+interface ThemeSnapshot {
   theme: Theme
   resolvedTheme: ResolvedTheme
+}
+
+interface ThemeContextValue extends ThemeSnapshot {
   setTheme: (theme: Theme) => void
   toggleTheme: () => void
 }
 
-const ThemeContext = createContext<ThemeContextValue | null>(null)
-
-function readStoredTheme(): Theme {
-  if (typeof window === 'undefined') return 'system'
-  const stored = localStorage.getItem(STORAGE_KEY) as Theme | null
-  if (stored === 'light' || stored === 'dark' || stored === 'system') return stored
-  return 'system'
+const SERVER_SNAPSHOT: ThemeSnapshot = {
+  theme: 'system',
+  resolvedTheme: 'light',
 }
 
-function readSystemDark(): boolean {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
+const ThemeContext = createContext<ThemeContextValue | null>(null)
+
+const listeners = new Set<() => void>()
+let snapshotVersion = 0
+let clientCache: { version: number; snapshot: ThemeSnapshot } | null = null
+
+function computeSnapshot(): ThemeSnapshot {
+  const stored = localStorage.getItem(STORAGE_KEY) as Theme | null
+  const theme: Theme =
+    stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system'
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const resolvedTheme: ResolvedTheme =
+    theme === 'system' ? (systemDark ? 'dark' : 'light') : theme
+  return { theme, resolvedTheme }
+}
+
+function getClientSnapshot(): ThemeSnapshot {
+  if (!clientCache || clientCache.version !== snapshotVersion) {
+    clientCache = { version: snapshotVersion, snapshot: computeSnapshot() }
+  }
+  return clientCache.snapshot
+}
+
+function getServerSnapshot(): ThemeSnapshot {
+  return SERVER_SNAPSHOT
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener)
+
+  const media = window.matchMedia('(prefers-color-scheme: dark)')
+  const onMediaChange = () => {
+    snapshotVersion++
+    listener()
+  }
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === STORAGE_KEY) {
+      snapshotVersion++
+      listener()
+    }
+  }
+
+  media.addEventListener('change', onMediaChange)
+  window.addEventListener('storage', onStorage)
+
+  return () => {
+    listeners.delete(listener)
+    media.removeEventListener('change', onMediaChange)
+    window.removeEventListener('storage', onStorage)
+  }
+}
+
+function notifyThemeChange() {
+  snapshotVersion++
+  listeners.forEach((listener) => listener())
 }
 
 function applyThemeClass(resolved: ResolvedTheme) {
@@ -40,35 +91,32 @@ function applyThemeClass(resolved: ResolvedTheme) {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(readStoredTheme)
-  const [systemDark, setSystemDark] = useState(readSystemDark)
-
-  const resolvedTheme: ResolvedTheme =
-    theme === 'system' ? (systemDark ? 'dark' : 'light') : theme
+  const { theme, resolvedTheme } = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot
+  )
 
   useEffect(() => {
     applyThemeClass(resolvedTheme)
   }, [resolvedTheme])
 
-  useEffect(() => {
-    if (theme !== 'system') return
-
-    const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const onChange = (event: MediaQueryListEvent) => {
-      setSystemDark(event.matches)
-    }
-    media.addEventListener('change', onChange)
-    return () => media.removeEventListener('change', onChange)
-  }, [theme])
-
   const setTheme = useCallback((next: Theme) => {
     localStorage.setItem(STORAGE_KEY, next)
-    setThemeState(next)
+    const resolved: ResolvedTheme =
+      next === 'system'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light'
+        : next
+    applyThemeClass(resolved)
+    notifyThemeChange()
   }, [])
 
   const toggleTheme = useCallback(() => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
-  }, [resolvedTheme, setTheme])
+    const current = getClientSnapshot()
+    setTheme(current.resolvedTheme === 'dark' ? 'light' : 'dark')
+  }, [setTheme])
 
   const value = useMemo(
     () => ({ theme, resolvedTheme, setTheme, toggleTheme }),

@@ -80,7 +80,7 @@ export default function HomePage() {
 
       <main id="contenido-principal" tabIndex={-1} className="flex-1 outline-none">
         {/* ── HERO ── */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-primary to-primary-dark text-gob-text-inverse">
+        <section className="relative overflow-hidden bg-gradient-to-br from-gob-brand-from to-gob-brand-to text-gob-text-inverse">
           <div
             className="absolute inset-0 pointer-events-none opacity-[0.07]"
             aria-hidden="true"
@@ -218,7 +218,7 @@ export default function HomePage() {
         </section>
 
         {/* ── CTA FINAL ── */}
-        <section className="bg-primary">
+        <section className="bg-gradient-to-br from-gob-brand-from to-gob-brand-to">
           <ContainerGRI size="desktop" className="py-gob-7 text-center space-y-gob-5">
             <h2 className="font-heading text-2xl sm:text-3xl font-medium text-gob-text-inverse tracking-tight">
               ¿Listo para proteger tu marca?

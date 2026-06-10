@@ -3,10 +3,46 @@
 Este documento describe el proceso de desarrollo del **Portal de Solicitud de Marca INAPI**, bajo el concepto de **Guided Registration Interface (GRI)**. Es un registro de las decisiones técnicas, aprendizajes, errores mitigados y el progreso del MVP orientado a reducir el abandono en la tramitación ciudadana.
 
 ## 📑 Índice
+- [[2026-06-09] - Frontend | Sprint 5: Migración al UI Kit Gobierno Digital v3.0.1](#2026-06-09---frontend--sprint-5-migración-al-ui-kit-gobierno-digital-v301)
 - [[2026-04-10] - Frontend | Sprint 1: Génesis del MVP, Arquitectura Base y Niza N1](#2026-04-10---frontend--sprint-1-génesis-del-mvp-arquitectura-base-y-niza-n1)
 - [[2026-04-17] - Frontend | Sprint 2: Optimización de Niza N2 y Refinamiento UX](#2026-04-17---frontend--sprint-2-optimización-de-niza-n2-y-refinamiento-ux)
 - [[2026-04-20] - Frontend | Sprint 3: Despliegue, Accesibilidad y Analítica Final](#2026-04-20---frontend--sprint-3-despliegue-accesibilidad-y-analítica-final)
 - [[2026-04-24] - Full Stack | Sprint 4: Optimización Institucional y Motor de Inteligencia](#2026-04-24---full-stack--sprint-4-optimización-institucional-y-motor-de-inteligencia)
+
+---
+
+## [2026-06-09] - Frontend | Sprint 5: Migración al UI Kit Gobierno Digital v3.0.1
+
+### Contexto y objetivos
+El portal GRI debía alinearse con el **UI Kit Gobierno Digital v3.0.1** (Secretaría de Gobierno Digital), documentado en `docs/DESIGN_SYSTEM.md` v2.0.0. La interfaz aún dependía de hex legacy (`#0033A0`, `#1A56DB`, clases `slate-*`) y de la tipografía Inter, lo que impedía coherencia institucional y mantenibilidad. El objetivo fue migrar tokens, tipografía, primitivos shadcn, layout, componentes de negocio y páginas en entregas incrementales (fases 0–8), sin alterar la lógica de negocio (Fuse.js, Firestore, modales, stepper).
+
+### Implementación técnica
+- **Fase 0–1 — Infraestructura de tokens:** Variables `--gob-*` en `app/globals.css`, aliases shadcn (`--primary`, `--ring`, `--destructive`) apuntando al kit, escala de espaciado, radius, elevación y `lib/design-tokens.ts` con mapa `LEGACY_HEX_MAP`. Componente `ContainerGRI` con breakpoints 600/905/1240/1440 px.
+- **Fase 2 — Tipografía:** Migración a **Roboto** (UI/cuerpo) y **Roboto Slab** (encabezados) vía `next/font/google` y escala `text-gri-*`.
+- **Fase 3 — Primitivos shadcn:** Ajuste de `button`, `input`, `card`, `badge`, `dialog`, `popover`, `tooltip` y `command` a altura táctil 44 px, anillo de foco `#FFBE5C` y variantes semánticas del stepper.
+- **Fase 4–6 — Shell y páginas:** `HeaderINAPI`, `FooterINAPI`, `StepperSolicitud`, `BuscadorClases`, `PesquisaMarca`, `FormPersona`, `ChatFAB`, `app/page.tsx`, `app/auth/page.tsx` y `app/solicitud/page.tsx` sin hex pre-kit; uso de tokens `gob-*` y primitivos `size="form"`.
+- **Fase 7 — Accesibilidad:** `SkipLink`, utilidades `.focus-gob` y `prefers-reduced-motion`, roles ARIA en acordeón, formularios y stepper, `aria-live` en guardado de borrador, diálogos con etiquetas en español.
+- **Fase 8 — Tema oscuro:** Bloque `.dark` con tokens GOB, `ThemeProvider` con `useSyncExternalStore`, `ThemeToggle` en header y auth, script bloqueante en `<head>` para evitar flash.
+- **Correcciones post-migración:** Script `typecheck` (`tsc --noEmit`); resolución de hidratación en tema (sustitución de `next/Script` por `<script>` nativo y store externo); tokens de marca fijos `--gob-brand-from` / `--gob-brand-to` y `--gob-footer-bg` para hero, CTA, footer y FAB en modo noche, evitando contraste crítico al aclarar `--primary` y `--gob-text` en `.dark`.
+
+### 💡 Repaso técnico: Tokens semánticos vs hex en componentes
+En Tailwind v4 los tokens viven en `@theme inline` y en `:root` / `.dark`. Los componentes deben consumir clases semánticas (`bg-card`, `text-gob-text`, `from-gob-brand-from`) en lugar de colores que cambian de significado entre temas (p. ej. `bg-gob-text` como fondo del footer). Las secciones de marketing con texto blanco sobre azul institucional requieren tokens que **no** se aclaren en modo oscuro, mientras el resto de la UI sí adapta primario y superficies.
+
+### Errores y soluciones
+1. **Hidratación del toggle de tema:**
+   - *Problema:* El servidor renderizaba icono Luna y el cliente Sol, por lectura de `localStorage` en el primer render.
+   - *Solución:* `useSyncExternalStore` con snapshot de servidor fijo y script en `<head>` que aplica `.dark` antes de hidratar.
+2. **Error de consola con `next/Script` en tema:**
+   - *Problema:* `Script` con `beforeInteractive` dentro de `<body>` generaba advertencia en React 19.
+   - *Solución:* Script inline en `<head>` con `dangerouslySetInnerHTML`.
+3. **Contraste en modo noche (hero, CTA, footer, FAB):**
+   - *Problema:* `--primary` aclarado y `--gob-text` usado como fondo del footer dejaban texto blanco sobre fondos casi blancos.
+   - *Solución:* Tokens `--gob-brand-*` y `--gob-footer-bg` independientes del remapeo oscuro de primario y texto.
+
+### Próximos pasos
+- Validar escala oficial `GOB.COLOR.GRIS` cuando esté disponible en export del kit.
+- Revisión de usabilidad con usuarios reales tras despliegue en GitHub Pages.
+- Integración API real de consulta de marcas y pasarela de pago (pendientes de Sprint 4).
 
 ---
 

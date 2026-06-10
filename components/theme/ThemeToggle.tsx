@@ -14,6 +14,12 @@ interface Props {
 export function ThemeToggle({ className, variant = 'header' }: Props) {
   const { resolvedTheme, toggleTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
+  const label = isDark ? 'Activar modo claro' : 'Activar modo oscuro'
+  const icon = isDark ? (
+    <Sun className="w-5 h-5" aria-hidden />
+  ) : (
+    <Moon className="w-5 h-5" aria-hidden />
+  )
 
   if (variant === 'plain') {
     return (
@@ -24,9 +30,10 @@ export function ThemeToggle({ className, variant = 'header' }: Props) {
           'p-2 rounded-full text-gob-text-inverse hover:bg-white/10 transition-colors focus-gob',
           className
         )}
-        aria-label={isDark ? 'Activar modo claro' : 'Activar modo oscuro'}
+        aria-label={label}
+        suppressHydrationWarning
       >
-        {isDark ? <Sun className="w-5 h-5" aria-hidden /> : <Moon className="w-5 h-5" aria-hidden />}
+        {icon}
       </button>
     )
   }
@@ -41,10 +48,11 @@ export function ThemeToggle({ className, variant = 'header' }: Props) {
         'text-gob-text-inverse hover:bg-white/10 rounded-full size-11',
         className
       )}
-      aria-label={isDark ? 'Activar modo claro' : 'Activar modo oscuro'}
+      aria-label={label}
       aria-pressed={isDark}
+      suppressHydrationWarning
     >
-      {isDark ? <Sun className="w-5 h-5" aria-hidden /> : <Moon className="w-5 h-5" aria-hidden />}
+      {icon}
     </Button>
   )
 }

@@ -107,6 +107,11 @@
   --color-inapi-header: var(--inapi-header);
   --color-inapi-header-sub: var(--inapi-header-sub);
 
+  /* Marca fija — mismo azul en claro y oscuro (hero, CTA, FAB) */
+  --color-gob-brand-from: var(--gob-brand-from);
+  --color-gob-brand-to: var(--gob-brand-to);
+  --color-gob-footer-bg: var(--gob-footer-bg);
+
   /* Espaciado kit: 4·8·12·16·24·36·48·64 */
   --spacing-gob-1: 4px;
   --spacing-gob-2: 8px;
@@ -231,6 +236,11 @@
   --inapi-header: #FF4134;
   --inapi-header-sub: #005fff;
 
+  /* Bloques de marca — no se aclaran en modo oscuro */
+  --gob-brand-from: #4282E0;
+  --gob-brand-to: #0F69C4;
+  --gob-footer-bg: #373737;
+
   /* Elevación */
   --elevation-01: 0 1px 2px rgba(0, 0, 0, 0.06);
   --elevation-02: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -330,6 +340,9 @@
   /* Excepción header INAPI — marca institucional sin cambio */
   --inapi-header: #FF4134;
   --inapi-header-sub: #005fff;
+
+  /* Footer — gris oscuro en modo noche */
+  --gob-footer-bg: #1E2228;
 
   /* Elevación — sombras más profundas en oscuro */
   --elevation-01: 0 1px 2px rgba(0, 0, 0, 0.4);

@@ -280,7 +280,7 @@ export function ChatFAB() {
           'w-14 h-14 rounded-full flex items-center justify-center shadow-elevation-04 transition-all duration-200 active:scale-95',
           isOpen
             ? 'bg-destructive hover:bg-destructive/90 rotate-90'
-            : 'bg-gob-primary hover:bg-gob-primary-dark hover:scale-110'
+            : 'bg-gob-brand-from hover:bg-gob-brand-to hover:scale-110'
         )}
         aria-label={isOpen ? 'Cerrar asistente' : 'Abrir asistente de INAPI'}
         aria-expanded={isOpen}

@@ -7,7 +7,7 @@ import { ContainerGRI } from '@/components/layout/ContainerGRI'
 
 export function FooterINAPI() {
   return (
-    <footer className="w-full bg-gob-text text-gob-text-inverse pt-gob-7 pb-gob-5 mt-auto">
+    <footer className="w-full bg-gob-footer-bg text-gob-text-inverse pt-gob-7 pb-gob-5 mt-auto">
       <ContainerGRI size="desktop" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gob-7">
         {/* Columna Logo */}
         <div className="space-y-6">

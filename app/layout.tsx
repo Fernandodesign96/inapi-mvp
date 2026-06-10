@@ -19,6 +19,8 @@ const robotoSlab = Roboto_Slab({
   display: 'swap',
 })
 
+const themeInitScript = `(function(){try{var t=localStorage.getItem('gri-theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`
+
 export const metadata: Metadata = {
   title: 'Portal INAPI — Solicitud de Registro de Marca',
   description:
@@ -44,10 +46,10 @@ export default function RootLayout({
       className={`${robotoSans.variable} ${robotoSlab.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
-        <Script id="theme-init" strategy="beforeInteractive">
-          {`(function(){try{var t=localStorage.getItem('gri-theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`}
-        </Script>
         <ClarityScript />
         <ThemeProvider>{children}</ThemeProvider>
 
