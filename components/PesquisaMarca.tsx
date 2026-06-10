@@ -38,38 +38,38 @@ const fuse = new Fuse(marcasMock as MarcaMock[], {
 function getNivelSimilitud(pct: number) {
   if (pct <= 25) return {
     label: 'Alta probabilidad de registro exitoso',
-    color: 'bg-[#059669]',
-    textColor: 'text-[#059669]',
+    color: 'bg-stepper-done',
+    textColor: 'text-stepper-done',
     bgAlert: '',
     showAlert: false,
   }
   if (pct <= 60) return {
     label: 'Existen marcas similares. Analiza las diferencias.',
-    color: 'bg-[#D97706]',
-    textColor: 'text-[#D97706]',
+    color: 'bg-stepper-active',
+    textColor: 'text-stepper-active',
     bgAlert: '',
     showAlert: false,
   }
   if (pct <= 85) return {
     label: 'Riesgo moderado. Considera ajustar tu marca.',
-    color: 'bg-[#EA580C]',
-    textColor: 'text-[#EA580C]',
-    bgAlert: 'border-l-4 border-[#EA580C] bg-orange-50',
+    color: 'bg-gob-warning',
+    textColor: 'text-gob-warning',
+    bgAlert: 'border-l-4 border-gob-warning bg-gob-warning-bg',
     showAlert: true,
   }
   return {
     label: 'Alta probabilidad de rechazo. Revisa las similitudes.',
-    color: 'bg-[#DC2626]',
-    textColor: 'text-[#DC2626]',
-    bgAlert: 'border-l-4 border-[#DC2626] bg-[#FEE2E2]',
+    color: 'bg-stepper-error',
+    textColor: 'text-stepper-error',
+    bgAlert: 'border-l-4 border-stepper-error bg-stepper-error-bg',
     showAlert: true,
   }
 }
 
 const badgeEstado = {
-  vigente:    { label: 'Vigente',    class: 'bg-green-100 text-green-700 border-green-200' },
-  caducada:   { label: 'Caducada',   class: 'bg-gray-100 text-gray-500 border-gray-200'   },
-  en_tramite: { label: 'En Trámite', class: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+  vigente:    { label: 'Vigente',    class: 'bg-gob-success-bg text-gob-success border-gob-success/30' },
+  caducada:   { label: 'Caducada',   class: 'bg-gob-surface-elevated text-muted-foreground border-gob-border' },
+  en_tramite: { label: 'En Trámite', class: 'bg-gob-warning-bg text-gob-warning border-gob-warning/30' },
 }
 
 export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Props) {
@@ -118,49 +118,50 @@ export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Pr
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* Header */}
       <div className="space-y-2">
-        <h2 className="text-2xl font-black text-slate-900 leading-tight">
+        <h2 className="font-heading text-gri-h1 font-medium text-gob-text leading-tight">
           ¿Existe una marca similar a la tuya?
         </h2>
-        <p className="text-slate-500 leading-relaxed">
+        <p className="text-muted-foreground leading-relaxed">
           Antes de continuar, buscamos en el registro de INAPI si ya existe una marca similar.
           Esto te ayuda a conocer las probabilidades de éxito de tu solicitud.
         </p>
       </div>
 
       {/* Formulario de búsqueda */}
-      <div className="bg-white rounded-2xl border border-[#D1D5DB] p-6 space-y-5 shadow-sm">
+      <div className="bg-gob-surface rounded-gob-lg border border-gob-border-strong p-gob-5 space-y-gob-4 shadow-elevation-02">
         <div className="space-y-2">
-          <label htmlFor="pesquisa-nombre" className="text-sm font-bold text-slate-700 block">
-            ¿Cómo se llama tu marca? <span className="text-red-500" aria-hidden="true">*</span>
+          <label htmlFor="pesquisa-nombre" className="gri-field-label block">
+            ¿Cómo se llama tu marca? <span className="text-destructive" aria-hidden="true">*</span>
           </label>
           <Input
             id="pesquisa-nombre"
             value={nombre}
             onChange={e => setNombre(e.target.value)}
             placeholder="Ej: Patagonia, CopperBox, Lúmina..."
-            className="h-12 border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB] focus:ring-offset-2"
+            className="h-11"
             aria-required="true"
             onKeyDown={e => e.key === 'Enter' && buscar()}
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="pesquisa-descripcion" className="text-sm font-bold text-slate-700 block">
+          <label htmlFor="pesquisa-descripcion" className="gri-field-label block">
             ¿Qué hace o qué vende tu marca?{' '}
-            <span className="text-slate-400 font-normal text-xs">(opcional)</span>
+            <span className="text-muted-foreground font-normal text-gri-body-xs">(opcional)</span>
           </label>
           <Textarea
             id="pesquisa-descripcion"
             value={descripcion}
             onChange={e => setDescripcion(e.target.value)}
             placeholder="Ej: Software para gestión de licencias empresariales..."
-            className="resize-none border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB] focus:ring-offset-2"
+            className="resize-none"
             rows={3}
           />
         </div>
         <Button
           onClick={buscar}
           disabled={!nombre.trim() || cargando}
-          className="w-full h-12 bg-[#1A56DB] hover:bg-[#1E3A8A] text-white font-bold gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+          size="form"
+          className="w-full font-semibold gap-2"
           aria-disabled={!nombre.trim() || cargando}
         >
           {cargando ? (
@@ -179,30 +180,30 @@ export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Pr
 
       {/* Resultados */}
       {buscado && (
-        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-400">
+        <div className="bg-gob-surface rounded-gob-lg border border-gob-border p-gob-5 space-y-gob-4 shadow-elevation-02">
           {/* Barra térmica */}
           <div
             role="status"
             aria-live="polite"
             aria-label={`Similitud: ${similitudMax}%. ${nivel.label}`}
-            className="bg-white rounded-2xl border border-[#E5E7EB] p-6 space-y-4 shadow-sm"
+            className="bg-gob-surface rounded-gob-lg border border-gob-border p-gob-5 space-y-gob-4 shadow-elevation-02"
           >
             <div className="flex items-center justify-between">
-              <p className="text-sm font-black text-slate-700 uppercase tracking-wide">
+              <p className="text-gri-body-sm font-semibold text-gob-text uppercase tracking-wide">
                 Nivel de similitud encontrado
               </p>
               <span className={cn('text-2xl font-black font-mono tabular-nums', nivel.textColor)}>
                 {similitudMax}%
               </span>
             </div>
-            <div className="relative w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+            <div className="relative w-full h-3 bg-gob-surface-elevated rounded-full overflow-hidden">
               <div
                 className={cn('absolute top-0 left-0 h-full rounded-full transition-all duration-700 ease-out', nivel.color)}
                 style={{ width: `${similitudMax}%` }}
               />
             </div>
             {/* Leyenda */}
-            <div className="flex justify-between text-[10px] font-bold uppercase text-slate-400">
+            <div className="flex justify-between text-gri-label font-semibold uppercase text-muted-foreground">
               <span>Verde</span><span>Amarillo</span><span>Naranja</span><span>Rojo</span>
             </div>
             <p className={cn('text-sm font-semibold', nivel.textColor)}>
@@ -214,8 +215,8 @@ export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Pr
           {/* Advertencia contextual */}
           {nivel.showAlert && (
             <div className={cn('p-4 rounded-xl flex gap-3', nivel.bgAlert)}>
-              <AlertTriangle className="w-5 h-5 shrink-0 text-[#DC2626]" />
-              <p className="text-sm font-semibold text-slate-800">
+              <AlertTriangle className="w-5 h-5 shrink-0 text-stepper-error" />
+              <p className="text-gri-body-sm font-semibold text-gob-text">
                 Encontramos marcas con alta similitud a la tuya. Esto puede afectar la aprobación
                 de tu solicitud. Te recomendamos revisar las diferencias antes de continuar.
               </p>
@@ -224,26 +225,26 @@ export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Pr
 
           {/* Tabla de resultados */}
           {resultados.length > 0 ? (
-            <div className="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden shadow-sm">
-              <div className="px-6 py-4 border-b border-[#E5E7EB] bg-slate-50">
-                <p className="text-xs font-black uppercase tracking-widest text-slate-500">
+            <div className="bg-gob-surface rounded-gob-lg border border-gob-border overflow-hidden shadow-elevation-02">
+              <div className="px-gob-5 py-gob-4 border-b border-gob-border bg-gob-surface-elevated">
+                <p className="text-gri-label font-semibold uppercase tracking-widest text-muted-foreground">
                   Marcas similares encontradas
                 </p>
               </div>
-              <div className="divide-y divide-[#E5E7EB]">
+              <div className="divide-y divide-gob-border">
                 {resultados.map(r => (
-                  <div key={r.id} className="px-6 py-4 flex items-center gap-4">
+                  <div key={r.id} className="px-gob-5 py-gob-4 flex items-center gap-4">
                     <div className="flex-1 min-w-0">
-                      <p className="font-bold text-slate-900 truncate">{r.nombre}</p>
-                      <p className="text-xs text-slate-500 truncate">{r.descripcion}</p>
+                      <p className="font-semibold text-gob-text truncate">{r.nombre}</p>
+                      <p className="text-gri-body-xs text-muted-foreground truncate">{r.descripcion}</p>
                     </div>
                     <div className="flex items-center gap-3 shrink-0">
-                      <span className="text-[10px] font-black uppercase text-slate-400 bg-slate-100 px-2 py-1 rounded">
+                      <span className="text-gri-label font-semibold uppercase text-muted-foreground bg-gob-surface-elevated px-2 py-1 rounded">
                         Clase {r.clase}
                       </span>
                       <Badge
                         variant="outline"
-                        className={cn('text-[10px] font-bold uppercase', badgeEstado[r.estado].class)}
+                        className={cn('font-bold uppercase', badgeEstado[r.estado].class)}
                       >
                         {badgeEstado[r.estado].label}
                       </Badge>
@@ -256,19 +257,19 @@ export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Pr
               </div>
             </div>
           ) : (
-            <div className="bg-green-50 border border-green-200 rounded-2xl p-6 flex gap-3 items-center">
-              <CheckCircle2 className="w-6 h-6 text-green-600 shrink-0" />
+            <div className="bg-gob-success-bg border border-gob-success/30 rounded-gob-lg p-gob-5 flex gap-gob-3 items-center">
+              <CheckCircle2 className="w-6 h-6 text-gob-success shrink-0" />
               <div>
-                <p className="font-bold text-green-800">¡Excelente! No encontramos marcas similares.</p>
-                <p className="text-sm text-green-700 mt-1">Puedes continuar con alta probabilidad de éxito.</p>
+                <p className="font-semibold text-gob-success">¡Excelente! No encontramos marcas similares.</p>
+                <p className="text-gri-body-sm text-gob-success/80 mt-1">Puedes continuar con alta probabilidad de éxito.</p>
               </div>
             </div>
           )}
 
           {/* Nota legal */}
-          <div className="flex gap-2 p-4 bg-[#F3F4F6] rounded-xl border border-[#E5E7EB]">
-            <Info className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-            <p className="text-xs text-slate-500 leading-relaxed">
+          <div className="flex gap-2 p-gob-4 bg-gob-surface-elevated rounded-gob-md border border-gob-border">
+              <Info className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+              <p className="text-gri-body-xs text-muted-foreground leading-relaxed">
               Esta búsqueda es indicativa y no constituye una opinión jurídica. El examen oficial
               de fondo es realizado por los examinadores de INAPI una vez presentada la solicitud.
             </p>
@@ -280,7 +281,8 @@ export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Pr
               <Button
                 variant="outline"
                 onClick={onAjustar}
-                className="h-12 border-[#D1D5DB] font-bold gap-2"
+                size="form"
+                className="font-semibold gap-2"
               >
                 <RotateCcw className="w-4 h-4" />
                 Ajustar mi marca
@@ -288,7 +290,9 @@ export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Pr
             )}
             <Button
               onClick={() => onContinuar(similitudMax)}
-              className="flex-1 h-12 bg-slate-900 hover:bg-black text-white font-black gap-2"
+              variant="primary-dark"
+              size="form"
+              className="flex-1 font-semibold gap-2"
             >
               Continuar con mi solicitud
               <ArrowRight className="w-4 h-4" />
@@ -299,9 +303,9 @@ export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Pr
 
       {/* Estado inicial — sin buscar todavía */}
       {!buscado && !cargando && (
-        <div className="text-center py-8 text-slate-400 space-y-2">
+        <div className="text-center py-gob-7 text-muted-foreground space-y-2">
           <Search className="w-10 h-10 mx-auto opacity-30" />
-          <p className="text-sm font-medium">Ingresa el nombre de tu marca para comenzar la búsqueda</p>
+          <p className="text-gri-body-sm font-medium">Ingresa el nombre de tu marca para comenzar la búsqueda</p>
         </div>
       )}
     </div>

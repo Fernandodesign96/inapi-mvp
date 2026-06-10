@@ -23,13 +23,11 @@ export function ChatFAB() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Slide-up con delay de 1s
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 1000)
     return () => clearTimeout(t)
   }, [])
 
-  // Auto-scroll al último mensaje
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [mensajes, cargando])
@@ -80,13 +78,13 @@ export function ChatFAB() {
         visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
       )}
     >
-      {/* Panel flotante */}
       {isOpen && (
-        <div className="w-[calc(100vw-2rem)] sm:w-[380px] bg-white rounded-3xl shadow-2xl border border-[#E5E7EB] flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300"
+        <div
+          className="w-[calc(100vw-2rem)] sm:w-[380px] bg-gob-surface rounded-gob-xl shadow-elevation-04 border border-gob-border flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300"
           style={{ maxHeight: 'calc(100vh - 6rem)' }}
         >
           {/* Header */}
-          <div className="bg-[#1E3A8A] p-5 text-white flex items-center gap-3">
+          <div className="bg-primary-dark p-gob-5 text-gob-text-inverse flex items-center gap-gob-3">
             {panel !== 'menu' && (
               <button
                 onClick={() => setPanel('menu')}
@@ -96,14 +94,14 @@ export function ChatFAB() {
                 <ArrowLeft className="w-4 h-4" />
               </button>
             )}
-            <div className="bg-white/10 p-2 rounded-xl">
+            <div className="bg-white/10 p-2 rounded-gob-md">
               <BotMessageSquare className="w-5 h-5" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-black text-sm">
+              <p className="font-semibold text-gri-body-sm">
                 {panel === 'ia' ? 'Asistente IA · GRI' : panel === 'ejecutivo' ? 'Ejecutivo INAPI' : 'Asistente GRI'}
               </p>
-              <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest">
+              <p className="text-gri-label font-semibold text-gob-text-inverse/60 uppercase tracking-widest">
                 {panel === 'ia' ? 'Respuestas automáticas' : panel === 'ejecutivo' ? 'Atención personalizada' : 'Portal INAPI · Marcas'}
               </p>
             </div>
@@ -118,8 +116,10 @@ export function ChatFAB() {
 
           {/* MENU */}
           {panel === 'menu' && (
-            <div className="p-5 space-y-3">
-              <p className="text-sm font-bold text-slate-700 mb-4">¿Cómo puedo ayudarte hoy?</p>
+            <div className="p-gob-5 space-y-gob-3">
+              <p className="text-gri-body-sm font-semibold text-gob-text mb-gob-4">
+                ¿Cómo puedo ayudarte hoy?
+              </p>
 
               <button
                 onClick={() => {
@@ -127,18 +127,18 @@ export function ChatFAB() {
                   if (mensajes.length === 0) {
                     setMensajes([{
                       rol: 'assistant',
-                      contenido: '¡Hola! Soy el asistente virtual de INAPI. Puedo ayudarte con dudas sobre el registro de marcas: costos, plazos, clases de Niza y más. ¿En qué te puedo ayudar?'
+                      contenido: '¡Hola! Soy el asistente virtual de INAPI. Puedo ayudarte con dudas sobre el registro de marcas: costos, plazos, clases de Niza y más. ¿En qué te puedo ayudar?',
                     }])
                   }
                 }}
-                className="w-full flex items-center gap-4 p-4 bg-[#F3F4F6] hover:bg-blue-50 border border-[#E5E7EB] hover:border-[#1A56DB]/30 rounded-2xl text-left transition-all group"
+                className="w-full flex items-center gap-gob-4 p-gob-4 bg-gob-surface-elevated hover:bg-gob-info-bg border border-gob-border hover:border-gob-primary/30 rounded-gob-lg text-left transition-all group"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#1A56DB]/10 flex items-center justify-center shrink-0 group-hover:bg-[#1A56DB]/20 transition-colors">
-                  <BotMessageSquare className="w-5 h-5 text-[#1A56DB]" />
+                <div className="w-10 h-10 rounded-gob-md bg-gob-primary/10 flex items-center justify-center shrink-0 group-hover:bg-gob-primary/20 transition-colors">
+                  <BotMessageSquare className="w-5 h-5 text-gob-primary" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-black text-slate-900">Chatear con IA</p>
-                  <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
+                  <p className="text-gri-body-sm font-semibold text-gob-text">Chatear con IA</p>
+                  <p className="text-gri-body-xs text-muted-foreground leading-snug mt-0.5">
                     Respuestas automáticas sobre el proceso de registro de marcas
                   </p>
                 </div>
@@ -146,14 +146,14 @@ export function ChatFAB() {
 
               <button
                 onClick={() => setPanel('ejecutivo')}
-                className="w-full flex items-center gap-4 p-4 bg-[#F3F4F6] hover:bg-green-50 border border-[#E5E7EB] hover:border-green-300 rounded-2xl text-left transition-all group"
+                className="w-full flex items-center gap-gob-4 p-gob-4 bg-gob-surface-elevated hover:bg-gob-success-bg border border-gob-border hover:border-gob-success/30 rounded-gob-lg text-left transition-all group"
               >
-                <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center shrink-0 group-hover:bg-green-200 transition-colors">
-                  <User className="w-5 h-5 text-green-700" />
+                <div className="w-10 h-10 rounded-gob-md bg-gob-success-bg flex items-center justify-center shrink-0 group-hover:bg-gob-success-bg/80 transition-colors">
+                  <User className="w-5 h-5 text-gob-success" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-black text-slate-900">Hablar con un ejecutivo</p>
-                  <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
+                  <p className="text-gri-body-sm font-semibold text-gob-text">Hablar con un ejecutivo</p>
+                  <p className="text-gri-body-xs text-muted-foreground leading-snug mt-0.5">
                     Atención personalizada de INAPI · Lun–Vie, 9:00–18:00
                   </p>
                 </div>
@@ -161,13 +161,15 @@ export function ChatFAB() {
 
               <div className="flex items-center gap-2 px-1 pt-2">
                 <Image
-                  src="/inapi-mvp/inapi-logo.png"
+                  src="/inapi-mvp/inapi-logo.jpg"
                   alt="INAPI"
                   width={52}
                   height={20}
                   className="object-contain opacity-50"
                 />
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Portal de Marcas</span>
+                <span className="text-gri-label text-muted-foreground font-semibold uppercase tracking-wider">
+                  Portal de Marcas
+                </span>
               </div>
             </div>
           )}
@@ -175,21 +177,21 @@ export function ChatFAB() {
           {/* CHAT IA */}
           {panel === 'ia' && (
             <>
-              <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#F9FAFB]" style={{ minHeight: 300, maxHeight: 420 }}>
+              <div
+                className="flex-1 overflow-y-auto p-gob-4 space-y-gob-3 bg-background"
+                style={{ minHeight: 300, maxHeight: 420 }}
+              >
                 {mensajes.map((m, i) => (
                   <div
                     key={i}
-                    className={cn(
-                      'flex',
-                      m.rol === 'user' ? 'justify-end' : 'justify-start'
-                    )}
+                    className={cn('flex', m.rol === 'user' ? 'justify-end' : 'justify-start')}
                   >
                     <div
                       className={cn(
-                        'max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed',
+                        'max-w-[80%] rounded-gob-lg px-gob-4 py-2.5 text-gri-body-sm leading-relaxed',
                         m.rol === 'user'
-                          ? 'bg-[#1A56DB] text-white rounded-br-sm font-medium'
-                          : 'bg-white border border-[#E5E7EB] text-[#111827] rounded-bl-sm'
+                          ? 'bg-gob-primary text-gob-text-inverse rounded-br-sm font-medium'
+                          : 'bg-gob-surface border border-gob-border text-gob-text rounded-bl-sm'
                       )}
                     >
                       {m.contenido}
@@ -197,35 +199,33 @@ export function ChatFAB() {
                   </div>
                 ))}
 
-                {/* Indicador de escritura */}
                 {cargando && (
                   <div className="flex justify-start">
-                    <div className="bg-white border border-[#E5E7EB] rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1.5 items-center">
-                      <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0ms]" />
-                      <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:150ms]" />
-                      <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:300ms]" />
+                    <div className="bg-gob-surface border border-gob-border rounded-gob-lg rounded-bl-sm px-gob-4 py-gob-3 flex gap-1.5 items-center">
+                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:0ms]" />
+                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:150ms]" />
+                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:300ms]" />
                     </div>
                   </div>
                 )}
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input */}
-              <div className="p-3 border-t border-[#E5E7EB] bg-white flex gap-2">
+              <div className="p-gob-3 border-t border-gob-border bg-gob-surface flex gap-2">
                 <Input
                   ref={inputRef}
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && !e.shiftKey && enviarMensaje()}
                   placeholder="Escribe tu consulta..."
-                  className="flex-1 h-11 border-[#D1D5DB] focus:ring-2 focus:ring-[#1A56DB] focus:ring-offset-1 text-sm"
+                  className="flex-1 h-11 text-gri-body-sm"
                   disabled={cargando}
                   aria-label="Mensaje para el asistente"
                 />
                 <button
                   onClick={enviarMensaje}
                   disabled={!input.trim() || cargando}
-                  className="w-11 h-11 bg-[#1A56DB] hover:bg-[#1E3A8A] disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl flex items-center justify-center transition-colors shrink-0"
+                  className="w-11 h-11 bg-gob-primary hover:bg-gob-primary-dark disabled:opacity-40 disabled:cursor-not-allowed text-gob-text-inverse rounded-gob-md flex items-center justify-center transition-colors shrink-0"
                   aria-label="Enviar mensaje"
                 >
                   <Send className="w-4 h-4" />
@@ -236,29 +236,34 @@ export function ChatFAB() {
 
           {/* EJECUTIVO */}
           {panel === 'ejecutivo' && (
-            <div className="p-6 space-y-6">
-              <div className="bg-green-50 border border-green-200 rounded-2xl p-4 space-y-1">
-                <p className="text-sm font-black text-green-800">Atención presencial y telefónica</p>
-                <p className="text-xs text-green-700">Lunes a Viernes, 9:00 a 18:00 hrs.</p>
+            <div className="p-gob-6 space-y-gob-5">
+              <div className="bg-gob-success-bg border border-gob-success/30 rounded-gob-lg p-gob-4 space-y-1">
+                <p className="text-gri-body-sm font-semibold text-gob-success">
+                  Atención presencial y telefónica
+                </p>
+                <p className="text-gri-body-xs text-gob-success/80">
+                  Lunes a Viernes, 9:00 a 18:00 hrs.
+                </p>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-gob-3">
                 <a
                   href="tel:+56223400800"
-                  className="flex items-center gap-4 p-4 bg-[#F3F4F6] hover:bg-slate-100 rounded-2xl border border-[#E5E7EB] transition-colors"
+                  className="flex items-center gap-gob-4 p-gob-4 bg-gob-surface-elevated hover:bg-gob-surface-elevated/80 rounded-gob-lg border border-gob-border transition-colors"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-[#1A56DB]/10 flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-[#1A56DB]" />
+                  <div className="w-10 h-10 rounded-gob-md bg-gob-primary/10 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-gob-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-black text-slate-900">+56 2 2340 0800</p>
-                    <p className="text-[11px] text-slate-500">Mesa central INAPI</p>
+                    <p className="text-gri-body-sm font-semibold text-gob-text">+56 2 2340 0800</p>
+                    <p className="text-gri-body-xs text-muted-foreground">Mesa central INAPI</p>
                   </div>
                 </a>
               </div>
               <Button
                 onClick={() => setPanel('ia')}
                 variant="outline"
-                className="w-full h-11 border-[#D1D5DB] font-bold text-sm gap-2"
+                size="form"
+                className="w-full font-semibold text-gri-body-sm gap-2"
               >
                 <BotMessageSquare className="w-4 h-4" />
                 O chatea con nuestra IA mientras esperas
@@ -272,18 +277,18 @@ export function ChatFAB() {
       <button
         onClick={() => setPanel(isOpen ? 'closed' : 'menu')}
         className={cn(
-          'w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-200 active:scale-95',
+          'w-14 h-14 rounded-full flex items-center justify-center shadow-elevation-04 transition-all duration-200 active:scale-95',
           isOpen
-            ? 'bg-[#DC2626] hover:bg-red-700 rotate-90'
-            : 'bg-[#1A56DB] hover:bg-[#1E3A8A] hover:scale-110'
+            ? 'bg-destructive hover:bg-destructive/90 rotate-90'
+            : 'bg-gob-primary hover:bg-gob-primary-dark hover:scale-110'
         )}
         aria-label={isOpen ? 'Cerrar asistente' : 'Abrir asistente de INAPI'}
         aria-expanded={isOpen}
       >
         {isOpen ? (
-          <X className="w-6 h-6 text-white" />
+          <X className="w-6 h-6 text-gob-text-inverse" />
         ) : (
-          <BotMessageSquare className="w-7 h-7 text-white" />
+          <BotMessageSquare className="w-7 h-7 text-gob-text-inverse" />
         )}
       </button>
     </div>
