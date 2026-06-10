@@ -106,6 +106,7 @@ export function StepperSolicitud({ secciones }: Props) {
                     config.circle
                   )}
                   aria-current={seccion.estado === 'activa' ? 'step' : undefined}
+                  aria-label={`${seccion.nombre}: ${seccion.estado === 'completada' ? 'completada' : seccion.estado === 'activa' ? 'paso actual' : seccion.estado === 'error' ? 'con error' : 'pendiente'}`}
                 >
                   {config.icono(index + 1)}
                 </div>

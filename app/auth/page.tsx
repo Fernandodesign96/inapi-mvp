@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { KeyRound, ArrowRight, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { SkipLink } from '@/components/layout/SkipLink'
 
 export default function AuthPage() {
   const router = useRouter()
@@ -36,6 +37,7 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SkipLink />
       {/* Barra superior institucional */}
       <div className="bg-primary-dark px-gob-4 min-[600px]:px-gob-5 py-gob-3 flex items-center gap-gob-3">
         <Image
@@ -52,7 +54,7 @@ export default function AuthPage() {
       </div>
 
       {/* Contenido centrado */}
-      <div className="flex-1 flex items-center justify-center px-gob-4 py-gob-7">
+      <main id="contenido-principal" tabIndex={-1} className="flex-1 flex items-center justify-center px-gob-4 py-gob-7 outline-none">
         <div className="w-full max-w-md">
           {/* Card principal */}
           <div className="bg-gob-surface rounded-gob-xl shadow-elevation-04 border border-gob-border overflow-hidden">
@@ -180,7 +182,7 @@ export default function AuthPage() {
             <span className="font-semibold">Acceso seguro HTTPS</span>
           </p>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

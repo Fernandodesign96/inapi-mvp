@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useId } from 'react'
 import { Input } from '@/components/ui/input'
 import { PersonaData } from '@/lib/types'
 import { validarRUT } from '@/lib/utils'
@@ -17,6 +17,8 @@ const selectClassName =
   'w-full h-11 px-gob-3 border border-gob-border rounded-md bg-gob-surface text-gri-body-sm focus-visible:ring-2 focus-visible:ring-ring outline-none transition-all'
 
 export function FormPersona({ initialData, onChange, title }: Props) {
+  const fieldId = useId()
+
   const [data, setData] = useState<PersonaData>({
     tipo: initialData?.tipo || 'natural',
     pais: initialData?.pais || 'Chile',
@@ -42,6 +44,8 @@ export function FormPersona({ initialData, onChange, title }: Props) {
   }
 
   const isChile = data.pais === 'Chile'
+  const rutInvalido = isChile && !!data.rut && !validarRUT(data.rut)
+  const correoNoCoincide = !!correoConfirm && data.correo !== correoConfirm
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -52,11 +56,13 @@ export function FormPersona({ initialData, onChange, title }: Props) {
       )}
 
       {/* Tipo de Persona Toggle */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4" role="group" aria-label="Tipo de persona">
         <button
+          type="button"
+          aria-pressed={data.tipo === 'natural'}
           onClick={() => update({ tipo: 'natural' })}
           className={cn(
-            'flex flex-col items-center justify-center p-gob-5 rounded-gob-xl border-2 transition-all gap-2',
+            'flex flex-col items-center justify-center p-gob-5 rounded-gob-xl border-2 transition-all gap-2 focus-gob',
             data.tipo === 'natural'
               ? 'border-primary bg-primary/5 shadow-elevation-03 ring-4 ring-primary/5'
               : 'border-gob-border hover:border-gob-border-strong bg-gob-surface'
@@ -69,6 +75,7 @@ export function FormPersona({ initialData, onChange, title }: Props) {
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-gob-surface-elevated text-muted-foreground'
             )}
+            aria-hidden
           >
             <User className="w-6 h-6" />
           </div>
@@ -83,9 +90,11 @@ export function FormPersona({ initialData, onChange, title }: Props) {
         </button>
 
         <button
+          type="button"
+          aria-pressed={data.tipo === 'juridica'}
           onClick={() => update({ tipo: 'juridica' })}
           className={cn(
-            'flex flex-col items-center justify-center p-gob-5 rounded-gob-xl border-2 transition-all gap-2',
+            'flex flex-col items-center justify-center p-gob-5 rounded-gob-xl border-2 transition-all gap-2 focus-gob',
             data.tipo === 'juridica'
               ? 'border-primary bg-primary/5 shadow-elevation-03 ring-4 ring-primary/5'
               : 'border-gob-border hover:border-gob-border-strong bg-gob-surface'
@@ -98,6 +107,7 @@ export function FormPersona({ initialData, onChange, title }: Props) {
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-gob-surface-elevated text-muted-foreground'
             )}
+            aria-hidden
           >
             <Building2 className="w-6 h-6" />
           </div>
@@ -116,11 +126,12 @@ export function FormPersona({ initialData, onChange, title }: Props) {
         {/* Identidad */}
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="gri-field-label flex items-center gap-2">
-              <Globe className="w-3 h-3" /> País Nacionalidad{' '}
+            <label htmlFor={`${fieldId}-pais`} className="gri-field-label flex items-center gap-2">
+              <Globe className="w-3 h-3" aria-hidden /> País Nacionalidad{' '}
               <span className="text-destructive">*</span>
             </label>
             <select
+              id={`${fieldId}-pais`}
               value={data.pais}
               onChange={(e) => update({ pais: e.target.value })}
               className={selectClassName}
@@ -133,24 +144,24 @@ export function FormPersona({ initialData, onChange, title }: Props) {
           </div>
 
           <div className="space-y-2">
-            <label className="gri-field-label">
+            <label htmlFor={`${fieldId}-rut`} className="gri-field-label">
               {isChile ? 'RUN (con puntos y guión)' : 'ID / Passport'}{' '}
               <span className="text-destructive">*</span>
             </label>
             <Input
+              id={`${fieldId}-rut`}
               value={data.rut}
               onChange={(e) => update({ rut: e.target.value })}
+              aria-invalid={rutInvalido}
+              aria-describedby={rutInvalido ? `${fieldId}-rut-error` : undefined}
               className={cn(
                 'h-11',
-                isChile &&
-                  data.rut &&
-                  !validarRUT(data.rut) &&
-                  'border-destructive bg-gob-danger-bg ring-2 ring-destructive/20'
+                rutInvalido && 'border-destructive bg-gob-danger-bg ring-2 ring-destructive/20'
               )}
               placeholder={isChile ? '12.345.678-9' : 'ID Number'}
             />
-            {isChile && data.rut && !validarRUT(data.rut) && (
-              <p className="text-gri-label text-destructive font-semibold uppercase animate-pulse">
+            {rutInvalido && (
+              <p id={`${fieldId}-rut-error`} role="alert" className="text-gri-label text-destructive font-semibold uppercase animate-pulse">
                 RUT Inválido
               </p>
             )}
@@ -162,10 +173,11 @@ export function FormPersona({ initialData, onChange, title }: Props) {
           {data.tipo === 'natural' ? (
             <>
               <div className="space-y-2">
-                <label className="gri-field-label">
+                <label htmlFor={`${fieldId}-nombre`} className="gri-field-label">
                   Nombre <span className="text-destructive">*</span>
                 </label>
                 <Input
+                  id={`${fieldId}-nombre`}
                   value={data.nombre}
                   onChange={(e) => update({ nombre: e.target.value })}
                   className="h-11"
@@ -173,10 +185,11 @@ export function FormPersona({ initialData, onChange, title }: Props) {
                 />
               </div>
               <div className="space-y-2">
-                <label className="gri-field-label">
+                <label htmlFor={`${fieldId}-apellido`} className="gri-field-label">
                   Apellidos <span className="text-destructive">*</span>
                 </label>
                 <Input
+                  id={`${fieldId}-apellido`}
                   value={data.apellido}
                   onChange={(e) => update({ apellido: e.target.value })}
                   className="h-11"
@@ -186,10 +199,11 @@ export function FormPersona({ initialData, onChange, title }: Props) {
             </>
           ) : (
             <div className="space-y-2 h-full flex flex-col justify-end">
-              <label className="gri-field-label">
+              <label htmlFor={`${fieldId}-razon-social`} className="gri-field-label">
                 Razón Social <span className="text-destructive">*</span>
               </label>
               <Input
+                id={`${fieldId}-razon-social`}
                 value={data.razonSocial}
                 onChange={(e) => update({ razonSocial: e.target.value })}
                 className="h-11"
@@ -206,7 +220,7 @@ export function FormPersona({ initialData, onChange, title }: Props) {
       {/* Contacto */}
       <div className="p-gob-6 rounded-gob-xl bg-gob-surface-elevated border border-gob-border space-y-gob-5 shadow-inner">
         <div className="flex items-center gap-2 text-gob-text border-b border-gob-border pb-gob-4">
-          <Mail className="w-5 h-5 text-primary" />
+          <Mail className="w-5 h-5 text-primary" aria-hidden />
           <span className="text-gri-body-sm font-semibold uppercase tracking-tight">
             Datos de Contacto Electrónico
           </span>
@@ -214,11 +228,13 @@ export function FormPersona({ initialData, onChange, title }: Props) {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="gri-field-label">
+            <label htmlFor={`${fieldId}-correo`} className="gri-field-label">
               Correo Electrónico <span className="text-destructive">*</span>
             </label>
             <Input
+              id={`${fieldId}-correo`}
               type="email"
+              autoComplete="email"
               value={data.correo}
               onChange={(e) => update({ correo: e.target.value })}
               className="h-11 bg-gob-surface"
@@ -226,23 +242,25 @@ export function FormPersona({ initialData, onChange, title }: Props) {
             />
           </div>
           <div className="space-y-2">
-            <label className="gri-field-label">
+            <label htmlFor={`${fieldId}-correo-confirm`} className="gri-field-label">
               Repetir Correo <span className="text-destructive">*</span>
             </label>
             <Input
+              id={`${fieldId}-correo-confirm`}
               type="email"
+              autoComplete="email"
               value={correoConfirm}
               onChange={(e) => setCorreoConfirm(e.target.value)}
+              aria-invalid={correoNoCoincide}
+              aria-describedby={correoNoCoincide ? `${fieldId}-correo-error` : undefined}
               className={cn(
                 'h-11 bg-gob-surface',
-                correoConfirm &&
-                  data.correo !== correoConfirm &&
-                  'border-destructive bg-gob-danger-bg ring-2 ring-destructive/20'
+                correoNoCoincide && 'border-destructive bg-gob-danger-bg ring-2 ring-destructive/20'
               )}
               placeholder="Confirmar correo"
             />
-            {correoConfirm && data.correo !== correoConfirm && (
-              <p className="text-gri-label text-destructive font-semibold uppercase">
+            {correoNoCoincide && (
+              <p id={`${fieldId}-correo-error`} role="alert" className="text-gri-label text-destructive font-semibold uppercase">
                 Los correos no coinciden
               </p>
             )}
@@ -251,11 +269,14 @@ export function FormPersona({ initialData, onChange, title }: Props) {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="gri-field-label flex items-center gap-2">
-              <Phone className="w-3 h-3" /> Número de Teléfono{' '}
+            <label htmlFor={`${fieldId}-telefono`} className="gri-field-label flex items-center gap-2">
+              <Phone className="w-3 h-3" aria-hidden /> Número de Teléfono{' '}
               <span className="text-destructive">*</span>
             </label>
             <Input
+              id={`${fieldId}-telefono`}
+              type="tel"
+              autoComplete="tel"
               value={data.telefono}
               onChange={(e) => update({ telefono: e.target.value })}
               className="h-11 bg-gob-surface"
@@ -263,8 +284,9 @@ export function FormPersona({ initialData, onChange, title }: Props) {
             />
           </div>
           <div className="space-y-2">
-            <label className="gri-field-label">Género (Opcional)</label>
+            <label htmlFor={`${fieldId}-genero`} className="gri-field-label">Género (Opcional)</label>
             <select
+              id={`${fieldId}-genero`}
               value={data.genero}
               onChange={(e) => update({ genero: e.target.value })}
               className={selectClassName}
@@ -282,7 +304,7 @@ export function FormPersona({ initialData, onChange, title }: Props) {
       {/* Dirección */}
       <div className="space-y-4">
         <div className="flex items-center gap-2 text-gob-text border-b border-gob-border pb-gob-2">
-          <MapPin className="w-5 h-5 text-primary" />
+          <MapPin className="w-5 h-5 text-primary" aria-hidden />
           <span className="text-gri-body-sm font-semibold uppercase tracking-tight">
             Dirección de Residencia
           </span>
@@ -290,10 +312,12 @@ export function FormPersona({ initialData, onChange, title }: Props) {
 
         <div className="grid md:grid-cols-3 gap-6">
           <div className="space-y-2 md:col-span-2">
-            <label className="gri-field-label">
+            <label htmlFor={`${fieldId}-direccion`} className="gri-field-label">
               Dirección (Calle, número, depto) <span className="text-destructive">*</span>
             </label>
             <Input
+              id={`${fieldId}-direccion`}
+              autoComplete="street-address"
               value={data.direccion}
               onChange={(e) => update({ direccion: e.target.value })}
               className="h-11"
@@ -301,8 +325,10 @@ export function FormPersona({ initialData, onChange, title }: Props) {
             />
           </div>
           <div className="space-y-2">
-            <label className="gri-field-label">Código Postal</label>
+            <label htmlFor={`${fieldId}-zip`} className="gri-field-label">Código Postal</label>
             <Input
+              id={`${fieldId}-zip`}
+              autoComplete="postal-code"
               value={data.zip}
               onChange={(e) => update({ zip: e.target.value })}
               className="h-11"
@@ -313,10 +339,12 @@ export function FormPersona({ initialData, onChange, title }: Props) {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="gri-field-label">
+            <label htmlFor={`${fieldId}-ciudad`} className="gri-field-label">
               Ciudad <span className="text-destructive">*</span>
             </label>
             <Input
+              id={`${fieldId}-ciudad`}
+              autoComplete="address-level2"
               value={data.ciudad}
               onChange={(e) => update({ ciudad: e.target.value })}
               className="h-11"
@@ -324,10 +352,11 @@ export function FormPersona({ initialData, onChange, title }: Props) {
             />
           </div>
           <div className="space-y-2">
-            <label className="gri-field-label">
+            <label htmlFor={`${fieldId}-residencia-pais`} className="gri-field-label">
               País de Residencia <span className="text-destructive">*</span>
             </label>
             <select
+              id={`${fieldId}-residencia-pais`}
               value={data.residenciaPais}
               onChange={(e) => update({ residenciaPais: e.target.value })}
               className={selectClassName}

@@ -82,9 +82,10 @@ export function BuscadorClases({ clasesAgregadas, onAgregar, onEliminar, initial
           />
           {query.length > 0 && (
             <button
+              type="button"
               onClick={limpiar}
               className="absolute right-gob-4 p-2 rounded-full hover:bg-gob-danger-bg text-destructive transition-colors z-10"
-              title="Borrar búsqueda"
+              aria-label="Borrar búsqueda"
             >
               <X className="w-5 h-5" />
             </button>

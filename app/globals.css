@@ -385,6 +385,44 @@
   .shadow-modal {
     box-shadow: var(--elevation-05);
   }
+
+  /* ── Accesibilidad (Fase 7) ── */
+
+  .skip-link {
+    position: fixed;
+    top: -100%;
+    left: 1rem;
+    z-index: 200;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-gob-md);
+    background: var(--gob-surface);
+    color: var(--gob-text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: var(--elevation-03);
+    text-decoration: none;
+  }
+
+  .skip-link:focus-visible {
+    top: 1rem;
+    outline: 2px solid var(--gob-focus);
+    outline-offset: 2px;
+  }
+
+  .focus-gob {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Shimmer para skeletons de carga — DESIGN_SYSTEM §14 */

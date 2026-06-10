@@ -214,7 +214,7 @@ export function PesquisaMarca({ nombreInicial = '', onContinuar, onAjustar }: Pr
 
           {/* Advertencia contextual */}
           {nivel.showAlert && (
-            <div className={cn('p-4 rounded-xl flex gap-3', nivel.bgAlert)}>
+            <div className={cn('p-4 rounded-xl flex gap-3', nivel.bgAlert)} role="alert">
               <AlertTriangle className="w-5 h-5 shrink-0 text-stepper-error" />
               <p className="text-gri-body-sm font-semibold text-gob-text">
                 Encontramos marcas con alta similitud a la tuya. Esto puede afectar la aprobación

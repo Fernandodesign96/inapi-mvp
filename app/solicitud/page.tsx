@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useId } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,6 +15,7 @@ import { HeaderINAPI } from '@/components/layout/HeaderINAPI'
 import { FooterINAPI } from '@/components/layout/FooterINAPI'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { ChatFAB } from '@/components/layout/ChatFAB'
+import { SkipLink } from '@/components/layout/SkipLink'
 import { RepresentanteData } from '@/lib/types'
 import { extractKeywords, UTM_VALOR } from '@/lib/utils'
 import {
@@ -29,16 +30,26 @@ function Acordeon({ titulo, children, defaultOpen = false }: {
   titulo: string; children: React.ReactNode; defaultOpen?: boolean
 }) {
   const [open, setOpen] = useState(defaultOpen)
+  const panelId = useId()
+  const headingId = useId()
   return (
     <div className="border border-gob-border rounded-gob-lg overflow-hidden">
       <button
+        type="button"
+        id={headingId}
+        aria-expanded={open}
+        aria-controls={panelId}
         onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between px-gob-4 py-gob-4 text-left bg-background hover:bg-gob-surface-elevated transition-colors"
+        className="w-full flex items-center justify-between px-gob-4 py-gob-4 text-left bg-background hover:bg-gob-surface-elevated transition-colors focus-gob"
       >
         <span className="text-gri-body-sm font-semibold text-gob-text uppercase tracking-wide">{titulo}</span>
-        <ChevronDown className={cn('w-4 h-4 text-muted-foreground transition-transform', open && 'rotate-180')} />
+        <ChevronDown className={cn('w-4 h-4 text-muted-foreground transition-transform', open && 'rotate-180')} aria-hidden />
       </button>
-      {open && <div className="p-gob-4 bg-gob-surface">{children}</div>}
+      {open && (
+        <div id={panelId} role="region" aria-labelledby={headingId} className="p-gob-4 bg-gob-surface">
+          {children}
+        </div>
+      )}
     </div>
   )
 }
@@ -141,15 +152,23 @@ export default function SolicitudPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
+      <SkipLink />
       <HeaderINAPI />
-      <main className="flex-1 py-gob-5">
+      <main id="contenido-principal" tabIndex={-1} className="flex-1 py-gob-5 outline-none">
         <ContainerGRI
           size="desktop"
           className="space-y-gob-5 animate-in fade-in slide-in-from-bottom-2 duration-500"
         >
           <div className="flex items-center justify-between text-gri-body-xs text-muted-foreground px-1">
             <span className="font-semibold uppercase tracking-widest">Solicitud de Marca</span>
-            {guardando && <span className="font-semibold animate-pulse">Guardando borrador...</span>}
+            <span className="sr-only" aria-live="polite" aria-atomic="true">
+              {guardando ? 'Guardando borrador de la solicitud' : ''}
+            </span>
+            {guardando && (
+              <span className="font-semibold animate-pulse" aria-hidden>
+                Guardando borrador...
+              </span>
+            )}
           </div>
 
           <StepperSolicitud secciones={solicitud.secciones} />
@@ -207,19 +226,19 @@ export default function SolicitudPage() {
                 </Acordeon>
 
                 <Acordeon titulo="¿Ya registraste esta marca en otro país? (opcional)">
-                  <div className="flex items-center justify-between p-gob-4 rounded-gob-md bg-background border border-gob-border">
+                  <label htmlFor="prioridad-marca" className="flex items-center justify-between p-gob-4 rounded-gob-md bg-background border border-gob-border cursor-pointer gap-gob-4">
                     <div>
                       <p className="text-gri-body-sm font-semibold text-gob-text">Activar derecho de prioridad</p>
                       <p className="text-gri-body-xs text-muted-foreground mt-0.5">Solo aplica si tienes una solicitud extranjera previa.</p>
                     </div>
                     <input
+                      id="prioridad-marca"
                       type="checkbox"
-                      className="w-5 h-5 accent-primary"
+                      className="w-5 h-5 accent-primary shrink-0"
                       checked={solicitud.prioridad}
                       onChange={e => actualizarPrioridad(e.target.checked)}
-                      aria-label="Activar derecho de prioridad"
                     />
-                  </div>
+                  </label>
                 </Acordeon>
 
                 <NavBtns
@@ -524,13 +543,17 @@ export default function SolicitudPage() {
 
       <Dialog open={modalExito}>
         <DialogContent className="sm:max-w-md p-gob-7 text-center rounded-gob-xl">
-          <DialogTitle className="sr-only">Solicitud enviada correctamente</DialogTitle>
-          <DialogDescription className="sr-only">Tu solicitud de marca ha sido enviada. Recibirás el comprobante en tu correo.</DialogDescription>
-          <div className="w-20 h-20 bg-gob-success-bg text-gob-success rounded-full flex items-center justify-center mx-auto mb-gob-5">
+          <div className="w-20 h-20 bg-gob-success-bg text-gob-success rounded-full flex items-center justify-center mx-auto mb-gob-5" aria-hidden>
             <CheckCircle2 className="w-12 h-12" />
           </div>
-          <h2 className="font-heading text-3xl font-medium tracking-tight text-gob-text">¡Solicitud Enviada!</h2>
-          <p className="text-muted-foreground mt-2">Recibirás el comprobante en tu correo electrónico.</p>
+          <DialogHeader className="space-y-2 text-center sm:text-center">
+            <DialogTitle className="font-heading text-3xl font-medium tracking-tight text-gob-text">
+              ¡Solicitud enviada!
+            </DialogTitle>
+            <DialogDescription>
+              Recibirás el comprobante en tu correo electrónico.
+            </DialogDescription>
+          </DialogHeader>
           <Button
             onClick={() => { window.location.href = '/inapi-mvp/' }}
             size="form"

@@ -16,6 +16,7 @@ import { HeaderINAPI } from '@/components/layout/HeaderINAPI'
 import { FooterINAPI } from '@/components/layout/FooterINAPI'
 import { ChatFAB } from '@/components/layout/ChatFAB'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
+import { SkipLink } from '@/components/layout/SkipLink'
 
 const cards = [
   {
@@ -74,9 +75,10 @@ const pasos = [
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SkipLink />
       <HeaderINAPI />
 
-      <main className="flex-1">
+      <main id="contenido-principal" tabIndex={-1} className="flex-1 outline-none">
         {/* ── HERO ── */}
         <section className="relative overflow-hidden bg-gradient-to-br from-primary to-primary-dark text-gob-text-inverse">
           <div

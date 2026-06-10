@@ -42,17 +42,17 @@ export function HeaderINAPI() {
 
         {/* Acciones Derecha */}
         <div className="flex items-center gap-2 md:gap-4 relative z-10">
-          <Button variant="ghost" size="icon" className="text-gob-text-inverse hover:bg-white/10 rounded-full size-11">
+          <Button variant="ghost" size="icon" className="text-gob-text-inverse hover:bg-white/10 rounded-full size-11" aria-label="Cambiar idioma">
             <Globe className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon" className="text-gob-text-inverse hover:bg-white/10 rounded-full size-11">
+          <Button variant="ghost" size="icon" className="text-gob-text-inverse hover:bg-white/10 rounded-full size-11" aria-label="Modo oscuro (próximamente)" disabled>
             <Sun className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon" className="text-gob-text-inverse hover:bg-white/10 rounded-full size-11">
+          <Button variant="ghost" size="icon" className="text-gob-text-inverse hover:bg-white/10 rounded-full size-11" aria-label="Configuración">
             <Settings className="w-5 h-5" />
           </Button>
           <div className="h-4 w-[1px] bg-white/30 mx-2 hidden sm:block" />
-          <Button variant="ghost" className="text-gob-text-inverse hover:bg-white/10 gap-2 px-3 rounded-full hidden sm:flex">
+          <Button variant="ghost" className="text-gob-text-inverse hover:bg-white/10 gap-2 px-3 rounded-full hidden sm:flex" aria-label="Mi perfil">
             <User className="w-5 h-5" />
             <span className="text-gri-label uppercase">Mi Perfil</span>
           </Button>
@@ -60,6 +60,8 @@ export function HeaderINAPI() {
             variant="ghost" 
             size="icon" 
             className="md:hidden text-gob-text-inverse hover:bg-white/10"
+            aria-label="Abrir menú de navegación"
+            aria-expanded={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen(true)}
           >
             <Menu className="w-6 h-6" />
@@ -68,11 +70,22 @@ export function HeaderINAPI() {
 
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-[100] bg-gob-text/90 backdrop-blur-md flex flex-col p-8 animate-in fade-in duration-300">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menú de navegación"
+            className="fixed inset-0 z-[100] bg-gob-text/90 backdrop-blur-md flex flex-col p-8 animate-in fade-in duration-300"
+          >
             <div className="flex justify-between items-center mb-12">
             <Image src="/inapi-mvp/inapi-logo.jpg" alt="INAPI" width={80} height={30} className="h-10 w-auto object-contain"/>
-              <Button variant="ghost" size="icon" className="text-gob-text-inverse" onClick={() => setIsMobileMenuOpen(false)}>
-                <X className="w-8 h-8" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-gob-text-inverse"
+                aria-label="Cerrar menú de navegación"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <X className="w-8 h-8" aria-hidden />
               </Button>
             </div>
             <nav className="flex flex-col gap-8">
