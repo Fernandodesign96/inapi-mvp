@@ -315,8 +315,8 @@
 .dark {
   /* Primario — lighten sobre fondo oscuro */
   --gob-primary: #83B6FF;
-  --gob-primary-dark: #649CFD;
-  --gob-primary-foreground: #121418;
+  --gob-primary-dark: #0F69C4;
+  --gob-primary-foreground: #FFFFFF;
 
   /* Accent — misma familia, contraste ajustado */
   --gob-accent: #FF6B5A;
@@ -381,8 +381,8 @@
   --popover: var(--gob-surface);
   --popover-foreground: var(--gob-text);
 
-  --primary: var(--gob-primary);
-  --primary-foreground: var(--gob-primary-foreground);
+  --primary: var(--gob-brand-from);
+  --primary-foreground: #FFFFFF;
 
   --secondary: var(--gob-surface-elevated);
   --secondary-foreground: var(--gob-text);
