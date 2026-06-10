@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Roboto, Roboto_Slab } from 'next/font/google'
 import './globals.css'
 import { ClarityScript } from '@/components/ClarityScript'
+import { ThemeProvider } from '@/components/theme/ThemeProvider'
 import Script from 'next/script'
 
 const robotoSans = Roboto({
@@ -38,10 +39,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${robotoSans.variable} ${robotoSlab.variable} h-full antialiased`}>
+    <html
+      lang="es"
+      className={`${robotoSans.variable} ${robotoSlab.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body className="min-h-full flex flex-col font-sans">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`(function(){try{var t=localStorage.getItem('gri-theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`}
+        </Script>
         <ClarityScript />
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
 
         {/* Google Analytics */}
         <Script

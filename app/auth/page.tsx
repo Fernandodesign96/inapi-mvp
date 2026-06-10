@@ -7,6 +7,7 @@ import { KeyRound, ArrowRight, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { SkipLink } from '@/components/layout/SkipLink'
+import { ThemeToggle } from '@/components/theme/ThemeToggle'
 
 export default function AuthPage() {
   const router = useRouter()
@@ -48,16 +49,17 @@ export default function AuthPage() {
           className="object-contain brightness-0 invert"
         />
         <div className="w-px h-5 bg-white/20" />
-        <span className="text-gob-text-inverse/80 text-gri-body-xs font-semibold uppercase tracking-wider">
+        <span className="flex-1 text-gob-text-inverse/80 text-gri-body-xs font-semibold uppercase tracking-wider">
           Portal de Solicitud de Marca
         </span>
+        <ThemeToggle variant="plain" />
       </div>
 
       {/* Contenido centrado */}
       <main id="contenido-principal" tabIndex={-1} className="flex-1 flex items-center justify-center px-gob-4 py-gob-7 outline-none">
         <div className="w-full max-w-md">
           {/* Card principal */}
-          <div className="bg-gob-surface rounded-gob-xl shadow-elevation-04 border border-gob-border overflow-hidden">
+          <div className="bg-card text-card-foreground rounded-gob-xl shadow-elevation-04 border border-gob-border overflow-hidden">
             {/* Franja superior */}
             <div className="h-1.5 bg-gradient-to-r from-gob-primary to-gob-primary-dark" />
 

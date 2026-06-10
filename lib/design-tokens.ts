@@ -42,6 +42,43 @@ export const GOB_COLOR = {
       strong: '#D1D5DB',
     },
   } as const
+
+  /** Tokens tema oscuro — §4 DESIGN_SYSTEM.md (Fase 8) */
+  export const GOB_COLOR_DARK = {
+    primary: {
+      base: '#83B6FF',
+      dark: '#649CFD',
+      foreground: '#121418',
+    },
+    accent: {
+      base: '#FF6B5A',
+    },
+    text: {
+      base: '#E8EAED',
+      inverse: '#FFFFFF',
+    },
+    success: { base: '#66BB6A', bg: '#1B3320' },
+    warning: { base: '#FF7043', bg: '#3D2618' },
+    danger:  { base: '#F2999C', bg: '#3D1F24' },
+    info:    { base: '#64B5F6', bg: '#1A2838' },
+    link: {
+      base: '#A1D2FF',
+      visited: '#B8A4E8',
+    },
+    focus: {
+      ring: '#FFD699',
+      contrast: '#121418',
+    },
+    surface: {
+      base: '#1E2228',
+      elevated: '#282D35',
+      page: '#121418',
+    },
+    border: {
+      base: 'rgba(255, 255, 255, 0.12)',
+      strong: 'rgba(255, 255, 255, 0.22)',
+    },
+  } as const
   
   /** Colores del stepper — §10.2 DESIGN_SYSTEM.md */
   export const STEPPER_COLOR = {

@@ -2,8 +2,9 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { User, Globe, Sun, Settings, Menu, X } from 'lucide-react'
+import { User, Globe, Settings, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { useState } from 'react'
 
 export function HeaderINAPI() {
@@ -45,9 +46,7 @@ export function HeaderINAPI() {
           <Button variant="ghost" size="icon" className="text-gob-text-inverse hover:bg-white/10 rounded-full size-11" aria-label="Cambiar idioma">
             <Globe className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon" className="text-gob-text-inverse hover:bg-white/10 rounded-full size-11" aria-label="Modo oscuro (próximamente)" disabled>
-            <Sun className="w-5 h-5" />
-          </Button>
+          <ThemeToggle />
           <Button variant="ghost" size="icon" className="text-gob-text-inverse hover:bg-white/10 rounded-full size-11" aria-label="Configuración">
             <Settings className="w-5 h-5" />
           </Button>
@@ -98,8 +97,10 @@ export function HeaderINAPI() {
               <Button variant="outline" size="form" className="w-full bg-gob-surface text-gob-accent font-semibold uppercase tracking-widest">
                 Mi Perfil
               </Button>
-              <div className="flex justify-center gap-6 text-gob-text-inverse">
-                <Globe /> <Sun /> <Settings />
+              <div className="flex justify-center items-center gap-6 text-gob-text-inverse">
+                <Globe aria-hidden />
+                <ThemeToggle variant="plain" />
+                <Settings aria-hidden />
               </div>
             </div>
           </div>

@@ -141,7 +141,7 @@ export default function HomePage() {
               {cards.map(({ icon: Icon, titulo, texto }) => (
                 <div
                   key={titulo}
-                  className="bg-gob-surface rounded-gob-lg border border-gob-border p-gob-5 space-y-gob-4 hover:shadow-elevation-03 hover:border-primary/20 transition-all group"
+                  className="bg-card text-card-foreground rounded-gob-lg border border-gob-border p-gob-5 space-y-gob-4 hover:shadow-elevation-03 hover:border-primary/20 transition-all group"
                 >
                   <div className="w-11 h-11 rounded-gob-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                     <Icon className="w-5 h-5 text-primary" />
@@ -190,7 +190,7 @@ export default function HomePage() {
               ))}
             </div>
 
-            <div className="bg-gob-surface-elevated border border-gob-border rounded-gob-lg p-gob-5 space-y-gob-4">
+            <div className="bg-card text-card-foreground border border-gob-border rounded-gob-lg p-gob-5 space-y-gob-4">
               <div className="flex items-center gap-2">
                 <Info className="w-5 h-5 text-primary shrink-0" />
                 <h3 className="font-semibold text-gob-text">¿Cuánto voy a pagar en total?</h3>

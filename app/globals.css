@@ -277,40 +277,103 @@
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
+
+  color-scheme: light;
 }
 
+/* ── Tema oscuro UI Kit v3.0.1 (Fase 8) — §4 DESIGN_SYSTEM.md ── */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  /* Primario — lighten sobre fondo oscuro */
+  --gob-primary: #83B6FF;
+  --gob-primary-dark: #649CFD;
+  --gob-primary-foreground: #121418;
+
+  /* Accent — misma familia, contraste ajustado */
+  --gob-accent: #FF6B5A;
+
+  /* Texto accesible AA */
+  --gob-text: #E8EAED;
+  --gob-text-inverse: #FFFFFF;
+
+  /* Estados semánticos */
+  --gob-success: #66BB6A;
+  --gob-success-bg: #1B3320;
+  --gob-warning: #FF7043;
+  --gob-warning-bg: #3D2618;
+  --gob-danger: #F2999C;
+  --gob-danger-bg: #3D1F24;
+  --gob-info: #64B5F6;
+  --gob-info-bg: #1A2838;
+
+  /* Enlaces y focus — variante más suave sobre fondo oscuro */
+  --gob-link: #A1D2FF;
+  --gob-link-visited: #B8A4E8;
+  --gob-focus: #FFD699;
+  --gob-focus-contrast: #121418;
+
+  /* Stepper GRI */
+  --stepper-active: #FF7043;
+  --stepper-active-bg: #3D2618;
+  --stepper-done: #66BB6A;
+  --stepper-done-bg: #1B3320;
+  --stepper-pending: #9CA3AF;
+  --stepper-pending-bg: #2A2D32;
+  --stepper-error: #F2999C;
+  --stepper-error-bg: #3D1F24;
+
+  /* Superficies */
+  --gob-surface: #1E2228;
+  --gob-surface-elevated: #282D35;
+  --gob-border: rgba(255, 255, 255, 0.12);
+  --gob-border-strong: rgba(255, 255, 255, 0.22);
+
+  /* Excepción header INAPI — marca institucional sin cambio */
+  --inapi-header: #FF4134;
+  --inapi-header-sub: #005fff;
+
+  /* Elevación — sombras más profundas en oscuro */
+  --elevation-01: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --elevation-02: 0 2px 6px rgba(0, 0, 0, 0.45);
+  --elevation-03: 0 4px 14px rgba(0, 0, 0, 0.5);
+  --elevation-04: 0 6px 20px rgba(0, 0, 0, 0.55);
+  --elevation-05: 0 8px 28px rgba(0, 0, 0, 0.6);
+
+  /* Aliases shadcn → GOB */
+  --background: #121418;
+  --foreground: var(--gob-text);
+
+  --card: var(--gob-surface);
+  --card-foreground: var(--gob-text);
+
+  --popover: var(--gob-surface);
+  --popover-foreground: var(--gob-text);
+
+  --primary: var(--gob-primary);
+  --primary-foreground: var(--gob-primary-foreground);
+
+  --secondary: var(--gob-surface-elevated);
+  --secondary-foreground: var(--gob-text);
+
+  --muted: var(--gob-surface-elevated);
+  --muted-foreground: #9CA3AF;
+
+  --accent: var(--gob-accent);
+  --accent-foreground: var(--gob-text-inverse);
+
+  --destructive: var(--gob-danger);
+
+  --border: var(--gob-border);
+  --input: var(--gob-border-strong);
+
+  --ring: var(--gob-focus);
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+
+  color-scheme: dark;
 }
 
 @layer base {
