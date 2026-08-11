@@ -1,23 +1,34 @@
 # GRI — Roadmap de Desarrollo
 ## Portal de Solicitud de Registro de Marca INAPI
-**Actualizado:** 24 de abril, 2026
+**Actualizado:** 11 de agosto, 2026
 **Rol:** Senior Product Designer + Senior Full Stack Developer
-**Estado general:** Semana 3 — Optimización Institucional y Motor de Inteligencia (Sprint 4)
+**Estado general:** Sprint 6 — Portal institucional completo (UI Kit v3.0.1 + 34 rutas públicas)
 
 ---
 
 ## Contexto
 
 - **Stack:** Next.js 16 (Turbopack) · TypeScript · Tailwind CSS · shadcn/ui · Fuse.js · Firebase Firestore · Anthropic Claude 3 · Bun
-- **Herramienta de desarrollo:** Antigravity + VS Code (PC personal)
-- **Nombre conceptual:** Guided Registration Interface (GRI)
-- **Hito Reciente:** Rediseño total de autenticación, integración de Pesquisa de Marca y Asistente IA.
+- **Herramienta de desarrollo:** Cursor + Antigravity
+- **Nombre conceptual:** Guided Registration Interface (GRI) + Portal institucional INAPI
+- **Hito reciente:** Implementación de ~34 páginas públicas desde diseños Claude Design; layout global con header de 4 niveles y tokens de portal.
 
 ---
 
-## Estado actual del MVP (Sprint 4 Completado)
+## Estado actual del MVP (Sprint 6 completado)
 
-### ✅ Componentes Implementados y Optimizados
+### ✅ Portal institucional
+
+| Área | Estado | Notas |
+| --- | --- | --- |
+| Layout global (`SiteHeader`, `FooterINAPI`, `PortalShell`) | ✅ | Nav principal + subheader + buscador |
+| Home extendida | ✅ | Hero, cifras, proceso, novedades, carrusel observancia |
+| Hubs Marcas / Patentes | ✅ | Enlaces a trámites, guías y GRI |
+| Páginas informativas (~22 rutas) | ✅ | Contenido desde HTML extraído + lenguaje claro |
+| Buscador global `/buscar` | ✅ | Índice estático + `BuscadorSitio` |
+| Build estático | ✅ | 35 rutas, `basePath: /inapi-mvp` |
+
+### ✅ Flujo GRI (Sprints 1–5)
 
 | Componente | Estado | Notas |
 |---|---|---|
@@ -26,46 +37,28 @@
 | `Chat IA (Claude 3)` | ✅ Finalizado | Asistente contextual integrado en FAB y ruta API segura. |
 | `AuthPage.tsx` | ✅ Finalizado | Pantalla dedicada con Clave Única y Login Institucional (simulado). |
 | `useSolicitud.ts` | ✅ Finalizado | Incluye sanitización de datos (fix undefined) y persistencia en Firestore. |
-| `GlosarioTerm.tsx` | ✅ Finalizado | Popovers funcionales y accesibles en todo el formulario. |
-| `layout.tsx` (Inter) | ✅ Finalizado | Unificación tipográfica global bajo estándar institucional. |
+| UI Kit v3.0.1 | ✅ Finalizado | Tokens GOB, Roboto/Roboto Slab, tema claro/oscuro. |
 
 ---
 
-## SEMANA 4 — Corrección y Planificación Backend (27 abril – 1 mayo)
+## Sprint 7 — Pulido y validación (agosto–septiembre 2026)
 
-> **Objetivo:** Validar el MVP con la jefatura y definir la arquitectura de integración con los sistemas core de INAPI.
+> **Objetivo:** Cerrar gaps de Fase 4, assets visuales y validación con usuarios.
 
-### Lunes 27 — Corrección del MVP con Álvaro y Bernarda
+### Prioridades
 
-*Sesión crítica de validación de producto y arquitectura técnica.*
+- [ ] **Assets reales:** hero home, imágenes de noticias y banners (Plataforma de datos, Guías, Cuenta pública).
+- [ ] **Buscador de similitud:** calibración Fuse.js con umbrales 75/50/0 y clases Niza.
+- [ ] **Login unificado:** modal ClaveÚnica en header y `/auth`.
+- [ ] **Tokens pendientes:** escala `GOB.COLOR.GRIS` y elevaciones oficiales del kit.
+- [ ] **Test de usabilidad:** recorrido portal completo + flujo GRI con checklist de lenguaje claro (39 criterios).
 
-- [ ] **Presentación del GRI v1.0:** Recorrido completo desde la landing hasta la revisión final.
-- [ ] **Discusión de Implementación Backend:**
-  - Definir estrategia de integración: ¿Middleware en NestJS o conexión directa a servicios legados?
-  - Evaluación de seguridad para la persistencia de borradores sensibles.
-- [ ] **Calibración del Verificador de Semejanza:**
-  - **Método de Tasa de Rechazos:** Utilizar la data histórica de rechazos por semejanza para ajustar los umbrales (`thresholds`) de Fuse.js.
-  - Objetivo: Encontrar el punto de equilibrio donde el sistema no sea "demasiado permisivo" ni "excesivamente alarmista".
-  - Definir los parámetros de ponderación entre denominación y descripción del producto.
+### Integración backend (heredado Sprint 4)
 
-### Martes 28 — Refinamiento de Pesquisa con Data Real
-
-- [ ] Solicitar acceso a muestras anonimizadas de marcas rechazadas vs aceptadas.
-- [ ] Ajustar pesos de búsqueda en `components/PesquisaMarca.tsx` basados en los hallazgos de la sesión del lunes.
-- [ ] Documentar la lógica de "Fuzzy Search" para aprobación del equipo legal.
-
-### Miércoles 29 — Preparación para Test de Usabilidad
-
-- [ ] Ajustar microcopy del Chat IA basado en feedback de Bernarda.
-- [ ] Protocolo de test: tarea "Registra la marca de tu negocio", think-aloud, grabación.
-
----
-
-## SEMANA 5+ — Escalamiento e Integración (Mayo)
-
-- [ ] **Integración API Real:** Reemplazar `marcas-mock.json` por consulta a base de datos institucional.
-- [ ] **Pasarela de Pago (TGR):** Implementar el puente hacia el portal de Tesorería General.
-- [ ] **Dashboard de Administración:** Vista interna para que el equipo de INAPI analice métricas de abandono y uso del Chat IA.
+- [ ] Presentación del GRI v1.0 + portal a jefatura INAPI.
+- [ ] Calibración del verificador de semejanza con data histórica de rechazos.
+- [ ] Integración API real de consulta de marcas.
+- [ ] Pasarela de pago TGR.
 
 ---
 

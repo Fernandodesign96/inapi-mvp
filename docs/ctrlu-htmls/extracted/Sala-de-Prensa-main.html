@@ -1,0 +1,52 @@
+<!-- Buscador -->
+  <form role="search" sc-camel-on-submit="{{ onSubmit }}" style="display:flex;gap:12px;margin:8px 0 32px;max-width:640px">
+    <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #808080;flex:1">
+      <input type="text" value="{{ query }}" sc-camel-on-input="{{ onInput }}" placeholder="Buscar noticias por palabra clave" aria-label="Buscar noticias" style="flex:1;border:none;padding:12px 14px;font-family:inherit;font-size:15px;outline:none">
+      <span class="ms" style="font-size:20px;color:#666;padding-right:12px">search</span>
+    </div>
+    <button type="submit" style="background:#0051A8;color:#fff;border:none;padding:12px 28px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#003B8D">Buscar</button>
+  </form>
+
+  <p style="font-size:14px;color:#666;margin:0 0 20px">{{ resultLabel }}</p>
+
+  <!-- Resultados -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+    <sc-for list="{{ visibleNews }}" as="item" hint-placeholder-count="6">
+      <a href="{{ item.href }}" style="text-decoration:none;color:inherit;background:#fff;border:1px solid #E6E6E6;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.08);transition:box-shadow 150ms ease,border-color 150ms ease" style-hover="border-color:#0F69C4;box-shadow:0 4px 12px rgba(0,0,0,.12)">
+        <image-slot id="{{ item.slotId }}" style="width:100%;height:170px" shape="rect" fit="cover" placeholder="{{ item.imgAlt }}"></image-slot>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:10px;flex:1">
+          <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#0F69C4;margin:0"><time datetime="{{ item.datetime }}">{{ item.date }}</time></p>
+          <h3 style="font-size:16px;font-weight:700;color:#111;margin:0;line-height:1.4">{{ item.title }}</h3>
+          <p style="font-size:14px;color:#666;line-height:1.6;margin:0">{{ item.summary }}</p>
+        </div>
+      </a>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+    <div style="text-align:center;padding:56px 24px;color:#666">
+      <span class="ms" style="font-size:40px;color:#999">search_off</span>
+      <p style="font-size:16px;margin:12px 0 0">No hay noticias que coincidan con “{{ query }}”. Prueba con otra palabra clave.</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showMoreButton }}" hint-placeholder-val="{{ false }}">
+    <div style="text-align:center;margin-top:40px">
+      <button type="button" sc-camel-on-click="{{ onShowAll }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0051A8;border:2px solid #0051A8;border-radius:0;padding:14px 36px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.08)" style-hover="background:#0051A8;color:#fff">Ver todas las noticias<span class="ms" style="font-size:20px">expand_more</span></button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showPagination }}" hint-placeholder-val="{{ false }}">
+    <nav aria-label="Paginación de noticias" style="display:flex;justify-content:center;align-items:center;gap:6px;margin-top:48px;font-family:'Roboto',sans-serif;font-size:15px;color:#111">
+      <button type="button" sc-camel-on-click="{{ onPrevPage }}" disabled="{{ isFirstPage }}" style="display:inline-flex;align-items:center;gap:4px;background:none;border:none;color:#0F69C4;font-weight:700;font-size:15px;padding:8px 10px;cursor:pointer;opacity:{{ isFirstPage ? 0.4 : 1 }}" style-hover="text-decoration:underline"><span class="ms" style="font-size:20px">chevron_left</span>Página anterior</button>
+      <sc-for list="{{ pageNums }}" as="p" hint-placeholder-count="4">
+        <sc-if value="{{ p.isEllipsis }}" hint-placeholder-val="{{ false }}">
+          <span style="min-width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;color:#666">…</span>
+        </sc-if>
+        <sc-if value="{{ !p.isEllipsis }}" hint-placeholder-val="{{ true }}">
+          <button type="button" sc-camel-on-click="{{ p.onClick }}" aria-current="{{ p.isCurrent ? 'page' : undefined }}" style="min-width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border:1px solid {{ p.isCurrent ? '#0051A8' : '#CCC' }};border-radius:4px;background:{{ p.isCurrent ? '#0051A8' : '#fff' }};color:{{ p.isCurrent ? '#fff' : '#111' }};font-weight:{{ p.isCurrent ? 700 : 400 }};font-family:inherit;font-size:15px;cursor:pointer;padding:0 6px" style-hover="border-color:#0051A8">{{ p.value }}</button>
+        </sc-if>
+      </sc-for>
+      <button type="button" sc-camel-on-click="{{ onNextPage }}" disabled="{{ isLastPage }}" style="display:inline-flex;align-items:center;gap:4px;background:none;border:none;color:#0F69C4;font-weight:700;font-size:15px;padding:8px 10px;cursor:pointer;opacity:{{ isLastPage ? 0.4 : 1 }}" style-hover="text-decoration:underline">Página siguiente<span class="ms" style="font-size:20px">chevron_right</span></button>
+    </nav>
+  </sc-if>

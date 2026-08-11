@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="bfc93f14-95e6-44f2-b5a2-f34186033974"></script>
+</head>
+<body>
+<x-dc>
+
+
+<helmet>
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("de81f04f-7a0f-4840-b4f0-cb28de5a7c61") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("6e26e3e0-537d-444f-8f72-bcc2cbff19b5") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("e646f392-fe10-4977-81e2-86c88c31ee2f") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("64344539-2de2-4be5-ae5e-bdc3edaf76f7") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* math */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("d15f4f1f-eb54-432b-ab50-c6fbd599335b") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("be45380b-7365-44c7-b561-9af8346c1193") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("1d5ae8a0-8c63-4573-85a0-08af57b5bee9") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("9b1e1753-979e-40a3-b6fc-063c33bb7814") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("7119e3bd-cb21-417b-b591-81e6e5f69e34") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("fab83e52-bed7-49a0-ae35-d2dee6528106") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("46f1c0fb-8384-4308-b64b-8edafe4c4ca2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("14ee7aba-d0db-458e-916f-cbc5cf25899f") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("f8131ebc-226b-4275-b20d-cfee1e31d908") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* math */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("531f01d2-f951-4c98-a235-d87f1944dd6f") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("6d01addb-2f53-4352-83f0-b35976ae4d74") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("96f3b40c-cbf0-472a-aa09-a2be35a95aae") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("d6d367f7-e32b-4fe0-926b-f0a65541e039") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("1180e1f2-db6e-4fcb-9cda-b87183387946") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("fab83e52-bed7-49a0-ae35-d2dee6528106") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("46f1c0fb-8384-4308-b64b-8edafe4c4ca2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("14ee7aba-d0db-458e-916f-cbc5cf25899f") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("f8131ebc-226b-4275-b20d-cfee1e31d908") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* math */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("531f01d2-f951-4c98-a235-d87f1944dd6f") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("6d01addb-2f53-4352-83f0-b35976ae4d74") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("96f3b40c-cbf0-472a-aa09-a2be35a95aae") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("d6d367f7-e32b-4fe0-926b-f0a65541e039") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("1180e1f2-db6e-4fcb-9cda-b87183387946") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("fab83e52-bed7-49a0-ae35-d2dee6528106") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("46f1c0fb-8384-4308-b64b-8edafe4c4ca2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("14ee7aba-d0db-458e-916f-cbc5cf25899f") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("f8131ebc-226b-4275-b20d-cfee1e31d908") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* math */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("531f01d2-f951-4c98-a235-d87f1944dd6f") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("6d01addb-2f53-4352-83f0-b35976ae4d74") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("96f3b40c-cbf0-472a-aa09-a2be35a95aae") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("d6d367f7-e32b-4fe0-926b-f0a65541e039") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("1180e1f2-db6e-4fcb-9cda-b87183387946") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("b739c36a-6597-45a4-9dfe-bd04cebaef46") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fd0e576a-c11e-479a-8af8-202418cdf854") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("bb0134f0-6f48-41ad-b821-91aec9958c48") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("c89079fe-085b-4ceb-8a6d-ff40d8e15be8") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("2a949af1-1f1e-4f37-b1b1-076e3ba72e46") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("b54a3b25-3bfa-4b0e-9ccd-81f22d0617e3") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("b70762fa-eb0c-4d18-8d16-32f168db2f21") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("b739c36a-6597-45a4-9dfe-bd04cebaef46") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fd0e576a-c11e-479a-8af8-202418cdf854") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("bb0134f0-6f48-41ad-b821-91aec9958c48") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("c89079fe-085b-4ceb-8a6d-ff40d8e15be8") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("2a949af1-1f1e-4f37-b1b1-076e3ba72e46") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("b54a3b25-3bfa-4b0e-9ccd-81f22d0617e3") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("b70762fa-eb0c-4d18-8d16-32f168db2f21") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("b739c36a-6597-45a4-9dfe-bd04cebaef46") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fd0e576a-c11e-479a-8af8-202418cdf854") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("bb0134f0-6f48-41ad-b821-91aec9958c48") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("c89079fe-085b-4ceb-8a6d-ff40d8e15be8") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("2a949af1-1f1e-4f37-b1b1-076e3ba72e46") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("b54a3b25-3bfa-4b0e-9ccd-81f22d0617e3") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("b70762fa-eb0c-4d18-8d16-32f168db2f21") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>/* fallback */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 400;
+  src: url("a5e1271f-d16f-41da-960f-616c8d9d9b78") format('woff2');
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+</style>
+<script src="d6ef4f64-efb9-4a5f-a6c1-2db3a0839e78"></script>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:'Roboto',-apple-system,Arial,sans-serif;color:#373737;background:#fff;text-align:left}
+  .ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:1;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased;vertical-align:middle}
+  a{color:#0F69C4}
+  a:hover{color:#003078}
+</style>
+</helmet>
+
+<dc-import name="SiteHeader" active="conecta" current="Sala de Prensa" page-title="Sala de Prensa" page-subtitle="Revisa las noticias y los comunicados de INAPI sobre propiedad industrial, gestión institucional y actividades para la comunidad." hint-size="100%,260px"></dc-import>
+
+<main style="max-width:1140px;margin:0 auto;padding:8px 24px 56px">
+
+  <!-- Buscador -->
+  <form role="search" sc-camel-on-submit="{{ onSubmit }}" style="display:flex;gap:12px;margin:8px 0 32px;max-width:640px">
+    <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #808080;flex:1">
+      <input type="text" value="{{ query }}" sc-camel-on-input="{{ onInput }}" placeholder="Buscar noticias por palabra clave" aria-label="Buscar noticias" style="flex:1;border:none;padding:12px 14px;font-family:inherit;font-size:15px;outline:none">
+      <span class="ms" style="font-size:20px;color:#666;padding-right:12px">search</span>
+    </div>
+    <button type="submit" style="background:#0051A8;color:#fff;border:none;padding:12px 28px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#003B8D">Buscar</button>
+  </form>
+
+  <p style="font-size:14px;color:#666;margin:0 0 20px">{{ resultLabel }}</p>
+
+  <!-- Resultados -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+    <sc-for list="{{ visibleNews }}" as="item" hint-placeholder-count="6">
+      <a href="{{ item.href }}" style="text-decoration:none;color:inherit;background:#fff;border:1px solid #E6E6E6;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.08);transition:box-shadow 150ms ease,border-color 150ms ease" style-hover="border-color:#0F69C4;box-shadow:0 4px 12px rgba(0,0,0,.12)">
+        <image-slot id="{{ item.slotId }}" style="width:100%;height:170px" shape="rect" fit="cover" placeholder="{{ item.imgAlt }}"></image-slot>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:10px;flex:1">
+          <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#0F69C4;margin:0"><time datetime="{{ item.datetime }}">{{ item.date }}</time></p>
+          <h3 style="font-size:16px;font-weight:700;color:#111;margin:0;line-height:1.4">{{ item.title }}</h3>
+          <p style="font-size:14px;color:#666;line-height:1.6;margin:0">{{ item.summary }}</p>
+        </div>
+      </a>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+    <div style="text-align:center;padding:56px 24px;color:#666">
+      <span class="ms" style="font-size:40px;color:#999">search_off</span>
+      <p style="font-size:16px;margin:12px 0 0">No hay noticias que coincidan con “{{ query }}”. Prueba con otra palabra clave.</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showMoreButton }}" hint-placeholder-val="{{ false }}">
+    <div style="text-align:center;margin-top:40px">
+      <button type="button" sc-camel-on-click="{{ onShowAll }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0051A8;border:2px solid #0051A8;border-radius:0;padding:14px 36px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.08)" style-hover="background:#0051A8;color:#fff">Ver todas las noticias<span class="ms" style="font-size:20px">expand_more</span></button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showPagination }}" hint-placeholder-val="{{ false }}">
+    <nav aria-label="Paginación de noticias" style="display:flex;justify-content:center;align-items:center;gap:6px;margin-top:48px;font-family:'Roboto',sans-serif;font-size:15px;color:#111">
+      <button type="button" sc-camel-on-click="{{ onPrevPage }}" disabled="{{ isFirstPage }}" style="display:inline-flex;align-items:center;gap:4px;background:none;border:none;color:#0F69C4;font-weight:700;font-size:15px;padding:8px 10px;cursor:pointer;opacity:{{ isFirstPage ? 0.4 : 1 }}" style-hover="text-decoration:underline"><span class="ms" style="font-size:20px">chevron_left</span>Página anterior</button>
+      <sc-for list="{{ pageNums }}" as="p" hint-placeholder-count="4">
+        <sc-if value="{{ p.isEllipsis }}" hint-placeholder-val="{{ false }}">
+          <span style="min-width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;color:#666">…</span>
+        </sc-if>
+        <sc-if value="{{ !p.isEllipsis }}" hint-placeholder-val="{{ true }}">
+          <button type="button" sc-camel-on-click="{{ p.onClick }}" aria-current="{{ p.isCurrent ? 'page' : undefined }}" style="min-width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border:1px solid {{ p.isCurrent ? '#0051A8' : '#CCC' }};border-radius:4px;background:{{ p.isCurrent ? '#0051A8' : '#fff' }};color:{{ p.isCurrent ? '#fff' : '#111' }};font-weight:{{ p.isCurrent ? 700 : 400 }};font-family:inherit;font-size:15px;cursor:pointer;padding:0 6px" style-hover="border-color:#0051A8">{{ p.value }}</button>
+        </sc-if>
+      </sc-for>
+      <button type="button" sc-camel-on-click="{{ onNextPage }}" disabled="{{ isLastPage }}" style="display:inline-flex;align-items:center;gap:4px;background:none;border:none;color:#0F69C4;font-weight:700;font-size:15px;padding:8px 10px;cursor:pointer;opacity:{{ isLastPage ? 0.4 : 1 }}" style-hover="text-decoration:underline">Página siguiente<span class="ms" style="font-size:20px">chevron_right</span></button>
+    </nav>
+  </sc-if>
+
+</main>
+
+<dc-import name="SiteFooter" hint-size="100%,320px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script="">
+const PAGE_SIZE_INITIAL = 6;
+const PAGE_SIZE_EXPANDED = 9;
+
+class Component extends DCLogic {
+  state = { query: '', applied: '', showAll: false, page: 1 };
+
+  news = [
+    { title: 'INAPI realizó su Cuenta Pública Participativa 2026 en Valparaíso', date: '21 de junio de 2026', datetime: '2026-06-21', summary: 'La jornada mostró los avances en eficiencia, liderazgo internacional y descentralización de la propiedad industrial.', href: 'Noticia-Cuenta-Publica-2026.dc.html', slotId: 'np-1', imgAlt: 'Cuenta Pública 2026' },
+    { title: 'Chile alcanza su mayor cifra de solicitudes de patentes nacionales en más de una década', date: '21 de junio de 2026', datetime: '2026-06-21', summary: 'Inventores chilenos presentaron 296 solicitudes en seis meses. La Serena lidera el ranking comunal.', href: 'Noticia-Patentes-Nacionales.dc.html', slotId: 'np-2', imgAlt: 'Patentes nacionales' },
+    { title: 'INAPI promueve la participación de innovadores y diseñadores chilenos en certámenes regionales de ASIPI', date: '30 de julio de 2026', datetime: '2026-07-30', summary: 'El Director Nacional, Esteban Figueroa, se reunió con la representación en Chile de ASIPI para abordar dos concursos de innovación y diseño que se premiarán en Santiago.', href: '#', slotId: 'np-3', imgAlt: 'Certámenes ASIPI' },
+    { title: 'ClaveÚnica: INAPI refuerza la seguridad de sus trámites en línea e invita a activar el segundo factor de autenticación', date: '30 de julio de 2026', datetime: '2026-07-30', summary: 'La medida, impulsada por la Secretaría de Gobierno Digital, agrega una capa adicional de protección para resguardar la identidad digital de las personas.', href: '#', slotId: 'np-4', imgAlt: 'ClaveÚnica' },
+    { title: 'INAPI reunió al ecosistema de innovación para potenciar el uso estratégico de la información de patentes', date: '23 de julio de 2026', datetime: '2026-07-23', summary: 'Empresas, startups, universidades y organismos públicos conocieron cómo la información de patentes apoya la toma de decisiones y la vigilancia tecnológica.', href: '#', slotId: 'np-5', imgAlt: 'Ecosistema de innovación' },
+    { title: 'INAPI amplía plazos para trámites en zonas afectadas por el sistema frontal', date: '21 de julio de 2026', datetime: '2026-07-21', summary: 'La medida beneficia a las personas usuarias de las zonas con emergencia por lluvias.', href: '#', slotId: 'np-6', imgAlt: 'Ampliación de plazos' },
+    { title: 'INAPI consolida su agenda de cooperación internacional en las Asambleas de la OMPI', date: '15 de julio de 2026', datetime: '2026-07-15', summary: 'La delegación chilena firmó acuerdos con oficinas líderes de Europa, Asia y América Latina.', href: '#', slotId: 'np-7', imgAlt: 'Asambleas OMPI' },
+    { title: 'Startup chilena Drovid obtiene el Premio Mundial de la OMPI 2026', date: '10 de julio de 2026', datetime: '2026-07-10', summary: 'La empresa fue reconocida por su tecnología con drones e IA para detectar incendios forestales.', href: '#', slotId: 'np-8', imgAlt: 'Premio OMPI Drovid' },
+    { title: 'INAPI inicia nueva edición de los “Martes de PI” con ciclo formativo abierto a todo el país', date: '4 de mayo de 2026', datetime: '2026-05-04', summary: 'El ciclo formativo busca acercar el conocimiento sobre propiedad industrial a un público amplio y diverso en todo el país, en su séptimo año de realización.', href: '#', slotId: 'np-9', imgAlt: 'Martes de PI' },
+    { title: 'OMPI e INAPI realizan sexta versión del taller internacional de redacción de patentes con foco en el sistema PCT', date: '28 de abril de 2026', datetime: '2026-04-28', summary: 'La iniciativa reunió a participantes de distintos países de América Latina para fortalecer las capacidades técnicas en la redacción de solicitudes de patentes.', href: '#', slotId: 'np-10', imgAlt: 'Taller PCT' },
+    { title: 'INAPI conmemora el Día Mundial de la Propiedad Intelectual con reconocimientos a actores clave de la innovación', date: '22 de abril de 2026', datetime: '2026-04-22', summary: 'La instancia presentó los principales avances de la propiedad industrial en Chile y premió a quienes lideran el uso del sistema en el país.', href: '#', slotId: 'np-11', imgAlt: 'Día Mundial de la PI' },
+    { title: 'INAPI convoca a beca del Gobierno de China para Maestría en Propiedad Intelectual', date: '14 de abril de 2026', datetime: '2026-04-14', summary: 'El proceso selecciona y patrocina dos candidaturas nacionales para un programa académico internacional de dos años dirigido a profesionales de la PI.', href: '#', slotId: 'np-12', imgAlt: 'Beca China' },
+    { title: 'INAPI impulsa estrategia de propiedad industrial para posicionar la lana de Magallanes en mercados internacionales', date: '14 de abril de 2026', datetime: '2026-04-14', summary: 'La iniciativa, desarrollada con la OMPI y actores públicos y privados de la región, crea una marca comercial y una marca de certificación para este producto chileno.', href: '#', slotId: 'np-13', imgAlt: 'Lana de Magallanes' },
+    { title: 'INAPI celebra la Semana de la Propiedad Intelectual con foco en la innovación y el valor estratégico de los activos', date: '14 de abril de 2026', datetime: '2026-04-14', summary: 'Una agenda de actividades presenciales y virtuales conecta a la ciudadanía con el ecosistema creativo y culmina con la Cuenta Pública institucional.', href: '#', slotId: 'np-14', imgAlt: 'Semana de la PI' },
+    { title: 'INAPI impulsa el uso de información de patentes para fortalecer la innovación en sectores productivos estratégicos', date: '13 de abril de 2026', datetime: '2026-04-13', summary: 'Reuniones con empresas y talleres especializados acercan herramientas de vigilancia tecnológica y análisis de tendencias a la industria.', href: '#', slotId: 'np-15', imgAlt: 'Información de patentes' },
+    { title: 'INAPI y Red GT premian a mujeres protagonistas en innovación tecnológica 2026', date: '26 de marzo de 2026', datetime: '2026-03-26', summary: 'El reconocimiento distinguió, en su cuarta edición, a dos innovadoras por sus aportes en biotecnología y tratamiento de residuos industriales.', href: '#', slotId: 'np-16', imgAlt: 'Mujeres en innovación' },
+    { title: 'INAPI y Corfo promueven el uso estratégico de la propiedad industrial en la Región de Coquimbo', date: '25 de marzo de 2026', datetime: '2026-03-25', summary: 'Un taller en La Serena reunió a representantes del sector público, empresarial y académico para fortalecer las capacidades regionales en propiedad industrial.', href: '#', slotId: 'np-17', imgAlt: 'Taller Coquimbo' },
+    { title: 'INAPI y OMPI abren convocatoria para taller internacional de redacción de patentes', date: '19 de marzo de 2026', datetime: '2026-03-19', summary: 'La iniciativa, gratuita y de alcance internacional, busca mejorar la calidad de las solicitudes de patentes en Chile y Latinoamérica.', href: '#', slotId: 'np-18', imgAlt: 'Redacción de patentes' }
+  ];
+
+  onInput = (e) => this.setState({ query: e.target.value });
+  onSubmit = (e) => { e.preventDefault(); this.setState({ applied: this.state.query.trim(), showAll: true, page: 1 }); };
+  onShowAll = () => this.setState({ showAll: true, page: 1 });
+  onPageChange = (p) => this.setState({ page: p });
+
+  renderVals() {
+    const q = this.state.applied.toLowerCase();
+    const sorted = [...this.news].sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+    const matched = q
+      ? sorted.filter(n => (n.title + ' ' + n.summary).toLowerCase().includes(q))
+      : sorted;
+
+    const totalPages = Math.max(1, Math.ceil(matched.length / PAGE_SIZE_EXPANDED));
+    const page = Math.min(this.state.page, totalPages);
+    const paginated = this.state.showAll
+      ? matched.slice((page - 1) * PAGE_SIZE_EXPANDED, page * PAGE_SIZE_EXPANDED)
+      : matched.slice(0, PAGE_SIZE_INITIAL);
+
+    const resultLabel = this.state.applied
+      ? matched.length + ' noticia(s) para “' + this.state.applied + '”'
+      : (this.state.showAll ? 'Mostrando ' + paginated.length + ' de ' + matched.length + ' noticias' : 'Mostrando las 6 noticias más recientes');
+
+    const siblings = 1;
+    const left = Math.max(2, page - siblings);
+    const right = Math.min(totalPages - 1, page + siblings);
+    let pageNums = [1];
+    if (left > 2) pageNums.push('…');
+    for (let p = left; p <= right; p++) pageNums.push(p);
+    if (right < totalPages - 1) pageNums.push('…');
+    if (totalPages > 1) pageNums.push(totalPages);
+    pageNums = pageNums.filter((p, i, arr) => p !== arr[i - 1]).map(p => ({
+      value: p,
+      isEllipsis: p === '…',
+      isCurrent: p === page,
+      onClick: p === '…' ? null : () => this.onPageChange(p)
+    }));
+
+    return {
+      query: this.state.query,
+      onInput: this.onInput,
+      onSubmit: this.onSubmit,
+      onShowAll: this.onShowAll,
+      onPageChange: this.onPageChange,
+      onPrevPage: () => this.onPageChange(page - 1),
+      onNextPage: () => this.onPageChange(page + 1),
+      visibleNews: paginated,
+      resultLabel,
+      noResults: matched.length === 0,
+      showMoreButton: !this.state.showAll && matched.length > PAGE_SIZE_INITIAL,
+      showPagination: this.state.showAll && totalPages > 1,
+      pageNums,
+      isFirstPage: page === 1,
+      isLastPage: page === totalPages
+    };
+  }
+}
+</script>
+
+
+</body></html>

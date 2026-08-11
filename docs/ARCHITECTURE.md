@@ -8,7 +8,7 @@
 | **Stack** | Next.js 16 (Turbopack) · TypeScript · Tailwind CSS · shadcn/ui · Fuse.js · Firebase Firestore · Bun |
 | **Tipo de sistema** | Frontend-first · Client-side rendering con Firebase como backend-as-a-service |
 | **Renderizado** | Híbrido SSR/CSR — App Router de Next.js 16 |
-| **Versión** | 1.0 — MVP Abril 2026 |
+| **Versión** | 1.1 — MVP Abril 2026 + Portal institucional Agosto 2026 |
 
 ---
 
@@ -30,7 +30,9 @@
 
 ## 1. Visión General y Propósito
 
-El GRI es el MVP del rediseño del flujo de solicitud de registro de marca de INAPI. Su propósito técnico es demostrar que un formulario guiado con clasificación inteligente de Niza puede reducir la tasa de abandono del 40% actual y aumentar la precisión de clasificación a más del 85% — sin necesidad de un backend complejo en la fase inicial.
+El GRI es el MVP del rediseño del flujo de solicitud de registro de marca de INAPI. A partir del Sprint 6 (agosto 2026), el repositorio incluye además el **portal institucional completo** (~34 rutas públicas) con layout propio (`SiteHeader`, `PortalShell`, `FooterINAPI`) y primitivos en `components/portal/`, desacoplados del flujo de formulario en `/solicitud`.
+
+Su propósito técnico es demostrar que un formulario guiado con clasificación inteligente de Niza puede reducir la tasa de abandono del 40% actual y aumentar la precisión de clasificación a más del 85% — sin necesidad de un backend complejo en la fase inicial.
 
 **Principio arquitectónico rector:** Complejidad mínima para validar el concepto de negocio. El stack fue elegido para maximizar velocidad de construcción y facilidad de iteración sin comprometer la escalabilidad hacia producción.
 

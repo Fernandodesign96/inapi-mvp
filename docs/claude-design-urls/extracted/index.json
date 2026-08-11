@@ -1,0 +1,242 @@
+[
+  {
+    "file": "Acerca-de-INAPI.dc.html",
+    "slug": "Acerca-de-INAPI",
+    "title": "",
+    "h1": "",
+    "textPreview": "INAPI Funciones Objetivos Director nacional Organigrama Indicadores Balances Compromisos de calidad Trabaje con nosotros ¿Qué hace INAPI? INAPI administra los derechos de propiedad industrial en Chile",
+    "htmlLength": 35985
+  },
+  {
+    "file": "Aprende.dc.html",
+    "slug": "Aprende",
+    "title": "",
+    "h1": "",
+    "textPreview": "Este módulo reúne contenidos, fechas clave, requisitos y formas de inscripción a los cursos, talleres y actividades de capacitación que ofrece INAPI. Tipos de capacitaciones Cursos y talleres en línea",
+    "htmlLength": 31472
+  },
+  {
+    "file": "Buscador-de-Anterioridades.dc.html",
+    "slug": "Buscador-de-Anterioridades",
+    "title": "",
+    "h1": "",
+    "textPreview": "¿Qué es este buscador? El buscador compara el nombre que escribiste con marcas previamente solicitadas o registradas ante INAPI. Te muestra un porcentaje de parecido (considera cómo se escribe y cómo ",
+    "htmlLength": 53520
+  },
+  {
+    "file": "Buscador.dc.html",
+    "slug": "Buscador",
+    "title": "",
+    "h1": "",
+    "textPreview": "search Buscar {{ resultLabel }} {{ r.category }} {{ r.title }} {{ r.summary }} search_off No hay resultados para \"{{ query }}\". Prueba con otra palabra clave.",
+    "htmlLength": 33659
+  },
+  {
+    "file": "Centro-de-Documentacion.dc.html",
+    "slug": "Centro-de-Documentacion",
+    "title": "",
+    "h1": "",
+    "textPreview": "Legislación gavel Ley N.° 19.039, de Propiedad Industrial gavel Reglamento de la Ley de Propiedad Industrial gavel Convenio de París para la Protección de la Propiedad Industrial gavel Tratado de Coop",
+    "htmlLength": 31349
+  },
+  {
+    "file": "Conecta.dc.html",
+    "slug": "Conecta",
+    "title": "",
+    "h1": "",
+    "textPreview": "Para informarse Qué es Conecta Da a conocer tecnologías protegidas por propiedad industrial a quienes buscan usarlas o explotarlas comercialmente. Políticas de uso Establecen las condiciones para publ",
+    "htmlLength": 31178
+  },
+  {
+    "file": "Conoce-Mas.dc.html",
+    "slug": "Conoce-Mas",
+    "title": "",
+    "h1": "",
+    "textPreview": "Para informarse Qué es la propiedad intelectual e industrial Comprende toda creación de la mente humana: inventos, modelos de utilidad, marcas, obras literarias y artísticas. Conceptos fundamentales E",
+    "htmlLength": 33217
+  },
+  {
+    "file": "Contacto.dc.html",
+    "slug": "Contacto",
+    "title": "",
+    "h1": "",
+    "textPreview": "Vía web Envía tus consultas, opiniones, sugerencias, felicitaciones o reclamos. Ir al formulario (SIAC) arrow_forward Teléfono (56 2) 2 887 0400 Lunes a jueves de 09:00 a 18:00 hrs. Viernes de 09:00 a",
+    "htmlLength": 31804
+  },
+  {
+    "file": "Datos-Abiertos.dc.html",
+    "slug": "Datos-Abiertos",
+    "title": "",
+    "h1": "",
+    "textPreview": "Estos conjuntos de datos están disponibles para su descarga y reutilización, en formatos abiertos y bajo licencia Creative Commons. dataset Solicitudes y registros de marcas Descargar conjunto de dato",
+    "htmlLength": 30619
+  },
+  {
+    "file": "Estadisticas.dc.html",
+    "slug": "Estadisticas",
+    "title": "",
+    "h1": "",
+    "textPreview": "bar_chart Marcas Solicitudes, registros y marcas según género. bar_chart Patentes Solicitudes y registros de patentes de invención. bar_chart Modelo de utilidad Solicitudes y registros de modelos de u",
+    "htmlLength": 31205
+  },
+  {
+    "file": "Gasto-Presupuestario.dc.html",
+    "slug": "Gasto-Presupuestario",
+    "title": "",
+    "h1": "",
+    "textPreview": "INAPI publica periódicamente el detalle de su ejecución presupuestaria, según lo exige la Ley N.° 20.285 de Transparencia y Acceso a la Información Pública. Ejecución presupuestaria 2026 Descargar (PD",
+    "htmlLength": 30343
+  },
+  {
+    "file": "Glosario.dc.html",
+    "slug": "Glosario",
+    "title": "",
+    "h1": "",
+    "textPreview": "Marca comercial Signo que distingue en el mercado productos, servicios o establecimientos industriales o comerciales de otros de la misma clase. Patente de invención Derecho exclusivo que otorga el Es",
+    "htmlLength": 31539
+  },
+  {
+    "file": "INAPI.dc.html",
+    "slug": "INAPI",
+    "title": "",
+    "h1": "Te queremos ayudar a utilizar la propiedad industrial",
+    "textPreview": "Portal oficial · INAPI Chile Te queremos ayudar a utilizar la propiedad industrial Registra marcas, patentes, diseños y más. Protege tu propiedad industrial con seguridad y rapidez. Marcas search Busc",
+    "htmlLength": 114433
+  },
+  {
+    "file": "Marcas-Para-Informarse.dc.html",
+    "slug": "Marcas-Para-Informarse",
+    "title": "",
+    "h1": "",
+    "textPreview": "¿Qué es una marca? Una marca es todo signo capaz de distinguir en el mercado productos o servicios. Puede ser una palabra, una combinación de palabras ( marca mixta ), cifras, letras, símbolos, dibujo",
+    "htmlLength": 32982
+  },
+  {
+    "file": "Marcas-Solicitud-Nueva.dc.html",
+    "slug": "Marcas-Solicitud-Nueva",
+    "title": "",
+    "h1": "",
+    "textPreview": "note_add Solicitud nueva y pago electrónico Completa el formulario guiado de cuatro pasos y paga en línea. Necesitas iniciar sesión con ClaveÚnica. description Revisar y pagar solicitudes guardadas Re",
+    "htmlLength": 31697
+  },
+  {
+    "file": "Marcas.dc.html",
+    "slug": "Marcas",
+    "title": "",
+    "h1": "",
+    "textPreview": "app_registration Registrar una marca Ingresa tu solicitud y paga en línea. travel_explore Buscar marcas anteriores Compara tu marca con las ya inscritas antes de solicitar. payments Conocer las tarifa",
+    "htmlLength": 41222
+  },
+  {
+    "file": "Noticia-Cuenta-Publica-2026.dc.html",
+    "slug": "Noticia-Cuenta-Publica-2026",
+    "title": "",
+    "h1": "",
+    "textPreview": "21 de junio de 2026 · Publicado por INAPI INAPI realizó su Cuenta Pública Participativa 2026 en Valparaíso y reforzó su compromiso con la descentralización La jornada mostró los avances de INAPI en ef",
+    "htmlLength": 35242
+  },
+  {
+    "file": "Noticia-Patentes-Nacionales.dc.html",
+    "slug": "Noticia-Patentes-Nacionales",
+    "title": "",
+    "h1": "",
+    "textPreview": "21 de junio de 2026 · Publicado por INAPI Chile alcanza su mayor cifra de solicitudes de patentes nacionales en más de una década En solo seis meses, inventores chilenos presentaron 296 solicitudes de",
+    "htmlLength": 34656
+  },
+  {
+    "file": "Notificaciones-Diarias.dc.html",
+    "slug": "Notificaciones-Diarias",
+    "title": "",
+    "h1": "",
+    "textPreview": "notifications Notificaciones diarias de marcas notifications Notificaciones diarias de patentes",
+    "htmlLength": 29824
+  },
+  {
+    "file": "Observancia.dc.html",
+    "slug": "Observancia",
+    "title": "",
+    "h1": "",
+    "textPreview": "¿Qué es la piratería? El Acuerdo sobre los Derechos de Propiedad Intelectual relacionados con el Comercio (ADPIC) define las mercancías pirata como copias hechas sin el consentimiento del titular del ",
+    "htmlLength": 30941
+  },
+  {
+    "file": "Patentes-Para-Informarse.dc.html",
+    "slug": "Patentes-Para-Informarse",
+    "title": "",
+    "h1": "",
+    "textPreview": "¿Qué es una patente? Una patente es el derecho exclusivo que el Estado concede para proteger una invención. Le da a su titular el derecho de vender la invención, ceder sus derechos a otra persona o im",
+    "htmlLength": 144368
+  },
+  {
+    "file": "Patentes.dc.html",
+    "slug": "Patentes",
+    "title": "",
+    "h1": "",
+    "textPreview": "app_registration Registrar una patente Ingresa tu solicitud y paga en línea. travel_explore Buscar patentes existentes Revisa si tu invento ya fue solicitado antes. payments Conocer las tarifas Revisa",
+    "htmlLength": 39406
+  },
+  {
+    "file": "PCT.dc.html",
+    "slug": "PCT",
+    "title": "",
+    "h1": "",
+    "textPreview": "Para informarse Qué es el PCT El PCT es un tratado internacional administrado por la Organización Mundial de la Propiedad Intelectual (OMPI) que permite presentar una solicitud de patente para su reco",
+    "htmlLength": 32232
+  },
+  {
+    "file": "Preguntas-Frecuentes.dc.html",
+    "slug": "Preguntas-Frecuentes",
+    "title": "",
+    "h1": "",
+    "textPreview": "¿Qué es la propiedad intelectual e industrial? La propiedad intelectual protege toda creación de la mente humana: inventos, modelos de utilidad, marcas, obras literarias y artísticas, entre otras. Pro",
+    "htmlLength": 32986
+  },
+  {
+    "file": "Sala-de-Prensa.dc.html",
+    "slug": "Sala-de-Prensa",
+    "title": "",
+    "h1": "",
+    "textPreview": "search Buscar {{ resultLabel }} {{ item.date }} {{ item.title }} {{ item.summary }} search_off No hay noticias que coincidan con “{{ query }}”. Prueba con otra palabra clave. Ver todas las noticias ex",
+    "htmlLength": 43501
+  },
+  {
+    "file": "Sello-de-Origen.dc.html",
+    "slug": "Sello-de-Origen",
+    "title": "",
+    "h1": "",
+    "textPreview": "Para informarse Qué es el Sello de Origen Reconoce y protege formas especiales de manufactura, oficios tradicionales y productos singulares del país. Beneficios de obtener el Sello de Origen Retribuye",
+    "htmlLength": 34366
+  },
+  {
+    "file": "SIAC.dc.html",
+    "slug": "SIAC",
+    "title": "",
+    "h1": "",
+    "textPreview": "check_circle Recibimos tu solicitud Tu número de atención es {{ ticket }} . Te enviamos un correo de confirmación a la casilla que indicaste. Para hacer seguimiento, inicia sesión con ClaveÚnica. Envi",
+    "htmlLength": 35888
+  },
+  {
+    "file": "Sistema-de-Madrid.dc.html",
+    "slug": "Sistema-de-Madrid",
+    "title": "",
+    "h1": "",
+    "textPreview": "Para informarse ¿Qué es el Sistema de Madrid? Permite solicitar el registro de una marca en varios países mediante un solo trámite, en vez de presentar una solicitud por separado en cada país. Requisi",
+    "htmlLength": 31468
+  },
+  {
+    "file": "Solicitud-Nueva-de-Marca.dc.html",
+    "slug": "Solicitud-Nueva-de-Marca",
+    "title": "",
+    "h1": "",
+    "textPreview": "Solicitud nueva Renovación Anotación Títulos y certificados Recursos para usuarios Formularios descargables Inicia tu solicitud de marca Necesitas iniciar sesión con ClaveÚnica. El pago se realiza en ",
+    "htmlLength": 36113
+  },
+  {
+    "file": "Tramites-Digitales.dc.html",
+    "slug": "Tramites-Digitales",
+    "title": "",
+    "h1": "",
+    "textPreview": "Esta lista incluye los trámites del Registro Nacional de Trámites del Estado (RNT) que ofrece INAPI. Todos están completamente digitalizados: puedes iniciarlos y terminarlos por internet, sin ir prese",
+    "htmlLength": 34929
+  }
+]

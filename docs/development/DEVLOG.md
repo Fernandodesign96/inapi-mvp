@@ -3,11 +3,40 @@
 Este documento describe el proceso de desarrollo del **Portal de Solicitud de Marca INAPI**, bajo el concepto de **Guided Registration Interface (GRI)**. Es un registro de las decisiones técnicas, aprendizajes, errores mitigados y el progreso del MVP orientado a reducir el abandono en la tramitación ciudadana.
 
 ## 📑 Índice
+- [[2026-08-11] - Frontend | Sprint 6: Portal institucional completo y design system portal](#2026-08-11---frontend--sprint-6-portal-institucional-completo-y-design-system-portal)
 - [[2026-06-09] - Frontend | Sprint 5: Migración al UI Kit Gobierno Digital v3.0.1](#2026-06-09---frontend--sprint-5-migración-al-ui-kit-gobierno-digital-v301)
 - [[2026-04-10] - Frontend | Sprint 1: Génesis del MVP, Arquitectura Base y Niza N1](#2026-04-10---frontend--sprint-1-génesis-del-mvp-arquitectura-base-y-niza-n1)
 - [[2026-04-17] - Frontend | Sprint 2: Optimización de Niza N2 y Refinamiento UX](#2026-04-17---frontend--sprint-2-optimización-de-niza-n2-y-refinamiento-ux)
 - [[2026-04-20] - Frontend | Sprint 3: Despliegue, Accesibilidad y Analítica Final](#2026-04-20---frontend--sprint-3-despliegue-accesibilidad-y-analítica-final)
 - [[2026-04-24] - Full Stack | Sprint 4: Optimización Institucional y Motor de Inteligencia](#2026-04-24---full-stack--sprint-4-optimización-institucional-y-motor-de-inteligencia)
+
+---
+
+## [2026-08-11] - Frontend | Sprint 6: Portal institucional completo y design system portal
+
+### Contexto y objetivos
+Tras la migración al UI Kit v3.0.1 (Sprint 5), el MVP cubría el flujo GRI de solicitud de marca pero no el **portal institucional completo** visible en los diseños Claude Design (30 pantallas). El objetivo fue implementar todas las rutas públicas con contenido real — no stubs — aplicando tokens de portal, navegación de 4 niveles, checklist de lenguaje claro y primitivos reutilizables, manteniendo el flujo `/auth` → `/solicitud` intacto.
+
+### Implementación técnica
+- **Extracción de diseños:** Script `scripts/extract-ctrlu-all.ts` sobre bundles en `docs/ctrlu-htmls/` (templates embebidos en `__bundler/template`, no DOM Ctrl+U). Salida en `docs/ctrlu-htmls/extracted/*-main.html` e `index.json` (30 pantallas). Complemento: `scripts/extract-design-bundles.ts` para bundles Claude Design originales.
+- **Layout global:** `SiteHeader` (8 ítems nav principal, 11 enlaces subheader, buscador, “Iniciar sesión”), `FooterINAPI` (4 columnas + barra legal CC/dirección/redes), `PortalShell`, `Breadcrumbs`. Catálogo de rutas en `lib/portal-routes.ts` con `PORTAL_PRIMARY_NAV` y `PORTAL_SECONDARY_NAV`.
+- **Tokens de portal (`app/globals.css`):** `--inapi-portal-hero` / `--inapi-portal-nav` `#092039`, `--inapi-portal-subnav` `#F2F2F2`, `--inapi-cta` `#0051A8`, acentos `--inapi-marcas-accent` / `--inapi-patentes-accent`, contenedor portal 1140 px vía `ContainerGRI size="portal"`.
+- **Primitivos de contenido:** `components/portal/content.tsx` — cards, tablas, sidebar, acordeones, `PortalImagePlaceholder`, banners CTA. Helper `portalShellProps()` en `lib/portal-page-props.ts`.
+- **Home extendida:** `HomeExtraSections` (cifras, migas, “qué saber antes”, grid 5 pasos, CTA, novedades, banners Plataforma/Guías/Cuenta pública) y `HomeObservanciaCarousel` (client).
+- **Páginas (~34 rutas):** Home, marcas, patentes, buscador similitud, trámites, nosotros, FAQ, glosario, contacto/SIAC, sala de prensa (+ noticias), documentación, transparencia, observancia, etc. Eliminados todos los placeholders “Contenido en construcción”.
+- **Interactividad:** `BuscadorSitio` + `lib/portal-search-index.ts`; `SalaPrensa`, `SiacForm`; noticias en `lib/portal-news.ts`.
+- **Contenido:** Checklist de 39 criterios en `docs/LENGUAJE_CLARO_CHECKLIST.md` aplicado en redacción de pantallas.
+- **Correcciones:** Iconos Lucide inválidos (`TravelExplore`, `Payments` → `Search`, `CreditCard`, etc.); hidratación en home por conflicto `aria-hidden` + `role="img"` en placeholder del hero; build estático verificado (`bun run build`, 35 rutas).
+
+### 💡 Repaso técnico: Bundles `.dc.html` vs HTML extraído
+Los archivos en `docs/ctrlu-htmls/*.dc.html` no son el DOM renderizado del navegador sino bundles empaquetados con wrapper de “Ver código fuente”. El contenido útil vive en `__bundler/template` dentro del script. El script de extracción parsea ese template para obtener HTML limpio por pantalla; el header (`SiteHeader`) no venía expandido en el bundle y se implementó manualmente según diseño.
+
+### Próximos pasos
+- Sustituir `PortalImagePlaceholder` por assets reales (hero, noticias, banners).
+- Calibrar Fuse.js en buscador de similitud (umbrales 75/50/0 + clases Niza).
+- Modal unificado ClaveÚnica en header y `/auth`.
+- Completar escala `GOB.COLOR.GRIS` y elevaciones exactas del kit en tokens.
+- Test de usabilidad del portal completo con checklist de lenguaje claro.
 
 ---
 

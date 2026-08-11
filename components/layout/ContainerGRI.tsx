@@ -2,8 +2,8 @@ import { cn } from '@/lib/utils'
 
 type ContainerGRIProps = {
   children: React.ReactNode
-  /** Ancho máximo según grilla kit §7 */
-  size?: 'fluid' | 'tablet' | 'desktop'
+  /** Ancho máximo según grilla kit §7; `portal` = 1140px (diseño Claude) */
+  size?: 'fluid' | 'tablet' | 'desktop' | 'portal'
   className?: string
   as?: 'div' | 'main' | 'section'
 }
@@ -30,6 +30,7 @@ export function ContainerGRI({
           'min-[905px]:max-w-[var(--container-gob-tablet)]',
         size === 'desktop' &&
           'min-[905px]:max-w-[var(--container-gob-tablet)] min-[1440px]:max-w-[var(--container-gob-desktop)]',
+        size === 'portal' && 'max-w-[1140px]',
         className,
       )}
     >

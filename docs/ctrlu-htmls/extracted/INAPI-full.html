@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="fa6d0cde-b8ce-4db7-85d4-ebb3f024b379"></script>
+</head>
+<body>
+<x-dc>
+
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("377b19ae-ba93-4037-8d50-67c09f7588bf") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("4bae61f1-5ffa-4558-b719-eff87ef774d3") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("a58162f9-173a-4f45-b48b-06797fa4dc86") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("b5ae54cd-a413-4ee2-b114-4aec2b7d5f85") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* math */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("e2711151-5a25-4009-90c2-b23d42afe348") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("bdf03ac5-012c-4cb0-8371-d6dd4105bff4") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("27108120-65e3-47c4-bef9-332332112249") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("9407c144-7422-4589-a1cf-5e6fb04be4de") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("c6f5c9d0-e61e-4b4e-a68d-939d36363df1") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("48f7d712-f038-424f-ba2d-fbfd32624948") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("3885863b-a001-47be-9d6f-81736bef4d85") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("7d8a3c30-b20d-43ab-950a-f306fe52f729") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("8ea01eb2-7291-401c-8bba-8d036954e4e2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* math */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("de676737-d8b5-4585-917c-19481e0d6317") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("e3294832-f7aa-4677-a9e0-44acddf9dc7c") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("2470a98b-300c-42b3-96ab-fc55cc19b757") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("2d6b6b31-0b8c-45c9-b362-2ac695cc7a29") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("feeefb95-fc3a-4122-8dbc-769ddfc5d296") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("48f7d712-f038-424f-ba2d-fbfd32624948") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("3885863b-a001-47be-9d6f-81736bef4d85") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("7d8a3c30-b20d-43ab-950a-f306fe52f729") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("8ea01eb2-7291-401c-8bba-8d036954e4e2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* math */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("de676737-d8b5-4585-917c-19481e0d6317") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("e3294832-f7aa-4677-a9e0-44acddf9dc7c") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("2470a98b-300c-42b3-96ab-fc55cc19b757") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("2d6b6b31-0b8c-45c9-b362-2ac695cc7a29") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("feeefb95-fc3a-4122-8dbc-769ddfc5d296") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("48f7d712-f038-424f-ba2d-fbfd32624948") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("3885863b-a001-47be-9d6f-81736bef4d85") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("7d8a3c30-b20d-43ab-950a-f306fe52f729") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("8ea01eb2-7291-401c-8bba-8d036954e4e2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* math */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("de676737-d8b5-4585-917c-19481e0d6317") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("e3294832-f7aa-4677-a9e0-44acddf9dc7c") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("2470a98b-300c-42b3-96ab-fc55cc19b757") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("2d6b6b31-0b8c-45c9-b362-2ac695cc7a29") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("feeefb95-fc3a-4122-8dbc-769ddfc5d296") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("be12b36d-e938-4e0a-be2a-4f4a8e65a30c") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("96532046-ac01-45e1-b025-02f6ef98dec0") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("eb9ce4a7-0ad4-4803-b7a9-2bbd8281066a") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fe6acc87-8f87-483d-ac85-679b2a434dbd") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("4e841e59-89bf-4701-92bd-32d3c47b207d") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("8f5cbcfe-df53-444b-93e6-4363bd5c8539") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("41b40fa4-e66f-403c-8881-276d97f33016") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("be12b36d-e938-4e0a-be2a-4f4a8e65a30c") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("96532046-ac01-45e1-b025-02f6ef98dec0") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("eb9ce4a7-0ad4-4803-b7a9-2bbd8281066a") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fe6acc87-8f87-483d-ac85-679b2a434dbd") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("4e841e59-89bf-4701-92bd-32d3c47b207d") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("8f5cbcfe-df53-444b-93e6-4363bd5c8539") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("41b40fa4-e66f-403c-8881-276d97f33016") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("be12b36d-e938-4e0a-be2a-4f4a8e65a30c") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("96532046-ac01-45e1-b025-02f6ef98dec0") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("eb9ce4a7-0ad4-4803-b7a9-2bbd8281066a") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fe6acc87-8f87-483d-ac85-679b2a434dbd") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("4e841e59-89bf-4701-92bd-32d3c47b207d") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("8f5cbcfe-df53-444b-93e6-4363bd5c8539") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("41b40fa4-e66f-403c-8881-276d97f33016") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>/* fallback */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 400;
+  src: url("81fd7e98-3f01-4315-b9b0-a773a2b43a25") format('woff2');
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+</style>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:'Roboto',-apple-system,Arial,sans-serif;color:#373737;background:#fff}
+  .ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;-webkit-font-feature-settings:'liga';font-feature-settings:'liga';-webkit-font-smoothing:antialiased;vertical-align:middle}
+  .ms.fill{font-variation-settings:'FILL' 1}
+  a{color:inherit}
+  @keyframes inapiFade{from{opacity:0}to{opacity:1}}
+  @keyframes inapiUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  image-slot{display:block}
+  .obs-scroll{scrollbar-width:none;-ms-overflow-style:none;cursor:grab}
+  .obs-scroll::-webkit-scrollbar{display:none}
+  .obs-scroll.dragging{cursor:grabbing}
+</style>
+<script src="71c3d0a9-0970-4000-89dc-b107c9932200"></script>
+</helmet>
+
+<div style="background:#fff;min-height:100vh">
+
+  <!-- ============ HEADER ============ -->
+  <dc-import name="SiteHeader" active="home" current="" hint-size="100%,120px"></dc-import>
+
+  <!-- ============ HOME ============ -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <!-- Hero -->
+    <section style="background:#092039;color:#fff">
+      <div style="max-width:1140px;margin:0 auto;padding:56px 24px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:stretch;margin-bottom:32px">
+          <div style="display:flex;flex-direction:column;justify-content:center">
+            <span style="font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#FFBE5C;margin-bottom:12px">Portal oficial · INAPI Chile</span>
+            <h1 style="font-family:'Roboto Slab',serif;font-size:44px;font-weight:500;line-height:1.15;margin:0 0 16px;color:#fff">Te queremos ayudar a utilizar la propiedad industrial</h1>
+            <p style="font-size:18px;line-height:1.5;color:rgba(255,255,255,.85);margin:0;max-width:520px">Registra marcas, patentes, diseños y más. Protege tu propiedad industrial con seguridad y rapidez.</p>
+          </div>
+          <image-slot id="hero-home" ref="{{ heroHomeRef }}" style="width:100%;height:320px" shape="rounded" radius="8" fit="cover" src="f549f111-1dbe-4cec-87bf-bad73b308250" placeholder="Arrastra una foto de marca de INAPI"></image-slot>
+        </div>
+      </div>
+      <div style="background:rgba(0,0,0,.3);padding:48px 24px">
+        <div style="max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:28px">
+          <article style="background:rgba(0,0,0,.4);border-radius:8px;padding:28px;backdrop-filter:blur(8px)">
+            <h2 style="font-size:28px;font-weight:700;color:#fff;margin:0 0 20px">Marcas</h2>
+            <button type="button" sc-camel-on-click="{{ goTramites }}" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#FF9500;color:#fff;border:none;border-radius:0;padding:14px 24px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;width:100%;margin-bottom:12px;text-transform:uppercase;letter-spacing:.04em" style-hover="background:#E88000"><span class="ms" style="font-size:20px">search</span>Buscador de Marcas</button>
+            <a href="Buscador-de-Anterioridades.dc.html" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);border-radius:0;padding:12px 22px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;width:100%;margin-bottom:20px;text-transform:uppercase;letter-spacing:.04em;text-decoration:none;box-sizing:border-box" style-hover="border-color:#fff;background:rgba(255,255,255,.1)"><span class="ms" style="font-size:20px">history</span>Buscador de similitud de marcas</a>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:14px">
+              <li><a href="Marcas-Para-Informarse.dc.html" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:6px" style-hover="color:#FFBE5C"><span class="ms" style="font-size:18px">chevron_right</span>Cómo registrar una marca</a></li>
+              <li><a href="#" sc-camel-on-click="{{ openLogin }}" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:6px" style-hover="color:#FFBE5C"><span class="ms" style="font-size:18px">chevron_right</span>Ingresa tu solicitud</a></li>
+            </ul>
+          </article>
+          <article style="background:rgba(0,0,0,.4);border-radius:8px;padding:28px;backdrop-filter:blur(8px)">
+            <h2 style="font-size:28px;font-weight:700;color:#fff;margin:0 0 20px">Patentes</h2>
+            <button type="button" sc-camel-on-click="{{ goTramites }}" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#0DBFFF;color:#fff;border:none;border-radius:0;padding:14px 24px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;width:100%;margin-bottom:20px;text-transform:uppercase;letter-spacing:.04em" style-hover="background:#0A9FCC"><span class="ms" style="font-size:20px">search</span>Buscador de Patentes</button>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:14px">
+              <li><a href="Patentes-Para-Informarse.dc.html" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:6px" style-hover="color:#FFBE5C"><span class="ms" style="font-size:18px">chevron_right</span>Cómo registrar una patente</a></li>
+              <li><a href="#" sc-camel-on-click="{{ openLogin }}" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:6px" style-hover="color:#FFBE5C"><span class="ms" style="font-size:18px">chevron_right</span>Ingresa tu solicitud</a></li>
+            </ul>
+          </article>
+        </div>
+        <div style="max-width:1140px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:28px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1);font-size:13px">
+          <a href="Estadisticas.dc.html" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:8px" style-hover="color:#FFBE5C"><span class="ms" style="font-size:20px">bar_chart</span>Estadísticas</a>
+          <a href="Notificaciones-Diarias.dc.html" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:8px" style-hover="color:#FFBE5C"><span class="ms" style="font-size:20px">notifications</span>Notificaciones diarias</a>
+          <a href="Preguntas-Frecuentes.dc.html" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:8px" style-hover="color:#FFBE5C"><span class="ms" style="font-size:20px">help</span>Preguntas frecuentes</a>
+          <a href="https://www.inapi.cl/datos-abiertos" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:8px" style-hover="color:#FFBE5C"><span class="ms" style="font-size:20px">dataset</span>Datos abiertos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cifras -->
+    <section style="background:#0a2a4d;color:#fff;border-top:1px solid rgba(255,255,255,.08)">
+      <div style="max-width:1140px;margin:0 auto;padding:28px 24px;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-around;text-align:center">
+        <div><div style="font-family:'Roboto Slab',serif;font-size:32px;font-weight:700;color:#FFBE5C">+50.000</div><div style="font-size:15px;color:rgba(255,255,255,.85)">marcas registradas al año</div></div>
+        <div><div style="font-family:'Roboto Slab',serif;font-size:32px;font-weight:700;color:#FFBE5C">6 a 8 meses</div><div style="font-size:15px;color:rgba(255,255,255,.85)">tiempo promedio del proceso</div></div>
+        <div><div style="font-family:'Roboto Slab',serif;font-size:32px;font-weight:700;color:#FFBE5C">10 años</div><div style="font-size:15px;color:rgba(255,255,255,.85)">de protección renovable</div></div>
+      </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div style="max-width:1140px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:8px;font-size:14px;color:#666">
+      <a href="#" sc-camel-on-click="{{ goHome }}" style="color:#1D70B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><span class="ms" style="font-size:18px">home</span>Inicio</a>
+      <span class="ms" style="font-size:18px;color:#999">chevron_right</span>
+      <span>Registro de marcas</span>
+    </div>
+
+    <!-- ¿Qué necesitas saber? -->
+    <section style="max-width:1140px;margin:0 auto;padding:24px 24px 56px">
+      <h2 style="font-family:'Roboto',sans-serif;font-weight:500;font-size:31px;color:#111;margin:0 0 8px">¿Qué necesitas saber antes de empezar?</h2>
+      <p style="font-size:16px;color:#666;margin:0 0 28px;max-width:680px">Tres conceptos básicos para preparar tu solicitud.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        <sc-for list="{{ saberCards }}" as="card" hint-placeholder-count="4">
+          <article style="background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)">
+            <span class="ms" style="font-size:36px;color:#0F69C4">{{ card.icon }}</span>
+            <h3 style="font-size:18px;font-weight:700;color:#111;margin:0">{{ card.title }}</h3>
+            <p style="font-size:15px;line-height:1.5;color:#373737;margin:0">{{ card.body }}</p>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- Proceso paso a paso -->
+    <section id="proceso" ref="{{ procesoRef }}" style="background:#F2F2F2">
+      <div style="max-width:1140px;margin:0 auto;padding:56px 24px">
+        <h2 style="font-family:'Roboto',sans-serif;font-weight:500;font-size:31px;color:#111;margin:0 0 8px">El proceso de registro, paso a paso</h2>
+        <p style="font-size:16px;color:#666;margin:0 0 36px;max-width:680px">Antes de empezar, conoce qué vas a hacer y cuánto te costará.</p>
+        <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:18px;counter-reset:paso">
+          <sc-for list="{{ procesoSteps }}" as="paso" hint-placeholder-count="4">
+            <li style="background:#fff;border-radius:8px;padding:18px;border-top:4px solid #0F69C4;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <span style="width:34px;height:34px;border-radius:50%;background:#0F69C4;color:#fff;font-weight:700;font-size:16px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto">{{ paso.n }}</span>
+                <span class="ms" style="font-size:24px;color:#0F69C4">{{ paso.icon }}</span>
+              </div>
+              <h3 style="font-size:16px;font-weight:700;color:#111;margin:0 0 8px;line-height:1.3">{{ paso.title }}</h3>
+              <p style="font-size:14px;line-height:1.5;color:#373737;margin:0">{{ paso.body }}</p>
+            </li>
+          </sc-for>
+        </ol>
+        <div style="background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:24px 28px;margin-top:32px;display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+          <div style="flex:0 0 auto;display:flex;align-items:center;gap:12px">
+            <span class="ms" style="font-size:32px;color:#0F69C4">payments</span>
+            <h3 style="font-size:20px;font-weight:700;color:#111;margin:0">¿Cuánto vas a pagar en total?</h3>
+          </div>
+          <ul style="flex:1;min-width:300px;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:15px;color:#373737">
+            <li style="display:flex;gap:10px"><span class="ms" style="font-size:20px;color:#43A047">check_circle</span><span><strong>Tasa de solicitud:</strong> unos $70.000 por cada clase de Niza.</span></li>
+            <li style="display:flex;gap:10px"><span class="ms" style="font-size:20px;color:#43A047">check_circle</span><span><strong>Publicación en el Diario Oficial:</strong> costo adicional según la tarifa vigente.</span></li>
+            <li style="display:flex;gap:10px"><span class="ms" style="font-size:20px;color:#43A047">check_circle</span><span><strong>Arancel de registro:</strong> se paga al emitirse el certificado.</span></li>
+            <li style="color:#666;font-size:14px;margin-top:4px">Los montos se calculan en UTM. Verás el total actualizado antes de confirmar el pago.</li>
+          </ul>
+        </div>
+        <div style="margin-top:28px">
+          <button type="button" sc-camel-on-click="{{ goTramites }}" style="display:inline-flex;align-items:center;gap:8px;background:#0051A8;color:#fff;border:none;border-radius:0;padding:14px 24px;font-family:inherit;font-weight:700;font-size:17px;cursor:pointer" style-hover="background:#003B8D">Comenzar mi registro <span class="ms" style="font-size:20px">arrow_forward</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ¿Listo? band -->
+    <section style="background:#092039;color:#fff">
+      <div style="max-width:1140px;margin:0 auto;padding:56px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:32px">
+        <div style="max-width:560px">
+          <h2 style="font-family:'Roboto Slab',serif;font-weight:500;font-size:34px;margin:0 0 12px">¿Listo para proteger tu marca?</h2>
+          <p style="font-size:18px;line-height:1.5;color:rgba(255,255,255,.85);margin:0">Completa el formulario guiado en menos de 15 minutos.</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px">
+          <button type="button" sc-camel-on-click="{{ goTramites }}" style="display:inline-flex;align-items:center;gap:8px;background:#0F69C4;color:#fff;border:none;border-radius:0;padding:14px 24px;font-family:inherit;font-weight:700;font-size:17px;cursor:pointer" style-hover="background:#0051A8">Comenzar mi registro <span class="ms" style="font-size:20px">arrow_forward</span></button>
+          <button type="button" sc-camel-on-click="{{ goHome }}" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.6);border-radius:0;padding:12px 22px;font-family:inherit;font-weight:700;font-size:17px;cursor:pointer" style-hover="border-color:#fff;background:rgba(255,255,255,.08)"><span class="ms" style="font-size:20px">support_agent</span>Tengo dudas, hablar con un ejecutivo</button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Novedades -->
+    <section style="max-width:1140px;margin:0 auto;padding:56px 24px">
+      <h2 style="font-family:'Roboto',sans-serif;font-weight:500;font-size:31px;color:#111;margin:0 0 8px;text-align:center">Novedades</h2>
+      <p style="font-size:16px;color:#666;margin:0 0 36px;text-align:center;max-width:680px;margin-left:auto;margin-right:auto">Mantente informado de los últimos anuncios y noticias de INAPI.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:28px">
+        <article style="background:#fff;border:1px solid #E6E6E6;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column">
+          <div style="width:100%;height:200px;background:#ccc;overflow:hidden"><image-slot style="width:100%;height:100%" shape="rect" fit="cover" src="60e291f2-d36a-494e-8d7a-6ae2464fc94b" placeholder="Imagen noticia 1"></image-slot></div>
+          <div style="padding:20px;display:flex;flex-direction:column;flex:1">
+            <span style="font-size:12px;color:#0F69C4;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Lunes 13 julio de 2026</span>
+            <h3 style="font-size:16px;font-weight:700;color:#111;margin:0 0 12px;line-height:1.3">Asamblea de la OMPI ratifica por unanimidad a INAPI como Autoridad Internacional PCT por 10 años más</h3>
+            <p style="font-size:14px;line-height:1.5;color:#373737;margin:0;flex:1">La decisión de la Unión del PCT en Ginebra da continuidad al rol de la oficina chilena como prestadora de servicios de búsqueda y examen preliminar internacional para 14 países de América Latina y el Caribe.</p>
+          </div>
+        </article>
+        <article style="background:#fff;border:1px solid #E6E6E6;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column">
+          <div style="width:100%;height:200px;background:#ccc;overflow:hidden"><image-slot style="width:100%;height:100%" shape="rect" fit="cover" src="94c39936-38c7-4fea-b74e-774484815ff9" placeholder="Imagen noticia 2"></image-slot></div>
+          <div style="padding:20px;display:flex;flex-direction:column;flex:1">
+            <span style="font-size:12px;color:#0F69C4;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Viernes 10 julio de 2026</span>
+            <h3 style="font-size:16px;font-weight:700;color:#111;margin:0 0 12px;line-height:1.3">Con foco en Inteligencia Artificial y financiamiento de intangibles: INAPI despliega intensa agenda de reuniones bilaterales y firmas de acuerdos en las Asambleas de la OMPI</h3>
+            <p style="font-size:14px;line-height:1.5;color:#373737;margin:0;flex:1">La delegación chilena, liderada por el Director Nacional Esteban Figueroa, asiste a las reuniones anuales en Ginebra con el objetivo de consolidar alianzas estratégicas con oficinas líderes de Europa, Asia y América Latina.</p>
+          </div>
+        </article>
+        <article style="background:#fff;border:1px solid #E6E6E6;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column">
+          <div style="width:100%;height:200px;background:#ccc;overflow:hidden"><image-slot style="width:100%;height:100%" shape="rect" fit="cover" src="79e62803-fb03-407b-b92e-ac2aae2897f6" placeholder="Imagen noticia 3"></image-slot></div>
+          <div style="padding:20px;display:flex;flex-direction:column;flex:1">
+            <span style="font-size:12px;color:#0F69C4;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Viernes 10 julio de 2026</span>
+            <h3 style="font-size:16px;font-weight:700;color:#111;margin:0 0 12px;line-height:1.3">Startup chilena Drovid obtiene Premio Mundial de la OMPI 2026 por innovación para la detección temprana de incendios forestales</h3>
+            <p style="font-size:14px;line-height:1.5;color:#373737;margin:0;flex:1">La empresa nacional fue reconocida por la Organización Mundial de la Propiedad Intelectual (OMPI) gracias a una tecnología basada en drones e inteligencia artificial que permite identificar actividades humanas de riesgo antes de que se inicie un incendio forestal.</p>
+          </div>
+        </article>
+      </div>
+      <div style="text-align:center">
+        <button type="button" sc-camel-on-click="{{ goHome }}" style="display:inline-flex;align-items:center;gap:8px;background:#FF9500;color:#fff;border:none;border-radius:0;padding:14px 28px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase;letter-spacing:.04em" style-hover="background:#E88000">Ver todas las noticias</button>
+      </div>
+    </section>
+
+    <!-- Plataforma de Datos -->
+    <section style="position:relative;display:flex;flex-direction:column;min-height:400px;overflow:hidden">
+      <div style="background:#fff;padding:24px;border-bottom:4px solid #0F69C4;text-align:center">
+        <h2 style="font-family: 'Roboto',sans-serif; font-weight: 700; font-size: 31px; color: #111; margin: 0; text-transform: none; letter-spacing: .04em">Plataforma de datos</h2>
+      </div>
+      <div style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;background:transparent">
+        <image-slot style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;background:transparent" shape="rect" fit="cover" src="4f5aa9a6-292a-4709-b761-92b1d1f16c87" placeholder="Imagen Plataforma de Datos"></image-slot>
+        <div style="position:relative;z-index:3;max-width:1140px;margin:0 auto;padding:56px 24px;text-align:center;color:#fff">
+          <h3 style="font-family: 'Roboto Slab',serif; font-size: 26px; font-weight: 500; margin: 0 0 8px; line-height: 1.2">Información tecnológica de patentes</h3>
+          
+          <p style="font-size: 18px; font-weight: 700; margin: 0 0 28px; line-height: 1.2">Programa de desarrollo productivo sostenible</p><span style="display: inline-block; color: var(--blanco-base); padding: 8px 16px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 16px; background-color: #092039; position: static; padding-top: 16px; padding-bottom: 16px">PLATAFORMA</span>
+          <button type="button" sc-camel-on-click="{{ goHome }}" style="display: inline-block; align-items: center; gap: 8px; background: #fff; color: #092039; border: none; border-radius: 0; padding: 12px 28px; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: .04em; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px; height: 49px; width: 121px; justify-content: flex-start" style-hover="background:rgba(255,255,255,.9)">Acceder</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guías para Usuarios -->
+    <section style="position:relative;display:flex;flex-direction:column;overflow:hidden;margin-top:56px">
+      <div style="background:#fff;padding:24px;text-align:center">
+        <h2 style="font-family: 'Roboto',sans-serif; font-weight: 700; font-size: 31px; color: #111; margin: 0; text-transform: none; letter-spacing: .04em">Guías para usuarios</h2>
+      </div>
+      <div style="position:relative;width:100%;aspect-ratio:2545/285;display:flex;align-items:center;justify-content:flex-end;overflow:hidden;background:transparent">
+        <image-slot style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;background:transparent" shape="rect" fit="cover" src="588c3531-d504-461e-b966-02919543229c" placeholder="Imagen Guías para Usuarios"></image-slot>
+        <div style="position:relative;z-index:3;max-width:400px;margin:0;padding:56px 40px;width:auto;display:flex;flex-direction:column;gap:20px">
+          <button type="button" sc-camel-on-click="{{ goHome }}" style="display:inline-flex;align-items:center;gap:8px;background:#0051A8;color:#fff;border:none;border-radius:0;padding:12px 20px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;text-transform:uppercase;letter-spacing:.04em" style-hover="background:#003B8D">Descargar guía de marcas</button>
+          <button type="button" sc-camel-on-click="{{ goHome }}" style="display:inline-flex;align-items:center;gap:8px;background:#0051A8;color:#fff;border:none;border-radius:0;padding:12px 20px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;text-transform:uppercase;letter-spacing:.04em" style-hover="background:#003B8D">Descargar guía de patentes</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cuenta Pública 2026 -->
+    <section style="position:relative;display:flex;flex-direction:column;overflow:hidden;margin-top:56px">
+      <div style="background:#fff;padding:24px;text-align:center">
+        <h2 style="font-family: 'Roboto',sans-serif; font-weight: 700; font-size: 31px; color: #111; margin: 0; text-transform: none; letter-spacing: .04em">Cuenta pública 2026</h2>
+      </div>
+      <div style="position:relative;width:100%;aspect-ratio:2545/285;display:flex;align-items:center;justify-content:flex-end;overflow:hidden;background:transparent">
+        <image-slot style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;background:transparent" shape="rect" fit="cover" src="3b4e8b56-ca82-4142-8b88-f3d19bfc6250" placeholder="Imagen Cuenta Pública 2026"></image-slot>
+        <div style="position:relative;z-index:3;max-width:300px;margin:0;padding:56px 40px;width:auto">
+          <button type="button" sc-camel-on-click="{{ goHome }}" style="display:inline-flex;align-items:center;gap:8px;background:#0F69C4;color:#fff;border:none;border-radius:0;padding:12px 24px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase;letter-spacing:.04em" style-hover="background:#0051A8">Acceder</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Observancia -->
+    <section style="position:relative;display:flex;flex-direction:column;overflow:hidden;margin-top:56px">
+      <div style="background:#fff;padding:24px;text-align:center">
+        <h2 style="font-family: 'Roboto',sans-serif; font-weight: 700; font-size: 31px; color: #111; margin: 0; text-transform: none; letter-spacing: .04em">Observancia</h2>
+      </div>
+      <div style="color: #fff; padding: 56px 24px; position: relative; overflow: hidden; flex: 1">
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background-color: #F2F2F2"></div>
+      <div style="max-width:1140px;margin:0 auto;position:relative;z-index:2">
+        <div style="text-align:center;margin-bottom:48px">
+          <h2 style="font-family: Roboto Slab; font-size: 22px; font-weight: 500; margin: 0 0 16px; line-height: 1.2; color: #0051A8">Conoce y utiliza las herramientas de protección&nbsp;de la propiedad intelectual en Chile</h2>
+          
+        </div>
+        <div style="text-align:center;margin-bottom:48px">
+          <button type="button" sc-camel-on-click="{{ goHome }}" style="display: inline-flex; align-items: center; gap: 8px; color: #0051A8; border: 2px solid rgba(255,255,255,.6); border-radius: 0; padding: 12px 24px; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: .04em; background-color: rgb(255,255,255); border-color: var(--primario-darken-1-2)" style-hover="border-color:#fff;background:rgba(255,255,255,.1)">Conoce más</button>
+        </div>
+        <div style="position:relative;padding:0 52px">
+          <button type="button" sc-camel-on-click="{{ obsScrollLeft }}" aria-label="Anterior" style="position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:4;background:#fff;color:#0051A8;border:none;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25)" style-hover="background:#F2F2F2"><span class="ms" style="font-size:26px">chevron_left</span></button>
+        <div class="obs-scroll" ref="{{ obsRef }}" style="display:flex;overflow-x:auto;gap:16px;scroll-behavior:smooth">
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Transparencia Activa<br>Ley de Transparencia</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Plan anual de<br>Capacitación 2026</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">MESU 2025</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Sistema<br>de Teletrabajo</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Plataforma<br>Ley del Lobby</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Código de Ética</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Tribunal de<br>Propiedad Industrial</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Trámites digitales</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Recursos Genéticos<br>Microbianos</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Departamento de<br>Derechos Intelectuales</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Empleos Públicos</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Participe en nuestras<br>licitaciones</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Solicitud de información<br>Ley de transparencia</h3>
+          </div>
+          <div style="flex:0 0 calc(20% - 13px);min-width:190px;background:#0051A8;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <h3 style="font-size:14px;font-weight:700;margin:0;line-height:1.3">Gobierno Transparente<br>Histórico</h3>
+          </div>
+        </div>
+          <button type="button" sc-camel-on-click="{{ obsScrollRight }}" aria-label="Siguiente" style="position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:4;background:#fff;color:#0051A8;border:none;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25)" style-hover="background:#F2F2F2"><span class="ms" style="font-size:26px">chevron_right</span></button>
+        </div>
+      </div>
+    </div></section>
+  </main>
+  </sc-if>
+
+  <!-- ============ TRÁMITES ============ -->
+  <sc-if value="{{ isTramites }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <div style="max-width:1140px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:8px;font-size:14px;color:#666">
+      <a href="#" sc-camel-on-click="{{ goHome }}" style="color:#1D70B8;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><span class="ms" style="font-size:18px">home</span>Inicio</a>
+      <span class="ms" style="font-size:18px;color:#999">chevron_right</span>
+      <span>Trámites de marcas</span>
+    </div>
+    <section style="background:#092039;color:#fff">
+      <div style="max-width:1140px;margin:0 auto;padding:56px 24px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center">
+        <div>
+          <span style="font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#FFBE5C">Marcas</span>
+          <h1 style="font-family:'Roboto Slab',serif;font-size:40px;font-weight:500;line-height:1.15;margin:12px 0 14px">Trámites de marcas</h1>
+          <p style="font-size:19px;line-height:1.5;color:rgba(255,255,255,.85);max-width:620px;margin:0 0 28px">Elige cómo quieres avanzar. Puedes iniciar el registro de una marca nueva o revisar antes si existe una marca parecida.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:16px">
+            <button type="button" sc-camel-on-click="{{ openLogin }}" style="display:inline-flex;align-items:center;gap:8px;background:#0051A8;color:#fff;border:none;border-radius:0;padding:14px 24px;font-family:inherit;font-weight:700;font-size:17px;cursor:pointer" style-hover="background:#003B8D"><span class="ms" style="font-size:20px">verified</span>Registrar una marca nueva</button>
+            <a href="Buscador-de-Anterioridades.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.6);border-radius:0;padding:12px 22px;font-family:inherit;font-weight:700;font-size:17px;cursor:pointer;text-decoration:none" style-hover="border-color:#fff;background:rgba(255,255,255,.08)"><span class="ms" style="font-size:20px">search</span>Buscar marcas similares</a>
+          </div>
+        </div>
+        <image-slot id="hero-tramite" style="width:100%;height:320px" shape="rounded" radius="8" fit="cover" src="861d0f78-04c2-47e5-aac5-cfad73d7d97c" placeholder="Arrastra una foto de marca de INAPI" credit="Photo by Marvin Meyer on Unsplash" credit-href="https://unsplash.com/@marvinmeyer"></image-slot>
+      </div>
+    </section>
+    <section style="max-width:1140px;margin:0 auto;padding:48px 24px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <article style="background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+          <span class="ms" style="font-size:36px;color:#0F69C4">verified</span>
+          <h3 style="font-size:20px;font-weight:700;color:#111;margin:12px 0 8px">Registrar una marca nueva</h3>
+          <p style="font-size:15px;line-height:1.5;margin:0 0 16px">Completa el formulario guiado de cuatro pasos. Necesitas iniciar sesión con ClaveÚnica.</p>
+          <button type="button" sc-camel-on-click="{{ openLogin }}" style="background:#0051A8;color:#fff;border:none;border-radius:0;padding:12px 20px;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer" style-hover="background:#003B8D">Iniciar registro de marca</button>
+        </article>
+        <article style="background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+          <span class="ms" style="font-size:36px;color:#0F69C4">search</span>
+          <h3 style="font-size:20px;font-weight:700;color:#111;margin:12px 0 8px">Buscador de similitud de marcas</h3>
+          <p style="font-size:15px;line-height:1.5;margin:0 0 16px">Compara tu marca con las ya registradas antes de pagar. Es gratuito y no requiere iniciar sesión.</p>
+          <a href="Buscador-de-Anterioridades.dc.html" style="background:#fff;color:#0051A8;border:2px solid #0051A8;border-radius:0;padding:10px 18px;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;display:inline-block" style-hover="background:#EAF2FB">Buscar marcas similares</a>
+        </article>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ CHEQUEO ============ -->
+  <sc-if value="{{ isChequeo }}" hint-placeholder-val="{{ true }}">
+  <main style="max-width:1140px;margin:0 auto;padding:32px 24px 64px">
+    <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:#666;margin-bottom:20px">
+      <a href="#" sc-camel-on-click="{{ goTramites }}" style="color:#1D70B8;text-decoration:none">Trámites de marcas</a>
+      <span class="ms" style="font-size:18px;color:#999">chevron_right</span><span>Chequeo de marcas</span>
+    </div>
+    <h1 style="font-family:'Roboto',sans-serif;font-weight:500;font-size:31px;color:#111;margin:0 0 8px">Chequeo de marcas</h1>
+    <p style="font-size:16px;color:#373737;margin:0 0 24px;max-width:640px">Escribe el nombre de tu marca para ver si existe una marca igual o parecida ya registrada.</p>
+    <div style="display:flex;gap:0;max-width:560px;margin-bottom:28px">
+      <input type="text" placeholder="Ej.: Café del Valle" style="flex:1;border:1px solid #808080;border-right:none;border-radius:0;padding:14px 16px;font-family:inherit;font-size:16px;outline:none">
+      <button type="button" style="background:#0051A8;color:#fff;border:none;border-radius:0;padding:0 24px;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px" style-hover="background:#003B8D"><span class="ms" style="font-size:20px">search</span>Buscar</button>
+    </div>
+    <div style="border:1px solid #E6E6E6;border-radius:8px;overflow:hidden">
+      <div style="background:#F2F2F2;padding:14px 20px;font-weight:700;font-size:14px;color:#666;display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px">
+        <span>Marca</span><span>Clase</span><span>Estado</span>
+      </div>
+      <sc-for list="{{ chequeoResultados }}" as="r" hint-placeholder-count="3">
+        <div style="padding:16px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;align-items:center;border-top:1px solid #E6E6E6;font-size:15px">
+          <span style="font-weight:500;color:#111">{{ r.marca }}</span>
+          <span>Clase {{ r.clase }}</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:700;width:fit-content;background:{{ r.bg }};color:{{ r.fg }}">{{ r.estado }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <p style="font-size:14px;color:#666;margin:16px 0 0;max-width:640px">El chequeo es referencial. La revisión definitiva la realiza INAPI en el examen de fondo.</p>
+  </main>
+  </sc-if>
+
+  <!-- ============ WIZARD ============ -->
+  <sc-if value="{{ isWizard }}" hint-placeholder-val="{{ true }}">
+  <main style="background:#F2F2F2;min-height:80vh">
+    <div style="max-width:980px;margin:0 auto;padding:28px 24px 64px">
+      <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:#666;margin-bottom:18px">
+        <a href="#" sc-camel-on-click="{{ goTramites }}" style="color:#1D70B8;text-decoration:none">Trámites de marcas</a>
+        <span class="ms" style="font-size:18px;color:#999">chevron_right</span><span>Registro de marca</span>
+      </div>
+      <h1 style="font-family:'Roboto',sans-serif;font-weight:500;font-size:31px;color:#111;margin:0 0 24px">Registro de marca</h1>
+
+      <!-- Stepper -->
+      <div style="background:#fff;border-radius:8px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:24px">{{ stepper }}</div>
+
+      <!-- Step content -->
+      <div style="background:#fff;border-radius:8px;padding:32px;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+
+        <!-- STEP 1 -->
+        <sc-if value="{{ isStep0 }}" hint-placeholder-val="{{ true }}">
+        <div style="animation:inapiFade .2s ease">
+          <h2 style="font-size:22px;font-weight:700;color:#111;margin:0 0 4px">Paso 1 · ¿Quién será el dueño de esta marca?</h2>
+          <p style="font-size:15px;color:#666;margin:0 0 24px">Completa los datos de la persona o empresa que registrará la marca.</p>
+          <fieldset style="border:none;margin:0 0 24px;padding:0">
+            <legend style="font-size:16px;font-weight:700;color:#111;padding:0;margin-bottom:12px">Datos del titular</legend>
+            <div style="display:flex;flex-wrap:wrap;gap:12px">
+              <label style="display:flex;align-items:center;gap:10px;border:1px solid {{ naturalBorder }};border-radius:8px;padding:14px 18px;cursor:pointer;flex:1;min-width:240px;background:{{ naturalBg }}">
+                <input type="radio" name="titular" checked="{{ isNatural }}" sc-camel-on-change="{{ setNatural }}" style="width:18px;height:18px;accent-color:#0051A8">
+                <span><span style="display:block;font-weight:700;color:#111">Persona natural</span><span style="font-size:13px;color:#666">Registras la marca a tu nombre.</span></span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;border:1px solid {{ juridicaBorder }};border-radius:8px;padding:14px 18px;cursor:pointer;flex:1;min-width:240px;background:{{ juridicaBg }}">
+                <input type="radio" name="titular" checked="{{ isJuridica }}" sc-camel-on-change="{{ setJuridica }}" style="width:18px;height:18px;accent-color:#0051A8">
+                <span><span style="display:block;font-weight:700;color:#111">Persona jurídica</span><span style="font-size:13px;color:#666">Registras a nombre de una empresa.</span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <sc-if value="{{ isNatural }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-bottom:8px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Nacionalidad</span><input type="text" placeholder="Chile" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">RUN</span><input type="text" placeholder="12.345.678-9" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Nombre</span><input type="text" placeholder="Tu nombre" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Apellidos</span><input type="text" placeholder="Tus apellidos" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            </div>
+            <h4 style="font-size:15px;font-weight:700;color:#111;margin:24px 0 12px">Datos de contacto</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Correo electrónico</span><input type="email" placeholder="nombre@correo.cl" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Repetir correo</span><input type="email" placeholder="nombre@correo.cl" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Teléfono</span><input type="tel" placeholder="+56 9 1234 5678" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            </div>
+            <h4 style="font-size:15px;font-weight:700;color:#111;margin:24px 0 12px">Dirección de residencia</h4>
+            <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px">
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Dirección</span><input type="text" placeholder="Calle, número, departamento" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Código postal <span style="font-weight:400;color:#999">(opcional)</span></span><input type="text" placeholder="7500000" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Ciudad</span><input type="text" placeholder="Santiago" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">País de residencia</span><input type="text" placeholder="Chile" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isJuridica }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px">
+            <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Razón social</span><input type="text" placeholder="Nombre de la empresa" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">RUT de la empresa</span><input type="text" placeholder="76.123.456-7" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Correo de contacto</span><input type="email" placeholder="contacto@empresa.cl" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Domicilio</span><input type="text" placeholder="Calle, número, comuna" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+          </div>
+          </sc-if>
+
+          <div style="border-top:1px solid #E6E6E6;margin-top:20px;padding-top:20px;display:flex;flex-direction:column;gap:14px">
+            <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer">
+              <input type="checkbox" checked="{{ tieneRep }}" sc-camel-on-change="{{ toggleRep }}" style="width:18px;height:18px;margin-top:2px;accent-color:#0051A8">
+              <span><span style="font-weight:700;color:#111">Actúo como representante o agente</span><span style="display:block;font-size:13px;color:#666">Marca esta opción si presentas la solicitud por otra persona o empresa.</span></span>
+            </label>
+            <sc-if value="{{ tieneRep }}" hint-placeholder-val="{{ true }}">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-left:30px">
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Nombre del representante</span><input type="text" placeholder="Nombre y apellidos" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">RUN del representante</span><input type="text" placeholder="12.345.678-9" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            </div>
+            </sc-if>
+            <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer">
+              <input type="checkbox" checked="{{ tienePrioridad }}" sc-camel-on-change="{{ togglePrioridad }}" style="width:18px;height:18px;margin-top:2px;accent-color:#0051A8">
+              <span><span style="font-weight:700;color:#111">Registré esta marca antes en otro país (derecho de prioridad)</span><span style="display:block;font-size:13px;color:#666">Si presentaste la misma marca fuera de Chile en los últimos seis meses, puedes reclamar prioridad.</span></span>
+            </label>
+            <sc-if value="{{ tienePrioridad }}" hint-placeholder-val="{{ true }}">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding-left:30px">
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">País de origen</span><input type="text" placeholder="Ej.: Argentina" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Fecha de presentación</span><input type="text" placeholder="DD-MM-AAAA" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+              <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Número de solicitud</span><input type="text" placeholder="N.º de origen" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            </div>
+            </sc-if>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- STEP 2 -->
+        <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+        <div style="animation:inapiFade .2s ease">
+          <h2 style="font-size:22px;font-weight:700;color:#111;margin:0 0 4px">Paso 2 · Chequeo de marcas</h2>
+          <p style="font-size:15px;color:#666;margin:0 0 20px;max-width:640px">Compara tu marca con las ya registradas. Así evalúas si existe una marca parecida y reduces el riesgo de rechazo en el examen de fondo.</p>
+          <div style="display:flex;gap:0;max-width:520px;margin-bottom:24px">
+            <input type="text" value="{{ marcaNombre }}" sc-camel-on-input="{{ onNombre }}" placeholder="Escribe el nombre de tu marca" style="flex:1;border:1px solid #808080;border-right:none;border-radius:0;padding:13px 16px;font-family:inherit;font-size:15px;outline:none">
+            <button type="button" style="background:#0051A8;color:#fff;border:none;border-radius:0;padding:0 22px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;gap:8px" style-hover="background:#003B8D"><span class="ms" style="font-size:20px">search</span>Chequear</button>
+          </div>
+          <div style="border:1px solid #E6E6E6;border-radius:8px;overflow:hidden">
+            <div style="background:#F2F2F2;padding:12px 18px;font-weight:700;font-size:13px;color:#666;display:grid;grid-template-columns:2fr 1fr 1.2fr;gap:16px">
+              <span>Marca registrada</span><span>Clase</span><span>Similitud</span>
+            </div>
+            <sc-for list="{{ chequeoResultados }}" as="r" hint-placeholder-count="3">
+              <div style="padding:14px 18px;display:grid;grid-template-columns:2fr 1fr 1.2fr;gap:16px;align-items:center;border-top:1px solid #E6E6E6;font-size:15px">
+                <span style="font-weight:500;color:#111">{{ r.marca }}</span>
+                <span>Clase {{ r.clase }}</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:700;width:fit-content;background:{{ r.bg }};color:{{ r.fg }}">{{ r.estado }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;background:#E3F2FD;border-radius:8px;padding:14px 16px;margin-top:18px">
+            <span class="ms" style="font-size:22px;color:#1976D2">info</span>
+            <p style="font-size:14px;color:#0d3c61;margin:0">El chequeo es referencial. Puedes continuar aunque existan marcas parecidas; INAPI revisa cada caso en el examen de fondo.</p>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- STEP 3 -->
+        <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ true }}">
+        <div style="animation:inapiFade .2s ease">
+          <h2 style="font-size:22px;font-weight:700;color:#111;margin:0 0 4px">Paso 3 · Describe tu marca</h2>
+          <p style="font-size:15px;color:#666;margin:0 0 24px;max-width:640px">Cuéntanos qué quieres registrar. Con esta información clasificamos tu marca de forma automática.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+            <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Nombre de tu marca</span><input type="text" value="{{ marcaNombre }}" sc-camel-on-input="{{ onNombre }}" placeholder="Ej.: Café del Valle" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            <label style="display:block"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Traducción <span style="font-weight:400;color:#999">(opcional)</span></span><input type="text" value="{{ traduccion }}" sc-camel-on-input="{{ onTraduccion }}" placeholder="Si el nombre está en otro idioma" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+            <label style="display:block;grid-column:1 / -1"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Transliteración <span style="font-weight:400;color:#999">(opcional)</span></span><input type="text" value="{{ transliteracion }}" sc-camel-on-input="{{ onTransliteracion }}" placeholder="Cómo se pronuncia, si usa otro alfabeto" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+          </div>
+          <label style="display:block;margin-bottom:16px"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">¿Qué productos o servicios ofreces?</span><textarea sc-camel-on-input="{{ onDescripcion }}" placeholder="Cuéntanos sobre tu marca. Esto mejora la clasificación automática." style="width:100%;min-height:90px;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none;resize:vertical">{{ descripcionRaw }}</textarea></label>
+          <label style="display:block;margin-bottom:8px"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Describe tu marca en palabras clave</span><input type="text" value="{{ keywords }}" sc-camel-on-input="{{ onKeywords }}" placeholder="Ej.: café, pastelería, cafetería, ropa" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+          <p style="font-size:13px;color:#666;margin:0 0 24px">Separa cada palabra con una coma. Usamos estas palabras para sugerirte las clases de Niza.</p>
+
+          <!-- Niza autocomplete -->
+          <div style="border-top:1px solid #E6E6E6;padding-top:24px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+              <span class="ms" style="font-size:24px;color:#0F69C4">auto_awesome</span>
+              <h3 style="font-size:18px;font-weight:700;color:#111;margin:0">Clases sugeridas para tu marca</h3>
+            </div>
+            <p style="font-size:14px;color:#666;margin:0 0 18px;max-width:640px">La <strong>Clasificación de Niza (NCL)</strong> agrupa los productos y servicios en clases. Según lo que escribiste, te proponemos estas clases. Selecciona las que correspondan.</p>
+
+            <sc-if value="{{ haySugerencias }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ sugerencias }}" as="s" hint-placeholder-count="2">
+                <label style="display:flex;gap:14px;align-items:flex-start;border:1px solid {{ s.border }};background:{{ s.bg }};border-radius:8px;padding:16px 18px;cursor:pointer">
+                  <input type="checkbox" checked="{{ s.selected }}" sc-camel-on-change="{{ s.toggle }}" style="width:20px;height:20px;margin-top:2px;accent-color:#0051A8;flex:0 0 auto">
+                  <span style="flex:1">
+                    <span style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                      <span style="display:inline-flex;align-items:center;justify-content:center;background:#0F69C4;color:#fff;font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px">Clase {{ s.num }}</span>
+                      <span style="font-weight:700;color:#111;font-size:16px">{{ s.title }}</span>
+                    </span>
+                    <span style="display:block;font-size:14px;color:#373737;margin-top:6px"><strong>Cobertura:</strong> {{ s.coverage }}</span>
+                  </span>
+                  <span style="font-weight:700;color:#0051A8;font-size:14px;white-space:nowrap">{{ s.feeLabel }}</span>
+                </label>
+              </sc-for>
+            </div>
+            </sc-if>
+            <sc-if value="{{ sinSugerencias }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:10px;align-items:flex-start;background:#F2F2F2;border-radius:8px;padding:16px 18px">
+              <span class="ms" style="font-size:22px;color:#666">lightbulb</span>
+              <p style="font-size:14px;color:#373737;margin:0">Escribe algunas palabras clave o describe tus productos para ver las clases sugeridas.</p>
+            </div>
+            </sc-if>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- STEP 4 -->
+        <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ true }}">
+        <div style="animation:inapiFade .2s ease">
+          <h2 style="font-size:22px;font-weight:700;color:#111;margin:0 0 4px">Paso 4 · Revisión final</h2>
+          <p style="font-size:15px;color:#666;margin:0 0 24px">Revisa el resumen de tu solicitud y el total a pagar antes de enviar.</p>
+
+          <div style="border:1px solid #E6E6E6;border-radius:8px;overflow:hidden;margin-bottom:20px">
+            <div style="background:#F2F2F2;padding:14px 18px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-weight:700;color:#111">Titular</span>
+              <a href="#" sc-camel-on-click="{{ editStep0 }}" style="color:#1D70B8;text-decoration:none;font-size:14px;font-weight:700">Editar datos del titular</a>
+            </div>
+            <div style="padding:16px 18px;font-size:15px;display:flex;flex-direction:column;gap:6px">
+              <span><strong>Tipo:</strong> {{ titularLabel }}</span>
+              <span><strong>Representante:</strong> {{ repLabel }}</span>
+              <span><strong>Derecho de prioridad:</strong> {{ prioridadLabel }}</span>
+            </div>
+          </div>
+
+          <div style="border:1px solid #E6E6E6;border-radius:8px;overflow:hidden;margin-bottom:20px">
+            <div style="background:#F2F2F2;padding:14px 18px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-weight:700;color:#111">Descripción de la marca</span>
+              <a href="#" sc-camel-on-click="{{ editStep2 }}" style="color:#1D70B8;text-decoration:none;font-size:14px;font-weight:700">Editar descripción</a>
+            </div>
+            <div style="padding:16px 18px;font-size:15px;display:flex;flex-direction:column;gap:6px">
+              <span><strong>Marca:</strong> {{ marcaResumen }}</span>
+              <span><strong>Productos o servicios:</strong> {{ descripcionResumen }}</span>
+            </div>
+          </div>
+
+          <div style="border:1px solid #E6E6E6;border-radius:8px;overflow:hidden;margin-bottom:8px">
+            <div style="background:#F2F2F2;padding:14px 18px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-weight:700;color:#111">Clases seleccionadas</span>
+              <a href="#" sc-camel-on-click="{{ editStep2 }}" style="color:#1D70B8;text-decoration:none;font-size:14px;font-weight:700">Editar clases</a>
+            </div>
+            <sc-if value="{{ hayClases }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <sc-for list="{{ resumenClases }}" as="c" hint-placeholder-count="1">
+                <div style="padding:14px 18px;border-top:1px solid #E6E6E6;display:flex;align-items:center;justify-content:space-between;gap:16px">
+                  <span style="display:flex;align-items:center;gap:10px;flex:1">
+                    <span style="display:inline-flex;align-items:center;justify-content:center;background:#0F69C4;color:#fff;font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px">Clase {{ c.num }}</span>
+                    <span style="font-size:15px;color:#111">{{ c.title }}</span>
+                  </span>
+                  <span style="font-weight:700;color:#111;white-space:nowrap">{{ c.feeLabel }}</span>
+                </div>
+              </sc-for>
+              <div style="padding:16px 18px;border-top:2px solid #092039;display:flex;align-items:center;justify-content:space-between;background:#fafafa">
+                <span style="font-size:14px;color:#666">{{ claseCountLabel }} · tarifa referencial de la solicitud</span>
+                <span style="font-weight:700;font-size:20px;color:#092039">Total: {{ totalLabel }}</span>
+              </div>
+            </div>
+            </sc-if>
+            <sc-if value="{{ sinClases }}" hint-placeholder-val="{{ true }}">
+            <div style="padding:16px 18px;border-top:1px solid #E6E6E6;font-size:15px;color:#666">No seleccionaste clases. Vuelve al paso 3 para elegir al menos una.</div>
+            </sc-if>
+          </div>
+          <p style="font-size:13px;color:#666;margin:14px 0 0">Valor referencial de la solicitud (0,6 UTM por clase). Al aceptarse la marca se paga una tarifa adicional. Los montos finales los confirma INAPI.</p>
+        </div>
+        </sc-if>
+
+        <!-- Wizard nav -->
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid #E6E6E6;margin-top:28px;padding-top:24px">
+          <button type="button" sc-camel-on-click="{{ prev }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0051A8;border:2px solid #0051A8;border-radius:0;padding:11px 20px;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer" style-hover="background:#EAF2FB"><span class="ms" style="font-size:20px">arrow_back</span>{{ prevLabel }}</button>
+          <button type="button" sc-camel-on-click="{{ next }}" style="display:inline-flex;align-items:center;gap:8px;background:#0051A8;color:#fff;border:none;border-radius:0;padding:13px 24px;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer" style-hover="background:#003B8D">{{ nextLabel }} <span class="ms" style="font-size:20px">{{ nextIcon }}</span></button>
+        </div>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#092039;color:#fff">
+    <div style="max-width:1140px;margin:0 auto;padding:48px 24px;display:flex;flex-wrap:wrap;gap:48px">
+      <div style="flex:1 1 300px;min-width:260px">
+        <img src="6b10cb23-e6de-4337-a1c9-26887657ee01" alt="INAPI — Ministerio de Economía, Fomento y Turismo, Gobierno de Chile" style="height:84px;width:auto;display:block;border-radius:2px">
+        <p style="margin:18px 0 0;font-size:15px;line-height:1.5;color:#fff;font-weight:700">Instituto Nacional de Propiedad Industrial (INAPI)</p>
+        <p style="margin:6px 0 0;font-size:14px;line-height:1.6;color:rgba(255,255,255,.78);max-width:320px">Servicio público del Estado de Chile, dependiente del Ministerio de Economía, Fomento y Turismo.</p>
+      </div>
+      <div style="flex:0 1 230px">
+        <h4 style="margin:0 0 16px;font-size:16px;font-weight:700">Dónde estamos</h4>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:14px;color:rgba(255,255,255,.85);line-height:1.4">
+          <li style="display:flex;gap:10px"><span class="ms" style="font-size:18px;color:#7FB2E8;flex:0 0 auto">location_on</span>Carabineros de Chile N° 195, Santiago</li>
+          <li style="display:flex;gap:10px"><span class="ms" style="font-size:18px;color:#7FB2E8;flex:0 0 auto">call</span>+56 2 2887 0400</li>
+          <li style="display:flex;gap:10px"><span class="ms" style="font-size:18px;color:#7FB2E8;flex:0 0 auto">mail</span><span>inapi<span>@</span>inapi.cl</span></li>
+          <li style="display:flex;gap:10px"><span class="ms" style="font-size:18px;color:#7FB2E8;flex:0 0 auto">badge</span>RUT: 65.999.669-3</li>
+        </ul>
+      </div>
+      <div style="flex:0 1 180px">
+        <h4 style="margin:0 0 16px;font-size:16px;font-weight:700">Conversemos</h4>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:14px">
+          <li><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">Formulario de contacto</a></li>
+          <li><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">Facebook de INAPI</a></li>
+          <li><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">INAPI en X (Twitter)</a></li>
+          <li><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">Instagram de INAPI</a></li>
+          <li><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">LinkedIn de INAPI</a></li>
+        </ul>
+      </div>
+      <div style="flex:0 1 200px">
+        <h4 style="margin:0 0 16px;font-size:16px;font-weight:700">Accesos</h4>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:14px">
+          <li><a href="#" sc-camel-on-click="{{ goTramites }}" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">Registrar una marca</a></li>
+          <li><a href="#" sc-camel-on-click="{{ goChequeo }}" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">Chequeo de marcas</a></li>
+          <li><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">Preguntas frecuentes</a></li>
+          <li><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">Glosario de propiedad industrial</a></li>
+          <li><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">Mapa del sitio</a></li>
+          <li><a href="#" style="color:rgba(255,255,255,.85);text-decoration:none" style-hover="color:#fff">Descarga de visualizadores</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="background:#061526;padding:16px 24px">
+      <div style="max-width:1140px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.7)">
+        <span>© 2026 INAPI · Gobierno de Chile. Contenido bajo licencia Creative Commons BY 4.0.</span>
+        <nav style="display:flex;flex-wrap:wrap;gap:20px">
+          <a href="#" style="color:rgba(255,255,255,.7);text-decoration:none">Mapa del sitio</a>
+          <a href="#" style="color:rgba(255,255,255,.7);text-decoration:none">Accesibilidad</a>
+          <a href="#" style="color:rgba(255,255,255,.7);text-decoration:none">Política de privacidad y derechos ARCO</a>
+        </nav>
+      </div>
+      <div style="max-width:1140px;margin:8px auto 0;font-size:12px;color:rgba(255,255,255,.55)">Última actualización: 18-06-2026</div>
+    </div>
+  </footer>
+
+  <!-- ============ LOGIN MODAL ============ -->
+  <sc-if value="{{ loginOpen }}" hint-placeholder-val="{{ false }}">
+  <div sc-camel-on-click="{{ closeLogin }}" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:60;display:flex;align-items:center;justify-content:center;padding:24px;animation:inapiFade .15s ease">
+    <div sc-camel-on-click="{{ stop }}" style="background:#fff;border-radius:8px;max-width:440px;width:100%;box-shadow:0 14px 28px rgba(0,0,0,.25);animation:inapiUp .2s ease;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #E6E6E6">
+        <h2 style="font-size:20px;font-weight:700;color:#111;margin:0">Bienvenido al Portal INAPI</h2>
+        <button type="button" sc-camel-on-click="{{ closeLogin }}" aria-label="Cerrar" style="background:none;border:none;cursor:pointer;color:#666;display:inline-flex;padding:4px"><span class="ms" style="font-size:24px">close</span></button>
+      </div>
+      <div style="padding:24px">
+        <p style="font-size:14px;color:#373737;margin:0 0 20px">Inicia sesión para comenzar tus trámites.</p>
+        <label style="display:block;margin-bottom:14px"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Correo de usuario</span><input type="email" placeholder="nombre@correo.cl" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+        <label style="display:block;margin-bottom:18px"><span style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:6px">Contraseña institucional</span><input type="password" placeholder="Tu contraseña" style="width:100%;border:1px solid #808080;border-radius:0;padding:12px 14px;font-family:inherit;font-size:15px;outline:none"></label>
+        <button type="button" sc-camel-on-click="{{ doLogin }}" style="width:100%;background:#0051A8;color:#fff;border:none;border-radius:0;padding:14px;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:18px" style-hover="background:#003B8D">Iniciar sesión</button>
+        <div style="display:flex;align-items:center;gap:12px;margin:8px 0 18px;color:#999;font-size:13px"><span style="flex:1;height:1px;background:#E6E6E6"></span>O puedes ingresar con tu ClaveÚnica<span style="flex:1;height:1px;background:#E6E6E6"></span></div>
+        <button type="button" sc-camel-on-click="{{ doLogin }}" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#0051A8;border:2px solid #0051A8;border-radius:0;padding:13px;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:18px" style-hover="background:#EAF2FB"><span class="ms fill" style="font-size:22px">fingerprint</span>Ingresar con ClaveÚnica</button>
+        <p style="font-size:13px;color:#666;text-align:center;margin:0;line-height:1.5">Este portal es propiedad del Estado de Chile · INAPI · Acceso seguro HTTPS</p>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="">
+class Component extends DCLogic {
+  state = {
+    menuOpen: false,
+    screen: 'home',
+    loginOpen: false,
+    step: 0,
+    tipoTitular: 'natural',
+    tieneRep: false,
+    tienePrioridad: false,
+    marcaNombre: '',
+    traduccion: '',
+    transliteracion: '',
+    descripcion: '',
+    keywords: '',
+    selected: [],
+  };
+
+  FEE = 40800;
+
+  CATALOG = {
+    3:  { title: 'Cosméticos y productos de belleza', coverage: 'Cremas, perfumes, maquillaje, productos de cuidado personal.' },
+    5:  { title: 'Productos farmacéuticos', coverage: 'Medicamentos, suplementos, productos sanitarios y veterinarios.' },
+    9:  { title: 'Software y aparatos tecnológicos', coverage: 'Aplicaciones, plataformas digitales, equipos electrónicos.' },
+    18: { title: 'Cuero y artículos de viaje', coverage: 'Bolsos, carteras, mochilas, billeteras, marroquinería.' },
+    25: { title: 'Vestuario y calzado', coverage: 'Ropa, poleras, calzado, accesorios de vestir.' },
+    28: { title: 'Juegos y juguetes', coverage: 'Juguetes, juegos de mesa, artículos deportivos.' },
+    30: { title: 'Café, pan y alimentos elaborados', coverage: 'Café, pan, pastelería, chocolates, snacks y condimentos.' },
+    35: { title: 'Publicidad y gestión comercial', coverage: 'Tiendas, venta minorista, marketing, comercio electrónico.' },
+    41: { title: 'Educación y entretenimiento', coverage: 'Cursos, talleres, capacitación, eventos y contenidos.' },
+    43: { title: 'Servicios de alimentación', coverage: 'Restaurantes, cafeterías, bares y servicio de comida.' },
+  };
+
+  KEYWORDS = [
+    { c: 25, words: ['ropa','polera','poleras','calzado','zapato','zapatos','vestuario','vestido','prenda','moda'] },
+    { c: 30, words: ['cafe','café','pan','panaderia','panadería','pasteleria','pastelería','chocolate','alimento','snack','galleta'] },
+    { c: 43, words: ['restaurant','restaurante','restoran','comida','cafeteria','cafetería','bar','cocina','catering'] },
+    { c: 9,  words: ['app','software','aplicacion','aplicación','plataforma','tecnologia','tecnología','digital','electronico','electrónico'] },
+    { c: 35, words: ['marketing','publicidad','tienda','venta','ventas','ecommerce','comercio','negocio','retail'] },
+    { c: 41, words: ['curso','cursos','educacion','educación','taller','talleres','capacitacion','capacitación','clase','academia'] },
+    { c: 3,  words: ['cosmetico','cosmético','crema','belleza','maquillaje','perfume','jabon','jabón','shampoo'] },
+    { c: 18, words: ['bolso','bolsos','cartera','carteras','cuero','mochila','billetera','marroquineria','marroquinería'] },
+    { c: 28, words: ['juguete','juguetes','juego','juegos','deporte','deportivo','peluche'] },
+    { c: 5,  words: ['medicamento','farmaceutico','farmacéutico','salud','suplemento','vitamina','remedio'] },
+  ];
+
+  go(screen) { this.setState({ screen }); window.scrollTo(0, 0); }
+
+  detectClasses() {
+    const txt = (this.state.keywords + ' ' + this.state.descripcion + ' ' + this.state.marcaNombre).toLowerCase();
+    const found = [];
+    for (const k of this.KEYWORDS) {
+      if (k.words.some(w => txt.includes(w)) && !found.includes(k.c)) found.push(k.c);
+    }
+    return found;
+  }
+
+  fmt(n) { return '$' + new Intl.NumberFormat('es-CL').format(n); }
+
+  toggleClase(num) {
+    this.setState(s => ({
+      selected: s.selected.includes(num) ? s.selected.filter(x => x !== num) : [...s.selected, num],
+    }));
+  }
+
+  renderVals() {
+    const s = this.state;
+    const found = this.detectClasses();
+
+    // suggestions = detected classes (or none)
+    const sugerencias = found.map(num => {
+      const sel = s.selected.includes(num);
+      return {
+        num,
+        title: this.CATALOG[num].title,
+        coverage: this.CATALOG[num].coverage,
+        feeLabel: this.fmt(this.FEE),
+        selected: sel,
+        toggle: () => this.toggleClase(num),
+        border: sel ? '#0051A8' : '#CCCCCC',
+        bg: sel ? '#EAF2FB' : '#fff',
+      };
+    });
+
+    // selected detail (sorted)
+    const sortedSel = [...s.selected].sort((a, b) => a - b);
+    const resumenClases = sortedSel.map(num => ({
+      num,
+      title: this.CATALOG[num] ? this.CATALOG[num].title : '',
+      feeLabel: this.fmt(this.FEE),
+    }));
+    const total = sortedSel.length * this.FEE;
+
+    const chequeo = [
+      { marca: 'Café del Valle', clase: 30, estado: 'Idéntica', bg: '#FFEBEF', fg: '#C0392B' },
+      { marca: 'Valle Verde Café', clase: 43, estado: 'Parecida', bg: '#FFF3E0', fg: '#E65100' },
+      { marca: 'Del Valle Express', clase: 35, estado: 'Baja', bg: '#E8F5E9', fg: '#2E7D32' },
+    ];
+
+    const saberCards = [
+      { icon: 'help', title: '¿Qué es una marca?', body: 'Es el signo que distingue tus productos o servicios de los de otros. Puede ser una palabra, un logo, una combinación de ambos o incluso un sonido.' },
+      { icon: 'shield', title: '¿Cómo se protege?', body: 'Al registrar tu marca en INAPI obtienes derechos exclusivos de uso en Chile por 10 años renovables. Con el registro, puedes actuar frente a terceros que usen un signo similar.' },
+      { icon: 'schedule', title: '¿Cuánto tiempo toma?', body: 'El proceso completo toma entre 6 y 8 meses. En ese plazo INAPI examina tu marca, la publica y, si no hay oposiciones, la registra.' },
+    ];
+
+    const procesoSteps = [
+      { n: 1, icon: 'rule', title: '¿Puedes registrar tu marca?', body: 'Verifica que tu marca sea distintiva, no descriptiva y permitida por la ley antes de invertir tiempo y dinero.' },
+      { n: 2, icon: 'search', title: 'Busca si tu marca ya existe', body: 'El sistema compara tu marca con las registradas en INAPI. Si hay similitudes, te avisamos antes de pagar para que ajustes tu propuesta.' },
+      { n: 3, icon: 'category', title: 'Elige qué protege tu marca', body: 'Tu marca cubre productos o servicios agrupados en la Clasificación de Niza (NCL). Te ayudamos a encontrar la clase correcta.' },
+      { n: 4, icon: 'payments', title: 'Presenta tu solicitud y paga', body: 'Al completar el formulario, presentas la solicitud y pagas la tasa. El costo base es de unos $70.000 por clase, según la UTM vigente.' },
+      { n: 5, icon: 'verified', title: 'Seguimiento y registro final', body: 'INAPI publica tu solicitud en el Diario Oficial. Si no hay oposiciones en 30 días hábiles, se emite el certificado de registro.' },
+    ];
+
+    // wizard nav labels
+    const toggleMenu = () => this.setState(s => ({ menuOpen: !s.menuOpen }));
+    const obsRef = (el) => {
+      if (!el || el._obsBound) return;
+      el._obsBound = true;
+      this._obs = el;
+      let down = false, startX = 0, startScroll = 0, moved = false;
+      el.addEventListener('mousedown', (e) => {
+        down = true; moved = false; startX = e.pageX; startScroll = el.scrollLeft;
+        el.classList.add('dragging');
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (!down) return;
+        const dx = e.pageX - startX;
+        if (Math.abs(dx) > 4) moved = true;
+        el.scrollLeft = startScroll - dx;
+      });
+      window.addEventListener('mouseup', () => { down = false; el.classList.remove('dragging'); });
+      el.addEventListener('click', (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+    };
+    const obsScrollBy = (dir) => { if (this._obs) this._obs.scrollBy({ left: dir * 300, behavior: 'smooth' }); };
+    const obsScrollLeft = () => obsScrollBy(-1);
+    const obsScrollRight = () => obsScrollBy(1);
+    const labels = ['Tus datos', '¿Ya existe?', 'Tu marca', 'Revisión y pago'];
+    const nextByStep = ['Verificar mi marca', 'Describir mi marca', 'Revisar y pagar', 'Pagar y enviar'];
+    const isLast = s.step === 3;
+    const isFirst = s.step === 0;
+
+    return {
+      // nav
+      menuOpen: s.menuOpen,
+      toggleMenu,
+      obsRef,
+      obsScrollLeft,
+      obsScrollRight,
+      isHome: s.screen === 'home',
+      isTramites: s.screen === 'tramites',
+      isChequeo: s.screen === 'chequeo',
+      isWizard: s.screen === 'wizard',
+      goHome: (e) => { if (e) e.preventDefault(); this.go('home'); },
+      goTramites: (e) => { if (e) e.preventDefault(); this.go('tramites'); },
+      goChequeo: (e) => { if (e) e.preventDefault(); this.go('chequeo'); },
+      scrollProceso: (e) => {
+        if (e) e.preventDefault();
+        const el = this._proceso;
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+      },
+      procesoRef: (el) => { this._proceso = el; },
+
+      // login
+      loginOpen: s.loginOpen,
+      openLogin: (e) => { if (e) e.preventDefault(); this.setState({ loginOpen: true }); },
+      closeLogin: (e) => { if (e) e.preventDefault(); this.setState({ loginOpen: false }); },
+      stop: (e) => { e.stopPropagation(); },
+      doLogin: (e) => { if (e) e.preventDefault(); this.setState({ loginOpen: false, screen: 'wizard', step: 0 }); window.scrollTo(0, 0); },
+
+      // content
+      saberCards,
+      procesoSteps,
+      chequeoResultados: chequeo,
+
+      // wizard step state
+      isStep0: s.step === 0,
+      isStep1: s.step === 1,
+      isStep2: s.step === 2,
+      isStep3: s.step === 3,
+      stepper: this.buildStepper(s.step, labels),
+      prev: () => { if (isFirst) { this.go('tramites'); } else { this.setState({ step: s.step - 1 }); window.scrollTo(0, 0); } },
+      next: () => { if (isLast) { this.go('tramites'); } else { this.setState({ step: s.step + 1 }); window.scrollTo(0, 0); } },
+      prevLabel: isFirst ? 'Salir' : 'Volver',
+      nextLabel: nextByStep[s.step],
+      nextIcon: isLast ? 'check' : 'arrow_forward',
+      editStep0: (e) => { if (e) e.preventDefault(); this.setState({ step: 0 }); window.scrollTo(0, 0); },
+      editStep2: (e) => { if (e) e.preventDefault(); this.setState({ step: 2 }); window.scrollTo(0, 0); },
+
+      // step 1
+      isNatural: s.tipoTitular === 'natural',
+      isJuridica: s.tipoTitular === 'juridica',
+      setNatural: () => this.setState({ tipoTitular: 'natural' }),
+      setJuridica: () => this.setState({ tipoTitular: 'juridica' }),
+      naturalBorder: s.tipoTitular === 'natural' ? '#0051A8' : '#CCCCCC',
+      naturalBg: s.tipoTitular === 'natural' ? '#EAF2FB' : '#fff',
+      juridicaBorder: s.tipoTitular === 'juridica' ? '#0051A8' : '#CCCCCC',
+      juridicaBg: s.tipoTitular === 'juridica' ? '#EAF2FB' : '#fff',
+      tieneRep: s.tieneRep,
+      toggleRep: () => this.setState(p => ({ tieneRep: !p.tieneRep })),
+      tienePrioridad: s.tienePrioridad,
+      togglePrioridad: () => this.setState(p => ({ tienePrioridad: !p.tienePrioridad })),
+
+      // step 3 fields
+      marcaNombre: s.marcaNombre,
+      traduccion: s.traduccion,
+      transliteracion: s.transliteracion,
+      descripcionRaw: s.descripcion,
+      keywords: s.keywords,
+      onNombre: (e) => this.setState({ marcaNombre: e.target.value }),
+      onTraduccion: (e) => this.setState({ traduccion: e.target.value }),
+      onTransliteracion: (e) => this.setState({ transliteracion: e.target.value }),
+      onDescripcion: (e) => this.setState({ descripcion: e.target.value }),
+      onKeywords: (e) => this.setState({ keywords: e.target.value }),
+
+      // niza
+      sugerencias,
+      haySugerencias: sugerencias.length > 0,
+      sinSugerencias: sugerencias.length === 0,
+
+      // step 4 resumen
+      titularLabel: s.tipoTitular === 'natural' ? 'Persona natural' : 'Persona jurídica',
+      repLabel: s.tieneRep ? 'Sí, con representante o agente' : 'No',
+      prioridadLabel: s.tienePrioridad ? 'Sí, con derecho de prioridad' : 'No',
+      marcaResumen: s.marcaNombre ? s.marcaNombre : 'Sin definir',
+      descripcionResumen: s.descripcion ? s.descripcion : (s.keywords ? s.keywords : 'Sin definir'),
+      resumenClases,
+      hayClases: sortedSel.length > 0,
+      sinClases: sortedSel.length === 0,
+      claseCountLabel: sortedSel.length === 1 ? '1 clase' : sortedSel.length + ' clases',
+      totalLabel: this.fmt(total),
+    };
+  }
+
+  buildStepper(current, labels) {
+    const h = React.createElement;
+    return h('div', { style: { display: 'flex', alignItems: 'flex-start' } },
+      labels.map((label, i) => {
+        const done = i < current, active = i === current;
+        const circleBg = (done || active) ? '#0051A8' : '#fff';
+        const circleColor = (done || active) ? '#fff' : '#666';
+        const circleBorder = (done || active) ? '#0051A8' : '#CCCCCC';
+        return h('div', { key: i, style: { display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, textAlign: 'center', position: 'relative' } }, [
+          h('div', { key: 'r', style: { display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%' } }, [
+            i > 0 ? h('span', { key: 'l', style: { flex: 1, height: 2, background: i <= current ? '#0051A8' : '#CCCCCC' } }) : h('span', { key: 'l', style: { flex: 1 } }),
+            h('span', { key: 'c', style: { width: 36, height: 36, borderRadius: '50%', flex: '0 0 auto', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 15, background: circleBg, color: circleColor, border: '2px solid ' + circleBorder, boxShadow: active ? '0 0 0 3px #FFBE5C' : 'none' } },
+              done ? h('span', { className: 'ms', style: { fontSize: 22 } }, 'check') : (i + 1)),
+            i < labels.length - 1 ? h('span', { key: 'rr', style: { flex: 1, height: 2, background: i < current ? '#0051A8' : '#CCCCCC' } }) : h('span', { key: 'rr', style: { flex: 1 } }),
+          ]),
+          h('div', { key: 't', style: { fontSize: 14, fontWeight: i === current ? 700 : 500, color: i <= current ? '#111' : '#666', marginTop: 8 } }, label),
+        ]);
+      })
+    );
+  }
+}
+</script>
+
+
+</body></html>

@@ -1,0 +1,165 @@
+<!-- Gate: aviso legal -->
+  <sc-if value="{{ !accepted }}" hint-placeholder-val="{{ true }}">
+    <section>
+      <h2 style="font-family:'Roboto Slab',serif;font-size:20px;font-weight:500;color:#111;margin:0 0 12px">¿Qué es este buscador?</h2>
+      <p style="font-size:15px;line-height:1.7;color:#373737;margin:0 0 24px;max-width:820px">El buscador compara el nombre que escribiste con marcas previamente solicitadas o registradas ante INAPI. Te muestra un porcentaje de parecido (considera cómo se escribe y cómo suena en español): cuanto más alto es el porcentaje, más similar es tu marca respecto a la encontrada.</p>
+
+      <div style="background:#E7F1FB;border-left:4px solid #0F69C4;border-radius:4px;padding:24px;max-width:900px;margin:0 0 20px;display:flex;gap:14px">
+        <span class="ms" style="font-size:22px;color:#0F69C4;flex:0 0 auto">info</span>
+        <div>
+          <h3 style="font-size:16px;font-weight:700;color:#111;margin:0 0 8px">Aviso legal</h3>
+          <p style="font-size:14px;line-height:1.7;color:#373737;margin:0">Este buscador fonético permite identificar potenciales coincidencias o similitudes denominativas con marcas previamente solicitadas o registradas ante INAPI. Sus resultados tienen un carácter meramente informativo y orientador para los usuarios, no incluye el análisis de los elementos figurativos, gráficos o de imagen. Los resultados pueden contener algunos errores o imprecisiones. En consecuencia, su uso es de exclusiva responsabilidad de quien lo utiliza y, en ningún caso, sustituye, anticipa ni prejuzga el examen sustantivo que corresponde realizar a INAPI conforme a la normativa vigente, ni asegura el resultado de dicho examen o la eventual concesión o rechazo de una solicitud de marca.</p>
+        </div>
+      </div>
+
+      <label style="display:flex;align-items:center;gap:10px;font-size:15px;color:#111;margin:0 0 20px;cursor:pointer">
+        <input type="checkbox" checked="{{ legalChecked }}" sc-camel-on-change="{{ toggleLegal }}" style="width:18px;height:18px;accent-color:#0051A8;cursor:pointer">
+        He leído y aceptado el aviso legal.
+      </label>
+
+      <button type="button" sc-camel-on-click="{{ onComenzar }}" disabled="{{ comenzarDisabled }}" style="background:#092039;color:#fff;border:none;border-radius:0;padding:14px 32px;font-family:inherit;font-weight:700;font-size:15px;cursor:{{ comenzarCursor }};opacity:{{ comenzarOpacity }}">Comenzar</button>
+    </section>
+  </sc-if>
+
+  <!-- Buscador -->
+  <sc-if value="{{ accepted }}" hint-placeholder-val="{{ false }}">
+  <section>
+    <div style="display:grid;grid-template-columns:1fr 280px auto;gap:16px;align-items:end;margin-bottom:24px">
+      <div>
+        <label style="display:block;font-size:14px;font-weight:700;color:#111;margin-bottom:8px">Nombre de tu marca (Denominación)</label>
+        <div style="position:relative">
+          <input type="text" value="{{ query }}" sc-camel-on-input="{{ onInput }}" placeholder="Ejemplo: Mi Marca" style="width:100%;padding:12px 36px 12px 14px;border:1px solid #808080;border-radius:0;font-family:inherit;font-size:15px;box-sizing:border-box">
+          <sc-if value="{{ showClearButton }}" hint-placeholder-val="{{ false }}">
+            <button type="button" sc-camel-on-click="{{ clearQueryOnly }}" aria-label="Limpiar" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#666;display:flex"><span class="ms" style="font-size:20px">close</span></button>
+          </sc-if>
+        </div>
+      </div>
+      <div style="position:relative">
+        <label style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#111;margin-bottom:8px">Clasificación Internacional de Niza (NCL)
+          <button type="button" sc-camel-on-click="{{ toggleHelp }}" aria-label="Ayuda NCL" style="background:none;border:1px solid #999;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;color:#666;cursor:pointer;font-size:12px;padding:0">?</button>
+        </label>
+        <button type="button" sc-camel-on-click="{{ toggleClassDropdown }}" style="width:100%;padding:12px 14px;border:1px solid #808080;border-radius:0;font-family:inherit;font-size:15px;background:#fff;text-align:left;display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+          <span>{{ classDropdownLabel }}</span>
+          <span class="ms" style="font-size:20px;color:#666">arrow_drop_down</span>
+        </button>
+        <sc-if value="{{ helpOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;top:-8px;left:0;transform:translateY(-100%);background:#fff;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.18);padding:18px;width:300px;z-index:20">
+            <h4 style="font-size:15px;font-weight:700;color:#111;margin:0 0 8px">¿Qué es la Clasificación Internacional de Niza (NCL)?</h4>
+            <p style="font-size:13px;line-height:1.6;color:#666;margin:0">La marca se debe inscribir en al menos una clase (pueden ser varias), lo que dependerá del producto o servicio que esta represente. Existen 45 clases en total.</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ classDropdownOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;top:calc(100% + 4px);left:0;width:340px;max-height:280px;overflow-y:auto;background:#fff;border:1px solid #ccc;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:10">
+            <sc-for list="{{ classOptions }}" as="cls" hint-placeholder-count="10">
+              <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #F2F2F2" style-hover="background:#F7FAFD">
+                <input type="checkbox" checked="{{ cls.checked }}" sc-camel-on-change="{{ cls.onToggle }}" style="width:16px;height:16px;accent-color:#0051A8;cursor:pointer">
+                <span style="font-size:14px"><strong>Clase {{ cls.id }}</strong>&nbsp;{{ cls.name }}</span>
+              </label>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      <button type="button" sc-camel-on-click="{{ handleSearch }}" style="background:{{ searchBtnBg }};color:#fff;border:none;padding:12px 28px;font-family:inherit;font-weight:700;font-size:15px;cursor:{{ searchBtnCursor }};white-space:nowrap">Buscar marcas parecidas</button>
+    </div>
+
+    <!-- Chips de clases seleccionadas -->
+    <sc-if value="{{ showChips }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin:-12px 0 24px">
+        <sc-for list="{{ selectedChips }}" as="chip" hint-placeholder-count="2">
+          <span style="display:inline-flex;align-items:center;gap:6px;background:#F2F2F2;border-radius:16px;padding:6px 12px;font-size:13px;color:#111">
+            {{ chip.label }}
+            <button type="button" sc-camel-on-click="{{ chip.onRemove }}" style="background:none;border:none;cursor:pointer;color:#666;display:flex;padding:0"><span class="ms" style="font-size:16px">close</span></button>
+          </span>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- Accordion resultados: solo tras una búsqueda -->
+    <sc-if value="{{ searchPerformed }}" hint-placeholder-val="{{ false }}">
+    <button type="button" sc-camel-on-click="{{ toggleAccordion }}" style="width:100%;padding:14px 18px;background:#F7F7F7;border:1px solid #E6E6E6;border-radius:0;font-family:inherit;font-size:15px;font-weight:700;color:#111;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:0">
+      ¿Cómo entender los resultados?
+      <span class="ms" style="font-size:22px">{{ accordionIcon }}</span>
+    </button>
+    <sc-if value="{{ accordionOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:24px;background:#fff;border:1px solid #E6E6E6;border-top:none;margin-bottom:24px">
+        <h3 style="font-size:16px;font-weight:700;color:#111;margin:0 0 14px">¿Cómo se calcula el parecido?</h3>
+        <p style="font-size:14px;font-weight:700;color:#111;margin:0 0 4px">Parecido al escribir</p>
+        <p style="font-size:14px;line-height:1.6;color:#666;margin:0 0 14px">Mide si las palabras se ven similares. Por ejemplo: «Casa Blanca» y «Blanca Casa».</p>
+        <p style="font-size:14px;font-weight:700;color:#111;margin:0 0 4px">Parecido al pronunciar</p>
+        <p style="font-size:14px;line-height:1.6;color:#666;margin:0 0 14px">Mide si suenan parecido al decirlas en Chile. Por ejemplo: «Cauquenes» y «Kaukenes».</p>
+        <p style="font-size:14px;line-height:1.6;color:#666;margin:0 0 20px">Ambos criterios combinados generan el porcentaje que puedes ver en cada marca encontrada, utilizando un color distinto para diferenciar qué tanto se parecen entre sí.</p>
+
+        <h3 style="font-size:16px;font-weight:700;color:#111;margin:0 0 14px">¿Qué significa cada porcentaje?</h3>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:10px;height:10px;border-radius:50%;background:#D32F2F;margin-top:6px;flex:0 0 auto"></span><p style="font-size:14px;line-height:1.6;color:#373737;margin:0"><strong>75% a 100%</strong> — Existe mucha similitud, por lo que se recomienda comparar qué características se repiten en ambas marcas —como palabras y/o clases de niza—, antes de presentar tu solicitud.</p></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:10px;height:10px;border-radius:50%;background:#FF9800;margin-top:6px;flex:0 0 auto"></span><p style="font-size:14px;line-height:1.6;color:#373737;margin:0"><strong>50% a 74%</strong> — Existe similitud parcial, es decir, son menos las características que se repiten entre ambas marcas, aún así se recomienda revisar la solicitud de tu marca.</p></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:10px;height:10px;border-radius:50%;background:#43A047;margin-top:6px;flex:0 0 auto"></span><p style="font-size:14px;line-height:1.6;color:#373737;margin:0"><strong>0% a 49%</strong> — La similitud es baja o muy baja, por lo que los conflictos encontrados entre las características de tu marca con la encontrada son poco probables o casi nulos.</p></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- Resultados: con coincidencias -->
+    <sc-if value="{{ hasMatches }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#EEF4FB;border-radius:4px;padding:20px 24px;margin:24px 0">
+        <p style="font-size:15px;line-height:1.6;color:#111;margin:0 0 10px">{{ resultsSummary }}</p>
+        <p style="font-size:14px;font-weight:700;color:#111;margin:0 0 6px">Verifica si son similares en cuanto a:</p>
+        <ul style="margin:0;padding-left:20px;font-size:14px;color:#373737;line-height:1.8">
+          <li>Ortografía</li>
+          <li>Sonido o pronunciación</li>
+          <li>Productos o servicios (Clases de Niza)</li>
+        </ul>
+      </div>
+
+      <sc-for list="{{ visibleResults }}" as="result" hint-placeholder-count="4">
+        <div style="background:#fff;border:1px solid #E6E6E6;border-left:4px solid {{ result.color }};padding:20px 24px;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:18px">
+            <div>
+              <h4 style="font-size:17px;font-weight:700;color:#111;margin:0 0 8px">{{ result.name }}</h4>
+              <p style="font-size:13px;color:#666;margin:0">Clases NCL: {{ result.classesDisplay }} <sc-if value="{{ result.relatedClass }}" hint-placeholder-val="{{ false }}"><span style="background:#FDECEA;color:#D32F2F;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700;margin-left:8px">Misma clase NCL</span></sc-if></p>
+            </div>
+            <p style="font-size:32px;font-weight:700;color:{{ result.color }};margin:0">{{ result.similarityLabel }}</p>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+            <div>
+              <p style="font-size:13px;font-weight:700;color:#111;margin:0 0 8px">Parecido al escribir</p>
+              <div style="background:#EDEDED;border-radius:4px;height:8px;overflow:hidden"><div style="background:{{ result.color }};height:100%;width:{{ result.ortographic }}%"></div></div>
+              <p style="font-size:12px;font-weight:700;color:{{ result.color }};margin:6px 0 0;text-align:center">{{ result.ortographicLabel }}</p>
+            </div>
+            <div>
+              <p style="font-size:13px;font-weight:700;color:#111;margin:0 0 8px">Parecido al pronunciar</p>
+              <div style="background:#EDEDED;border-radius:4px;height:8px;overflow:hidden"><div style="background:{{ result.color }};height:100%;width:{{ result.phonetic }}%"></div></div>
+              <p style="font-size:12px;font-weight:700;color:{{ result.color }};margin:6px 0 0;text-align:center">{{ result.phoneticLabel }}</p>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+
+      <sc-if value="{{ showPagination }}" hint-placeholder-val="{{ false }}">
+        <nav aria-label="Paginación de resultados" style="display:flex;justify-content:center;align-items:center;gap:6px;margin-top:32px;font-family:inherit;font-size:15px;color:#111">
+          <button type="button" sc-camel-on-click="{{ prevPage }}" disabled="{{ isFirstPage }}" style="display:inline-flex;align-items:center;gap:4px;background:none;border:none;color:#0F69C4;font-weight:700;font-size:15px;padding:8px 10px;cursor:pointer">
+            <span class="ms" style="font-size:20px">chevron_left</span>Página anterior
+          </button>
+          <sc-for list="{{ pageNums }}" as="p" hint-placeholder-count="4">
+            <button type="button" sc-camel-on-click="{{ p.onClick }}" style="min-width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border:1px solid {{ p.isCurrent ? '#0051A8' : '#CCC' }};border-radius:4px;background:{{ p.isCurrent ? '#0051A8' : '#fff' }};color:{{ p.isCurrent ? '#fff' : '#111' }};font-weight:700;font-family:inherit;font-size:15px;cursor:pointer">{{ p.value }}</button>
+          </sc-for>
+          <button type="button" sc-camel-on-click="{{ nextPage }}" disabled="{{ isLastPage }}" style="display:inline-flex;align-items:center;gap:4px;background:none;border:none;color:#0F69C4;font-weight:700;font-size:15px;padding:8px 10px;cursor:pointer">
+            Página siguiente<span class="ms" style="font-size:20px">chevron_right</span>
+          </button>
+        </nav>
+      </sc-if>
+    </sc-if>
+
+    <!-- Sin coincidencias -->
+    <sc-if value="{{ !hasMatches }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#EFFBF0;border-left:4px solid #43A047;border-radius:4px;padding:24px;margin:24px 0;display:flex;gap:14px">
+        <span class="ms" style="font-size:22px;color:#43A047;flex:0 0 auto">check_circle</span>
+        <div>
+          <h3 style="font-size:16px;font-weight:700;color:#111;margin:0 0 8px">Sin marcas similares con 75 % o más</h3>
+          <p style="font-size:14px;line-height:1.6;color:#2E7D32;margin:0 0 8px">{{ noMatchSummary }}</p>
+          <p style="font-size:14px;line-height:1.6;color:#666;margin:0">{{ noMatchQueryLine }}</p>
+        </div>
+      </div>
+    </sc-if>
+    </sc-if>
+  </section>
+  </sc-if>

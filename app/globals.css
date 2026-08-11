@@ -116,6 +116,13 @@
   /* Excepción marca INAPI (header rojo — decisión pendiente Fase 4) */
   --color-inapi-header: var(--inapi-header);
   --color-inapi-header-sub: var(--inapi-header-sub);
+  --color-inapi-portal-hero: var(--inapi-portal-hero);
+  --color-inapi-portal-nav: var(--inapi-portal-nav);
+  --color-inapi-portal-subnav: var(--inapi-portal-subnav);
+  --color-inapi-portal-deep: var(--inapi-portal-deep);
+  --color-inapi-cta: var(--inapi-cta);
+  --color-inapi-marcas-accent: var(--inapi-marcas-accent);
+  --color-inapi-patentes-accent: var(--inapi-patentes-accent);
 
   /* Marca fija — mismo azul en claro y oscuro (hero, CTA, FAB) */
   --color-gob-brand-from: var(--gob-brand-from);
@@ -252,14 +259,23 @@
   --gob-border: #E5E7EB;
   --gob-border-strong: #D1D5DB;
 
-  /* Excepción header INAPI */
+  /* Excepción header INAPI (flujo GRI) */
   --inapi-header: #FF4134;
   --inapi-header-sub: #005fff;
+
+  /* Portal institucional — UI Kit + diseño Claude v3 */
+  --inapi-portal-hero: #092039;
+  --inapi-portal-nav: #092039;
+  --inapi-portal-subnav: #F2F2F2;
+  --inapi-portal-deep: #061526;
+  --inapi-cta: #0051A8;
+  --inapi-marcas-accent: #FF9500;
+  --inapi-patentes-accent: #0DBFFF;
 
   /* Bloques de marca — no se aclaran en modo oscuro */
   --gob-brand-from: #4282E0;
   --gob-brand-to: #0F69C4;
-  --gob-footer-bg: #373737;
+  --gob-footer-bg: #092039;
 
   /* Elevación */
   --elevation-01: 0 1px 2px rgba(0, 0, 0, 0.06);
