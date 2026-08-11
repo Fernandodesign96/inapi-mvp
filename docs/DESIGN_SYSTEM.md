@@ -4,8 +4,9 @@
 
 | Metadatos | Detalle |
 | --- | --- |
-| **Versión** | 2.0.0 |
+| **Versión** | 2.1.0 |
 | **Fuente visual institucional** | **UI Kit v3.0.1** — Secretaría de Gobierno Digital (Transformación Digital). Referencias visuales en [`docs/uikit_gob/references/`](uikit_gob/references/). Documento de referencia cruzada: [`docs/uikit_gob/references/DESIGN_SYSTEM.md`](uikit_gob/references/DESIGN_SYSTEM.md). |
+| **Alcance** | Flujo GRI (`/solicitud`) + **portal institucional** (~34 rutas públicas, Sprint 6). |
 | **Stack técnico** | Next.js 16 (Turbopack) · TypeScript · Tailwind CSS · shadcn/ui · Lucide React |
 
 ---
@@ -450,6 +451,27 @@ En el GRI, el sistema semáforo se aplica al **stepper de progreso**, mapeado a 
 | `info` | Info | `#2196F3` | "Tu pago está siendo verificado con TGR" |
 | `warning` | Advertencia | `#FF5722` | "Esta cobertura ya está en tu solicitud" |
 
+### 10.5 Tokens del portal institucional (Sprint 6)
+
+Variables CSS en `app/globals.css` y clases Tailwind `@theme inline` para las páginas públicas del portal (home, hubs, contenido informativo). Complementan — no reemplazan — los tokens GRI del formulario.
+
+| Token CSS | Hex / valor | Uso |
+| --- | --- | --- |
+| `--inapi-portal-hero` | `#092039` | Hero home, secciones CTA oscuras |
+| `--inapi-portal-nav` | `#092039` | Barra principal del header |
+| `--inapi-portal-subnav` | `#F2F2F2` | Subheader de enlaces secundarios |
+| `--inapi-portal-deep` | `#061526` | Variante más oscura (fondos profundos) |
+| `--inapi-cta` | `#0051A8` | CTAs institucionales (primario darken 2) |
+| `--inapi-marcas-accent` | `#FF9500` | Botones y acentos del hub Marcas |
+| `--inapi-patentes-accent` | `#0DB8E8` | Botones y acentos del hub Patentes |
+| `--gob-footer-bg` | `#092039` | Footer institucional (no se aclara en modo oscuro) |
+
+**Clases Tailwind:** `bg-inapi-portal-hero`, `bg-inapi-portal-nav`, `bg-inapi-portal-subnav`, `text-inapi-cta`, `bg-inapi-marcas-accent`, `bg-inapi-patentes-accent`.
+
+**Contenedor portal:** `ContainerGRI size="portal"` → `max-w-[1140px]` con padding `px-gob-4` / `min-[600px]:px-gob-5`.
+
+**Placeholders de imagen:** `PortalImagePlaceholder` usa `role="img"` + `aria-label`. No combinar con `aria-hidden` en el mismo nodo (provoca mismatch de hidratación en SSR).
+
 ---
 
 ## 11. Component Library
@@ -640,6 +662,24 @@ Usado para confirmar acciones de guardado, errores de conexión y estados del pr
 
 ---
 
+### 11.8 Componentes del portal institucional (Sprint 6)
+
+| Componente | Archivo | Descripción |
+| --- | --- | --- |
+| `SiteHeader` | `components/layout/SiteHeader.tsx` | Header de 4 niveles: nav principal (8 ítems), subheader (11 enlaces), buscador, login. Migas + título en páginas interiores. |
+| `FooterINAPI` | `components/layout/FooterINAPI.tsx` | Footer 4 columnas + barra legal (CC, dirección O'Higgins 194, redes). |
+| `PortalShell` | `components/layout/PortalShell.tsx` | Wrapper: SkipLink + header + main + footer + ChatFAB. Props: `active`, `variant` (`home` \| `interior`). |
+| `Breadcrumbs` | `components/layout/Breadcrumbs.tsx` | Migas con icono Inicio; último ítem sin enlace (`aria-current="page"`). |
+| `ContainerGRI` | `components/layout/ContainerGRI.tsx` | Contenedor responsivo; variante `size="portal"` para ancho 1140 px. |
+| Primitivos portal | `components/portal/content.tsx` | `PortalSection`, `PortalCard`, `PortalTable`, `PortalSidebar`, `PortalImagePlaceholder`, `PortalCtaBanner`, acordeones FAQ. |
+| `BuscadorSitio` | `components/portal/BuscadorSitio.tsx` | Buscador client-side sobre índice estático (`lib/portal-search-index.ts`). |
+| `HomeExtraSections` | `components/portal/HomeExtraSections.tsx` | Secciones home post-hero (server component). |
+| `HomeObservanciaCarousel` | `components/portal/HomeObservanciaCarousel.tsx` | Carrusel horizontal Observancia (client component). |
+
+**Navegación:** definida en `lib/portal-routes.ts` — `PORTAL_PRIMARY_NAV`, `PORTAL_SECONDARY_NAV`, `PORTAL_PAGES` con metadatos SEO y migas por ruta.
+
+---
+
 ## 12. Patrones de Pantalla
 
 ### Patrón: Sección de formulario activa
@@ -677,6 +717,28 @@ Usado para confirmar acciones de guardado, errores de conexión y estados del pr
 ```
 
 **Regla:** el modal de confirmación es cancelable (Escape, clic fuera). El modal de éxito post-envío es bloqueante — el usuario solo sale con el CTA "Volver al inicio".
+
+### Patrón: Página del portal institucional
+
+```
+┌─────────────────────────────────────────────────┐
+│ SiteHeader — nav #092039 (8 ítems)              │
+│ Subheader — bg #F2F2F2 (11 enlaces secundarios) │
+│ Buscador + Iniciar sesión                       │
+├─────────────────────────────────────────────────┤
+│ [Interior] Breadcrumbs + H1 de página           │
+├─────────────────────────────────────────────────┤
+│ PortalShell > main                              │
+│   ContainerGRI size="portal" (max 1140px)       │
+│   Secciones: hero / cards / tablas / FAQ        │
+│   PortalImagePlaceholder donde falte asset      │
+├─────────────────────────────────────────────────┤
+│ FooterINAPI — 4 columnas + barra legal          │
+│ ChatFAB                                         │
+└─────────────────────────────────────────────────┘
+```
+
+**Home (`variant="home"`):** hero dual marcas/patentes, barra de accesos rápidos, `HomeExtraSections` (cifras, proceso 5 columnas, novedades, banners).
 
 ---
 
@@ -937,5 +999,5 @@ Capturas en `docs/uikit_gob/references/`:
 
 ---
 
-*Design System v2.0.0 · GRI — Portal de Solicitud de Marca · UI Kit Gobierno Digital v3.0.1 · Equipo UX INAPI · Junio 2026*
+*Design System v2.1.0 · GRI + Portal INAPI · UI Kit Gobierno Digital v3.0.1 · Equipo UX INAPI · Agosto 2026*
 *Revisar y actualizar tras sesiones de testing con usuarios y validación de tokens oficiales pendientes (grises, elevación, dark mode).*

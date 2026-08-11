@@ -1,0 +1,26 @@
+<form sc-camel-on-submit="{{ onSubmit }}" role="search" style="display:flex;gap:12px;margin:8px 0 32px;max-width:640px">
+    <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #808080;flex:1">
+      <input type="text" value="{{ query }}" sc-camel-on-input="{{ onInput }}" placeholder="Buscar en el sitio" aria-label="Buscar en el sitio" style="flex:1;border:none;padding:12px 14px;font-family:inherit;font-size:15px;outline:none">
+      <span class="ms" style="font-size:20px;color:#666;padding-right:12px">search</span>
+    </div>
+    <button type="submit" style="background:#0051A8;color:#fff;border:none;padding:12px 28px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#003B8D">Buscar</button>
+  </form>
+
+  <p style="font-size:14px;color:#666;margin:0 0 24px">{{ resultLabel }}</p>
+
+  <div style="display:flex;flex-direction:column;gap:4px">
+    <sc-for list="{{ visibleResults }}" as="r" hint-placeholder-count="5">
+      <a href="{{ r.href }}" style="text-decoration:none;color:inherit;display:block;padding:20px 0;border-bottom:1px solid #E6E6E6" style-hover="background:#F7FAFD">
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#0F69C4;margin:0 0 6px">{{ r.category }}</p>
+        <h3 style="font-size:18px;font-weight:700;color:#0F69C4;margin:0 0 6px;text-decoration:underline">{{ r.title }}</h3>
+        <p style="font-size:14px;line-height:1.6;color:#666;margin:0">{{ r.summary }}</p>
+      </a>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+    <div style="text-align:center;padding:56px 24px;color:#666">
+      <span class="ms" style="font-size:40px;color:#999">search_off</span>
+      <p style="font-size:16px;margin:12px 0 0">No hay resultados para "{{ query }}". Prueba con otra palabra clave.</p>
+    </div>
+  </sc-if>

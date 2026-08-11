@@ -1,0 +1,50 @@
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="background:#E8F5E9;border:1px solid #43A047;border-radius:8px;padding:28px;display:flex;gap:16px;align-items:flex-start">
+      <span class="ms" style="font-size:32px;color:#2E7D32">check_circle</span>
+      <div>
+        <h2 style="font-size:20px;font-weight:700;color:#1B5E20;margin:0 0 8px">Recibimos tu solicitud</h2>
+        <p style="font-size:15px;line-height:1.6;color:#2E4230;margin:0 0 6px">Tu número de atención es <strong>{{ ticket }}</strong>. Te enviamos un correo de confirmación a la casilla que indicaste.</p>
+        <p style="font-size:15px;line-height:1.6;color:#2E4230;margin:0">Para hacer seguimiento, inicia sesión con ClaveÚnica.</p>
+        <button type="button" sc-camel-on-click="{{ reset }}" style="margin-top:16px;background:#0051A8;color:#fff;border:none;padding:11px 22px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#003B8D">Enviar otra solicitud</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+  <form sc-camel-on-submit="{{ onSubmit }}" novalidate="true">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="field"><label for="tipo">Tipo de atención</label>
+        <sc-raw-select id="tipo" value="{{ f.tipo }}" sc-camel-on-change="{{ onChange('tipo') }}">
+          <option value="">Selecciona una opción</option>
+          <option>Consulta</option><option>Sugerencia</option><option>Reclamo</option><option>Felicitación</option>
+        </sc-raw-select>
+      </div>
+      <div class="field"><label for="area">Área de atención</label>
+        <sc-raw-select id="area" value="{{ f.area }}" sc-camel-on-change="{{ onChange('area') }}">
+          <option value="">Selecciona una opción</option>
+          <option>Trámite de marca</option><option>Trámite de patente</option><option>Servicio en línea</option><option>Capacitaciones, talleres o cursos</option><option>General</option>
+        </sc-raw-select>
+      </div>
+      <div class="field"><label for="nombres">Nombres</label><input id="nombres" type="text" value="{{ f.nombres }}" sc-camel-on-input="{{ onChange('nombres') }}"></div>
+      <div class="field"><label for="apellidos">Apellidos</label><input id="apellidos" type="text" value="{{ f.apellidos }}" sc-camel-on-input="{{ onChange('apellidos') }}"></div>
+      <div class="field"><label for="rut">RUT</label><input id="rut" type="text" placeholder="12.345.678-9" value="{{ f.rut }}" sc-camel-on-input="{{ onChange('rut') }}"></div>
+      <div class="field"><label for="fono">Teléfono de contacto</label><input id="fono" type="tel" placeholder="+56 9 1234 5678" value="{{ f.fono }}" sc-camel-on-input="{{ onChange('fono') }}"></div>
+      <div class="field"><label for="correo">Correo electrónico</label><input id="correo" type="email" value="{{ f.correo }}" sc-camel-on-input="{{ onChange('correo') }}"></div>
+      <div class="field"><label for="correo2">Repite tu correo electrónico</label><input id="correo2" type="email" value="{{ f.correo2 }}" sc-camel-on-input="{{ onChange('correo2') }}"></div>
+    </div>
+    <div class="field" style="margin-top:20px"><label for="mensaje">Describe tu solicitud</label>
+      <textarea id="mensaje" rows="6" maxlength="7000" placeholder="Cuéntanos en qué podemos ayudarte (máximo 7.000 caracteres)" value="{{ f.mensaje }}" sc-camel-on-input="{{ onChange('mensaje') }}"></textarea>
+    </div>
+
+    <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+      <p role="alert" style="display:flex;align-items:center;gap:8px;background:#FDECEA;border:1px solid #D32F2F;border-radius:6px;padding:12px 14px;color:#B71C1C;font-size:14px;margin:20px 0 0"><span class="ms" style="font-size:18px">error</span>{{ errorMsg }}</p>
+    </sc-if>
+
+    <div style="display:flex;gap:12px;margin-top:24px">
+      <button type="submit" style="background:#0051A8;color:#fff;border:none;padding:13px 30px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer" style-hover="background:#003B8D">Enviar solicitud</button>
+      <button type="button" sc-camel-on-click="{{ clear }}" style="background:#fff;color:#0051A8;border:1px solid #0051A8;padding:13px 30px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer" style-hover="background:#F2F2F2">Limpiar formulario</button>
+    </div>
+
+    <p style="font-size:13px;line-height:1.6;color:#666;margin:24px 0 0">Tratamos tus datos personales solo para responder tu solicitud. Puedes ejercer tus derechos de acceso, rectificación, cancelación y oposición (ARCO) según la <a href="#" style="text-decoration:none">política de privacidad de INAPI</a>.</p>
+  </form>
+  </sc-if>
