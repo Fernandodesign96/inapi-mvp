@@ -13,9 +13,12 @@
 # Testing
 /coverage
 
-# Next.js
+# Next.js (raíz legacy y app en /frontend)
 /.next/
 /out/
+/frontend/.next/
+/frontend/out/
+/frontend/node_modules/
 
 # Production
 /build

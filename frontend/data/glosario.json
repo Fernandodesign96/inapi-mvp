@@ -1,0 +1,92 @@
+[
+  {
+    "id": "g001",
+    "termino": "Clase de Niza",
+    "definicion": "Sistema internacional que agrupa productos y servicios en 45 categorías para el registro de marcas. Debes elegir la clase que corresponde a lo que ofrece tu marca.",
+    "ejemplo": "Una app de software va en clase 42. Ropa va en clase 25."
+  },
+  {
+    "id": "g002",
+    "termino": "Cobertura preaprobada",
+    "definicion": "Descripción de producto o servicio que INAPI ya tiene validada. Usarla reduce el riesgo de rechazo porque ya cumple con los requisitos formales.",
+    "ejemplo": "En vez de escribir tu propia descripción, eliges una del catálogo oficial."
+  },
+  {
+    "id": "g003",
+    "termino": "ICPA",
+    "definicion": "Indicación de Clase Preaprobada por INAPI. Significa que esa cobertura ya fue revisada y aceptada por el sistema, por lo que tiene menor riesgo de generar observaciones.",
+    "ejemplo": "Cuando ves el badge ICPA en una cobertura, es la opción más segura."
+  },
+  {
+    "id": "g004",
+    "termino": "Denominación o signo",
+    "definicion": "El nombre, palabra, frase o símbolo que quieres registrar como marca. Es el elemento distintivo que identifica tu producto o servicio.",
+    "ejemplo": "Si quieres registrar la marca 'Optima', ese es tu signo denominativo."
+  },
+  {
+    "id": "g005",
+    "termino": "Solicitud de marca",
+    "definicion": "El trámite formal ante INAPI para proteger legalmente tu marca en Chile. Una vez presentada, nadie más puede registrar una marca igual o similar en las mismas clases.",
+    "ejemplo": "Registrar la marca de tu empresa o producto antes de lanzarlo al mercado."
+  },
+  {
+    "id": "g006",
+    "termino": "Examen de forma",
+    "definicion": "Primera revisión que hace INAPI después de recibir tu solicitud. Verifica que los datos estén completos y correctos antes de publicarla.",
+    "ejemplo": "Si olvidaste adjuntar un documento o elegiste una clase incorrecta, INAPI te notifica aquí."
+  },
+  {
+    "id": "g007",
+    "termino": "Examen de fondo",
+    "definicion": "Revisión profunda donde INAPI evalúa si tu marca cumple los requisitos legales para ser registrada. Analiza si es distintiva y si existe alguna marca similar ya registrada.",
+    "ejemplo": "Si tu marca es muy genérica o similar a una existente, puede ser rechazada en esta etapa."
+  },
+  {
+    "id": "g008",
+    "termino": "Período de oposición",
+    "definicion": "Plazo de 30 días hábiles después de publicada tu solicitud en el Diario Oficial, durante el cual terceros pueden oponerse a tu registro si creen que afecta sus derechos.",
+    "ejemplo": "Si otra empresa tiene una marca similar, puede presentar una oposición en este período."
+  },
+  {
+    "id": "g009",
+    "termino": "Borrador",
+    "definicion": "Estado de una solicitud que fue guardada pero aún no presentada ante INAPI. Los borradores se eliminan automáticamente si no se presentan en 60 días.",
+    "ejemplo": "Puedes guardar tu solicitud como borrador y terminarla después."
+  },
+  {
+    "id": "g010",
+    "termino": "Arancel",
+    "definicion": "Monto que se debe pagar a INAPI para presentar la solicitud de marca. El valor depende del número de clases que se soliciten.",
+    "ejemplo": "El arancel de presentación para una clase es aproximadamente $69.889 CLP."
+  },
+  {
+    "id": "g011",
+    "termino": "Titular",
+    "definicion": "La persona natural o empresa que será dueña de la marca una vez registrada. Es quien tiene los derechos exclusivos de uso.",
+    "ejemplo": "Si eres emprendedor individual, el titular eres tú. Si es una empresa, el titular es la sociedad."
+  },
+  {
+    "id": "g012",
+    "termino": "Representante",
+    "definicion": "Persona autorizada para actuar en nombre del titular ante INAPI. Puede ser un abogado, agente de propiedad industrial, o cualquier persona designada.",
+    "ejemplo": "Si contratas a un abogado para tramitar tu marca, él es el representante."
+  },
+  {
+    "id": "g013",
+    "termino": "Marca mixta",
+    "definicion": "Marca que combina elementos denominativos (palabras) con elementos figurativos (logos, imágenes). Es el tipo más común de registro.",
+    "ejemplo": "El nombre de tu empresa junto con su logo forma una marca mixta."
+  },
+  {
+    "id": "g014",
+    "termino": "Marca denominativa",
+    "definicion": "Marca compuesta únicamente por palabras, letras o números, sin elementos gráficos. Protege el nombre en sí mismo.",
+    "ejemplo": "Registrar solo la palabra 'Optima' sin ningún diseño es una marca denominativa."
+  },
+  {
+    "id": "g015",
+    "termino": "Vigencia",
+    "definicion": "Período de protección de la marca una vez registrada. En Chile las marcas tienen una vigencia de 10 años, renovables indefinidamente.",
+    "ejemplo": "Tu marca registrada en 2026 vence en 2036, pero puedes renovarla antes de que expire."
+  }
+]
