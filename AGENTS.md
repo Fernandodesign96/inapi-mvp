@@ -9,7 +9,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Estado Actual
 - **Portal institucional**: ~34 rutas con contenido real (home, marcas, patentes, trámites, transparencia, sala de prensa, etc.) alineadas a diseños Claude Design / Ctrl+U.
 - **Layout**: `SiteHeader` (nav principal + subheader + buscador + login), `FooterINAPI` institucional, `PortalShell` y `Breadcrumbs`.
-- **Design system**: UI Kit Gobierno Digital v3.0.1 con tokens de portal (`--inapi-portal-*`, CTAs, acentos marcas/patentes) en `app/globals.css`.
+- **Design system**: UI Kit Gobierno Digital v3.0.1; el frontend Next.js vive en `frontend/` (tokens en `frontend/app/globals.css`).
 - **Buscador**: Buscador global del sitio (`/buscar`) y buscador de similitud de marcas con lógica multitérmino (OR).
 - **Flujo GRI**: Stepper de 7 etapas con tabla de revisión final detallada (rutas `/auth`, `/solicitud`).
 - **Contenido**: Checklist de lenguaje claro (39 criterios) en `docs/LENGUAJE_CLARO_CHECKLIST.md`.
@@ -17,5 +17,5 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Directrices de Seguridad
 1. **Variables de Entorno**: Nunca subir archivos `.env` al repositorio. Las claves de Firebase deben configurarse como *Secrets* en el repositorio de GitHub.
-2. **Ignorados**: Asegurar que `.gitignore` incluya `.next/`, `out/`, `node_modules/` y `.env*`.
+2. **Ignorados**: Asegurar que `.gitignore` incluya `frontend/.next/`, `frontend/out/`, `frontend/node_modules/` y `.env*`.
 3. **Firestore**: Las reglas de seguridad de Firestore deben ser estrictas, permitiendo solo operaciones necesarias desde el origen validado.

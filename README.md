@@ -16,43 +16,39 @@ Portal web institucional y flujo guiado de solicitud de marca (GRI) para INAPI C
 
 ```powershell
 cd c:\Users\FArriagada\Downloads\inapi-mvp
-bun install
+bun install --cwd frontend
 bun run dev
 ```
 
 Abrir [http://localhost:3000/inapi-mvp](http://localhost:3000/inapi-mvp).
 
+Los scripts de la raíz (`bun run dev`, `build`, `lint`, `typecheck`) delegan a `frontend/`.
+
 ### Comandos útiles
 
 | Comando | Descripción |
 | --- | --- |
-| `bun run dev` | Servidor de desarrollo (Turbopack) |
+| `bun run dev` | Servidor de desarrollo (desde la raíz) |
 | `bun run build` | Build de producción (35 rutas estáticas) |
 | `bun run typecheck` | Verificación TypeScript |
 | `bun run lint` | ESLint |
-| `bun scripts/extract-design-bundles.ts` | Extrae templates de bundles Claude Design |
-| `bun scripts/extract-ctrlu-all.ts` | Extrae HTML de `docs/ctrlu-htmls/` |
+| `bun --cwd frontend scripts/extract-design-bundles.ts` | Extrae templates de bundles Claude Design |
+| `bun --cwd frontend scripts/extract-ctrlu-all.ts` | Extrae HTML de `docs/ctrlu-htmls/` |
 
 ---
 
 ## Estructura del proyecto
 
 ```
-app/                    # Rutas Next.js App Router (~34 páginas)
-components/
-  layout/               # SiteHeader, FooterINAPI, PortalShell, Breadcrumbs
-  portal/               # Primitivos de contenido, home, buscador, sala de prensa
-  theme/                # ThemeProvider, ThemeToggle (claro/oscuro)
-lib/
-  portal-routes.ts      # Nav principal, subheader y metadatos por pantalla
-  portal-search-index.ts
-  portal-news.ts
-docs/
-  DESIGN_SYSTEM.md      # Tokens y componentes UI Kit v3.0.1 + portal
-  development/DEVLOG.md # Registro cronológico de sprints
-  ctrlu-htmls/          # Bundles HTML fuente + extracted/
-  LENGUAJE_CLARO_CHECKLIST.md
-scripts/                # Extracción y scaffolding de páginas
+frontend/               # App Next.js (UI, rutas, componentes)
+  app/                  # App Router (~34 páginas)
+  components/layout/    # SiteHeader, FooterINAPI, PortalShell, Breadcrumbs
+  components/portal/    # Home, buscador, sala de prensa
+  lib/                  # Rutas, índice de búsqueda, Firebase
+  scripts/              # Extracción de HTML de diseño
+docs/                   # Documentación, UI Kit PDF, HTML de diseño
+  uikit_gob/references/ # UI Kit Gobierno Digital v3.0.1 (PDF + extractos)
+.github/                # CI (build en working-directory: frontend)
 ```
 
 ---
