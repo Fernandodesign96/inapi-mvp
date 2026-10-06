@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { FileText, Users } from 'lucide-react'
+import Link from 'next/link'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import {
@@ -30,6 +31,15 @@ export default function TramitesDigitalesPage() {
             Todos están completamente digitalizados: puedes iniciarlos y terminarlos por internet, sin ir
             presencialmente.
           </PortalProse>
+
+          <p>
+            <Link
+              href="/tramites"
+              className="inline-flex min-h-11 items-center rounded-gob-md bg-gob-primary px-gob-5 text-gri-btn font-medium text-gob-text-inverse hover:bg-gob-primary-dark"
+            >
+              Ir a trámites en línea
+            </Link>
+          </p>
 
           <PortalCardGrid
             items={[

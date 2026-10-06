@@ -191,7 +191,7 @@ export function HomeExtraSections() {
             </ul>
           </div>
           <Button size="form" className="rounded-gob-md bg-inapi-cta hover:bg-gob-primary-dark font-medium h-11 px-gob-6" asChild>
-            <Link href="/auth">
+            <Link href="/tramites/auth">
               Comenzar mi registro
               <ChevronRight className="w-5 h-5 ml-1" aria-hidden />
             </Link>
@@ -207,7 +207,7 @@ export function HomeExtraSections() {
           </div>
           <div className="flex flex-col sm:flex-row gap-gob-3">
             <Button size="form" className="rounded-gob-md bg-gob-primary hover:bg-gob-primary-dark font-medium h-11 px-gob-6" asChild>
-              <Link href="/auth">Comenzar mi registro</Link>
+              <Link href="/tramites/auth">Comenzar mi registro</Link>
             </Button>
             <Button
               variant="outline"

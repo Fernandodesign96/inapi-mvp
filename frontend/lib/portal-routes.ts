@@ -22,7 +22,7 @@ export const PORTAL_PRIMARY_NAV = [
   { id: 'marcas' as const, label: 'Marcas', href: '/marcas' },
   { id: 'patentes' as const, label: 'Patentes', href: '/patentes' },
   { id: 'buscador' as const, label: 'Buscador', href: '/buscar' },
-  { id: 'tramites' as const, label: 'Trámites', href: '/tramites-digitales' },
+  { id: 'tramites' as const, label: 'Trámites', href: '/tramites' },
   { id: 'prensa' as const, label: 'Sala de Prensa', href: '/sala-de-prensa' },
   { id: 'contacto' as const, label: 'Contacto', href: '/contacto' },
 ] satisfies { id: PortalNavId; label: string; href: string }[]

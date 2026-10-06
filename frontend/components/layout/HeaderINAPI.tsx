@@ -16,15 +16,19 @@ export function HeaderINAPI() {
 
         {/* Logo e Insititución */}
         <div className="flex items-center gap-4 relative z-10">
-          <div>
+          <Link
+            href="/tramites"
+            aria-label="Ir a la pantalla principal de trámites"
+            className="rounded-gob-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+          >
             <Image 
               src="/inapi-mvp/inapi-logo.jpg" 
-              alt="INAPI Logo" 
+              alt="INAPI — ir a trámites en línea" 
               width={100} 
               height={40} 
               className="h-16 w-auto object-contain"
             />
-          </div>
+          </Link>
           <div className="hidden lg:block text-gri-body-xs leading-tight font-semibold uppercase tracking-wide text-gob-text-inverse/90">
             Instituto Nacional<br />
             de Propiedad<br />
