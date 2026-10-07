@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { BookOpen, FolderOpen, History } from 'lucide-react'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
-import { PortalCardGrid, PortalMain, PortalProse, PortalSectionTitle } from '@/components/portal/content'
+import { PortalCardGrid, PortalMain, PortalSectionTitle } from '@/components/portal/content'
 
 export const metadata: Metadata = {
   title: 'Aprende de propiedad industrial — INAPI',

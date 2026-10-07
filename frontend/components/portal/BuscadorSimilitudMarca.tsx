@@ -64,7 +64,6 @@ export function BuscadorSimilitudMarca() {
 
   const handleBuscar = useCallback(() => {
     if (!query.trim()) return
-    setCargado()
     setCargando(true)
     setTimeout(() => {
       const raw = fuse.search(query.trim()).slice(0, 12)
@@ -81,10 +80,6 @@ export function BuscadorSimilitudMarca() {
       setCargando(false)
     }, 400)
   }, [query, clasesSel])
-
-  function setCargado() {
-    /* noop — placeholder for analytics hook */
-  }
 
   const highCount = useMemo(() => resultados.filter(r => r.similitud >= 75).length, [resultados])
 
@@ -220,17 +215,14 @@ export function BuscadorSimilitudMarca() {
 
       {clasesSel.length > 0 && (
         <div className="flex flex-wrap gap-gob-2">
-          {clasesSel.map(id => {
-            const cls = CLASES_NIZA.find(c => c.id === id)
-            return (
+          {clasesSel.map(id => (
               <Badge key={id} variant="secondary" className="rounded-full gap-1 pr-1">
                 Clase {id}
                 <button type="button" onClick={() => toggleClase(id)} aria-label={`Quitar clase ${id}`}>
                   <X className="w-3 h-3" />
                 </button>
               </Badge>
-            )
-          })}
+          ))}
         </div>
       )}
 

@@ -6,7 +6,6 @@ import {
   ChevronRight,
   CircleHelp,
   Database,
-  History,
   Search,
 } from 'lucide-react'
 import { PortalShell } from '@/components/layout/PortalShell'
@@ -60,29 +59,16 @@ export default function HomePage() {
             <div className="grid min-[600px]:grid-cols-2 gap-gob-5 min-[905px]:gap-gob-6">
               <article className="bg-card/10 backdrop-blur-sm rounded-gob-lg p-gob-6 space-y-gob-5 border border-white/12 shadow-elevation-02">
                 <h2 className="portal-h3 text-gob-text-inverse">Marcas</h2>
-                <div className="space-y-gob-3">
-                  <Button
-                    size="form"
-                    className="w-full rounded-gob-md bg-inapi-marcas-accent hover:bg-[#E88000] text-gob-text-inverse font-medium"
-                    asChild
-                  >
-                    <Link href="/buscar">
-                      <Search className="w-5 h-5 mr-2" aria-hidden />
-                      Buscador de marcas
-                    </Link>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="form"
-                    className="w-full rounded-gob-md border-2 border-white/60 bg-transparent text-gob-text-inverse hover:bg-white/10 font-medium"
-                    asChild
-                  >
-                    <Link href="/marcas/buscador-similitud">
-                      <History className="w-5 h-5 mr-2" aria-hidden />
-                      Buscador de similitud de marcas
-                    </Link>
-                  </Button>
-                </div>
+                <Button
+                  size="form"
+                  className="w-full rounded-gob-md bg-inapi-marcas-accent hover:bg-[#E88000] text-gob-text-inverse font-medium"
+                  asChild
+                >
+                  <Link href="/marcas/buscador-similitud">
+                    <Search className="w-5 h-5 mr-2" aria-hidden />
+                    Buscador de marcas
+                  </Link>
+                </Button>
                 <ul className="space-y-gob-3 text-gri-body">
                   <li>
                     <Link
@@ -95,7 +81,7 @@ export default function HomePage() {
                   </li>
                   <li>
                     <Link
-                      href="/auth"
+                      href="/tramites/auth"
                       className="inline-flex items-center gap-gob-2 min-h-11 font-medium text-gob-text-inverse/90 hover:text-gob-focus transition-colors"
                     >
                       <ChevronRight className="w-5 h-5 text-gob-focus shrink-0" aria-hidden />
@@ -112,7 +98,7 @@ export default function HomePage() {
                   className="w-full rounded-gob-md bg-inapi-patentes-accent hover:bg-[#0A9FCC] text-gob-text-inverse font-medium"
                   asChild
                 >
-                  <Link href="/buscar">
+                  <Link href="/tramites/patentes/buscador">
                     <Search className="w-5 h-5 mr-2" aria-hidden />
                     Buscador de patentes
                   </Link>
@@ -129,7 +115,7 @@ export default function HomePage() {
                   </li>
                   <li>
                     <Link
-                      href="/auth"
+                      href="/tramites/auth"
                       className="inline-flex items-center gap-gob-2 min-h-11 font-medium text-gob-text-inverse/90 hover:text-gob-focus transition-colors"
                     >
                       <ChevronRight className="w-5 h-5 text-gob-focus shrink-0" aria-hidden />

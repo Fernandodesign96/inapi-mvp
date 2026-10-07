@@ -69,7 +69,7 @@ export default function SolicitudNuevaMarcaPage() {
                 </p>
               </div>
               <Link
-                href="/solicitud"
+                href="/tramites/solicitudmarca"
                 className="inline-flex items-center gap-gob-2 bg-background text-inapi-cta px-gob-6 py-gob-3 font-bold text-gri-body-sm hover:bg-gob-surface-elevated transition-colors shrink-0"
               >
                 <LogIn className="w-5 h-5" aria-hidden />

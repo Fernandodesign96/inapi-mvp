@@ -65,7 +65,7 @@ function SiteSearchBar({ className }: { className?: string }) {
         className="hidden sm:inline-flex rounded-gob-md bg-gob-primary hover:bg-gob-primary-dark text-gob-text-inverse font-medium h-11 px-gob-5 shrink-0"
         asChild
       >
-        <Link href="/auth">Iniciar sesión</Link>
+        <Link href="/tramites">Iniciar sesión</Link>
       </Button>
     </form>
   )
@@ -228,7 +228,7 @@ export function SiteHeader({
             ))}
             <div className="border-t border-white/12 my-gob-4 pt-gob-3">
               <Link
-                href="/auth"
+                href="/tramites"
                 onClick={() => setMobileOpen(false)}
                 className="inline-flex w-full min-h-11 items-center justify-center rounded-gob-md bg-gob-primary hover:bg-gob-primary-dark text-gob-text-inverse font-medium py-gob-3 px-gob-4 text-gri-btn"
               >

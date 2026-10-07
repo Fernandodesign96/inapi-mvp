@@ -14,7 +14,7 @@ interface Mensaje {
   contenido: string
 }
 
-export function ChatFAB() {
+export function ChatFAB({ title = 'Asistente GRI' }: { title?: string }) {
   const [panel, setPanel] = useState<PanelState>('closed')
   const [mensajes, setMensajes] = useState<Mensaje[]>([])
   const [input, setInput] = useState('')
@@ -99,7 +99,7 @@ export function ChatFAB() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-gri-body-sm">
-                {panel === 'ia' ? 'Asistente IA · GRI' : panel === 'ejecutivo' ? 'Ejecutivo INAPI' : 'Asistente GRI'}
+                {panel === 'ia' ? title : panel === 'ejecutivo' ? 'Ejecutivo INAPI' : title}
               </p>
               <p className="text-gri-label font-semibold text-gob-text-inverse/60 uppercase tracking-widest">
                 {panel === 'ia' ? 'Respuestas automáticas' : panel === 'ejecutivo' ? 'Atención personalizada' : 'Portal INAPI · Marcas'}
@@ -282,7 +282,7 @@ export function ChatFAB() {
             ? 'bg-destructive hover:bg-destructive/90 rotate-90'
             : 'bg-gob-brand-from hover:bg-gob-brand-to hover:scale-110'
         )}
-        aria-label={isOpen ? 'Cerrar asistente' : 'Abrir asistente de INAPI'}
+        aria-label={isOpen ? 'Cerrar asistente' : `Abrir ${title}`}
         aria-expanded={isOpen}
       >
         {isOpen ? (
