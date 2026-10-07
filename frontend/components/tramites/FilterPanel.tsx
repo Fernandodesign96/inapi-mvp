@@ -21,7 +21,7 @@ export function FilterPanel({
         type="button"
         aria-expanded={open}
         onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center gap-gob-3 min-h-11 px-gob-4 py-gob-3 text-left"
+        className="w-full flex items-center gap-gob-3 min-h-11 px-gob-4 py-gob-3 text-left hover:bg-gob-surface-elevated transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
       >
         <SlidersHorizontal className="w-5 h-5 text-gob-primary" aria-hidden />
         <span className="flex-1 font-medium text-gri-body text-gob-text">{title}</span>

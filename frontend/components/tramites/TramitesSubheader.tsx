@@ -19,7 +19,7 @@ export function TramitesSubheader() {
     <div className="bg-background border-b border-gob-border">
       <div className={cn('h-1', accent)} />
       <div className="mx-auto max-w-[1140px] px-gob-4 min-[600px]:px-gob-5 py-gob-5">
-        <h1 className="font-heading text-gri-h2 font-medium text-gob-text">{meta.title}</h1>
+        <h1 className="font-heading text-gri-h2 font-medium text-gob-text tracking-tight">{meta.title}</h1>
         {meta.subtitle && <p className="text-gri-body text-muted-foreground mt-gob-2 max-w-3xl">{meta.subtitle}</p>}
       </div>
     </div>

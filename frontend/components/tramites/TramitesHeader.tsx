@@ -21,21 +21,27 @@ function MegaPanel({ columns, accent }: { columns: MegaColumn[]; accent: 'marcas
           <div key={col.title} className="space-y-gob-3">
             <p className="text-gri-label font-semibold uppercase tracking-wider text-muted-foreground">{col.title}</p>
             <ul className="space-y-1">
-              {col.items.map(item => (
-                <li key={item.href + item.label}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href={item.href}
-                        className="flex min-h-11 items-center rounded-gob-sm px-gob-2 text-gri-body-sm font-medium text-gob-link hover:bg-gob-surface-elevated hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-                      >
-                        {item.label}
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">{item.tooltip}</TooltipContent>
-                  </Tooltip>
-                </li>
-              ))}
+              {col.items.map(item => {
+                const className =
+                  'flex min-h-11 items-center rounded-gob-sm px-gob-2 text-gri-body-sm font-medium text-gob-link hover:bg-gob-surface-elevated hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus transition-colors duration-150'
+                const inner = item.external ? (
+                  <a href={item.href} className={className} rel="noopener noreferrer">
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link href={item.href} className={className}>
+                    {item.label}
+                  </Link>
+                )
+                return (
+                  <li key={item.href + item.label}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>{inner}</TooltipTrigger>
+                      <TooltipContent className="max-w-xs">{item.tooltip}</TooltipContent>
+                    </Tooltip>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         ))}
@@ -203,16 +209,28 @@ function TramitesHeaderInner() {
             ].map(block => (
               <div key={block.title}>
                 <p className="text-gri-label uppercase tracking-wider text-white/60 mb-gob-2">{block.title}</p>
-                {block.cols.flatMap(c => c.items).map(item => (
-                  <Link
-                    key={item.href + item.label}
-                    href={item.href}
-                    className="block py-gob-3 min-h-11 text-gri-body"
-                    onClick={() => setMobile(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {block.cols.flatMap(c => c.items).map(item =>
+                  item.external ? (
+                    <a
+                      key={item.href + item.label}
+                      href={item.href}
+                      className="block py-gob-3 min-h-11 text-gri-body hover:underline"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobile(false)}
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.href + item.label}
+                      href={item.href}
+                      className="block py-gob-3 min-h-11 text-gri-body hover:underline"
+                      onClick={() => setMobile(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ),
+                )}
               </div>
             ))}
             <Link href="/" className="block py-gob-3 min-h-11" onClick={() => setMobile(false)}>

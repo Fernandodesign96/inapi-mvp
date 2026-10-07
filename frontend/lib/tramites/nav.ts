@@ -1,3 +1,5 @@
+import { URLS_EXTERNAS } from './catalogs'
+
 export type TramitesDomain = 'marcas' | 'patentes'
 
 export type MegaItem = {
@@ -5,6 +7,7 @@ export type MegaItem = {
   href: string
   tooltip: string
   stub?: boolean
+  external?: boolean
 }
 
 export type MegaColumn = {
@@ -12,13 +15,8 @@ export type MegaColumn = {
   items: MegaItem[]
 }
 
-function stub(label: string, servicio: string, tooltip: string): MegaItem {
-  return {
-    label,
-    href: `/tramites/proximamente?servicio=${encodeURIComponent(servicio)}`,
-    tooltip,
-    stub: true,
-  }
+function ext(label: string, href: string, tooltip: string): MegaItem {
+  return { label, href, tooltip, external: true }
 }
 
 export const MARCAS_MEGA: MegaColumn[] = [
@@ -26,24 +24,24 @@ export const MARCAS_MEGA: MegaColumn[] = [
     title: 'Mi INAPI',
     items: [
       {
-        label: 'Notificaciones',
+        label: 'Notificaciones electrónicas marcas',
         href: '/tramites/notificaciones?ambito=marcas',
         tooltip: 'Revisa avisos de tus trámites de marcas',
       },
       {
-        label: 'Tus documentos',
-        href: '/tramites/marcas/documentos',
-        tooltip: 'Abre el expediente digital de una marca',
-      },
-      {
-        label: 'Solicitudes guardadas',
+        label: 'Solicitudes guardadas de marcas',
         href: '/tramites/marcas/solicitudes-guardadas',
         tooltip: 'Retoma un borrador de solicitud de marca',
       },
       {
-        label: 'Escritos',
+        label: 'Anotaciones guardadas marcas',
+        href: '/tramites/marcas/anotaciones-guardadas',
+        tooltip: 'Revisa anotaciones guardadas de marcas',
+      },
+      {
+        label: 'Escritos guardados de marcas',
         href: '/tramites/marcas/escritos',
-        tooltip: 'Presenta un escrito asociado a un expediente',
+        tooltip: 'Presenta o retoma un escrito de marcas',
       },
     ],
   },
@@ -55,40 +53,121 @@ export const MARCAS_MEGA: MegaColumn[] = [
         href: '/tramites/marcas/solicitar',
         tooltip: 'Inicia una solicitud nueva de marca',
       },
-      stub('Sistema de Madrid', 'madrid', 'Registro internacional de marcas. Disponible en una próxima entrega.'),
-      stub('Renovaciones', 'renovaciones-marcas', 'Renueva el registro de tu marca. Disponible en una próxima entrega.'),
-      stub('Anotaciones', 'anotaciones-marcas', 'Anota cambios de tu marca. Disponible en una próxima entrega.'),
-      stub('Oposición', 'oposicion-marcas', 'Presenta una oposición. Disponible en una próxima entrega.'),
+      {
+        label: 'Solicitar marca Sistema de Madrid',
+        href: '/tramites/marcas/madrid',
+        tooltip: 'Te lleva al sitio de Madrid e-filing',
+      },
+      {
+        label: 'Solicitar renovaciones',
+        href: '/tramites/marcas/renovaciones',
+        tooltip: 'Renueva el registro de tu marca',
+      },
+      {
+        label: 'Solicitar anotación de marcas',
+        href: '/tramites/marcas/anotaciones',
+        tooltip: 'Anota cambios de tu marca',
+      },
+      {
+        label: 'Presentar escritos de marcas',
+        href: '/tramites/marcas/presentar-escritos',
+        tooltip: 'Presenta un escrito a una solicitud, anotación o juicio de marcas',
+      },
+      {
+        label: 'Presentar demanda de oposición',
+        href: '/tramites/marcas/oposicion',
+        tooltip: 'Presenta una oposición a una solicitud de marca',
+      },
+      {
+        label: 'Custodia de poderes y personerías',
+        href: '/tramites/custodia-poderes',
+        tooltip: 'Registra un poder o personería una sola vez',
+      },
     ],
   },
   {
     title: 'Pagos',
     items: [
-      stub('Pagos Diario Oficial', 'pagos-do', 'Paga publicaciones en el Diario Oficial. Disponible en una próxima entrega.'),
+      {
+        label: 'Pagar tasa de concesión final marcas',
+        href: '/tramites/marcas/pago-concesion',
+        tooltip: 'Paga el segundo pago o derechos finales de una marca',
+      },
+      ext(
+        'Pagar publicación en Diario Oficial',
+        URLS_EXTERNAS.diarioOficialMarcas,
+        'Paga la publicación de tu marca en el Diario Oficial',
+      ),
+      {
+        label: 'Otros pagos en línea marcas',
+        href: '/tramites/marcas/otros-pagos',
+        tooltip: 'Pagos complementarios de marcas',
+      },
+      {
+        label: 'Comprobantes para pago marcas',
+        href: '/tramites/marcas/comprobante-pago',
+        tooltip: 'Genera el Formulario 10 para pago en banco',
+      },
     ],
   },
   {
     title: 'Servicios',
     items: [
       {
-        label: 'Buscador de Marcas',
+        label: 'Estados diarios de marcas',
+        href: '/tramites/marcas/estados-diarios',
+        tooltip: 'Descarga los estados diarios de marcas',
+      },
+      {
+        label: 'Gaceta de marcas',
+        href: '/tramites/marcas/gaceta',
+        tooltip: 'Descarga la gaceta de marcas nuevas',
+      },
+      {
+        label: 'Buscador marcas',
         href: '/marcas/buscador-similitud',
         tooltip: 'Compara tu nombre con marcas anteriores',
       },
       {
-        label: 'Formularios',
-        href: '/tramites/marcas/formularios',
-        tooltip: 'Descarga formularios PDF de marcas',
+        label: 'Expedientes digitales marcas',
+        href: '/tramites/marcas/documentos',
+        tooltip: 'Abre el expediente digital de una marca',
+      },
+      ext(
+        'Consulta de marca, registro y dominio',
+        URLS_EXTERNAS.consultaMarcaDominio,
+        'Consulta marcas, empresas y dominios .cl',
+      ),
+      {
+        label: 'Datos abiertos marcas',
+        href: '/tramites/marcas/datos-abiertos',
+        tooltip: 'Descarga listados de marcas en datos.gob.cl',
       },
       {
-        label: 'Certificados',
+        label: 'Libro de registro de marcas',
+        href: '/tramites/marcas/libro-registro',
+        tooltip: 'Consulta el libro de registro de marcas',
+      },
+      {
+        label: 'Certificados de marcas',
         href: '/tramites/marcas/certificados',
         tooltip: 'Pide un certificado de tu marca',
       },
-      stub('Gaceta', 'gaceta', 'Consulta la gaceta de propiedad industrial. Disponible en una próxima entrega.'),
-      stub('Datos abiertos', 'datos-abiertos', 'Descarga datos abiertos. Disponible en una próxima entrega.'),
-      stub('Verificar certificados', 'verificar-certificados', 'Valida un certificado con CVE. Disponible en una próxima entrega.'),
-      stub('Custodia de poderes', 'custodia-poderes', 'Registra un poder una sola vez. Disponible en una próxima entrega.'),
+      {
+        label: 'Clasificador productos y servicios',
+        href: '/tramites/marcas/clasificador',
+        tooltip: 'Busca términos de la clasificación de Niza',
+      },
+      {
+        label: 'Verificar certificados marcas',
+        href: '/tramites/marcas/verificar-titulos',
+        tooltip: 'Valida un título o certificado con CVE',
+      },
+      {
+        label: 'Descargar formularios (PDF)',
+        href: '/tramites/marcas/formularios',
+        tooltip: 'Descarga formularios PDF de marcas',
+      },
     ],
   },
 ]
@@ -98,24 +177,24 @@ export const PATENTES_MEGA: MegaColumn[] = [
     title: 'Mi INAPI',
     items: [
       {
-        label: 'Notificaciones',
+        label: 'Notificaciones electrónicas patentes',
         href: '/tramites/notificaciones?ambito=patentes',
         tooltip: 'Revisa avisos de tus trámites de patentes',
       },
       {
-        label: 'Tus documentos',
-        href: '/tramites/patentes/documentos',
-        tooltip: 'Abre el expediente digital de una patente',
-      },
-      {
-        label: 'Solicitudes guardadas',
+        label: 'Solicitudes guardadas de patentes',
         href: '/tramites/patentes/solicitudes-guardadas',
         tooltip: 'Retoma un borrador de solicitud de patente',
       },
       {
-        label: 'Escritos',
+        label: 'Anotaciones guardadas patentes',
+        href: '/tramites/patentes/anotaciones-guardadas',
+        tooltip: 'Revisa anotaciones guardadas de patentes',
+      },
+      {
+        label: 'Escritos guardados de patentes',
         href: '/tramites/patentes/escritos',
-        tooltip: 'Presenta un escrito asociado a un expediente de patente',
+        tooltip: 'Revisa escritos guardados de patentes',
       },
     ],
   },
@@ -132,37 +211,106 @@ export const PATENTES_MEGA: MegaColumn[] = [
         href: '/tramites/patentes/solicitar-diseno',
         tooltip: 'Inicia una solicitud de diseño o dibujo industrial',
       },
-      stub('PCT', 'pct-tramites', 'Presentación internacional PCT. Disponible en una próxima entrega.'),
-      stub('Anotaciones', 'anotaciones-patentes', 'Anota cambios de tu patente. Disponible en una próxima entrega.'),
+      {
+        label: 'Solicitar anotación de patentes',
+        href: '/tramites/patentes/anotaciones',
+        tooltip: 'Anota cambios de tu patente, modelo o diseño',
+      },
+      {
+        label: 'Presentar escritos de patentes',
+        href: '/tramites/patentes/presentar-escritos',
+        tooltip: 'Presenta un escrito a una solicitud, anotación o nulidad',
+      },
+      {
+        label: 'Custodia de poderes y personerías',
+        href: '/tramites/custodia-poderes',
+        tooltip: 'Registra un poder o personería una sola vez',
+      },
     ],
   },
   {
     title: 'Pagos',
     items: [
-      stub('Pagos Diario Oficial', 'pagos-do-patentes', 'Paga publicaciones en el Diario Oficial. Disponible en una próxima entrega.'),
+      {
+        label: 'Pagar tasa de presentación patentes',
+        href: '/tramites/patentes/pago-presentacion',
+        tooltip: 'Paga la tasa de presentación si postergaste el pago',
+      },
+      {
+        label: 'Pagar arancel pericial',
+        href: '/tramites/patentes/pago-arancel-pericial',
+        tooltip: 'Paga el arancel pericial cuando INAPI lo requiere',
+      },
+      {
+        label: 'Pagar derechos finales',
+        href: '/tramites/patentes/pago-derechos-finales',
+        tooltip: 'Paga decenios, quinquenios o anualidades',
+      },
+      {
+        label: 'Pagar tasas PCT fase internacional',
+        href: '/tramites/patentes/pago-pct',
+        tooltip: 'Paga tasas de una solicitud PCT',
+      },
+      ext(
+        'Pagar publicación en el Diario Oficial',
+        URLS_EXTERNAS.diarioOficialPatentes,
+        'Paga la publicación de tu patente en el Diario Oficial',
+      ),
+      {
+        label: 'Otros pagos en línea patentes',
+        href: '/tramites/patentes/otros-pagos',
+        tooltip: 'Pagos complementarios de patentes',
+      },
+      {
+        label: 'Comprobantes para pago patentes',
+        href: '/tramites/patentes/comprobante-pago',
+        tooltip: 'Genera el Formulario 10 para pago en banco',
+      },
     ],
   },
   {
     title: 'Servicios',
     items: [
       {
-        label: 'Buscador de Patentes',
+        label: 'Estados diarios patentes',
+        href: '/tramites/patentes/estados-diarios',
+        tooltip: 'Descarga los estados diarios de patentes',
+      },
+      {
+        label: 'Buscador patentes',
         href: '/tramites/patentes/buscador',
         tooltip: 'Busca patentes, modelos de utilidad y diseños',
       },
       {
-        label: 'Formularios',
+        label: 'Libro de registro de patentes',
+        href: '/tramites/patentes/libro-registro',
+        tooltip: 'Consulta el libro de registro de patentes',
+      },
+      {
+        label: 'Datos abiertos patentes',
+        href: '/tramites/patentes/datos-abiertos',
+        tooltip: 'Descarga listados de patentes en datos.gob.cl',
+      },
+      {
+        label: 'Títulos y certificados patentes',
+        href: '/tramites/patentes/certificados',
+        tooltip: 'Pide un certificado de tu patente',
+      },
+      {
+        label: 'Verificar certificados patentes',
+        href: '/tramites/patentes/verificar-titulos',
+        tooltip: 'Valida un título o certificado con CVE',
+      },
+      {
+        label: 'Descargar formularios (PDF)',
         href: '/tramites/patentes/formularios',
         tooltip: 'Descarga formularios PDF de patentes',
       },
       {
-        label: 'Certificados',
-        href: '/tramites/patentes/certificados',
-        tooltip: 'Pide un certificado de tu patente',
+        label: 'Documentación mínima PCT',
+        href: '/tramites/patentes/documentacion-pct',
+        tooltip: 'Authority File y XML de la colección nacional de patentes',
       },
-      stub('Gaceta', 'gaceta-patentes', 'Consulta la gaceta. Disponible en una próxima entrega.'),
-      stub('Datos abiertos', 'datos-abiertos-patentes', 'Descarga datos abiertos. Disponible en una próxima entrega.'),
-      stub('Verificar certificados', 'verificar-certificados-patentes', 'Valida un certificado con CVE. Disponible en una próxima entrega.'),
     ],
   },
 ]
@@ -174,22 +322,52 @@ export const PAGE_TITLES: Record<string, { title: string; subtitle?: string; dom
   '/tramites/solicitudmarca': { title: 'Solicitud de marca', domain: 'marcas' },
   '/tramites/registrarse': { title: 'Regístrate en trámites INAPI', domain: 'general' },
   '/tramites/clave-unica': { title: 'Validación con ClaveÚnica', domain: 'general' },
-  '/tramites/notificaciones': { title: 'Tus notificaciones', domain: 'general' },
-  '/tramites/marcas/documentos': { title: 'Marcas • Tus documentos', domain: 'marcas' },
-  '/tramites/marcas/solicitudes-guardadas': { title: 'Marcas • Solicitudes guardadas', domain: 'marcas' },
-  '/tramites/marcas/escritos': { title: 'Marcas • Escritos', domain: 'marcas' },
-  '/tramites/marcas/formularios': { title: 'Marcas • Formularios', domain: 'marcas' },
-  '/tramites/marcas/certificados': { title: 'Marcas • Certificados', domain: 'marcas' },
-  '/tramites/marcas/solicitar': { title: 'Solicitar marca', domain: 'marcas' },
-  '/tramites/patentes/documentos': { title: 'Patentes • Tus documentos', domain: 'patentes' },
-  '/tramites/patentes/solicitudes-guardadas': { title: 'Patentes • Solicitudes guardadas', domain: 'patentes' },
-  '/tramites/patentes/escritos': { title: 'Patentes • Escritos', domain: 'patentes' },
-  '/tramites/patentes/formularios': { title: 'Patentes • Formularios', domain: 'patentes' },
-  '/tramites/patentes/certificados': { title: 'Patentes • Certificados', domain: 'patentes' },
+  '/tramites/notificaciones': { title: 'Notificaciones electrónicas', domain: 'general' },
+  '/tramites/custodia-poderes': { title: 'Trámites y Servicios • Ingreso de Documentos, Poderes y Personerías', domain: 'general' },
+  '/tramites/marcas/documentos': { title: 'Marcas • Expedientes digitales', domain: 'marcas' },
+  '/tramites/marcas/solicitudes-guardadas': { title: 'Marcas • Solicitudes guardadas de marcas', domain: 'marcas' },
+  '/tramites/marcas/escritos': { title: 'Marcas • Escritos guardados de marcas', domain: 'marcas' },
+  '/tramites/marcas/presentar-escritos': { title: 'Marcas • Presentar escritos de marcas', domain: 'marcas' },
+  '/tramites/marcas/gaceta': { title: 'Trámites y Servicios • Gaceta de marcas nuevas', domain: 'marcas' },
+  '/tramites/marcas/estados-diarios': { title: 'Trámites y Servicios • Estados diarios de marcas', domain: 'marcas' },
+  '/tramites/marcas/clasificador': { title: 'Marcas • Clasificador de productos y servicios', domain: 'marcas' },
+  '/tramites/marcas/formularios': { title: 'Marcas • Descargar formularios (PDF)', domain: 'marcas' },
+  '/tramites/marcas/certificados': { title: 'Marcas • Certificados de marcas', domain: 'marcas' },
+  '/tramites/marcas/solicitar': { title: 'Marcas • Solicitar marca', domain: 'marcas' },
+  '/tramites/marcas/madrid': { title: 'Marcas • Solicitar marca Sistema de Madrid', domain: 'marcas' },
+  '/tramites/marcas/renovaciones': { title: 'Marcas • Solicitar renovaciones', domain: 'marcas' },
+  '/tramites/marcas/anotaciones-guardadas': { title: 'Marcas • Anotaciones guardadas', domain: 'marcas' },
+  '/tramites/marcas/anotaciones': { title: 'Marcas • Solicitar anotación de marcas', domain: 'marcas' },
+  '/tramites/marcas/oposicion': { title: 'Marcas • Presentar demanda de oposición', domain: 'marcas' },
+  '/tramites/marcas/pago-concesion': { title: 'Marcas • Pagar tasa de concesión final marcas', domain: 'marcas' },
+  '/tramites/marcas/otros-pagos': { title: 'Marcas • Otros pagos en línea marcas', domain: 'marcas' },
+  '/tramites/marcas/comprobante-pago': { title: 'Trámites y Servicios • Comprobante para pago', domain: 'marcas' },
+  '/tramites/marcas/datos-abiertos': { title: 'Trámites y Servicios • Datos abiertos', domain: 'marcas' },
+  '/tramites/marcas/libro-registro': { title: 'Marcas • Libro de registro marcas', domain: 'marcas' },
+  '/tramites/marcas/verificar-titulos': { title: 'Trámites y Servicios • Verificador de títulos y certificados', domain: 'marcas' },
+  '/tramites/patentes/documentos': { title: 'Patentes • Expedientes digitales', domain: 'patentes' },
+  '/tramites/patentes/solicitudes-guardadas': { title: 'Patentes • Solicitudes guardadas de patentes', domain: 'patentes' },
+  '/tramites/patentes/escritos': { title: 'Patentes • Escritos guardados de patentes', domain: 'patentes' },
+  '/tramites/patentes/presentar-escritos': { title: 'Patentes • Presentar escritos de patentes', domain: 'patentes' },
+  '/tramites/patentes/estados-diarios': { title: 'Trámites y Servicios • Estados diarios de patentes', domain: 'patentes' },
+  '/tramites/patentes/datos-abiertos': { title: 'Trámites y Servicios • Datos abiertos', domain: 'patentes' },
+  '/tramites/patentes/libro-registro': { title: 'Patentes • Libro de registro patentes', domain: 'patentes' },
+  '/tramites/patentes/verificar-titulos': { title: 'Trámites y Servicios • Verificador de títulos y certificados', domain: 'patentes' },
+  '/tramites/patentes/documentacion-pct': { title: 'Patentes • Documentación mínima PCT - Colección nacional de patentes de Chile', domain: 'patentes' },
+  '/tramites/patentes/formularios': { title: 'Patentes • Descargar formularios (PDF)', domain: 'patentes' },
+  '/tramites/patentes/certificados': { title: 'Patentes • Títulos y certificados patentes', domain: 'patentes' },
   '/tramites/patentes/buscador': { title: 'Buscador de Patentes', domain: 'patentes' },
   '/tramites/patentes/buscador/avanzada': { title: 'Búsqueda avanzada de patentes', domain: 'patentes' },
-  '/tramites/patentes/solicitar': { title: 'Solicitar patente o modelo de utilidad', domain: 'patentes' },
-  '/tramites/patentes/solicitar-diseno': { title: 'Solicitar diseño o dibujo industrial', domain: 'patentes' },
+  '/tramites/patentes/solicitar': { title: 'Patentes • Solicitud de patente o modelo de utilidad', domain: 'patentes' },
+  '/tramites/patentes/solicitar-diseno': { title: 'Patentes • Solicitud de diseño o dibujo industrial', domain: 'patentes' },
+  '/tramites/patentes/anotaciones-guardadas': { title: 'Patentes • Anotaciones guardadas', domain: 'patentes' },
+  '/tramites/patentes/anotaciones': { title: 'Patentes • Solicitar anotación de patentes', domain: 'patentes' },
+  '/tramites/patentes/pago-presentacion': { title: 'Patentes • Pagar tasa de presentación patentes', domain: 'patentes' },
+  '/tramites/patentes/pago-arancel-pericial': { title: 'Patentes • Pagar arancel pericial', domain: 'patentes' },
+  '/tramites/patentes/pago-derechos-finales': { title: 'Patentes • Pagar derechos finales', domain: 'patentes' },
+  '/tramites/patentes/pago-pct': { title: 'Patentes • Pagos PCT', domain: 'patentes' },
+  '/tramites/patentes/otros-pagos': { title: 'Patentes • Otros pagos en línea patentes', domain: 'patentes' },
+  '/tramites/patentes/comprobante-pago': { title: 'Trámites y Servicios • Comprobante para pago', domain: 'patentes' },
   '/tramites/pago': { title: 'Pago en Tesorería (simulación)', domain: 'general' },
   '/tramites/proximamente': { title: 'Próxima entrega', domain: 'general' },
 }

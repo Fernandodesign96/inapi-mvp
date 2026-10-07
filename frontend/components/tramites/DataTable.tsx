@@ -22,7 +22,7 @@ export function DataTable({
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-gob-border">{children}</tbody>
+        <tbody className="divide-y divide-gob-border [&_tr]:transition-colors [&_tr]:duration-150 [&_tr:hover]:bg-gob-surface-elevated">{children}</tbody>
       </table>
     </div>
   )

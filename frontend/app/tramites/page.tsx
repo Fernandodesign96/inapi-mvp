@@ -2,83 +2,61 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import {
-  Bell,
-  FileSearch,
-  FileText,
-  FolderOpen,
-  IdCard,
-  Landmark,
-  PenLine,
-  Save,
-  Stamp,
-} from 'lucide-react'
 import { ClaveUnicaButton } from '@/components/auth/ClaveUnicaButton'
 import { Button } from '@/components/ui/button'
 import { TipWrap } from '@/components/tramites/HelpTooltip'
-import { TramitesMain } from '@/components/tramites/ui-helpers'
+import { Spinner, TramitesMain } from '@/components/tramites/ui-helpers'
+import { MARCAS_MEGA, PATENTES_MEGA, type MegaColumn, type MegaItem } from '@/lib/tramites/nav'
 import { useTramitesSession } from '@/lib/tramites/use-session'
 import { cn } from '@/lib/utils'
 
-const MARCAS_ACCIONES = [
-  { href: '/tramites/notificaciones?ambito=marcas', label: 'Notificaciones', icon: Bell, tip: 'Avisos de tus marcas' },
-  { href: '/tramites/marcas/documentos', label: 'Tus documentos', icon: FolderOpen, tip: 'Expediente digital de una marca' },
-  { href: '/tramites/marcas/solicitudes-guardadas', label: 'Solicitudes guardadas', icon: Save, tip: 'Retoma un borrador' },
-  { href: '/tramites/marcas/escritos', label: 'Escritos', icon: PenLine, tip: 'Presenta un escrito' },
-  { href: '/tramites/marcas/solicitar', label: 'Solicitar marca', icon: Stamp, tip: 'Inicia una solicitud nueva' },
-  { href: '/marcas/buscador-similitud', label: 'Buscador de Marcas', icon: FileSearch, tip: 'Compara tu nombre con marcas anteriores' },
-  { href: '/tramites/marcas/formularios', label: 'Formularios', icon: FileText, tip: 'Descarga PDFs de marcas' },
-  { href: '/tramites/marcas/certificados', label: 'Certificados', icon: IdCard, tip: 'Pide un certificado de marca' },
-]
-
-const PATENTES_ACCIONES = [
-  { href: '/tramites/notificaciones?ambito=patentes', label: 'Notificaciones', icon: Bell, tip: 'Avisos de tus patentes' },
-  { href: '/tramites/patentes/documentos', label: 'Tus documentos', icon: FolderOpen, tip: 'Expediente digital de una patente' },
-  { href: '/tramites/patentes/solicitudes-guardadas', label: 'Solicitudes guardadas', icon: Save, tip: 'Retoma un borrador' },
-  { href: '/tramites/patentes/escritos', label: 'Escritos', icon: PenLine, tip: 'Presenta un escrito' },
-  { href: '/tramites/patentes/solicitar', label: 'Solicitar patente o MU', icon: Landmark, tip: 'Patente o modelo de utilidad' },
-  { href: '/tramites/patentes/solicitar-diseno', label: 'Solicitar diseño', icon: Stamp, tip: 'Diseño o dibujo industrial' },
-  { href: '/tramites/patentes/buscador', label: 'Buscador de Patentes', icon: FileSearch, tip: 'Busca patentes y diseños' },
-  { href: '/tramites/patentes/formularios', label: 'Formularios', icon: FileText, tip: 'Descarga PDFs de patentes' },
-  { href: '/tramites/patentes/certificados', label: 'Certificados', icon: IdCard, tip: 'Pide un certificado de patente' },
-]
-
-function ActionGrid({
-  items,
+function ShortcutLink({
+  item,
   accent,
 }: {
-  items: typeof MARCAS_ACCIONES
+  item: MegaItem
   accent: 'marcas' | 'patentes'
 }) {
+  const className = cn(
+    'flex min-h-11 items-center gap-gob-3 rounded-gob-md border border-gob-border bg-card px-gob-4 py-gob-4 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+    accent === 'marcas' ? 'hover:border-gob-accent/60 hover:shadow-elevation-02' : 'hover:border-gob-primary hover:shadow-elevation-02',
+    item.stub && 'opacity-80',
+  )
+  const inner = <span className="text-gri-body font-medium text-gob-text">{item.label}</span>
+  if (item.external) {
+    return (
+      <TipWrap text={item.tooltip}>
+        <a href={item.href} className={className} rel="noopener noreferrer">
+          {inner}
+        </a>
+      </TipWrap>
+    )
+  }
   return (
-    <ul className="grid gap-gob-3 min-[600px]:grid-cols-2 min-[905px]:grid-cols-3">
-      {items.map(item => {
-        const Icon = item.icon
-        return (
-          <li key={item.href + item.label}>
-            <TipWrap text={item.tip}>
-              <Link
-                href={item.href}
-                className={cn(
-                  'flex min-h-11 items-center gap-gob-3 rounded-gob-md border border-gob-border bg-card px-gob-4 py-gob-4 hover:border-gob-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-                  accent === 'marcas' ? 'hover:border-gob-accent/60' : 'hover:border-gob-primary',
-                )}
-              >
-                <span
-                  className={cn(
-                    'flex size-10 items-center justify-center rounded-gob-md',
-                    accent === 'marcas' ? 'bg-gob-accent/10 text-gob-accent' : 'bg-gob-primary/10 text-gob-primary',
-                  )}
-                >
-                  <Icon className="w-5 h-5" aria-hidden />
-                </span>
-                <span className="text-gri-body font-medium text-gob-text">{item.label}</span>
-              </Link>
-            </TipWrap>
-          </li>
-        )
-      })}
-    </ul>
+    <TipWrap text={item.tooltip}>
+      <Link href={item.href} className={className}>
+        {inner}
+      </Link>
+    </TipWrap>
+  )
+}
+
+function MegaGrid({ columns, accent }: { columns: MegaColumn[]; accent: 'marcas' | 'patentes' }) {
+  return (
+    <div className="space-y-gob-6">
+      {columns.map(col => (
+        <section key={col.title} className="space-y-gob-3">
+          <h3 className="text-gri-label font-semibold uppercase tracking-wider text-muted-foreground">{col.title}</h3>
+          <ul className="grid gap-gob-3 min-[600px]:grid-cols-2 min-[905px]:grid-cols-3">
+            {col.items.map(item => (
+              <li key={item.href + item.label}>
+                <ShortcutLink item={item} accent={accent} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
   )
 }
 
@@ -87,7 +65,11 @@ export default function TramitesHomePage() {
   const router = useRouter()
 
   if (!ready) {
-    return <TramitesMain>Cargando…</TramitesMain>
+    return (
+      <TramitesMain>
+        <Spinner label="Cargando tu sesión" />
+      </TramitesMain>
+    )
   }
 
   if (session.authenticated) {
@@ -102,11 +84,11 @@ export default function TramitesHomePage() {
         </div>
         <section className="space-y-gob-4">
           <h2 className="font-heading text-xl font-medium text-gob-text border-l-4 border-gob-accent pl-gob-3">Marcas</h2>
-          <ActionGrid items={MARCAS_ACCIONES} accent="marcas" />
+          <MegaGrid columns={MARCAS_MEGA} accent="marcas" />
         </section>
         <section className="space-y-gob-4">
           <h2 className="font-heading text-xl font-medium text-gob-text border-l-4 border-gob-primary pl-gob-3">Patentes</h2>
-          <ActionGrid items={PATENTES_ACCIONES} accent="patentes" />
+          <MegaGrid columns={PATENTES_MEGA} accent="patentes" />
         </section>
       </TramitesMain>
     )
