@@ -1,7 +1,7 @@
 'use client'
 
-import { PatentWizard } from '@/components/tramites/PatentWizard'
+import { PatentLanding } from '@/components/tramites/part2-screens'
 
 export default function Page() {
-  return <PatentWizard variant="diseno" />
+  return <PatentLanding variant="diseno" />
 }

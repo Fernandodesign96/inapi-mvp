@@ -21,21 +21,27 @@ function MegaPanel({ columns, accent }: { columns: MegaColumn[]; accent: 'marcas
           <div key={col.title} className="space-y-gob-3">
             <p className="text-gri-label font-semibold uppercase tracking-wider text-muted-foreground">{col.title}</p>
             <ul className="space-y-1">
-              {col.items.map(item => (
-                <li key={item.href + item.label}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href={item.href}
-                        className="flex min-h-11 items-center rounded-gob-sm px-gob-2 text-gri-body-sm font-medium text-gob-link hover:bg-gob-surface-elevated hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-                      >
-                        {item.label}
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">{item.tooltip}</TooltipContent>
-                  </Tooltip>
-                </li>
-              ))}
+              {col.items.map(item => {
+                const className =
+                  'flex min-h-11 items-center rounded-gob-sm px-gob-2 text-gri-body-sm font-medium text-gob-link hover:bg-gob-surface-elevated hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus transition-colors duration-150'
+                const inner = item.external ? (
+                  <a href={item.href} className={className} rel="noopener noreferrer">
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link href={item.href} className={className}>
+                    {item.label}
+                  </Link>
+                )
+                return (
+                  <li key={item.href + item.label}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>{inner}</TooltipTrigger>
+                      <TooltipContent className="max-w-xs">{item.tooltip}</TooltipContent>
+                    </Tooltip>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         ))}
@@ -67,8 +73,15 @@ function TramitesHeaderInner() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(null)
     }
+    const onDoc = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(null)
+    }
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    document.addEventListener('mousedown', onDoc)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.removeEventListener('mousedown', onDoc)
+    }
   }, [])
 
   return (
@@ -104,7 +117,6 @@ function TramitesHeaderInner() {
               aria-expanded={open === 'marcas'}
               aria-controls={marcasId}
               onClick={() => setOpen(o => (o === 'marcas' ? null : 'marcas'))}
-              onMouseEnter={() => setOpen('marcas')}
               className={cn(
                 'inline-flex min-h-11 items-center gap-1 px-gob-4 text-gri-body font-medium border-b-[3px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
                 open === 'marcas' ? 'border-gob-accent' : 'border-transparent hover:border-white/40',
@@ -118,7 +130,6 @@ function TramitesHeaderInner() {
               aria-expanded={open === 'patentes'}
               aria-controls={patentesId}
               onClick={() => setOpen(o => (o === 'patentes' ? null : 'patentes'))}
-              onMouseEnter={() => setOpen('patentes')}
               className={cn(
                 'inline-flex min-h-11 items-center gap-1 px-gob-4 text-gri-body font-medium border-b-[3px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
                 open === 'patentes' ? 'border-gob-primary' : 'border-transparent hover:border-white/40',
@@ -132,10 +143,14 @@ function TramitesHeaderInner() {
           <div className="flex items-center gap-gob-2">
             {ready && session.authenticated ? (
               <div className="hidden min-[600px]:flex items-center gap-gob-3">
-                <span className="text-gri-body-xs max-w-[180px] truncate" title={session.nombre}>
-                  <User className="inline w-4 h-4 mr-1" aria-hidden />
+                <Link
+                  href="/tramites/perfil"
+                  className="inline-flex items-center gap-gob-2 rounded-gob-sm text-gri-body-xs max-w-[220px] truncate hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+                  title={session.nombre}
+                >
+                  <User className="inline w-4 h-4 shrink-0" aria-hidden />
                   {session.nombre}
-                </span>
+                </Link>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -168,12 +183,12 @@ function TramitesHeaderInner() {
       </div>
 
       {open === 'marcas' && (
-        <div id={marcasId} onMouseLeave={() => setOpen(null)}>
+        <div id={marcasId}>
           <MegaPanel columns={MARCAS_MEGA} accent="marcas" />
         </div>
       )}
       {open === 'patentes' && (
-        <div id={patentesId} onMouseLeave={() => setOpen(null)}>
+        <div id={patentesId}>
           <MegaPanel columns={PATENTES_MEGA} accent="patentes" />
         </div>
       )}
@@ -195,7 +210,22 @@ function TramitesHeaderInner() {
           </div>
           <nav className="p-gob-5 space-y-gob-6 text-white">
             {session.authenticated && (
-              <p className="text-gri-body-sm">{session.nombre}</p>
+              <div className="space-y-gob-3">
+                <Link href="/tramites/perfil" className="block py-gob-3 min-h-11 text-gri-body hover:underline" onClick={() => setMobile(false)}>
+                  {session.nombre} · Mi perfil
+                </Link>
+                <button
+                  type="button"
+                  className="block py-gob-3 min-h-11 text-left text-gri-body hover:underline"
+                  onClick={() => {
+                    logout()
+                    setMobile(false)
+                    router.push('/tramites')
+                  }}
+                >
+                  Salir
+                </button>
+              </div>
             )}
             {[
               { title: 'Marcas', cols: MARCAS_MEGA },
@@ -203,16 +233,28 @@ function TramitesHeaderInner() {
             ].map(block => (
               <div key={block.title}>
                 <p className="text-gri-label uppercase tracking-wider text-white/60 mb-gob-2">{block.title}</p>
-                {block.cols.flatMap(c => c.items).map(item => (
-                  <Link
-                    key={item.href + item.label}
-                    href={item.href}
-                    className="block py-gob-3 min-h-11 text-gri-body"
-                    onClick={() => setMobile(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {block.cols.flatMap(c => c.items).map(item =>
+                  item.external ? (
+                    <a
+                      key={item.href + item.label}
+                      href={item.href}
+                      className="block py-gob-3 min-h-11 text-gri-body hover:underline"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobile(false)}
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.href + item.label}
+                      href={item.href}
+                      className="block py-gob-3 min-h-11 text-gri-body hover:underline"
+                      onClick={() => setMobile(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ),
+                )}
               </div>
             ))}
             <Link href="/" className="block py-gob-3 min-h-11" onClick={() => setMobile(false)}>

@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertTriangle, Check } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export type TabStatus = 'idle' | 'active' | 'ok' | 'error'
@@ -51,13 +51,7 @@ export function StatusTabs({
                 )}
                 aria-hidden
               >
-                {tab.status === 'ok' ? (
-                  <Check className="w-3.5 h-3.5" strokeWidth={3} />
-                ) : tab.status === 'error' ? (
-                  <AlertTriangle className="w-3.5 h-3.5" />
-                ) : (
-                  i + 1
-                )}
+                {tab.status === 'ok' ? <Check className="w-3.5 h-3.5" strokeWidth={3} /> : i + 1}
               </span>
               {tab.label}
               {selected && <span className={cn('absolute inset-x-0 -bottom-px h-1 rounded-t', bar)} />}

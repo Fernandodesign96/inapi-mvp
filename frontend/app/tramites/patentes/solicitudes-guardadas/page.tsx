@@ -1,7 +1,7 @@
 'use client'
 
-import { GuardadasScreen } from '@/components/tramites/service-screens'
+import { SolicitudesGuardadasPatentesScreen } from '@/components/tramites/part2-screens'
 
 export default function Page() {
-  return <GuardadasScreen domain="patentes" />
+  return <SolicitudesGuardadasPatentesScreen />
 }

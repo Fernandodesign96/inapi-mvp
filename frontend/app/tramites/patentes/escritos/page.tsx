@@ -1,7 +1,7 @@
 'use client'
 
-import { EscritosScreen } from '@/components/tramites/service-screens'
+import { EscritosGuardadosPatentesScreen } from '@/components/tramites/part2-screens'
 
 export default function Page() {
-  return <EscritosScreen domain="patentes" />
+  return <EscritosGuardadosPatentesScreen />
 }

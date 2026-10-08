@@ -7,9 +7,10 @@ import { Input } from '@/components/ui/input'
 import { DataTable, Td } from '@/components/tramites/DataTable'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { InactiveField } from '@/components/tramites/InactiveField'
+import { notifyDownload } from '@/components/tramites/DownloadToast'
 import { LegalNotice } from '@/components/tramites/LegalNotice'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
-import { EmptyState, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
+import { TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import { LEGAL_ESCRITOS, LEGAL_EXPEDIENTE, LEGAL_GUARDADAS } from '@/lib/tramites/legal'
 import {
   BORRADORES_MARCA,
@@ -35,10 +36,9 @@ export function DocumentosScreen({ domain }: { domain: TramitesDomain }) {
   return (
     <RequireAuth>
       <TramitesMain>
-        <LegalNotice>{LEGAL_EXPEDIENTE}</LegalNotice>
         <p className="text-gri-body text-gob-text">
-          Escribe el número de {domain === 'marcas' ? 'solicitud de marca' : 'solicitud de patente'} para ver tus documentos.
-          En este MVP el número de demostración es {expected}.
+          Escribe el número de {domain === 'marcas' ? 'solicitud de marca' : 'solicitud de patente'} para ver los documentos del expediente.
+          Prueba con el número {expected}.
         </p>
         <div className="flex flex-col min-[600px]:flex-row gap-gob-3 min-[600px]:items-end">
           <div className="flex-1 space-y-gob-2">
@@ -46,15 +46,12 @@ export function DocumentosScreen({ domain }: { domain: TramitesDomain }) {
               Número de solicitud
               <HelpTooltip text={`Prueba con ${expected}.`} />
             </label>
-            <Input id="nsol" value={numero} onChange={e => setNumero(e.target.value)} />
+            <Input id="nsol" value={numero} onChange={e => setNumero(e.target.value)} placeholder={`Ejemplo: ${expected}`} className="h-11" />
           </div>
-          <InactiveField active={valid} hint="El botón se activa cuando el número es válido.">
-            <Button size="form" disabled={!valid} onClick={() => setOpened(true)}>
-              Continuar
-            </Button>
-          </InactiveField>
+          <Button size="form" disabled={!valid} onClick={() => setOpened(true)}>
+            Continuar
+          </Button>
         </div>
-        {!opened && <EmptyState>Ingresa un número válido para ver el expediente. El resto de la pantalla permanece visible.</EmptyState>}
         {opened && (
           <section className="space-y-gob-3">
             <h2 className="font-heading text-xl font-medium">
@@ -79,6 +76,7 @@ export function DocumentosScreen({ domain }: { domain: TramitesDomain }) {
             </DataTable>
           </section>
         )}
+        <LegalNotice>{LEGAL_EXPEDIENTE}</LegalNotice>
       </TramitesMain>
     </RequireAuth>
   )
@@ -92,7 +90,6 @@ export function GuardadasScreen({ domain }: { domain: TramitesDomain }) {
   return (
     <RequireAuth>
       <TramitesMain>
-        <LegalNotice>{LEGAL_GUARDADAS}</LegalNotice>
         <p className="text-gri-body text-gob-text">
           Tus borradores se eliminan a los 60 días si no pagas las tasas. Abre uno para continuar.
         </p>
@@ -114,6 +111,7 @@ export function GuardadasScreen({ domain }: { domain: TramitesDomain }) {
             </tr>
           ))}
         </DataTable>
+        <LegalNotice>{LEGAL_GUARDADAS}</LegalNotice>
       </TramitesMain>
     </RequireAuth>
   )
@@ -133,7 +131,6 @@ export function EscritosScreen({ domain }: { domain: TramitesDomain }) {
   return (
     <RequireAuth>
       <TramitesMain>
-        <LegalNotice>{LEGAL_ESCRITOS}</LegalNotice>
         <p className="text-gri-body text-gob-text">
           Indica el expediente y el tipo de escrito. Los campos siguientes se activan cuando el dato anterior es válido.
         </p>
@@ -141,7 +138,7 @@ export function EscritosScreen({ domain }: { domain: TramitesDomain }) {
           <div className="space-y-gob-2">
             <label htmlFor="nexp" className="flex items-center text-gri-body-sm font-medium">
               Número de expediente
-              <HelpTooltip text={`Usa ${expected} en este prototipo.`} />
+              <HelpTooltip text={`Usa ${expected}.`} />
             </label>
             <Input id="nexp" value={numero} onChange={e => setNumero(e.target.value)} />
           </div>
@@ -185,9 +182,10 @@ export function EscritosScreen({ domain }: { domain: TramitesDomain }) {
         </div>
         {sent && (
           <p className="text-gri-body text-gob-success">
-            Escrito de demostración asociado a {numero}: {escrito} en {proceso}. En el MVP no se envía a INAPI.
+            Escrito asociado a {numero}: {escrito} en {proceso}.
           </p>
         )}
+        <LegalNotice>{LEGAL_ESCRITOS}</LegalNotice>
       </TramitesMain>
     </RequireAuth>
   )
@@ -199,7 +197,7 @@ export function FormulariosScreen({ domain }: { domain: TramitesDomain }) {
     <RequireAuth>
       <TramitesMain>
         <p className="text-gri-body text-gob-text">
-          Descarga el PDF que necesitas. Estos archivos son de demostración.
+          Descarga el PDF que necesitas.
         </p>
         <DataTable headers={['Formulario', 'Archivo', 'Acción']} caption="Formularios">
           {forms.map(f => (
@@ -211,7 +209,7 @@ export function FormulariosScreen({ domain }: { domain: TramitesDomain }) {
                   variant="outline"
                   size="sm"
                   type="button"
-                  onClick={() => window.alert(`Descarga simulada: ${f.archivo}`)}
+                  onClick={() => notifyDownload(f.archivo)}
                 >
                   Descargar PDF
                 </Button>
