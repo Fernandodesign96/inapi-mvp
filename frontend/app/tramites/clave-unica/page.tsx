@@ -19,9 +19,9 @@ export default function ClaveUnicaSimPage() {
   return (
     <TramitesMain>
       <div className="max-w-lg space-y-gob-4 rounded-gob-lg border border-gob-warning/40 bg-gob-warning-bg p-gob-6">
-        <h2 className="font-heading text-xl font-medium text-gob-text">Simulación de ClaveÚnica</h2>
+        <h2 className="font-heading text-xl font-medium text-gob-text">Validación con ClaveÚnica</h2>
         <p className="text-gri-body text-gob-text leading-relaxed">
-          Esta pantalla no es el sitio de ClaveÚnica del Estado. En el MVP solo simulamos que validaste tu identidad y vuelves a INAPI.
+          Confirma tu identidad con ClaveÚnica para volver a INAPI y continuar el trámite.
         </p>
         {step === 'aviso' ? (
           <div className="flex flex-col gap-gob-3">
@@ -35,7 +35,7 @@ export default function ClaveUnicaSimPage() {
                 }
               }}
             >
-              Continuar la simulación
+              Continuar con ClaveÚnica
             </Button>
             <Button asChild variant="outline" size="form">
               <Link href="/tramites">Cancelar y volver</Link>

@@ -233,7 +233,7 @@ export const COMUNAS_POR_REGION: Record<string, string[]> = {
 }
 
 export const URLS_EXTERNAS = {
-  madrid: 'https://madrid.inapi.cl/',
+  madrid: 'https://madrid.inapi.cl/MadridEfiling/external/applicationSelect.xhtml',
   diarioOficialMarcas: 'https://pagos.diarioficial.cl/Servicios/Marca/',
   diarioOficialPatentes: 'https://pagos.diarioficial.cl/Servicios/Patente/',
   consultaMarcaDominio: 'https://www.registrodeempresasysociedades.cl/MarcaDominio.aspx',
@@ -253,6 +253,25 @@ export type BorradorGuardado = {
   ultima: string
   estado: string
 }
+
+export const BORRADORES_MARCA_DETALLE: BorradorGuardado[] = [
+  {
+    nAtencion: 'SM1196003',
+    nSolicitud: '',
+    titular: 'Fernando Ignacio Arriagada Castillo',
+    tipo: 'Marca comercial',
+    ultima: '2026/03/01 10:12:00',
+    estado: 'Borrador',
+  },
+  {
+    nAtencion: 'SM1163533',
+    nSolicitud: '',
+    titular: 'Taller Paso Firme SpA',
+    tipo: 'Marca comercial',
+    ultima: '2026/02/12 09:40:00',
+    estado: 'Borrador',
+  },
+]
 
 export const BORRADORES_PATENTE_DETALLE: BorradorGuardado[] = [
   {
@@ -311,8 +330,8 @@ function businessDaysBack(start: string, count: number) {
 }
 
 export const GACETA_MARCAS_FECHAS = datesBack('2026-10-02', 42, 7)
-export const ESTADOS_DIARIOS_MARCAS_FECHAS = businessDaysBack('2026-10-07', 40)
-export const ESTADOS_DIARIOS_PATENTES_FECHAS = businessDaysBack('2026-10-07', 40)
+export const ESTADOS_DIARIOS_MARCAS_FECHAS = businessDaysBack('2026-10-08', 40)
+export const ESTADOS_DIARIOS_PATENTES_FECHAS = businessDaysBack('2026-10-08', 40)
 
 export const PCT_XML_2026 = [
   'CL202500790_20260140_XML',

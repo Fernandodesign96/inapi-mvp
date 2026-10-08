@@ -3,8 +3,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { Menu, Search, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { ChevronDown, Menu, Search, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import {
@@ -79,11 +79,36 @@ export function SiteHeader({
   variant = pageTitle ? 'page' : 'home',
 }: SiteHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [openMenu, setOpenMenu] = useState<'marcas' | 'patentes' | null>(null)
+  const navRef = useRef<HTMLDivElement>(null)
   const navActive = resolveActive(active)
+
+  useEffect(() => {
+    const onDoc = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setOpenMenu(null)
+    }
+    document.addEventListener('mousedown', onDoc)
+    return () => document.removeEventListener('mousedown', onDoc)
+  }, [])
+
+  const portalMenus: Record<'marcas' | 'patentes', { label: string; href: string }[]> = {
+    marcas: [
+      { label: 'Qué es una marca', href: '/marcas' },
+      { label: 'Revisa si tu marca se parece a otra', href: '/marcas/buscador-similitud' },
+      { label: 'Solicitar marca', href: '/tramites/marcas/solicitar' },
+      { label: 'Sistema de Madrid', href: '/marcas/sistema-de-madrid' },
+    ],
+    patentes: [
+      { label: 'Qué es una patente', href: '/patentes' },
+      { label: 'Buscador de patentes', href: '/tramites/patentes/buscador' },
+      { label: 'Solicitar patente', href: '/tramites/patentes/solicitar' },
+      { label: 'PCT', href: '/patentes/pct' },
+    ],
+  }
 
   return (
     <header className="w-full bg-background border-b border-gob-border">
-      <div className="bg-inapi-portal-nav text-gob-text-inverse">
+      <div className="bg-inapi-portal-nav text-gob-text-inverse" ref={navRef}>
         <div className="mx-auto max-w-[1140px] px-gob-4 min-[600px]:px-gob-5 py-gob-4 flex items-center justify-between gap-gob-4">
           <Link href="/" className="flex items-center gap-gob-3 shrink-0 min-w-0">
             <Image
@@ -103,20 +128,58 @@ export function SiteHeader({
             className="hidden lg:flex items-center gap-gob-4 xl:gap-gob-5 flex-wrap justify-end"
             aria-label="Secciones principales"
           >
-            {PORTAL_PRIMARY_NAV.map(item => (
-              <Link
-                key={item.id}
-                href={item.href}
-                className={cn(
-                  'text-gri-body-sm min-[905px]:text-gri-body font-medium leading-[1.5] transition-colors border-b-[3px] pb-gob-1 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-                  navActive === item.id
-                    ? 'border-gob-focus text-gob-text-inverse'
-                    : 'border-transparent text-gob-text-inverse/78 hover:text-gob-text-inverse hover:border-white/40',
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {PORTAL_PRIMARY_NAV.map(item => {
+              if (item.id === 'marcas' || item.id === 'patentes') {
+                const open = openMenu === item.id
+                return (
+                  <div key={item.id} className="relative">
+                    <button
+                      type="button"
+                      aria-expanded={open}
+                      onClick={() => setOpenMenu(open ? null : item.id)}
+                      className={cn(
+                        'inline-flex items-center gap-1 text-gri-body-sm min-[905px]:text-gri-body font-medium leading-[1.5] border-b-[3px] pb-gob-1 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+                        navActive === item.id || open
+                          ? 'border-gob-focus text-gob-text-inverse'
+                          : 'border-transparent text-gob-text-inverse/78 hover:text-gob-text-inverse hover:border-white/40',
+                      )}
+                    >
+                      {item.label}
+                      <ChevronDown className="size-4" aria-hidden />
+                    </button>
+                    {open ? (
+                      <ul className="absolute left-0 top-full z-50 mt-2 min-w-[16rem] rounded-gob-md border border-gob-border bg-card py-gob-2 text-gob-text shadow-elevation-04">
+                        {portalMenus[item.id].map(link => (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              className="block min-h-11 px-gob-4 py-gob-2 text-gri-body-sm hover:bg-gob-surface-elevated"
+                              onClick={() => setOpenMenu(null)}
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </div>
+                )
+              }
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className={cn(
+                    'text-gri-body-sm min-[905px]:text-gri-body font-medium leading-[1.5] transition-colors border-b-[3px] pb-gob-1 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+                    navActive === item.id
+                      ? 'border-gob-focus text-gob-text-inverse'
+                      : 'border-transparent text-gob-text-inverse/78 hover:text-gob-text-inverse hover:border-white/40',
+                  )}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
           </nav>
 
           <Button

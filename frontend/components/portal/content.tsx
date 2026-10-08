@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
 import { ArrowRight } from 'lucide-react'
+import { DownloadPdfLink } from '@/components/tramites/DownloadToast'
 import { cn } from '@/lib/utils'
 
 export function PortalMain({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -316,9 +317,7 @@ export function PortalDownloadList({
           className="flex items-center justify-between gap-gob-4 bg-gob-surface-elevated rounded-gob-md px-gob-5 py-gob-4"
         >
           <span className="text-gri-body-sm font-bold text-gob-text">{item.label}</span>
-          <Link href={item.href} className="text-gri-body-xs font-bold text-gob-link hover:text-gob-primary-dark shrink-0">
-            Descargar (PDF)
-          </Link>
+          <DownloadPdfLink href={item.href}>Descargar (PDF)</DownloadPdfLink>
         </div>
       ))}
     </div>

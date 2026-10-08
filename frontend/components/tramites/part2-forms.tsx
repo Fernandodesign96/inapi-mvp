@@ -86,21 +86,20 @@ export function LookupForm({
   return (
     <ServicePanel title={title} domain={domain}>
       {description && <div className="text-gri-body text-gob-text leading-relaxed">{description}</div>}
-      <div className="max-w-xl space-y-gob-2">
-        <label htmlFor="lookup" className="flex items-center text-gri-body-sm font-medium text-gob-text">
-          {label}
-          {tooltip && <HelpTooltip text={tooltip} />}
-        </label>
-        <Input
-          id="lookup"
-          value={value}
-          placeholder={placeholder}
-          onChange={e => setValue(e.target.value)}
-          className="h-11"
-        />
-      </div>
-      {extra}
-      <div className="flex flex-wrap gap-gob-3">
+      <div className="flex flex-col gap-gob-3 min-[600px]:flex-row min-[600px]:items-end">
+        <div className="flex-1 space-y-gob-2">
+          <label htmlFor="lookup" className="flex items-center text-gri-body-sm font-medium text-gob-text">
+            {label}
+            {tooltip && <HelpTooltip text={tooltip} />}
+          </label>
+          <Input
+            id="lookup"
+            value={value}
+            placeholder={placeholder ?? 'Ejemplo: 1234567'}
+            onChange={e => setValue(e.target.value)}
+            className="h-11"
+          />
+        </div>
         <Button size="form" onClick={buscar} disabled={!value.trim()}>
           Buscar
         </Button>
@@ -115,6 +114,7 @@ export function LookupForm({
           Limpiar
         </Button>
       </div>
+      {extra}
       <SiteMessage open={error} onClose={() => setError(false)}>
         {errorMessage}
       </SiteMessage>
@@ -147,8 +147,8 @@ export function SavedListScreen({
 
   return (
     <ServicePanel title={panelTitle} domain={domain}>
-      <div className="flex flex-col gap-gob-4 min-[905px]:flex-row min-[905px]:items-start">
-        <div className="flex-1 space-y-gob-4">
+      <div className="space-y-gob-5">
+        <div className="space-y-gob-4">
           {showFilters === 'anotacion' && (
             <FilterPanel title="Filtros de búsqueda" defaultOpen>
               <Field id="nat" label="N° de Atención">
@@ -218,9 +218,12 @@ export function SavedListScreen({
             </Button>
           </div>
         </div>
-        <Button asChild size="form" className="shrink-0 bg-gob-accent hover:bg-gob-accent/90">
-          <Link href={createHref}>{createLabel}</Link>
-        </Button>
+        <div className="border-t border-gob-border pt-gob-5">
+          <h3 className="mb-gob-3 text-gri-body font-medium">Nueva gestión</h3>
+          <Button asChild size="form" className="bg-gob-accent hover:bg-gob-accent/90">
+            <Link href={createHref}>{createLabel}</Link>
+          </Button>
+        </div>
       </div>
       <AlertBanner tone="warning">
         Advertencia: Solicitudes en estado &quot;Borrador&quot; serán eliminadas automáticamente a los 60 días desde su última modificación.
@@ -323,7 +326,7 @@ export function AnnotationCreateScreen({
       )}
       <HelpTypesDialog open={help} onClose={() => setHelp(false)} items={items} />
       <SiteMessage open={msg} onClose={() => setMsg(false)}>
-        En este MVP la anotación queda como borrador de demostración. No se envía a INAPI.
+        La anotación quedó guardada como borrador. Puedes retomarla desde Anotaciones guardadas.
       </SiteMessage>
     </ServicePanel>
   )

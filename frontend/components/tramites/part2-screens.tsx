@@ -4,6 +4,14 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { PatentWizard } from '@/components/tramites/PatentWizard'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
@@ -198,12 +206,12 @@ export function VerificarTitulosScreen() {
               Limpiar
             </Button>
           </div>
-          <p className="text-gri-body-sm leading-relaxed text-gob-text">{LEGAL_VERIFICAR_TITULOS}</p>
         </ServicePanel>
-        {ok && <AlertBanner>Documento de demostración válido. CVE {DEMO_NUMEROS.cve}.</AlertBanner>}
+        {ok && <AlertBanner>Documento válido. CVE {DEMO_NUMEROS.cve}.</AlertBanner>}
         <SiteMessage open={error} onClose={() => setError(false)}>
           El código CVE no es válido o el documento ya no está disponible.
         </SiteMessage>
+        <p className="text-gri-body-sm leading-relaxed text-gob-text">{LEGAL_VERIFICAR_TITULOS}</p>
       </TramitesMain>
     </RequireAuth>
   )
@@ -280,7 +288,7 @@ export function PresentarEscritosPatentesScreen() {
           </AlertBanner>
         </ServicePanel>
         <SiteMessage open={msg} onClose={() => setMsg(false)}>
-          Escrito de demostración asociado. En el MVP no se envía a INAPI.
+          El escrito quedó asociado al número {numero}.
         </SiteMessage>
       </TramitesMain>
     </RequireAuth>
@@ -384,19 +392,39 @@ export function PatentLanding({ variant }: { variant: 'patente' | 'diseno' }) {
 }
 
 export function MadridRedirectScreen() {
+  const [open, setOpen] = useState(false)
+
   return (
     <RequireAuth>
       <TramitesMain>
         <ServicePanel title="Solicitar marca Sistema de Madrid" domain="marcas">
           <p className="text-gri-body">
-            El Sistema de Madrid se tramita en un sitio distinto a este portal. Te llevamos a Madrid e-filing de INAPI.
+            El Sistema de Madrid se tramita en un sitio distinto a este portal. Confirma para abrir Madrid e-filing de INAPI.
           </p>
-          <Button asChild size="form">
-            <a href={URLS_EXTERNAS.madrid} rel="noopener noreferrer">
-              Ir a Madrid e-filing
-            </a>
+          <Button size="form" onClick={() => setOpen(true)}>
+            Ir a Madrid e-filing
           </Button>
         </ServicePanel>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Vas a un sistema externo</DialogTitle>
+              <DialogDescription>
+                Continuarás en el Sistema de Madrid (Madrid e-filing). Este portal no comparte tu sesión con ese sitio.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="outline" size="form" onClick={() => setOpen(false)}>
+                Cancelar
+              </Button>
+              <Button asChild size="form">
+                <a href={URLS_EXTERNAS.madrid} rel="noopener noreferrer">
+                  Continuar
+                </a>
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </TramitesMain>
     </RequireAuth>
   )

@@ -220,7 +220,7 @@ export function PoderesScreen() {
           </DialogContent>
         </Dialog>
         <SiteMessage open={ok} onClose={() => setOk(false)}>
-          Documento de demostración presentado. En el MVP no se envía a INAPI.
+          Documento presentado. Quedó asociado a tu custodia de poderes.
         </SiteMessage>
         <AlertBanner>El archivo no se almacena. Esta pantalla replica el flujo de custodia de poderes.</AlertBanner>
       </TramitesMain>

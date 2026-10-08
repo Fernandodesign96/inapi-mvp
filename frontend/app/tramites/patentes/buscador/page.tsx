@@ -55,7 +55,7 @@ export default function BuscadorPatentesPage() {
       </p>
       <div className="flex flex-wrap items-center gap-gob-3 rounded-gob-md border border-gob-border p-gob-4">
         <p className="text-gri-body-sm text-gob-text flex-1">
-          Si ingresas con ClaveÚnica, este prototipo no pide un captcha. El botón no te lleva al sitio oficial del Estado.
+          Si ingresas con ClaveÚnica, esta consulta no pide captcha.
         </p>
         <ClaveUnicaButton
           className="max-w-xs"

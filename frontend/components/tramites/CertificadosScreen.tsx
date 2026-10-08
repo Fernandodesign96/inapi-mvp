@@ -39,7 +39,6 @@ export function CertificadosScreen({ domain }: { domain: TramitesDomain }) {
   return (
     <RequireAuth>
       <TramitesMain>
-        <LegalNotice>{LEGAL_CERTIFICADOS}</LegalNotice>
         <ul className="grid gap-gob-3 min-[600px]:grid-cols-2">
           <li className="rounded-gob-md border border-gob-border bg-card p-gob-4">
             <p className="font-medium text-gob-text">Precio</p>
@@ -107,7 +106,7 @@ export function CertificadosScreen({ domain }: { domain: TramitesDomain }) {
             <DialogHeader>
               <DialogTitle>¿Continuar al pago de Tesorería (TGR)?</DialogTitle>
               <DialogDescription>
-                Vas a una simulación de Tesorería. No es el sitio real de la TGR. El certificado cuesta ${CERT_PRICE_CLP}.
+                Continuarás al pago en Tesorería. El certificado cuesta ${CERT_PRICE_CLP}.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -118,12 +117,13 @@ export function CertificadosScreen({ domain }: { domain: TramitesDomain }) {
                 <Link
                   href={`/tramites/pago?origen=${domain}&numero=${numero}&tipo=${encodeURIComponent(tipo)}`}
                 >
-                  Ir al pago simulado
+                  Ir al pago
                 </Link>
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        <LegalNotice>{LEGAL_CERTIFICADOS}</LegalNotice>
       </TramitesMain>
     </RequireAuth>
   )

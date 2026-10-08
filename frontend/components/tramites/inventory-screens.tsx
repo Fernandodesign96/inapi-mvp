@@ -2,38 +2,27 @@
 
 import { useMemo, useState, type ReactNode } from 'react'
 import Link from 'next/link'
-import { BookOpen, CalendarDays, ChevronDown, Download, HelpCircle } from 'lucide-react'
+import { CalendarDays, ChevronDown, Clock3, Download, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { notifyDownload } from '@/components/tramites/DownloadToast'
+import { LegalNotice } from '@/components/tramites/LegalNotice'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
 import { DataTable, Td } from '@/components/tramites/DataTable'
 import { LookupForm, SiteMessage } from '@/components/tramites/part2-forms'
 import { AlertBanner, ScopeTabs, ServicePanel, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
-import { NIZA_CLASES } from '@/lib/tramites/mock-data'
 import {
-  CLASIFICADOR_TERMINOS,
   DEMO_NUMEROS,
   DESTINOS_ESCRITO_MARCA,
   DESTINOS_ESCRITO_PATENTE,
   ESTADOS_DIARIOS_MARCAS_FECHAS,
   ESTADOS_DIARIOS_PATENTES_FECHAS,
   GACETA_MARCAS_FECHAS,
-  NIZA_HEADING_CLASE_9,
   PCT_XML_2026,
   PCT_XML_HISTORICO,
   URLS_EXTERNAS,
 } from '@/lib/tramites/catalogs'
 import {
-  LEGAL_CLASIFICADOR,
-  LEGAL_CLASIFICADOR_CLASES,
-  LEGAL_CLASIFICADOR_PROCEDENCIA,
   LEGAL_LIBRO_PATENTES,
   LEGAL_LIBRO_REGISTRO,
   LEGAL_PCT,
@@ -152,12 +141,15 @@ function FeaturedCard({
   onOpen: () => void
 }) {
   return (
-    <article className="min-w-[16rem] flex-1 overflow-hidden rounded-gob-md border border-gob-border bg-white shadow-elevation-01">
-      <h3 className="bg-[#9aa5b1] px-gob-4 py-gob-2 text-center text-gri-body-sm font-medium text-white">{title}</h3>
+    <article className="min-w-[16rem] flex-1 overflow-hidden rounded-gob-md border border-gob-border bg-white shadow-elevation-01 transition-shadow hover:shadow-elevation-02">
+      <h3 className="bg-[#3d5a80] px-gob-4 py-gob-2 text-center text-gri-body-sm font-medium text-white">{title}</h3>
       <button
         type="button"
-        onClick={onOpen}
-        className="flex w-full items-center justify-center gap-gob-2 py-gob-8 text-gob-link underline-offset-2 hover:underline"
+        onClick={() => {
+          notifyDownload(date)
+          onOpen()
+        }}
+        className="flex w-full items-center justify-center gap-gob-2 py-gob-8 text-gob-link underline underline-offset-4 hover:text-gob-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
       >
         <CalendarDays className="size-4" aria-hidden />
         {date}
@@ -166,9 +158,13 @@ function FeaturedCard({
   )
 }
 
-function DownloadLink({ onClick, children }: { onClick: () => void; children: ReactNode }) {
+function DownloadLink({ children }: { children: ReactNode }) {
   return (
-    <button type="button" onClick={onClick} className="inline-flex items-center gap-gob-2 text-gob-link hover:underline">
+    <button
+      type="button"
+      onClick={() => notifyDownload(typeof children === 'string' ? children : 'documento')}
+      className="inline-flex items-center gap-gob-2 text-gob-link underline underline-offset-4 hover:text-gob-primary-dark"
+    >
       <Download className="size-4" aria-hidden />
       {children}
     </button>
@@ -193,7 +189,6 @@ function DateArchiveScreen({
   const [query, setQuery] = useState('')
   const [pageSize, setPageSize] = useState(10)
   const [page, setPage] = useState(1)
-  const [msg, setMsg] = useState(false)
 
   const filtered = useMemo(() => {
     const q = query.trim()
@@ -201,7 +196,6 @@ function DateArchiveScreen({
   }, [dates, query])
 
   const slice = filtered.slice((page - 1) * pageSize, page * pageSize)
-  const open = () => setMsg(true)
 
   return (
     <RequireAuth>
@@ -209,7 +203,7 @@ function DateArchiveScreen({
         <ServicePanel title={featuredTitle} domain={domain}>
           <div className="flex flex-wrap justify-center gap-gob-4">
             {featured.map(f => (
-              <FeaturedCard key={f.title} title={f.title} date={f.date} onOpen={open} />
+              <FeaturedCard key={f.title} title={f.title} date={f.date} onOpen={() => undefined} />
             ))}
           </div>
         </ServicePanel>
@@ -232,7 +226,7 @@ function DateArchiveScreen({
                 <tr key={d}>
                   <Td className="text-right w-40">{d}</Td>
                   <Td>
-                    <DownloadLink onClick={open}>Descargar Archivo</DownloadLink>
+                    <DownloadLink>Descargar Archivo</DownloadLink>
                   </Td>
                 </tr>
               ))}
@@ -246,21 +240,18 @@ function DateArchiveScreen({
                 <tr key={d}>
                   <Td>{d}</Td>
                   <Td>
-                    <DownloadLink onClick={open}>{d}</DownloadLink>
+                    <DownloadLink>{d}</DownloadLink>
                   </Td>
                   <Td>
-                    <DownloadLink onClick={open}>{d}</DownloadLink>
+                    <DownloadLink>{d}</DownloadLink>
                   </Td>
-                  <Td>{i === 0 ? null : <DownloadLink onClick={open}>{d}</DownloadLink>}</Td>
+                  <Td>{i === 0 ? null : <DownloadLink>{d}</DownloadLink>}</Td>
                 </tr>
               ))}
             </DataTable>
           )}
           <Pager page={page} pageSize={pageSize} total={filtered.length} onPage={setPage} />
         </ServicePanel>
-        <SiteMessage open={msg} onClose={() => setMsg(false)}>
-          Descarga de demostración. En el MVP no se entrega el archivo oficial de INAPI.
-        </SiteMessage>
       </TramitesMain>
     </RequireAuth>
   )
@@ -369,8 +360,8 @@ export function PresentarEscritosScreen({ domain }: { domain: 'marcas' | 'patent
             .
           </AlertBanner>
         </ServicePanel>
-        <SiteMessage open={msg} onClose={() => setMsg(false)}>
-          Escrito de demostración asociado. En el MVP no se envía a INAPI.
+        <SiteMessage open={msg} onClose={() => setMsg(false)} title="Escrito asociado">
+          El escrito quedó asociado al número {numero} para {destino}.
         </SiteMessage>
       </TramitesMain>
     </RequireAuth>
@@ -460,16 +451,25 @@ export function LibroRegistroScreen({ domain }: { domain: 'marcas' | 'patentes' 
             </div>
           }
         />
-        {domain === 'patentes' ? (
-          <section className="rounded-gob-md border border-gob-border bg-card p-gob-5 space-y-gob-3">
-            <h3 className="font-heading text-gri-body font-medium">Información sobre nuestros registros</h3>
-            <p className="whitespace-pre-line text-gri-body-sm leading-relaxed text-gob-text">{LEGAL_LIBRO_PATENTES}</p>
-          </section>
-        ) : (
-          <AlertBanner>
-            <p className="whitespace-pre-line">{LEGAL_LIBRO_REGISTRO}</p>
-          </AlertBanner>
-        )}
+        <section className="rounded-gob-lg border border-gob-info/35 bg-gob-info-bg p-gob-5 space-y-gob-4">
+          <h3 className="font-heading text-xl font-medium text-gob-text">Aviso sobre el Libro de registro</h3>
+          <ul className="space-y-gob-3">
+            <li className="flex gap-gob-3">
+              <Clock3 className="mt-0.5 size-5 shrink-0 text-gob-primary" aria-hidden />
+              <span className="text-gri-body-sm leading-relaxed">
+                La actualización del Libro de registro ocurre 7 días hábiles después del acto administrativo.
+              </span>
+            </li>
+            <li className="flex gap-gob-3">
+              <Shield className="mt-0.5 size-5 shrink-0 text-gob-primary" aria-hidden />
+              <span className="text-gri-body-sm leading-relaxed">
+                Usa estos datos solo para consultar el registro. No comuniques a terceros datos personales que consten en el
+                expediente o en el libro electrónico.
+              </span>
+            </li>
+          </ul>
+        </section>
+        <LegalNotice>{domain === 'patentes' ? LEGAL_LIBRO_PATENTES : LEGAL_LIBRO_REGISTRO}</LegalNotice>
       </TramitesMain>
     </RequireAuth>
   )
@@ -525,12 +525,12 @@ export function VerificarTitulosScreen({ domain }: { domain: 'marcas' | 'patente
               Limpiar
             </Button>
           </div>
-          <p className="text-gri-body-sm leading-relaxed text-gob-text">{LEGAL_VERIFICAR_TITULOS}</p>
         </ServicePanel>
-        {ok ? <AlertBanner>Documento de demostración válido. CVE {DEMO_NUMEROS.cve}.</AlertBanner> : null}
+        {ok ? <AlertBanner>Documento válido. CVE {DEMO_NUMEROS.cve}.</AlertBanner> : null}
         <SiteMessage open={error} onClose={() => setError(false)}>
           El código CVE no es válido o el documento ya no está disponible.
         </SiteMessage>
+        <LegalNotice>{LEGAL_VERIFICAR_TITULOS}</LegalNotice>
       </TramitesMain>
     </RequireAuth>
   )
@@ -567,13 +567,12 @@ function XmlFileTable({ files }: { files: string[] }) {
   const [query, setQuery] = useState('')
   const [pageSize, setPageSize] = useState(10)
   const [page, setPage] = useState(1)
-  const [msg, setMsg] = useState(false)
   const filtered = files.filter(f => f.toLowerCase().includes(query.trim().toLowerCase()))
   const slice = filtered.slice((page - 1) * pageSize, page * pageSize)
   return (
     <>
       <p className="text-right">
-        <button type="button" className="inline-flex items-center gap-gob-2 text-gob-link hover:underline" onClick={() => setMsg(true)}>
+        <button type="button" className="inline-flex items-center gap-gob-2 text-gob-link hover:underline" onClick={() => notifyDownload('colección XML')}>
           <Download className="size-4" aria-hidden />
           Descargar la colección completa de archivos XML (.zip)
         </button>
@@ -595,27 +594,25 @@ function XmlFileTable({ files }: { files: string[] }) {
           <tr key={name}>
             <Td>{name}</Td>
             <Td>
-              <DownloadLink onClick={() => setMsg(true)}>Descargar</DownloadLink>
+              <DownloadLink>Descargar</DownloadLink>
             </Td>
           </tr>
         ))}
       </DataTable>
       <Pager page={page} pageSize={pageSize} total={filtered.length} onPage={setPage} />
-      <SiteMessage open={msg} onClose={() => setMsg(false)}>
-        Descarga de demostración. En el MVP no se entrega el XML oficial de INAPI.
-      </SiteMessage>
     </>
   )
 }
 
 export function DocumentacionPctScreen() {
   const [open, setOpen] = useState<'af' | 'xml' | 'hist' | null>(null)
-  const [msg, setMsg] = useState(false)
   return (
     <RequireAuth>
       <TramitesMain>
         <ServicePanel title="Colección nacional de patentes de Chile" domain="patentes">
-          <p className="whitespace-pre-line text-gri-body-sm leading-relaxed text-gob-text">{LEGAL_PCT}</p>
+          <p className="text-gri-body leading-relaxed text-gob-text">
+            Consulta los XML de registros concedidos y el Authority File de INAPI, conforme al Tratado de Cooperación en Materia de Patentes (PCT).
+          </p>
         </ServicePanel>
         <AccordionBlock title="Authority File INAPI" open={open === 'af'} onToggle={() => setOpen(open === 'af' ? null : 'af')}>
           <p className="text-gri-body-sm">Registros de Patentes, desde el año 1991 (Actualizado al 31.03.2026)</p>
@@ -624,7 +621,7 @@ export function DocumentacionPctScreen() {
             <tr>
               <Td>Authority File INAPI</Td>
               <Td>
-                <DownloadLink onClick={() => setMsg(true)}>Descargar</DownloadLink>
+                <DownloadLink>Descargar</DownloadLink>
               </Td>
             </tr>
           </DataTable>
@@ -652,323 +649,7 @@ export function DocumentacionPctScreen() {
           </p>
           <XmlFileTable files={PCT_XML_HISTORICO} />
         </AccordionBlock>
-        <SiteMessage open={msg} onClose={() => setMsg(false)}>
-          Descarga de demostración. En el MVP no se entrega el Authority File oficial.
-        </SiteMessage>
-      </TramitesMain>
-    </RequireAuth>
-  )
-}
-
-export function ClasificadorNizaScreen() {
-  const [idioma, setIdioma] = useState<'es' | 'en'>('es')
-  const [palabra, setPalabra] = useState('')
-  const [exacta, setExacta] = useState(false)
-  const [niza, setNiza] = useState(true)
-  const [inapi, setInapi] = useState(true)
-  const [adp, setAdp] = useState(true)
-  const [madrid, setMadrid] = useState(true)
-  const [clases, setClases] = useState<number[]>([])
-  const [picker, setPicker] = useState(false)
-  const [draft, setDraft] = useState<number[]>([])
-  const [hoverClass, setHoverClass] = useState<number | null>(9)
-  const [help, setHelp] = useState<'proc' | 'clase' | null>(null)
-  const [buscado, setBuscado] = useState(false)
-  const [query, setQuery] = useState('')
-  const [pageSize, setPageSize] = useState(10)
-  const [page, setPage] = useState(1)
-  const [listado, setListado] = useState(false)
-
-  const heading = (n: number) => (n === 9 ? NIZA_HEADING_CLASE_9 : NIZA_CLASES.find(c => c.n === n)?.titulo ?? '')
-
-  const resultados = useMemo(() => {
-    if (!buscado) return []
-    const term = palabra.trim().toLowerCase()
-    return CLASIFICADOR_TERMINOS.filter(t => {
-      if (clases.length && !clases.includes(t.clase)) return false
-      if (!((niza && t.niza) || (inapi && t.inapi) || (adp && t.adp) || (madrid && t.madrid))) return false
-      const text = idioma === 'es' ? t.es : t.en
-      if (!term) return true
-      return exacta ? text.toLowerCase() === term : text.toLowerCase().includes(term)
-    })
-  }, [buscado, palabra, clases, niza, inapi, adp, madrid, idioma, exacta])
-
-  const filtered = resultados.filter(r => {
-    const q = query.trim().toLowerCase()
-    if (!q) return true
-    return String(r.clase).includes(q) || r.es.toLowerCase().includes(q) || r.en.toLowerCase().includes(q)
-  })
-  const slice = filtered.slice((page - 1) * pageSize, page * pageSize)
-
-  const toggleDraft = (n: number) => {
-    setDraft(prev => (prev.includes(n) ? prev.filter(x => x !== n) : [...prev, n].sort((a, b) => a - b)))
-  }
-
-  const limpiar = () => {
-    setPalabra('')
-    setExacta(false)
-    setNiza(true)
-    setInapi(true)
-    setAdp(true)
-    setMadrid(true)
-    setClases([])
-    setBuscado(false)
-    setQuery('')
-    setPage(1)
-  }
-
-  return (
-    <RequireAuth>
-      <TramitesMain>
-        <ServicePanel title="Clasificador de productos y servicios" domain="marcas">
-          <p className="whitespace-pre-line text-gri-body-sm leading-relaxed text-gob-text">{LEGAL_CLASIFICADOR}</p>
-          <fieldset className="space-y-gob-4 rounded-gob-md border border-gob-border p-gob-4">
-            <legend className="px-gob-2 text-gri-body-sm font-medium">Filtros de búsqueda</legend>
-            <div className="grid gap-gob-4 min-[800px]:grid-cols-2">
-              <div className="space-y-gob-2">
-                <label htmlFor="idioma" className="text-gri-body-sm font-medium">
-                  Buscar en idioma:
-                </label>
-                <select
-                  id="idioma"
-                  className={selectClass()}
-                  value={idioma}
-                  onChange={e => setIdioma(e.target.value as 'es' | 'en')}
-                >
-                  <option value="es">Español</option>
-                  <option value="en">Inglés</option>
-                </select>
-              </div>
-              <div className="space-y-gob-2">
-                <p className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
-                  Procedencia:
-                  <button type="button" onClick={() => setHelp('proc')} aria-label="Ayuda de procedencia">
-                    <HelpCircle className="size-4 text-gob-link" />
-                  </button>
-                </p>
-                <div className="flex flex-wrap gap-gob-4 text-gri-body-sm">
-                  {(
-                    [
-                      ['NIZA', niza, setNiza],
-                      ['INAPI', inapi, setInapi],
-                      ['ADP', adp, setAdp],
-                      ['MADRID', madrid, setMadrid],
-                    ] as const
-                  ).map(([label, val, set]) => (
-                    <label key={label} className="inline-flex items-center gap-gob-2">
-                      <input type="checkbox" checked={val} onChange={e => set(e.target.checked)} />
-                      {label}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-gob-2">
-                <label htmlFor="palabra" className="text-gri-body-sm font-medium">
-                  Palabra :
-                </label>
-                <Input id="palabra" value={palabra} onChange={e => setPalabra(e.target.value)} className="h-11" />
-                <div className="flex flex-wrap gap-gob-4 text-gri-body-sm">
-                  <label className="inline-flex items-center gap-gob-2">
-                    <input type="radio" checked={!exacta} onChange={() => setExacta(false)} />
-                    Búsqueda por coincidencia
-                  </label>
-                  <label className="inline-flex items-center gap-gob-2">
-                    <input type="radio" checked={exacta} onChange={() => setExacta(true)} />
-                    Búsqueda texto exacto
-                  </label>
-                </div>
-              </div>
-              <div className="space-y-gob-2">
-                <p className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
-                  Clases de Niza :
-                  <button type="button" onClick={() => setHelp('clase')} aria-label="Ayuda de clases de Niza">
-                    <HelpCircle className="size-4 text-gob-link" />
-                  </button>
-                </p>
-                <div className="flex gap-gob-2">
-                  <Input
-                    readOnly
-                    value={clases.join(',')}
-                    placeholder="ej: 1,2,3"
-                    className="h-11"
-                    onClick={() => {
-                      setDraft(clases)
-                      setPicker(true)
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="icon"
-                    className="size-11"
-                    aria-label="Abrir clases de Niza"
-                    onClick={() => {
-                      setDraft(clases)
-                      setPicker(true)
-                    }}
-                  >
-                    <BookOpen className="size-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-gob-3">
-              <Button
-                size="form"
-                onClick={() => {
-                  setBuscado(true)
-                  setPage(1)
-                }}
-              >
-                Buscar
-              </Button>
-              <Button size="form" variant="secondary" onClick={limpiar}>
-                Limpiar
-              </Button>
-            </div>
-          </fieldset>
-          <div className="space-y-gob-3">
-            <h3 className="font-heading text-gri-body font-medium">Resultados</h3>
-            <ArchiveToolbar
-              pageSize={pageSize}
-              onPageSize={n => {
-                setPageSize(n)
-                setPage(1)
-              }}
-              query={query}
-              onQuery={s => {
-                setQuery(s)
-                setPage(1)
-              }}
-            />
-            <DataTable
-              headers={['Clase', 'Descripción en español', 'Descripción en inglés', 'INAPI', 'ADP', 'NIZA', 'MADRID']}
-            >
-              {slice.length === 0 ? (
-                <tr>
-                  <td className="px-gob-4 py-gob-3 text-center text-muted-foreground" colSpan={7}>
-                    No data available in table
-                  </td>
-                </tr>
-              ) : (
-                slice.map(r => (
-                  <tr key={`${r.clase}-${r.es}`}>
-                    <Td>{r.clase}</Td>
-                    <Td>{r.es}</Td>
-                    <Td>{r.en}</Td>
-                    <Td>{r.inapi ? 'Sí' : ''}</Td>
-                    <Td>{r.adp ? 'Sí' : ''}</Td>
-                    <Td>{r.niza ? 'Sí' : ''}</Td>
-                    <Td>{r.madrid ? 'Sí' : ''}</Td>
-                  </tr>
-                ))
-              )}
-            </DataTable>
-            {slice.length === 0 ? <p className="text-gri-body-sm text-muted-foreground">No hay registros para mostrar</p> : null}
-            <Pager page={page} pageSize={pageSize} total={filtered.length} onPage={setPage} />
-            <button type="button" className="text-gob-link text-gri-body-sm underline" onClick={() => setListado(true)}>
-              Listado completo de productos y servicios
-            </button>
-          </div>
-        </ServicePanel>
-        <p className="text-gri-body-sm text-gob-text">
-          Si desea acceder al listado alfabético de la Clasificación de Niza, usted puede consultar el que proporciona la
-          Organización Mundial de la Propiedad Intelectual (OMPI).{' '}
-          <a href={URLS_EXTERNAS.ompiNiza} className="text-gob-link underline" rel="noopener noreferrer">
-            Clic aquí para ver
-          </a>
-        </p>
-        <Dialog open={picker} onOpenChange={setPicker}>
-          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Clases de Niza</DialogTitle>
-            </DialogHeader>
-            <label className="inline-flex items-center gap-gob-2 text-gri-body-sm">
-              <input
-                type="checkbox"
-                checked={Array.from({ length: 34 }, (_, i) => i + 1).every(n => draft.includes(n))}
-                onChange={e => {
-                  const products = Array.from({ length: 34 }, (_, i) => i + 1)
-                  setDraft(prev => {
-                    const rest = prev.filter(n => n > 34)
-                    return e.target.checked ? [...products, ...rest] : rest
-                  })
-                }}
-              />
-              Seleccionar todos los Productos
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 34 }, (_, i) => i + 1).map(n => (
-                <button
-                  key={n}
-                  type="button"
-                  className={cn(
-                    'size-9 rounded border text-gri-body-sm',
-                    draft.includes(n) ? 'border-gob-primary bg-gob-primary text-white' : 'border-gob-border',
-                  )}
-                  onMouseEnter={() => setHoverClass(n)}
-                  onClick={() => toggleDraft(n)}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-            <label className="inline-flex items-center gap-gob-2 text-gri-body-sm">
-              <input
-                type="checkbox"
-                checked={Array.from({ length: 11 }, (_, i) => i + 35).every(n => draft.includes(n))}
-                onChange={e => {
-                  const services = Array.from({ length: 11 }, (_, i) => i + 35)
-                  setDraft(prev => {
-                    const rest = prev.filter(n => n < 35)
-                    return e.target.checked ? [...rest, ...services] : rest
-                  })
-                }}
-              />
-              Seleccionar todos los Servicios
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 11 }, (_, i) => i + 35).map(n => (
-                <button
-                  key={n}
-                  type="button"
-                  className={cn(
-                    'size-9 rounded border text-gri-body-sm',
-                    draft.includes(n) ? 'border-gob-primary bg-gob-primary text-white' : 'border-gob-border',
-                  )}
-                  onMouseEnter={() => setHoverClass(n)}
-                  onClick={() => toggleDraft(n)}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-            <p className="text-gri-body-sm leading-relaxed text-gob-text">{heading(hoverClass ?? 9)}</p>
-            <DialogFooter>
-              <Button
-                size="form"
-                onClick={() => {
-                  setClases(draft)
-                  setPicker(false)
-                }}
-              >
-                OK
-              </Button>
-              <Button size="form" className="bg-gob-accent hover:bg-gob-accent/90" onClick={() => setDraft([])}>
-                Limpiar
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-        <SiteMessage open={help === 'proc'} onClose={() => setHelp(null)} title="Ayuda de procedencia">
-          {LEGAL_CLASIFICADOR_PROCEDENCIA}
-        </SiteMessage>
-        <SiteMessage open={help === 'clase'} onClose={() => setHelp(null)} title="Clases de Niza">
-          {LEGAL_CLASIFICADOR_CLASES}
-        </SiteMessage>
-        <SiteMessage open={listado} onClose={() => setListado(false)}>
-          Listado de demostración. En el MVP no se descarga el catálogo completo de INAPI.
-        </SiteMessage>
+        <LegalNotice>{LEGAL_PCT}</LegalNotice>
       </TramitesMain>
     </RequireAuth>
   )

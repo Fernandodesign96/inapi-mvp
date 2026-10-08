@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
+import { LegalNotice } from '@/components/tramites/LegalNotice'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
-import { AlertBanner, ServicePanel, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
+import { AlertBanner, RequiredMark, ServicePanel, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import { LookupForm, SiteMessage } from '@/components/tramites/part2-forms'
 import {
   CATEGORIAS_MARCA,
@@ -54,7 +55,7 @@ export function ConcesionFinalScreen() {
         />
         {ok && (
           <AlertBanner>
-            Solicitud {ok} lista para pago de demostración. En el MVP no se cobra ni se envía a Tesorería.
+            Solicitud {ok} lista para pagar la tasa de concesión.
           </AlertBanner>
         )}
       </TramitesMain>
@@ -119,7 +120,7 @@ export function OtrosPagosMarcasScreen() {
           </div>
         </ServicePanel>
         <SiteMessage open={msg} onClose={() => setMsg(false)}>
-          Pago complementario de demostración. En el MVP no se cobra.
+          Pago complementario listo para continuar.
         </SiteMessage>
       </TramitesMain>
     </RequireAuth>
@@ -176,45 +177,55 @@ export function TgrCouponScreen({ domain }: { domain: 'marcas' | 'patentes' }) {
           </Link>
         </div>
         <ServicePanel title="Comprobante para pago Formulario 10" domain={domain}>
-          <AlertBanner tone="warning">{LEGAL_CUPON_TGR}</AlertBanner>
-          <p className="text-gri-body-sm text-muted-foreground">(*) Campos obligatorios</p>
-          <p className="text-gri-body-sm">Fecha de Emisión: {fecha}</p>
-          <div className="grid gap-gob-4 min-[905px]:grid-cols-2">
-            <div className="space-y-gob-2">
-              <label htmlFor="concepto" className="text-gri-body-sm font-medium text-gob-danger">
-                Concepto de Pago(*)
-              </label>
-              <select id="concepto" className={selectClass()} value={concepto} onChange={e => setConcepto(e.target.value)}>
-                <option value="">Seleccione...</option>
-                {conceptos.map(c => (
-                  <option key={c}>{c}</option>
-                ))}
-              </select>
+          <p className="text-gri-body-sm text-gob-text">Los campos con (*) son obligatorios.</p>
+          <p className="text-gri-body-sm">Fecha de emisión: {fecha}</p>
+
+          <section className="space-y-gob-4 rounded-gob-lg border border-gob-primary/20 bg-gob-primary/5 p-gob-5">
+            <h3 className="font-heading text-lg font-medium">Datos iniciales de pago</h3>
+            <div className="grid gap-gob-4 min-[905px]:grid-cols-2">
+              <div className="space-y-gob-2">
+                <label htmlFor="concepto" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
+                  Concepto de pago <RequiredMark />
+                </label>
+                <select id="concepto" className={selectClass()} value={concepto} onChange={e => setConcepto(e.target.value)}>
+                  <option value="">Seleccione...</option>
+                  {conceptos.map(c => (
+                    <option key={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-gob-2">
+                <label htmlFor="utm" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
+                  Monto UTM <RequiredMark />
+                </label>
+                <Input id="utm" value={utm} onChange={e => setUtm(e.target.value)} className="h-11" />
+                <p className="text-gri-body-xs text-muted-foreground">
+                  UTM octubre ${formatClp(UTM_OCTUBRE_CLP)} CLP. Puedes cambiar la cantidad de UTM según lo requerido por INAPI.
+                </p>
+              </div>
             </div>
-            <div className="space-y-gob-2">
-              <label htmlFor="utm" className="text-gri-body-sm font-medium text-gob-danger">
-                Monto UTM:(*)
-              </label>
-              <Input id="utm" value={utm} onChange={e => setUtm(e.target.value)} className="h-11" />
-              <p className="text-gri-body-xs text-muted-foreground">
-                UTM octubre ${formatClp(UTM_OCTUBRE_CLP)} CLP. Puede cambiar la cantidad de UTM según lo requerido por INAPI.
-              </p>
-            </div>
-          </div>
-          <p className="text-gri-body font-medium">TOTAL PESOS CLP: {formatClp(total)}</p>
-          <h3 className="font-heading text-lg">{domain === 'marcas' ? 'Datos de Marcas' : 'Datos de Patentes'}</h3>
-          <div className="grid gap-gob-4 min-[905px]:grid-cols-2">
+          </section>
+
+          <section className="space-y-gob-2 rounded-gob-lg border-2 border-gob-accent/40 bg-gob-accent/10 p-gob-5">
+            <h3 className="font-heading text-gri-body-sm font-medium uppercase tracking-wide text-gob-text">Monto total CLP</h3>
+            <p className="font-heading text-4xl font-bold text-gob-accent">${formatClp(total)}</p>
+          </section>
+
+          <section className="space-y-gob-4 rounded-gob-lg border border-gob-border bg-gob-surface-elevated/50 p-gob-5">
+          <h3 className="font-heading text-lg font-medium">{domain === 'marcas' ? 'Datos de marcas' : 'Datos de patentes'}</h3>
+            <div className="grid gap-gob-4 min-[905px]:grid-cols-2">
             <div className="space-y-gob-2 min-[905px]:col-span-2">
-              <label htmlFor="nsol" className="text-gri-body-sm font-medium">
-                Número de Solicitud (o Registro o anotación)
+              <label htmlFor="nsol" className="text-gri-body-sm font-medium text-gob-text">
+                Número de solicitud (o registro o anotación)
               </label>
-              <Input id="nsol" value={numero} onChange={e => setNumero(e.target.value)} className="h-11" />
+              <Input id="nsol" placeholder="Ejemplo: 1234567" value={numero} onChange={e => setNumero(e.target.value)} className="h-11" />
             </div>
             {domain === 'marcas' ? (
               <>
                 <div className="space-y-gob-2">
-                  <label htmlFor="cat" className="text-gri-body-sm font-medium text-gob-danger">
-                    Categoría(*)
+                  <label htmlFor="cat" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
+                    Categoría <RequiredMark />
+                    <HelpTooltip text="Producto, servicio o establecimiento, según corresponda a tu solicitud." />
                   </label>
                   <select id="cat" className={selectClass()} value={categoria} onChange={e => setCategoria(e.target.value)}>
                     <option value="">Seleccione...</option>
@@ -224,8 +235,9 @@ export function TgrCouponScreen({ domain }: { domain: 'marcas' | 'patentes' }) {
                   </select>
                 </div>
                 <div className="space-y-gob-2">
-                  <label htmlFor="tipo" className="text-gri-body-sm font-medium">
+                  <label htmlFor="tipo" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
                     Tipo
+                    <HelpTooltip text="Denominativa, mixta o figurativa, según el signo que declaraste." />
                   </label>
                   <select id="tipo" className={selectClass()} value={tipo} onChange={e => setTipo(e.target.value)}>
                     <option value="">Seleccione...</option>
@@ -235,23 +247,24 @@ export function TgrCouponScreen({ domain }: { domain: 'marcas' | 'patentes' }) {
                   </select>
                 </div>
                 <div className="space-y-gob-2">
-                  <label htmlFor="signo" className="text-gri-body-sm font-medium text-gob-danger">
-                    Signo o Denominación (*)
+                  <label htmlFor="signo" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
+                    Nombre de tu marca <RequiredMark />
                   </label>
-                  <Input id="signo" placeholder="Ej: Nombre de marca" value={signo} onChange={e => setSigno(e.target.value)} className="h-11" />
+                  <Input id="signo" placeholder="Ejemplo: Optima" value={signo} onChange={e => setSigno(e.target.value)} className="h-11" />
                 </div>
                 <div className="space-y-gob-2">
-                  <label htmlFor="clases" className="text-gri-body-sm font-medium">
-                    Clases
+                  <label htmlFor="clases" className="text-gri-body-sm font-medium text-gob-text">
+                    Clases de productos y servicios
                   </label>
-                  <Input id="clases" placeholder="Ej: 1,3,12,35" value={clases} onChange={e => setClases(e.target.value)} className="h-11" />
+                  <Input id="clases" placeholder="Ejemplo: 9, 42" value={clases} onChange={e => setClases(e.target.value)} className="h-11" />
                 </div>
               </>
             ) : (
               <>
                 <div className="space-y-gob-2">
-                  <label htmlFor="tipo" className="text-gri-body-sm font-medium">
+                  <label htmlFor="tipo" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
                     Tipo
+                    <HelpTooltip text="Patente de invención, modelo de utilidad, diseño o dibujo industrial." />
                   </label>
                   <select id="tipo" className={selectClass()} value={tipo} onChange={e => setTipo(e.target.value)}>
                     <option value="">Seleccione...</option>
@@ -261,27 +274,30 @@ export function TgrCouponScreen({ domain }: { domain: 'marcas' | 'patentes' }) {
                   </select>
                 </div>
                 <div className="space-y-gob-2">
-                  <label htmlFor="titulo" className="text-gri-body-sm font-medium text-gob-danger">
-                    Título (*)
+                  <label htmlFor="titulo" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
+                    Título <RequiredMark />
                   </label>
-                  <Input id="titulo" placeholder="Ej: Nombre de marca" value={titulo} onChange={e => setTitulo(e.target.value)} className="h-11" />
+                  <Input id="titulo" placeholder="Ejemplo: Dispositivo de asistencia para danza" value={titulo} onChange={e => setTitulo(e.target.value)} className="h-11" />
                 </div>
               </>
             )}
-          </div>
-          <h3 className="font-heading text-lg">Datos para cupón de pago TGR</h3>
+            </div>
+          </section>
+
+          <section className="space-y-gob-4 rounded-gob-lg border border-gob-primary/20 bg-white p-gob-5">
+          <h3 className="font-heading text-lg font-medium">Datos cupón TGR</h3>
           <div className="grid gap-gob-4 min-[905px]:grid-cols-2">
             <div className="space-y-gob-2">
-              <label htmlFor="rut" className="text-gri-body-sm font-medium text-gob-danger">
-                RUT(*)
+              <label htmlFor="rut" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
+                RUT <RequiredMark />
               </label>
-              <Input id="rut" placeholder="EJ: 11.123.123-k" value={rut} onChange={e => setRut(e.target.value)} className="h-11" />
+              <Input id="rut" placeholder="Ejemplo: 11.123.123-K" value={rut} onChange={e => setRut(e.target.value)} className="h-11" />
             </div>
             <div className="space-y-gob-2">
-              <label htmlFor="nom" className="text-gri-body-sm font-medium text-gob-danger">
-                Nombre Completo(*)
+              <label htmlFor="nom" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
+                Nombre completo <RequiredMark />
               </label>
-              <Input id="nom" placeholder="EJ: Juan Perez" value={nombre} onChange={e => setNombre(e.target.value)} className="h-11" />
+              <Input id="nom" placeholder="Ejemplo: Juan Pérez" value={nombre} onChange={e => setNombre(e.target.value)} className="h-11" />
             </div>
             <div className="space-y-gob-2">
               <label className="text-gri-body-sm font-medium">País de Residencia</label>
@@ -336,12 +352,13 @@ export function TgrCouponScreen({ domain }: { domain: 'marcas' | 'patentes' }) {
               <Input id="zip" value={zip} onChange={e => setZip(e.target.value)} className="h-11" />
             </div>
             <div className="space-y-gob-2 min-[905px]:col-span-2">
-              <label htmlFor="mail" className="text-gri-body-sm font-medium text-gob-danger">
-                Correo Electrónico(*)
+              <label htmlFor="mail" className="flex items-center gap-gob-2 text-gri-body-sm font-medium text-gob-text">
+                Correo electrónico <RequiredMark />
               </label>
-              <Input id="mail" type="email" value={correo} onChange={e => setCorreo(e.target.value)} className="h-11" />
+              <Input id="mail" type="email" placeholder="Ejemplo: correo@dominio.cl" value={correo} onChange={e => setCorreo(e.target.value)} className="h-11" />
             </div>
           </div>
+          </section>
           <div className="flex flex-wrap gap-gob-3">
             <Button size="form" variant="secondary" type="button" onClick={() => window.location.reload()}>
               Limpiar
@@ -352,8 +369,9 @@ export function TgrCouponScreen({ domain }: { domain: 'marcas' | 'patentes' }) {
           </div>
         </ServicePanel>
         <SiteMessage open={ok} onClose={() => setOk(false)}>
-          Cupón de demostración generado por ${formatClp(total)} CLP. En el MVP no se envía a Tesorería.
+          Cupón generado por ${formatClp(total)} CLP. Preséntalo ante INAPI junto con el escrito respectivo.
         </SiteMessage>
+        <LegalNotice>{LEGAL_CUPON_TGR}</LegalNotice>
       </TramitesMain>
     </RequireAuth>
   )
@@ -384,7 +402,7 @@ export function PatentPaymentLookup({
           onValid={v => setOk(v)}
           extra={extra}
         />
-        {ok && <AlertBanner>Solicitud {ok} lista para pago de demostración. En el MVP no se cobra.</AlertBanner>}
+        {ok && <AlertBanner>Solicitud {ok} lista para pago.</AlertBanner>}
       </TramitesMain>
     </RequireAuth>
   )
@@ -484,7 +502,7 @@ export function PagoPctScreen() {
             .
           </p>
         </ServicePanel>
-        {ok && <AlertBanner>Solicitud {ok} lista para pago de demostración.</AlertBanner>}
+        {ok && <AlertBanner>Solicitud {ok} lista para pago.</AlertBanner>}
         <SiteMessage open={error} onClose={() => setError(false)}>
           La solicitud PCT no existe o no está en condiciones de pago.
         </SiteMessage>

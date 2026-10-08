@@ -156,7 +156,7 @@ export const MARCAS_MEGA: MegaColumn[] = [
       {
         label: 'Clasificador productos y servicios',
         href: '/tramites/marcas/clasificador',
-        tooltip: 'Busca términos de la clasificación de Niza',
+        tooltip: 'Busca productos y servicios y te sugiere la clase de Niza',
       },
       {
         label: 'Verificar certificados marcas',
@@ -317,12 +317,14 @@ export const PATENTES_MEGA: MegaColumn[] = [
 
 export const PAGE_TITLES: Record<string, { title: string; subtitle?: string; domain: TramitesDomain | 'general' }> = {
   '/tramites': { title: 'Trámites en línea', subtitle: 'Gestiona tus marcas y patentes', domain: 'general' },
+  '/marcas/buscador-similitud': { title: 'Revisa si tu marca se parece a otra', subtitle: 'Usa esta herramienta antes de pedir el registro de tu marca.', domain: 'marcas' },
   '/tramites/auth': { title: 'Iniciar sesión', domain: 'general' },
   '/tramites/ingresar': { title: 'Ingresar con Clave INAPI', domain: 'general' },
   '/tramites/solicitudmarca': { title: 'Solicitud de marca', domain: 'marcas' },
   '/tramites/registrarse': { title: 'Regístrate en trámites INAPI', domain: 'general' },
   '/tramites/clave-unica': { title: 'Validación con ClaveÚnica', domain: 'general' },
   '/tramites/notificaciones': { title: 'Notificaciones electrónicas', domain: 'general' },
+  '/tramites/perfil': { title: 'Mi perfil', domain: 'general' },
   '/tramites/custodia-poderes': { title: 'Trámites y Servicios • Ingreso de Documentos, Poderes y Personerías', domain: 'general' },
   '/tramites/marcas/documentos': { title: 'Marcas • Expedientes digitales', domain: 'marcas' },
   '/tramites/marcas/solicitudes-guardadas': { title: 'Marcas • Solicitudes guardadas de marcas', domain: 'marcas' },
@@ -368,6 +370,7 @@ export const PAGE_TITLES: Record<string, { title: string; subtitle?: string; dom
   '/tramites/patentes/pago-pct': { title: 'Patentes • Pagos PCT', domain: 'patentes' },
   '/tramites/patentes/otros-pagos': { title: 'Patentes • Otros pagos en línea patentes', domain: 'patentes' },
   '/tramites/patentes/comprobante-pago': { title: 'Trámites y Servicios • Comprobante para pago', domain: 'patentes' },
-  '/tramites/pago': { title: 'Pago en Tesorería (simulación)', domain: 'general' },
+  '/tramites/pago': { title: 'Pago en Tesorería', domain: 'general' },
+  '/tramites/pago-tgr': { title: 'Pago de tasas INAPI', domain: 'general' },
   '/tramites/proximamente': { title: 'Próxima entrega', domain: 'general' },
 }

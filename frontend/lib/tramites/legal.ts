@@ -10,6 +10,24 @@ export const LEGAL_CERTIFICADOS = `El certificado se emite sobre la base de la i
 
 export const LEGAL_WIZARD_MARCA = `La presentación de esta solicitud implica que el solicitante declara conocer la Ley N.º 19.039 de Propiedad Industrial y su Reglamento. Los datos ingresados tienen el carácter de declaración jurada. El pago de las tasas no implica aceptación ni concesión del derecho.`
 
+export const AVISO_PAGO_TGR = `El sistema de pago puede tardar unos minutos en procesar. Toda la información posterior al pago se comunicará al correo electrónico del usuario.`
+
+export const TOOLTIP_PRIORIDAD_SIN = `La presente solicitud constituye primera presentación en una oficina de patentes y por tanto no declara prioridad.`
+
+export const TOOLTIP_PRIORIDAD_DECLARA = `La solicitud sí tiene presentación previa en una oficina de patentes extranjera. Podrá agregar todas las prioridades que correspondan.`
+
+export const TOOLTIP_PROVISIONAL = `Aquí se declara el número de la solicitud provisional realizada en INAPI en que se basa la presente solicitud definitiva a fin de conservar la fecha de presentación de la solicitud provisional.`
+
+export const TOOLTIP_DIVISIONAL = `En su caso, debe declarar el número de la solicitud original presentada en INAPI, donde se reivindica por primera vez la prioridad original. La solicitud original debe encontrarse pendiente de resolver por INAPI.`
+
+export const TOOLTIP_DIVULGACION = `Declaración detallada y expresa de las divulgaciones que se efectuaron dentro de los 12 meses previos a la presentación de la solicitud y solicita no se consideren para efectos de determinar la novedad ni el nivel inventivo, según cumplimiento de requisitos señalados en los artículos 42 LPI y 31 del RLPI.`
+
+export const TOOLTIP_RESTAURACION = `Figura legal contemplada en el art. 34 LPI, mediante la cual el solicitante podrá presentar la solicitud dentro de los 2 meses siguientes a la fecha de vencimiento del plazo de prioridad.`
+
+export const TOOLTIP_PCT_NACIONAL = `Figura legal contemplada en la Regla 49.6 del Reglamento PCT (art. 117 LPI), y su efecto en el caso de concederse es que para todos los efectos la solicitud se presentó dentro de los 30 meses, con lo que cumple con el plazo de entrar en fase nacional.`
+
+export const TOOLTIP_DIFERIR_PAGO = `Declaración relativa a carencia de medios económicos del solicitante y petición para postergar pagos, según cumplimiento de requisitos y por los plazos fijados en los artículos 18 Bis A LPI y 19 RLPI.`
+
 export const LEGAL_DENOMINATIVA = `Si tu marca es denominativa, el signo que se protege es la palabra o el conjunto de palabras, con independencia de su representación gráfica. Debes escribirla exactamente como deseas protegerla. Cualquier elemento figurativo o de diseño requiere una solicitud de marca mixta o figurativa.`
 
 export const LEGAL_WIZARD_PATENTE = `La solicitud de patente, modelo de utilidad, diseño o dibujo industrial se rige por la Ley N.º 19.039 y su Reglamento. El solicitante declara que la invención, el modelo o el diseño no ha sido divulgado en los términos que la ley establece, salvo las excepciones legales. El pago de tasas no implica concesión del derecho.`

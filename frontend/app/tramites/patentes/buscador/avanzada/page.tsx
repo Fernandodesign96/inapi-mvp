@@ -54,7 +54,7 @@ export default function BusquedaAvanzadaPage() {
   return (
     <TramitesMain>
       <p className="text-gri-body text-gob-text max-w-3xl">
-        Combina criterios. Los operadores son «contiene», «es» y «comienza con». En este MVP los resultados son de demostración.
+        Combina criterios. Los operadores son «contiene», «es» y «comienza con».
       </p>
       <Link href="/tramites/patentes/buscador" className="text-gob-link underline underline-offset-4">
         Volver a búsqueda simple
