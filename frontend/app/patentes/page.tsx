@@ -4,10 +4,11 @@ import {
   Award,
   Bell,
   Bolt,
+  Clock,
   CreditCard,
   Factory,
-  FileText,
   Headphones,
+  Layers,
   Lightbulb,
   NotebookPen,
   Search,
@@ -15,6 +16,9 @@ import {
 } from 'lucide-react'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
+import { GlosarioTerm } from '@/components/GlosarioTerm'
+import { PortalStat } from '@/components/portal/PortalStat'
+import { PortalPdfLink } from '@/components/portal/PortalPdfLink'
 import {
   PortalBulletList,
   PortalFeeTable,
@@ -45,22 +49,27 @@ export default function PatentesPage() {
       variant="page"
       active="patentes"
       pageTitle="Patentes"
-      pageSubtitle="Registra una patente para proteger un invento y obtener el derecho exclusivo a usarlo y explotarlo. Aquí encuentras qué es una patente, qué requisitos cumple, cuánto cuesta y dónde iniciar tu trámite."
+      pageSubtitle="Una patente protege un invento en Chile. Aquí ves qué es, quién puede pedirla, qué se necesita, cuánto cuesta, cuánto demora y cómo seguir el trámite."
       breadcrumbs={[{ label: 'Patentes' }]}
     >
       <ContainerGRI size="portal">
         <PortalMain>
+          <div className="grid min-[600px]:grid-cols-3 gap-gob-4 mb-gob-6">
+            <PortalStat icon={CreditCard} value="1 UTM" label="Tasa de presentación de la solicitud." />
+            <PortalStat icon={Clock} value="Hasta 20 años" label="Vigencia desde la fecha de presentación." />
+            <PortalStat icon={Layers} value="5 etapas" label="Presentación, forma, publicación, peritaje y registro." />
+          </div>
           <PortalQuickAccessGrid
             items={[
               {
-                href: '#tramites',
-                title: 'Registrar una patente',
-                description: 'Ingresa tu solicitud y paga en línea.',
+                href: '/tramites/patentes/solicitar',
+                title: 'Ingresar una solicitud de patente',
+                description: 'Presenta tu invención en línea y paga la tasa inicial.',
                 icon: AppWindow,
                 variant: 'primary',
               },
               {
-                href: '/buscar',
+                href: '/tramites/patentes/buscador',
                 title: 'Buscar patentes existentes',
                 description: 'Revisa si tu invento ya fue solicitado antes.',
                 icon: Search,
@@ -73,6 +82,26 @@ export default function PatentesPage() {
               },
             ]}
           />
+
+          <section>
+            <PortalSectionTitle>¿Quién puede pedir una patente?</PortalSectionTitle>
+            <PortalProse>
+              Puede pedirla el inventor o quien tenga los derechos sobre el invento. Puedes actuar con un{' '}
+              <GlosarioTerm termino="Representante">representante</GlosarioTerm> si no presentas la solicitud tú.
+            </PortalProse>
+          </section>
+
+          <section>
+            <PortalSectionTitle>¿Qué necesitas?</PortalSectionTitle>
+            <PortalBulletList
+              items={[
+                <>Memoria técnica que explique el invento.</>,
+                <>ClaveÚnica o clave INAPI para ingresar.</>,
+                <>Pagar 1 <GlosarioTerm termino="UTM">UTM</GlosarioTerm> de presentación.</>,
+                <>Revisar si ya existe una solicitud parecida en el buscador de patentes.</>,
+              ]}
+            />
+          </section>
 
           <section>
             <PortalSectionTitle>¿Qué es una patente?</PortalSectionTitle>
@@ -118,7 +147,7 @@ export default function PatentesPage() {
           <section id="tasas">
             <PortalSectionTitle>¿Cuánto cuesta registrar una patente?</PortalSectionTitle>
             <PortalProse className="mb-gob-4">
-              Pagas en <strong className="text-gob-text">distintas etapas</strong> del trámite. Los valores se expresan en Unidad Tributaria Mensual (UTM) y cambian según el tipo de derecho.
+              Pagas en <strong className="text-gob-text">distintas etapas</strong> del trámite. Los valores se expresan en <GlosarioTerm termino="UTM">UTM</GlosarioTerm> y cambian según el tipo de derecho.
             </PortalProse>
             <PortalFeeTable
               caption="Valores referenciales de patente de invención, vigentes a 2026."
@@ -146,10 +175,9 @@ export default function PatentesPage() {
             <PortalSectionTitle>Herramientas y guías</PortalSectionTitle>
             <PortalLinkList
               links={[
-                { href: '/buscar', label: 'Buscar patentes en la base de datos', icon: Search },
-                { href: '/notificaciones-diarias', label: 'Revisar las notificaciones diarias de patentes', icon: Bell },
-                { href: '#', label: 'Conocer el trámite acelerado de patentes verdes (PAPV)', icon: Bolt },
-                { href: '#', label: 'Descargar la guía global PPH en español (PDF, 890 KB)', icon: FileText },
+                { href: '/tramites/patentes/buscador', label: 'Buscador de patentes', icon: Search },
+                { href: '/notificaciones-diarias', label: 'Notificaciones INAPI de patentes', icon: Bell },
+                { href: '/patentes/pct', label: 'Conocer el Tratado de Cooperación en materia de Patentes (PCT)', icon: Bolt },
               ]}
             />
           </section>
@@ -158,10 +186,25 @@ export default function PatentesPage() {
             <PortalSectionTitle>Trámites de patentes</PortalSectionTitle>
             <PortalTramiteGrid
               items={[
-                { href: '/auth', title: 'Tramitar una patente', icon: NotebookPen },
-                { href: '#', title: 'Pedir títulos y certificados', icon: Award },
-                { href: '/contacto', title: 'Usar los recursos para usuarios', icon: Headphones },
+                { href: '/tramites/patentes/solicitar', title: 'Tramitar una patente', icon: NotebookPen },
+                { href: '/tramites', title: 'Pedir títulos y certificados', icon: Award },
+                { href: '/contacto', title: 'Escribir a atención ciudadana', icon: Headphones },
               ]}
+            />
+          </section>
+
+          <section>
+            <PortalSectionTitle>¿Qué pasa después?</PortalSectionTitle>
+            <PortalProse>
+              INAPI revisa la forma, publica la solicitud y abre un plazo de{' '}
+              <GlosarioTerm termino="Oposición">oposición</GlosarioTerm>. Luego viene el peritaje. Si se otorga el derecho, pagas los derechos de vigencia.
+            </PortalProse>
+            <PortalPdfLink
+              className="mt-gob-4"
+              href="/patentes/como-registrar"
+              title="Guía para registrar una patente 2026"
+              size="890 KB"
+              description="Describe etapas, tasas y documentos técnicos. No reemplaza la memoria que debes adjuntar en el formulario."
             />
           </section>
         </PortalMain>

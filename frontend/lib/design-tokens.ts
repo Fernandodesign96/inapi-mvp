@@ -94,6 +94,15 @@ export const GOB_COLOR = {
     headerSub: '#005fff',
     legacyBlue: '#0033A0',
     legacyRed: '#EE3124',
+    marcasAccent: '#FF9500',
+    marcasHover: '#E88000',
+    marcasSurface: '#FFF8F0',
+    marcasBorder: '#F4A261',
+    patentesAccent: '#0DBFFF',
+    patentesHover: '#0A9FCC',
+    patentesSurface: '#F3FBFD',
+    patentesBorder: '#0A9FCC',
+    tint: '#E6EEF7',
   } as const
   
   /** Escala de espaciado kit (px) */

@@ -124,7 +124,7 @@ export const MARCAS_MEGA: MegaColumn[] = [
         tooltip: 'Descarga la gaceta de marcas nuevas',
       },
       {
-        label: 'Buscador marcas',
+        label: 'Buscador de marcas',
         href: '/marcas/buscador-similitud',
         tooltip: 'Compara tu nombre con marcas anteriores',
       },
@@ -154,7 +154,7 @@ export const MARCAS_MEGA: MegaColumn[] = [
         tooltip: 'Pide un certificado de tu marca',
       },
       {
-        label: 'Clasificador productos y servicios',
+        label: 'Buscador de productos y servicios',
         href: '/tramites/marcas/clasificador',
         tooltip: 'Busca productos y servicios y te sugiere la clase de Niza',
       },
@@ -277,7 +277,7 @@ export const PATENTES_MEGA: MegaColumn[] = [
         tooltip: 'Descarga los estados diarios de patentes',
       },
       {
-        label: 'Buscador patentes',
+        label: 'Buscador de patentes',
         href: '/tramites/patentes/buscador',
         tooltip: 'Busca patentes, modelos de utilidad y diseños',
       },
@@ -317,7 +317,7 @@ export const PATENTES_MEGA: MegaColumn[] = [
 
 export const PAGE_TITLES: Record<string, { title: string; subtitle?: string; domain: TramitesDomain | 'general' }> = {
   '/tramites': { title: 'Trámites en línea', subtitle: 'Gestiona tus marcas y patentes', domain: 'general' },
-  '/marcas/buscador-similitud': { title: 'Revisa si tu marca se parece a otra', subtitle: 'Usa esta herramienta antes de pedir el registro de tu marca.', domain: 'marcas' },
+  '/marcas/buscador-similitud': { title: 'Buscador de marcas', subtitle: 'Usa esta herramienta antes de pedir el registro de tu marca.', domain: 'marcas' },
   '/tramites/auth': { title: 'Iniciar sesión', domain: 'general' },
   '/tramites/ingresar': { title: 'Ingresar con Clave INAPI', domain: 'general' },
   '/tramites/solicitudmarca': { title: 'Solicitud de marca', domain: 'marcas' },
@@ -332,7 +332,7 @@ export const PAGE_TITLES: Record<string, { title: string; subtitle?: string; dom
   '/tramites/marcas/presentar-escritos': { title: 'Marcas • Presentar escritos de marcas', domain: 'marcas' },
   '/tramites/marcas/gaceta': { title: 'Trámites y Servicios • Gaceta de marcas nuevas', domain: 'marcas' },
   '/tramites/marcas/estados-diarios': { title: 'Trámites y Servicios • Estados diarios de marcas', domain: 'marcas' },
-  '/tramites/marcas/clasificador': { title: 'Marcas • Clasificador de productos y servicios', domain: 'marcas' },
+  '/tramites/marcas/clasificador': { title: 'Marcas • Buscador de productos y servicios', domain: 'marcas' },
   '/tramites/marcas/formularios': { title: 'Marcas • Descargar formularios (PDF)', domain: 'marcas' },
   '/tramites/marcas/certificados': { title: 'Marcas • Certificados de marcas', domain: 'marcas' },
   '/tramites/marcas/solicitar': { title: 'Marcas • Solicitar marca', domain: 'marcas' },

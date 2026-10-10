@@ -5,7 +5,8 @@ export function portalShellProps(path: string, overrides?: Partial<SiteHeaderPro
   const meta = getPageMeta(path)
   const breadcrumbs: BreadcrumbItem[] = []
   if (meta?.section) breadcrumbs.push({ label: meta.section.label, href: meta.section.href })
-  if (meta?.current) breadcrumbs.push({ label: meta.current })
+  const currentLabel = meta?.current ?? (path === '/' ? undefined : meta?.title)
+  if (currentLabel) breadcrumbs.push({ label: currentLabel })
 
   return {
     variant: 'page',

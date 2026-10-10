@@ -88,5 +88,35 @@
     "termino": "Vigencia",
     "definicion": "Período de protección de la marca una vez registrada. En Chile las marcas tienen una vigencia de 10 años, renovables indefinidamente.",
     "ejemplo": "Tu marca registrada en 2026 vence en 2036, pero puedes renovarla antes de que expire."
+  },
+  {
+    "id": "g016",
+    "termino": "Oposición",
+    "definicion": "Reclamo que presenta otra persona o empresa cuando considera que tu solicitud de marca o patente afecta sus derechos. Se hace dentro de un plazo legal después de la publicación.",
+    "ejemplo": "Si publicas tu marca y otra empresa tiene un nombre parecido, puede oponerse en el plazo indicado."
+  },
+  {
+    "id": "g017",
+    "termino": "Prioridad",
+    "definicion": "Derecho a usar la fecha de una primera solicitud en otro país, si presentas la misma invención o marca en Chile dentro del plazo del Convenio de París.",
+    "ejemplo": "Si pediste la marca en España y en seis meses la pides en Chile, puedes conservar la fecha original."
+  },
+  {
+    "id": "g018",
+    "termino": "PCT",
+    "definicion": "Tratado de Cooperación en materia de Patentes. Es una vía para presentar una solicitud internacional y luego decidir en qué países pedir la protección. No concede la patente por sí mismo.",
+    "ejemplo": "Presentas una solicitud PCT y después eliges Chile, Brasil u otros países para el examen nacional."
+  },
+  {
+    "id": "g019",
+    "termino": "UTM",
+    "definicion": "Unidad Tributaria Mensual. Es el valor de referencia que usa el Estado para calcular tasas. El monto en pesos cambia cada mes.",
+    "ejemplo": "Si la tasa es 1 UTM, pagas el valor de esa unidad el mes en que haces el pago."
+  },
+  {
+    "id": "g020",
+    "termino": "Niza",
+    "definicion": "Clasificación internacional de productos y servicios para marcas, organizada en 45 clases. Cada clase se paga por separado.",
+    "ejemplo": "Software suele ir en la clase 9 o 42; ropa, en la clase 25."
   }
 ]

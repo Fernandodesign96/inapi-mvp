@@ -149,7 +149,7 @@ function FeaturedCard({
           notifyDownload(date)
           onOpen()
         }}
-        className="flex w-full items-center justify-center gap-gob-2 py-gob-8 text-gob-link underline underline-offset-4 hover:text-gob-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+        className="flex w-full items-center justify-center gap-gob-2 py-gob-8 text-gob-link underline underline-offset-4 hover:text-gob-link-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
       >
         <CalendarDays className="size-4" aria-hidden />
         {date}
@@ -163,7 +163,7 @@ function DownloadLink({ children }: { children: ReactNode }) {
     <button
       type="button"
       onClick={() => notifyDownload(typeof children === 'string' ? children : 'documento')}
-      className="inline-flex items-center gap-gob-2 text-gob-link underline underline-offset-4 hover:text-gob-primary-dark"
+      className="inline-flex items-center gap-gob-2 text-gob-link underline underline-offset-4 hover:text-gob-link-hover"
     >
       <Download className="size-4" aria-hidden />
       {children}

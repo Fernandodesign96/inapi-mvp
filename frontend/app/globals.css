@@ -93,6 +93,7 @@
 
   /* Enlaces y focus */
   --color-gob-link: var(--gob-link);
+  --color-gob-link-hover: var(--gob-link-hover);
   --color-gob-link-visited: var(--gob-link-visited);
   --color-gob-focus: var(--gob-focus);
   --color-gob-focus-contrast: var(--gob-focus-contrast);
@@ -120,9 +121,17 @@
   --color-inapi-portal-nav: var(--inapi-portal-nav);
   --color-inapi-portal-subnav: var(--inapi-portal-subnav);
   --color-inapi-portal-deep: var(--inapi-portal-deep);
+  --color-gob-primary-darken-5: var(--gob-primary-darken-5);
   --color-inapi-cta: var(--inapi-cta);
   --color-inapi-marcas-accent: var(--inapi-marcas-accent);
+  --color-inapi-marcas-hover: var(--inapi-marcas-hover);
+  --color-inapi-marcas-surface: var(--inapi-marcas-surface);
+  --color-inapi-marcas-border: var(--inapi-marcas-border);
   --color-inapi-patentes-accent: var(--inapi-patentes-accent);
+  --color-inapi-patentes-hover: var(--inapi-patentes-hover);
+  --color-inapi-patentes-surface: var(--inapi-patentes-surface);
+  --color-inapi-patentes-border: var(--inapi-patentes-border);
+  --color-inapi-tint: var(--inapi-tint);
 
   /* Marca fija — mismo azul en claro y oscuro (hero, CTA, FAB) */
   --color-gob-brand-from: var(--gob-brand-from);
@@ -239,6 +248,7 @@
 
   /* Enlaces y focus */
   --gob-link: #1D70B8;
+  --gob-link-hover: #0051A8;
   --gob-link-visited: #4C2C92;
   --gob-focus: #FFBE5C;
   --gob-focus-contrast: #373737;
@@ -265,12 +275,23 @@
 
   /* Portal institucional — UI Kit + diseño Claude v3 */
   --inapi-portal-hero: #092039;
-  --inapi-portal-nav: #092039;
-  --inapi-portal-subnav: #F2F2F2;
+  --inapi-portal-nav: #061526;
+  --inapi-portal-subnav: #F2F2F6;
   --inapi-portal-deep: #061526;
+  --gob-primary-darken-5: #00135A;
+  --inapi-glow-primary: var(--gob-primary);
+  --inapi-glow-accent: var(--inapi-header);
   --inapi-cta: #0051A8;
   --inapi-marcas-accent: #FF9500;
+  --inapi-marcas-hover: #E88000;
+  --inapi-marcas-surface: #FFF8F0;
+  --inapi-marcas-border: #F4A261;
   --inapi-patentes-accent: #0DBFFF;
+  --inapi-patentes-hover: #0A9FCC;
+  --inapi-patentes-surface: #F3FBFD;
+  --inapi-patentes-border: #0A9FCC;
+  /* Superficie de énfasis editorial — GOB primario Darken 3 al 12% */
+  --inapi-tint: #E6EEF7;
 
   /* Bloques de marca — no se aclaran en modo oscuro */
   --gob-brand-from: #4282E0;
@@ -302,7 +323,7 @@
   --secondary-foreground: var(--gob-text);
 
   --muted: var(--gob-surface-elevated);
-  --muted-foreground: #9CA3AF;
+  --muted-foreground: #4B5563;
 
   --accent: var(--gob-accent);
   --accent-foreground: var(--gob-text-inverse);
@@ -330,8 +351,8 @@
 /* ── Tema oscuro UI Kit v3.0.1 (Fase 8) — §4 DESIGN_SYSTEM.md ── */
 .dark {
   /* Primario — lighten sobre fondo oscuro */
-  --gob-primary: #83B6FF;
-  --gob-primary-dark: #0F69C4;
+  --gob-primary: #0F69C4;
+  --gob-primary-dark: #0051A8;
   --gob-primary-foreground: #FFFFFF;
 
   /* Accent — misma familia, contraste ajustado */
@@ -353,6 +374,7 @@
 
   /* Enlaces y focus — variante más suave sobre fondo oscuro */
   --gob-link: #A1D2FF;
+  --gob-link-hover: #E8F4FF;
   --gob-link-visited: #B8A4E8;
   --gob-focus: #FFD699;
   --gob-focus-contrast: #121418;
@@ -376,6 +398,8 @@
   /* Excepción header INAPI — marca institucional sin cambio */
   --inapi-header: #FF4134;
   --inapi-header-sub: #005fff;
+  --inapi-portal-subnav: #1A2330;
+  --inapi-cta: #0F69C4;
 
   /* Footer — gris oscuro en modo noche */
   --gob-footer-bg: #1E2228;
@@ -404,7 +428,7 @@
   --secondary-foreground: var(--gob-text);
 
   --muted: var(--gob-surface-elevated);
-  --muted-foreground: #9CA3AF;
+  --muted-foreground: #D1D5DB;
 
   --accent: var(--gob-accent);
   --accent-foreground: var(--gob-text-inverse);
@@ -435,6 +459,12 @@
 
   html {
     @apply font-sans;
+  }
+
+  .dark header input[type='search'] {
+    background-color: var(--background);
+    border-color: var(--gob-border-strong);
+    color: var(--gob-text);
   }
 
   /* Encabezados institucionales → Roboto Slab */
@@ -479,7 +509,11 @@
   }
 
   .portal-lead {
-    @apply text-gri-body min-[600px]:text-[1.1875rem] leading-[1.5];
+    @apply text-gri-body min-[600px]:text-[1.1875rem] leading-[1.5] text-left;
+  }
+
+  .portal-kicker {
+    @apply text-gri-body-sm font-medium tracking-wide text-left;
   }
 
   .portal-link {
@@ -545,6 +579,86 @@
   .focus-gob {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
+}
+
+.portal-ambient-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  color: var(--gob-text-inverse);
+  background-color: var(--inapi-portal-hero);
+  background-image:
+    radial-gradient(
+      ellipse 55% 70% at 88% 8%,
+      color-mix(in srgb, var(--gob-primary) 30%, transparent) 0%,
+      transparent 64%
+    ),
+    radial-gradient(
+      ellipse 42% 48% at 6% 96%,
+      color-mix(in srgb, var(--inapi-header) 12%, transparent) 0%,
+      transparent 58%
+    ),
+    linear-gradient(
+      165deg,
+      var(--inapi-portal-deep) 0%,
+      var(--inapi-portal-hero) 46%,
+      var(--gob-primary-darken-5) 100%
+    );
+}
+
+.portal-search-panel {
+  transition-property: opacity, transform, max-width;
+  transition-duration: 220ms;
+  transition-timing-function: ease-out;
+}
+
+.portal-glass {
+  background: color-mix(in srgb, var(--gob-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gob-primary) 22%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.portal-nav-tone {
+  background-color: var(--inapi-portal-deep);
+  background-image:
+    radial-gradient(
+      ellipse 55% 140% at 88% -40%,
+      color-mix(in srgb, var(--gob-primary) 28%, transparent) 0%,
+      transparent 68%
+    ),
+    linear-gradient(
+      165deg,
+      var(--inapi-portal-deep) 0%,
+      var(--inapi-portal-hero) 100%
+    );
+}
+
+.portal-subheader-handle {
+  height: 1.25rem;
+  background-color: var(--gob-surface);
+  box-shadow: 0 6px 14px rgba(8, 31, 56, 0.28);
+}
+
+.portal-card-motion {
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portal-card-motion:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--elevation-05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-card-motion:hover {
+    transform: none;
+  }
+}
+
+.portal-chip {
+  border: 1px solid color-mix(in srgb, var(--gob-text-inverse) 28%, transparent);
+  border-radius: 9999px;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -15,7 +15,7 @@ export function HelpTooltip({
       <TooltipTrigger asChild>
         <button
           type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center text-gob-primary hover:text-gob-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus rounded-gob-sm"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center text-gob-primary hover:text-gob-link-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus rounded-gob-sm"
           aria-label={label}
         >
           <CircleHelp className="w-4 h-4" aria-hidden />

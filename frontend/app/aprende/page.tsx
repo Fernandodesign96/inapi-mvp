@@ -4,6 +4,7 @@ import { BookOpen, FolderOpen, History } from 'lucide-react'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { PortalCardGrid, PortalMain, PortalSectionTitle } from '@/components/portal/content'
+import { portalShellProps } from '@/lib/portal-page-props'
 
 export const metadata: Metadata = {
   title: 'Aprende de propiedad industrial — INAPI',
@@ -14,9 +15,10 @@ export const metadata: Metadata = {
 export default function AprendePage() {
   return (
     <PortalShell
-      variant="page"
-      pageTitle="Aprende de propiedad industrial"
-      pageSubtitle="Este módulo reúne contenidos, fechas clave, requisitos y formas de inscripción a los cursos, talleres y actividades de capacitación que ofrece INAPI."
+      {...portalShellProps('/aprende', {
+        pageSubtitle:
+          'Este módulo reúne contenidos, fechas clave, requisitos y formas de inscripción a los cursos, talleres y actividades de capacitación que ofrece INAPI.',
+      })}
     >
       <ContainerGRI size="portal">
         <PortalMain>
@@ -45,21 +47,21 @@ export default function AprendePage() {
             <div className="grid min-[600px]:grid-cols-3 gap-gob-4">
               <Link
                 href="#"
-                className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-[#E6EEF7] transition-colors"
+                className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-inapi-tint transition-colors"
               >
                 <BookOpen className="w-7 h-7 text-inapi-cta" aria-hidden />
                 <span className="text-gri-body-sm font-bold leading-snug">Libro historia gráfica</span>
               </Link>
               <Link
                 href="/conoce-mas"
-                className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-[#E6EEF7] transition-colors"
+                className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-inapi-tint transition-colors"
               >
                 <History className="w-7 h-7 text-inapi-cta" aria-hidden />
                 <span className="text-gri-body-sm font-bold leading-snug">Línea de tiempo interactiva</span>
               </Link>
               <Link
                 href="#"
-                className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-[#E6EEF7] transition-colors"
+                className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-inapi-tint transition-colors"
               >
                 <FolderOpen className="w-7 h-7 text-inapi-cta" aria-hidden />
                 <span className="text-gri-body-sm font-bold leading-snug">Informes de dominio público</span>

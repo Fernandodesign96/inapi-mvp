@@ -52,13 +52,13 @@ export default function CuentaPublica2026Page() {
               className="w-full h-[380px] mb-gob-5"
             />
 
-            <p className="text-lg font-medium text-gob-text leading-relaxed mb-gob-6 pl-gob-4 border-l-4 border-inapi-cta max-w-3xl">
+            <p className="mb-gob-6 border-l-4 border-inapi-cta pl-gob-4 text-lg font-medium leading-relaxed text-gob-text">
               La jornada mostró los avances de INAPI en eficiencia, liderazgo internacional, descentralización y
               modernización, y los desafíos para seguir fortaleciendo la innovación y la protección de la propiedad
               industrial en Chile.
             </p>
 
-            <div className="text-gri-body text-muted-foreground leading-relaxed space-y-gob-4 max-w-3xl">
+            <div className="space-y-gob-4 text-gri-body leading-relaxed text-muted-foreground">
               <p>
                 En la Casa Central de la Pontificia Universidad Católica de Valparaíso, INAPI realizó su Cuenta Pública
                 Participativa 2026. La instancia estuvo encabezada por el director nacional,{' '}
@@ -117,7 +117,7 @@ export default function CuentaPublica2026Page() {
                 La jornada cerró con la presentación de <strong className="text-gob-text">María José García</strong>,
                 subdirectora de Patentes, sobre el valor de las patentes para la innovación y la transferencia tecnológica,
                 y con una invitación a participar mediante el{' '}
-                <a href="#" className="font-bold text-gob-link hover:text-gob-primary-dark">
+                <a href="#" className="font-bold text-gob-link hover:text-gob-link-hover">
                   formulario de participación ciudadana de la Cuenta Pública 2026
                 </a>
                 .
@@ -127,7 +127,7 @@ export default function CuentaPublica2026Page() {
             <p className="mt-gob-8">
               <Link
                 href="/sala-de-prensa"
-                className="inline-flex items-center gap-gob-2 font-bold text-gob-link hover:text-gob-primary-dark"
+                className="inline-flex items-center gap-gob-2 font-bold text-gob-link hover:text-gob-link-hover"
               >
                 <ArrowLeft className="w-5 h-5" aria-hidden />
                 Volver a Sala de Prensa

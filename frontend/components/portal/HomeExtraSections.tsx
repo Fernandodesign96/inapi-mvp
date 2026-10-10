@@ -17,6 +17,7 @@ import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { Button } from '@/components/ui/button'
 import { PortalImagePlaceholder } from '@/components/portal/content'
 import { HomeObservanciaCarousel } from '@/components/portal/HomeObservanciaCarousel'
+import { GlosarioTerm } from '@/components/GlosarioTerm'
 import { cn } from '@/lib/utils'
 
 const cifras = [
@@ -30,6 +31,7 @@ type TopicCardData = {
   titulo: string
   texto: string
   href: string
+  cta: string
 }
 
 type Paso = { n: number; icon: LucideIcon; title: string; body: string }
@@ -42,42 +44,49 @@ const marcasTopics: TopicCardData[] = [
     titulo: '¿Qué es una marca?',
     texto: 'Es el signo que distingue tus productos o servicios: una palabra, un logo, una frase o una combinación de ambos.',
     href: '/marcas',
+    cta: 'Leer qué es una marca',
   },
   {
     icon: ShieldCheck,
     titulo: '¿Cómo se protege?',
     texto: 'El registro en INAPI te da el derecho exclusivo de usarla en Chile por 10 años, con opción de renovarla.',
     href: '/marcas/como-registrar',
+    cta: 'Ver cómo se protege una marca',
   },
   {
     icon: Clock,
     titulo: '¿Cuánto tiempo toma?',
     texto: 'Desde que presentas la solicitud hasta el certificado suelen pasar entre 6 y 8 meses, si no hay oposiciones.',
     href: '/marcas/como-registrar',
+    cta: 'Revisar plazos del registro',
   },
   {
     icon: CreditCard,
     titulo: 'Tasas y pagos',
     texto: 'Pagas 1 UTM por clase al presentar y 2 UTM si se acepta a registro, más la publicación en el Diario Oficial.',
     href: '/marcas#tasas',
+    cta: 'Ver tasas de marcas',
   },
   {
     icon: Search,
-    titulo: 'Buscador de similitud',
+    titulo: 'Buscador de marcas',
     texto: 'Compara tu nombre con marcas ya solicitadas o registradas antes de pagar la solicitud.',
-    href: '/marcas/buscador-similitud',
+    href: '/marcas/buscadores',
+    cta: 'Abrir el buscador de marcas',
   },
   {
     icon: Layers,
     titulo: 'Clases de Niza',
     texto: 'Elige los productos o servicios que cubre tu marca. Cada clase se paga por separado.',
     href: '/tramites/marcas/clasificador',
+    cta: 'Clasificar productos y servicios',
   },
   {
     icon: Globe,
     titulo: 'Sistema de Madrid',
     texto: 'Si ya tienes una marca en Chile, puedes extender la protección a otros países desde una sola solicitud.',
     href: '/marcas/sistema-de-madrid',
+    cta: 'Conocer el Sistema de Madrid',
   },
 ]
 
@@ -87,43 +96,49 @@ const patentesTopics: TopicCardData[] = [
     titulo: '¿Qué es una patente?',
     texto: 'Es el derecho exclusivo que el Estado otorga sobre un invento para fabricarlo, usarlo o venderlo en Chile.',
     href: '/patentes',
+    cta: 'Leer qué es una patente',
   },
   {
     icon: ShieldCheck,
     titulo: 'Requisitos de patentabilidad',
     texto: 'Debe ser nueva, tener nivel inventivo y poder aplicarse en la industria. Esos tres puntos se evalúan en el examen.',
     href: '/patentes/como-registrar',
+    cta: 'Ver requisitos de una patente',
   },
   {
     icon: Clock,
     titulo: 'Vigencia de 20 años',
     texto: 'La protección dura hasta 20 años desde la fecha de presentación, solo en el país donde se otorgó.',
     href: '/patentes',
+    cta: 'Revisar vigencia de una patente',
   },
   {
     icon: FileSearch,
     titulo: 'Buscador de patentes',
     texto: 'Revisa si tu invento, modelo o diseño ya fue solicitado antes de invertir en la documentación técnica.',
     href: '/tramites/patentes/buscador',
+    cta: 'Abrir el buscador de patentes',
   },
   {
     icon: Globe,
     titulo: 'Sistema PCT',
     texto: 'Una vía internacional para buscar protección en varios países a partir de una misma solicitud.',
     href: '/patentes/pct',
+    cta: 'Conocer el tratado PCT',
   },
   {
     icon: CreditCard,
     titulo: 'Tasas del trámite',
     texto: 'Pagas 1 UTM al presentar, un arancel pericial durante el examen y 2 UTM por cada 5 años al otorgar el derecho.',
     href: '/patentes#tasas',
+    cta: 'Ver tasas de patentes',
   },
 ]
 
 const pasosMarcas: Paso[] = [
   { n: 1, icon: ShieldCheck, title: '¿Puedo registrar mi marca?', body: 'Verifica que sea distintiva y que la ley no prohíba ese signo.' },
   { n: 2, icon: Search, title: 'Busca si ya existe', body: 'Compara con marcas anteriores antes de pagar la solicitud.' },
-  { n: 3, icon: Layers, title: 'Elige las clases de Niza', body: 'Define qué productos o servicios quieres proteger.' },
+  { n: 3, icon: Layers, title: 'Elige las clases', body: 'Define los productos o servicios. Cada clase de Niza se paga por separado.' },
   { n: 4, icon: CreditCard, title: 'Presenta y paga', body: 'Completa el formulario y paga 1 UTM por cada clase.' },
   { n: 5, icon: CheckCircle2, title: 'Seguimiento y registro', body: 'INAPI publica tu solicitud y emite el certificado si no hay oposiciones.' },
 ]
@@ -174,12 +189,10 @@ const novedades = [
 
 function BannerSection({
   title,
-  imageLabel,
   children,
-  dark = false,
 }: {
   title: string
-  imageLabel: string
+  imageLabel?: string
   children: React.ReactNode
   dark?: boolean
 }) {
@@ -188,15 +201,8 @@ function BannerSection({
       <div className="bg-card py-gob-4 text-center border-b-4 border-gob-primary">
         <h2 className="portal-h2 text-gob-text">{title}</h2>
       </div>
-      <div className="relative min-h-[280px] flex items-center justify-end">
-        <PortalImagePlaceholder label={imageLabel} className="absolute inset-0 rounded-none border-0 min-h-[280px]" />
-        <div
-          className={`absolute inset-0 ${dark ? 'bg-inapi-portal-hero/55' : 'bg-background/50'}`}
-          aria-hidden
-        />
-        <div className={`relative z-[1] p-gob-7 min-[600px]:p-gob-8 ${dark ? 'text-gob-text-inverse' : 'text-gob-text'}`}>
-          {children}
-        </div>
+      <div className="portal-ambient-hero flex min-h-[280px] items-center justify-center">
+        <div className="relative z-[1] p-gob-7 min-[600px]:p-gob-8 text-gob-text-inverse">{children}</div>
       </div>
     </section>
   )
@@ -209,18 +215,18 @@ function TopicCard({ card, accent }: { card: TopicCardData; accent: 'marcas' | '
     <article
       className={cn(
         'flex h-full flex-col rounded-gob-lg border bg-card p-gob-6 shadow-elevation-02 transition-shadow hover:shadow-elevation-03',
-        isMarcas ? 'border-[#F4A261]/35' : 'border-[#0A9FCC]/30',
+        isMarcas ? 'border-inapi-marcas-border/35' : 'border-inapi-patentes-border/30',
       )}
     >
       <span
         className={cn(
           'inline-flex size-11 items-center justify-center rounded-gob-md',
-          isMarcas ? 'bg-[#FFF1E4] text-inapi-marcas-accent' : 'bg-gob-info-bg text-gob-primary',
+          isMarcas ? 'bg-inapi-marcas-surface text-inapi-marcas-accent' : 'bg-gob-info-bg text-gob-primary',
         )}
       >
         <Icon className="w-6 h-6" aria-hidden />
       </span>
-      <h3 className="mt-gob-4 font-heading text-gri-h1 font-medium text-gob-text leading-[1.35]">{card.titulo}</h3>
+      <h3 className="mt-gob-4 portal-h3 text-gob-text leading-[1.35]">{card.titulo}</h3>
       <p className="mt-gob-3 flex-1 text-gri-body text-muted-foreground leading-[1.5]">{card.texto}</p>
       <Link
         href={card.href}
@@ -229,7 +235,7 @@ function TopicCard({ card, accent }: { card: TopicCardData; accent: 'marcas' | '
           isMarcas ? 'text-inapi-marcas-accent' : 'text-gob-primary',
         )}
       >
-        Saber más
+        {card.cta}
         <ChevronRight className="size-4" aria-hidden />
       </Link>
     </article>
@@ -245,24 +251,23 @@ function ProcessGrid({ pasos, accent }: { pasos: Paso[]; accent: 'marcas' | 'pat
         return (
           <li
             key={paso.n}
-            className={cn(
-              'bg-card rounded-gob-lg p-gob-5 border-t-4 shadow-elevation-02',
-              isMarcas ? 'border-inapi-marcas-accent' : 'border-inapi-patentes-accent',
-            )}
+            className="flex min-h-[16rem] flex-col justify-between rounded-gob-lg bg-inapi-portal-hero p-gob-5 text-gob-text-inverse shadow-elevation-03"
           >
-            <div className="flex items-center gap-gob-3 mb-gob-4">
-              <span
-                className={cn(
-                  'flex size-11 items-center justify-center rounded-full text-gob-text-inverse font-medium text-gri-body',
-                  isMarcas ? 'bg-inapi-marcas-accent' : 'bg-inapi-patentes-accent',
-                )}
-              >
-                {paso.n}
+            <div className="flex items-start justify-between gap-gob-3 mb-gob-4">
+              <span className="font-heading text-[1.75rem] font-medium tabular-nums leading-none text-gob-focus">
+                {String(paso.n).padStart(2, '0')}
               </span>
-              <Icon className={cn('w-6 h-6', isMarcas ? 'text-inapi-marcas-accent' : 'text-inapi-patentes-accent')} aria-hidden />
+              <Icon
+                className={cn('w-6 h-6', isMarcas ? 'text-inapi-marcas-accent' : 'text-inapi-patentes-accent')}
+                aria-hidden
+              />
             </div>
-            <h3 className="font-heading font-medium text-gob-text text-gri-h2 mb-gob-2 leading-[1.5]">{paso.title}</h3>
-            <p className="text-gri-body-sm text-muted-foreground leading-[1.5]">{paso.body}</p>
+            <div>
+              <h3 className="font-heading font-medium text-gob-text-inverse text-gri-h2 mb-gob-2 leading-[1.5]">
+                {paso.title}
+              </h3>
+              <p className="text-gri-body-sm text-gob-text-inverse leading-[1.5]">{paso.body}</p>
+            </div>
           </li>
         )
       })}
@@ -294,7 +299,9 @@ function CostBox({
             </span>
           </li>
         ))}
-        <li className="text-gri-body-sm pl-8">{note}</li>
+        <li className="text-gri-body-sm pl-8">
+          {note} Los montos se expresan en <GlosarioTerm termino="UTM">UTM</GlosarioTerm>.
+        </li>
       </ul>
     </div>
   )
@@ -333,10 +340,10 @@ function DomainGuide({
   return (
     <section id={id} className={cn('py-gob-8', !isMarcas && 'bg-gob-surface-elevated border-y border-gob-border')}>
       <ContainerGRI size="portal" className="space-y-gob-7">
-        <div className="max-w-3xl space-y-gob-3">
+        <div className="space-y-gob-3">
           <p
             className={cn(
-              'text-gri-body-sm font-medium uppercase tracking-wide',
+              'portal-kicker',
               isMarcas ? 'text-inapi-marcas-accent' : 'text-inapi-patentes-accent',
             )}
           >
@@ -351,7 +358,7 @@ function DomainGuide({
           ))}
         </div>
         <div className="space-y-gob-6 pt-gob-4">
-          <div className="max-w-3xl space-y-gob-3">
+          <div className="space-y-gob-3">
             <h3 className="portal-h2 text-gob-text">{processTitle}</h3>
             <p className="portal-lead text-muted-foreground">{processLead}</p>
           </div>
@@ -360,8 +367,8 @@ function DomainGuide({
           <Button
             size="form"
             className={cn(
-              'rounded-gob-md font-medium h-11 px-gob-6',
-              isMarcas ? 'bg-inapi-marcas-accent hover:bg-[#E88000] text-gob-text-inverse' : 'bg-inapi-cta hover:bg-gob-primary-dark',
+              'rounded-full font-medium h-11 px-gob-6',
+              isMarcas ? 'bg-inapi-marcas-accent hover:bg-inapi-marcas-hover text-gob-text-inverse' : 'bg-inapi-cta hover:bg-gob-primary-dark',
             )}
             asChild
           >
@@ -379,14 +386,14 @@ function DomainGuide({
 export function HomeExtraSections() {
   return (
     <>
-      <section className="bg-inapi-portal-deep text-gob-text-inverse">
-        <ContainerGRI size="portal" className="py-gob-7 flex flex-wrap justify-around gap-gob-6 text-center">
+      <section className="portal-ambient-hero">
+        <ContainerGRI size="portal" className="relative z-[1] py-gob-7 flex flex-wrap justify-around gap-gob-6 text-center">
           {cifras.map(c => (
             <div key={c.valor} className="min-w-[160px] space-y-gob-2">
               <p className="font-heading text-[2rem] min-[600px]:text-[2.25rem] font-medium leading-[1.5] text-gob-focus">
                 {c.valor}
               </p>
-              <p className="text-gri-body text-gob-text-inverse/78">{c.texto}</p>
+              <p className="text-gri-body text-gob-text-inverse">{c.texto}</p>
             </div>
           ))}
         </ContainerGRI>
@@ -424,20 +431,20 @@ export function HomeExtraSections() {
         ctaLabel="Comenzar solicitud de patente"
       />
 
-      <section className="bg-inapi-portal-hero text-gob-text-inverse py-gob-8">
-        <ContainerGRI size="portal" className="flex flex-col min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between gap-gob-6">
+      <section className="portal-ambient-hero py-gob-8">
+        <ContainerGRI size="portal" className="relative z-[1] flex flex-col min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between gap-gob-6">
           <div className="max-w-xl space-y-gob-3">
             <h2 className="portal-h2 text-gob-text-inverse">¿Listo para proteger tu marca?</h2>
             <p className="portal-lead text-gob-text-inverse/90">Completa el formulario guiado en menos de 15 minutos.</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-gob-3">
-            <Button size="form" className="rounded-gob-md bg-gob-primary hover:bg-gob-primary-dark font-medium h-11 px-gob-6" asChild>
+            <Button size="form" className="rounded-full bg-gob-primary hover:bg-gob-primary-dark font-medium h-11 px-gob-6" asChild>
               <Link href="/tramites/marcas/solicitar">Comenzar mi registro</Link>
             </Button>
             <Button
               variant="outline"
               size="form"
-              className="rounded-gob-md border-2 border-white/70 bg-transparent text-gob-text-inverse hover:bg-white/10 font-medium h-11 px-gob-6"
+              className="rounded-full border-2 border-white/70 bg-transparent text-gob-text-inverse hover:bg-white/10 font-medium h-11 px-gob-6"
               asChild
             >
               <Link href="/contacto">Tengo dudas, hablar con un ejecutivo</Link>
@@ -460,7 +467,7 @@ export function HomeExtraSections() {
               >
                 <PortalImagePlaceholder label="Imagen de noticia" className="h-48 rounded-none border-0 border-b" />
                 <div className="p-gob-5 flex flex-col flex-1 space-y-gob-3">
-                  <p className="text-gri-body-sm font-medium uppercase tracking-wide text-gob-primary">{n.fecha}</p>
+                  <p className="portal-kicker text-gob-primary">{n.fecha}</p>
                   <h3 className="font-heading font-medium text-gob-text leading-[1.5] text-gri-h2">
                     <Link href={n.href} className="hover:text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus">
                       {n.titulo}
@@ -472,43 +479,43 @@ export function HomeExtraSections() {
             ))}
           </div>
           <p className="text-center">
-            <Button size="form" className="rounded-gob-md bg-inapi-marcas-accent hover:bg-[#E88000] font-medium" asChild>
-              <Link href="/sala-de-prensa">Ver todas las noticias</Link>
+            <Button size="form" className="rounded-full bg-inapi-cta hover:bg-gob-primary-dark font-medium" asChild>
+              <Link href="/sala-de-prensa">Ir a la sala de prensa</Link>
             </Button>
           </p>
         </ContainerGRI>
       </section>
 
-      <BannerSection title="Plataforma de datos" imageLabel="Imagen Plataforma de Datos" dark>
+      <BannerSection title="Plataforma de datos">
         <div className="max-w-xl mx-auto text-center space-y-gob-4 text-gob-text-inverse">
           <h3 className="portal-h3">Información tecnológica de patentes</h3>
           <p className="text-gri-h2 font-medium">Programa de desarrollo productivo sostenible</p>
-          <span className="inline-block rounded-gob-sm bg-inapi-portal-hero px-gob-4 py-gob-2 text-gri-body-sm font-medium uppercase tracking-wide">
-            Plataforma
+          <span className="inline-block rounded-gob-sm bg-inapi-portal-hero px-gob-4 py-gob-2 text-gri-body-sm font-medium">
+            Datos abiertos
           </span>
           <div>
-            <Button size="form" className="rounded-gob-md bg-background text-inapi-portal-hero hover:bg-white/90 font-medium" asChild>
-              <Link href="/datos-abiertos">Acceder</Link>
+            <Button size="form" className="rounded-full bg-background text-inapi-portal-hero hover:bg-white/90 font-medium" asChild>
+              <Link href="/datos-abiertos">Abrir la plataforma de datos</Link>
             </Button>
           </div>
         </div>
       </BannerSection>
 
-      <BannerSection title="Guías para usuarios" imageLabel="Imagen Guías para Usuarios">
-        <div className="flex flex-col gap-gob-3 max-w-xs ml-auto mr-gob-5">
-          <Button size="form" className="rounded-gob-md bg-inapi-cta hover:bg-gob-primary-dark font-medium text-gri-btn" asChild>
+      <BannerSection title="Guías para usuarios">
+        <div className="flex flex-col gap-gob-3 max-w-xs mx-auto text-center">
+          <Button size="form" className="rounded-full bg-inapi-cta hover:bg-gob-primary-dark font-medium text-gri-btn" asChild>
             <Link href="/marcas/como-registrar">Descargar guía de marcas</Link>
           </Button>
-          <Button size="form" className="rounded-gob-md bg-inapi-cta hover:bg-gob-primary-dark font-medium text-gri-btn" asChild>
+          <Button size="form" className="rounded-full bg-inapi-cta hover:bg-gob-primary-dark font-medium text-gri-btn" asChild>
             <Link href="/patentes/como-registrar">Descargar guía de patentes</Link>
           </Button>
         </div>
       </BannerSection>
 
-      <BannerSection title="Cuenta pública 2026" imageLabel="Imagen Cuenta Pública 2026">
-        <div className="max-w-xs ml-auto mr-gob-5">
-          <Button size="form" className="rounded-gob-md bg-gob-primary hover:bg-gob-primary-dark font-medium" asChild>
-            <Link href="/sala-de-prensa/cuenta-publica-2026">Acceder</Link>
+      <BannerSection title="Cuenta pública 2026">
+        <div className="max-w-xs mx-auto text-center">
+          <Button size="form" className="rounded-full bg-gob-primary hover:bg-gob-primary-dark font-medium" asChild>
+            <Link href="/sala-de-prensa/cuenta-publica-2026">Leer la cuenta pública 2026</Link>
           </Button>
         </div>
       </BannerSection>

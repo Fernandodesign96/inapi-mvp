@@ -52,13 +52,13 @@ export default function PatentesNacionales2026Page() {
               className="w-full h-[380px] mb-gob-5"
             />
 
-            <p className="text-lg font-medium text-gob-text leading-relaxed mb-gob-6 pl-gob-4 border-l-4 border-inapi-cta max-w-3xl">
+            <p className="mb-gob-6 border-l-4 border-inapi-cta pl-gob-4 text-lg font-medium leading-relaxed text-gob-text">
               En solo seis meses, inventores chilenos presentaron <strong>296 solicitudes</strong> de patentes de
               invención, la cifra más alta desde al menos 2017. La Serena lidera por primera vez el ranking comunal, por
               encima de Santiago.
             </p>
 
-            <div className="text-gri-body text-muted-foreground leading-relaxed space-y-gob-4 max-w-3xl">
+            <div className="space-y-gob-4 text-gri-body leading-relaxed text-muted-foreground">
               <p>
                 Chile recibió <strong className="text-gob-text">1.416 solicitudes</strong> de patentes de invención en el
                 primer semestre de 2026, entre residentes y no residentes. De ese total,{' '}
@@ -120,7 +120,7 @@ export default function PatentesNacionales2026Page() {
             <p className="mt-gob-8">
               <Link
                 href="/sala-de-prensa"
-                className="inline-flex items-center gap-gob-2 font-bold text-gob-link hover:text-gob-primary-dark"
+                className="inline-flex items-center gap-gob-2 font-bold text-gob-link hover:text-gob-link-hover"
               >
                 <ArrowLeft className="w-5 h-5" aria-hidden />
                 Volver a Sala de Prensa

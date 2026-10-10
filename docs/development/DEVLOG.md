@@ -3,12 +3,32 @@
 Este documento describe el proceso de desarrollo del **Portal de Solicitud de Marca INAPI**, bajo el concepto de **Guided Registration Interface (GRI)**. Es un registro de las decisiones técnicas, aprendizajes, errores mitigados y el progreso del MVP orientado a reducir el abandono en la tramitación ciudadana.
 
 ## 📑 Índice
+- [[2026-10-09] - Frontend | Sprint 7: Calidad web — lenguaje claro y usabilidad del portal informativo](#2026-10-09---frontend--sprint-7-calidad-web--lenguaje-claro-y-usabilidad-del-portal-informativo)
 - [[2026-08-11] - Frontend | Sprint 6: Portal institucional completo y design system portal](#2026-08-11---frontend--sprint-6-portal-institucional-completo-y-design-system-portal)
 - [[2026-06-09] - Frontend | Sprint 5: Migración al UI Kit Gobierno Digital v3.0.1](#2026-06-09---frontend--sprint-5-migración-al-ui-kit-gobierno-digital-v301)
 - [[2026-04-10] - Frontend | Sprint 1: Génesis del MVP, Arquitectura Base y Niza N1](#2026-04-10---frontend--sprint-1-génesis-del-mvp-arquitectura-base-y-niza-n1)
 - [[2026-04-17] - Frontend | Sprint 2: Optimización de Niza N2 y Refinamiento UX](#2026-04-17---frontend--sprint-2-optimización-de-niza-n2-y-refinamiento-ux)
 - [[2026-04-20] - Frontend | Sprint 3: Despliegue, Accesibilidad y Analítica Final](#2026-04-20---frontend--sprint-3-despliegue-accesibilidad-y-analítica-final)
 - [[2026-04-24] - Full Stack | Sprint 4: Optimización Institucional y Motor de Inteligencia](#2026-04-24---full-stack--sprint-4-optimización-institucional-y-motor-de-inteligencia)
+
+---
+
+## [2026-10-09] - Frontend | Sprint 7: Calidad web — lenguaje claro y usabilidad del portal informativo
+
+### Contexto y objetivos:
+El portal informativo ya tenía contenido real y tokens del UI Kit v3.0.1, pero no cumplía el marco de octubre 2026: [docs/Estandares_UX_UI_INAPI.pdf](../Estandares_UX_UI_INAPI.pdf) (Nielsen H1–H10, WCAG 2.2 AA, ISO 9241-11, OECD 2022, WIPO/EUIPO) ni las Dimensiones 1 y 2 del checklist editorial (C1–C48, U1–U34). El objetivo es un homepage y URLs informativas de oficina de PI: jerarquía clara, CTAs ciudadanos, contraste AA y ausencia de patrones prohibidos (hamburguesa en desktop, noticias above the fold, ALL CAPS, CTAs genéricos).
+
+**Tipografía:** se mantiene Roboto / Roboto Slab ya extraídas del kit en el MVP. El PDF de estándares cita Open Sans; no se cambia la familia en esta oleada para no romper la identidad ya desplegada.
+
+**Patrones prohibidos (no implementar):** menú hamburguesa ≥768 px; mismo CTA en URLs hermanas; noticias en el fold del home; texto justificado; ALL CAPS en párrafos; términos de PI sin definir; “Ver más” / “Haga clic aquí”; PDF sin formato y peso; autoplay; animación sin `prefers-reduced-motion`.
+
+### Implementación técnica:
+- Rama `feat/portal-calidad-web-lc-usabilidad`. Tokens de acento marcas/patentes y superficies; primitivos `PortalStat`, `PortalPdfLink`, `PortalUpdatedAt`; header 6 ítems y hamburguesa solo bajo 768 px; homepage con H1 de acción y tres CTAs ciudadanos; URLs marcas, patentes, trámites digitales y `/marcas/buscadores`; matriz en `docs/VERIFICACION_CALIDAD_WEB_PORTAL.md`.
+- `/tramites` permanece como app transaccional; la URL informativa calibrada es `/tramites-digitales`.
+
+### Próximos pasos:
+- Medir LCP/INP/CLS en producción y completar criterios marcados como no aplica en la matriz.
+- Unificar chrome visual sitio↔trámites en una oleada posterior.
 
 ---
 

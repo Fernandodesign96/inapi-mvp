@@ -53,7 +53,7 @@ export function BuscadorSitio() {
         </div>
         <Button
           type="submit"
-          className="rounded-none bg-inapi-cta hover:bg-[#003B8D] text-gob-text-inverse font-bold h-auto py-gob-3 px-gob-6"
+          className="rounded-gob-md bg-inapi-cta hover:bg-gob-primary-dark text-gob-text-inverse font-medium h-auto min-h-11 py-gob-3 px-gob-6"
         >
           Buscar
         </Button>
@@ -69,10 +69,10 @@ export function BuscadorSitio() {
               href={r.href}
               className={cn(
                 'block py-gob-5 border-b border-gob-border transition-colors',
-                'hover:bg-[#F7FAFD]',
+                'hover:bg-inapi-tint',
               )}
             >
-              <p className="text-gri-body-xs font-bold uppercase tracking-wide text-gob-link mb-1.5">{r.category}</p>
+              <p className="portal-kicker text-gob-link mb-1.5">{r.category}</p>
               <h3 className="text-lg font-bold text-gob-link underline mb-1.5">{r.title}</h3>
               <p className="text-gri-body-sm text-muted-foreground leading-relaxed">{r.summary}</p>
             </Link>
@@ -81,8 +81,23 @@ export function BuscadorSitio() {
       ) : (
         <div className="text-center py-gob-8 text-muted-foreground">
           <SearchX className="w-10 h-10 mx-auto mb-gob-3 text-muted-foreground/60" aria-hidden />
-          <p className="text-gri-body">
-            No hay resultados para &ldquo;{applied}&rdquo;. Prueba con otra palabra clave.
+          <p className="text-gri-body text-gob-text">
+            No hay páginas que coincidan con &ldquo;{applied}&rdquo;.
+          </p>
+          <p className="text-gri-body-sm mt-gob-2">
+            Prueba con otra palabra o abre{' '}
+            <Link href="/marcas" className="text-gob-link font-medium underline-offset-4 hover:underline">
+              Marcas
+            </Link>
+            ,{' '}
+            <Link href="/patentes" className="text-gob-link font-medium underline-offset-4 hover:underline">
+              Patentes
+            </Link>{' '}
+            o las{' '}
+            <Link href="/preguntas-frecuentes" className="text-gob-link font-medium underline-offset-4 hover:underline">
+              preguntas frecuentes
+            </Link>
+            .
           </p>
         </div>
       )}

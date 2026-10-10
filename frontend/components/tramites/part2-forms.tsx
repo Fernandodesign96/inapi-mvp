@@ -360,5 +360,5 @@ export function AutoExternalRedirect({ href }: { href: string }) {
 }
 
 export function linkClass() {
-  return cn('text-gob-link underline underline-offset-4 hover:text-gob-primary-dark transition-colors')
+  return cn('text-gob-link underline underline-offset-4 hover:text-gob-link-hover transition-colors')
 }
