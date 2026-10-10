@@ -79,7 +79,7 @@ export default function SolicitudNuevaMarcaPage() {
 
             <section className="mb-gob-8">
               <PortalSectionTitle>Qué necesitas antes de empezar</PortalSectionTitle>
-              <p className="text-gri-body text-muted-foreground leading-relaxed mb-gob-4 max-w-3xl">
+              <p className="mb-gob-4 text-gri-body leading-relaxed text-muted-foreground">
                 Ten a mano estos datos para completar el trámite sin interrupciones:
               </p>
               <PortalBulletList
@@ -112,13 +112,13 @@ export default function SolicitudNuevaMarcaPage() {
 
             <section>
               <PortalSectionTitle>Otros accesos</PortalSectionTitle>
-              <ul className="list-none space-y-gob-3 max-w-3xl">
+              <ul className="list-none space-y-gob-3">
                 {otrosAccesos.map(item => {
                   const Icon = item.icon
                   return (
                     <li key={item.label} className="flex items-center gap-gob-3">
                       <Icon className="w-5 h-5 text-gob-link shrink-0" aria-hidden />
-                      <Link href={item.href} className="text-gri-body text-gob-link hover:text-gob-primary-dark font-medium">
+                      <Link href={item.href} className="text-gri-body text-gob-link hover:text-gob-link-hover font-medium">
                         {item.label}
                       </Link>
                     </li>

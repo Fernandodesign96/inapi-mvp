@@ -4,8 +4,8 @@ import {
   AppWindow,
   Award,
   Bell,
+  Clock,
   CreditCard,
-  FileText,
   Layers,
   NotebookPen,
   Pencil,
@@ -14,6 +14,9 @@ import {
 } from 'lucide-react'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
+import { GlosarioTerm } from '@/components/GlosarioTerm'
+import { PortalStat } from '@/components/portal/PortalStat'
+import { PortalPdfLink } from '@/components/portal/PortalPdfLink'
 import {
   PortalBulletList,
   PortalFeeTable,
@@ -39,23 +42,28 @@ export default function MarcasPage() {
       variant="page"
       active="marcas"
       pageTitle="Marcas"
-      pageSubtitle="Registra una marca para proteger el nombre, el logo o la frase que identifica lo que ofreces. Aquí encuentras qué es una marca, cómo se registra, cuánto cuesta y dónde iniciar tu trámite."
+      pageSubtitle="Una marca identifica lo que ofreces. En esta página ves qué es, quién puede pedirla, qué necesitas, cuánto cuesta, cuánto demora y cómo seguir el trámite."
       breadcrumbs={[{ label: 'Marcas' }]}
     >
       <ContainerGRI size="portal">
         <PortalMain>
+          <div className="grid min-[600px]:grid-cols-3 gap-gob-4 mb-gob-6">
+            <PortalStat icon={CreditCard} value="1 UTM" label="Tasa de presentación por cada clase." />
+            <PortalStat icon={Clock} value="6 a 8 meses" label="Plazo habitual si no hay oposiciones." />
+            <PortalStat icon={Layers} value="3 etapas" label="Presentación, publicación y examen." />
+          </div>
           <PortalQuickAccessGrid
             items={[
               {
                 href: '/marcas/solicitud-nueva',
-                title: 'Registrar una marca',
-                description: 'Ingresa tu solicitud y paga en línea.',
+                title: 'Ingresar una solicitud de marca',
+                description: 'Completa el formulario en línea y paga las tasas.',
                 icon: AppWindow,
                 variant: 'primary',
               },
               {
                 href: '/marcas/buscador-similitud',
-                title: 'Buscar marcas anteriores',
+                title: 'Buscador de marcas',
                 description: 'Compara tu marca con las ya inscritas antes de solicitar.',
                 icon: Search,
               },
@@ -67,6 +75,28 @@ export default function MarcasPage() {
               },
             ]}
           />
+
+          <section>
+            <PortalSectionTitle>¿Quién puede pedir el registro?</PortalSectionTitle>
+            <PortalProse>
+              Puede pedir el registro una persona o una empresa, con o sin{' '}
+              <GlosarioTerm termino="Representante">representante</GlosarioTerm>. Debes identificar al titular y, si aplica, a quien tramita en su nombre.
+            </PortalProse>
+          </section>
+
+          <section>
+            <PortalSectionTitle>¿Qué necesitas?</PortalSectionTitle>
+            <PortalBulletList
+              items={[
+                <>El signo que quieres proteger (palabra, logo o ambos).</>,
+                <>
+                  Las clases de <GlosarioTerm termino="Niza">Niza</GlosarioTerm> de tus productos o servicios.
+                </>,
+                <>ClaveÚnica o clave INAPI para ingresar la solicitud.</>,
+                <>Pagar la tasa de presentación en <GlosarioTerm termino="UTM">UTM</GlosarioTerm>.</>,
+              ]}
+            />
+          </section>
 
           <section>
             <PortalSectionTitle>¿Qué es una marca?</PortalSectionTitle>
@@ -115,8 +145,8 @@ export default function MarcasPage() {
               ]}
             />
             <p className="text-gri-body-sm mt-gob-5">
-              <Link href="/marcas/buscador-similitud" className="font-bold text-gob-link hover:text-gob-primary-dark">
-                Buscar marcas anteriores antes de solicitar
+              <Link href="/marcas/buscador-similitud" className="font-bold text-gob-link hover:text-gob-link-hover">
+                Buscador de marcas antes de solicitar
               </Link>{' '}
               para reducir el riesgo de rechazo.
             </p>
@@ -125,7 +155,7 @@ export default function MarcasPage() {
           <section id="tasas">
             <PortalSectionTitle>¿Cuánto cuesta registrar una marca?</PortalSectionTitle>
             <PortalProse className="mb-gob-4">
-              Pagas en <strong className="text-gob-text">dos momentos</strong> y por cada clase de productos o servicios que elijas. Los valores se expresan en Unidad Tributaria Mensual (UTM).
+              Pagas en <strong className="text-gob-text">dos momentos</strong> y por cada clase de productos o servicios que elijas. Los valores se expresan en <GlosarioTerm termino="UTM">UTM</GlosarioTerm>.
             </PortalProse>
             <PortalFeeTable
               caption="Tarifas por clase, vigentes a 2026."
@@ -153,10 +183,9 @@ export default function MarcasPage() {
             <PortalSectionTitle>Herramientas para tu marca</PortalSectionTitle>
             <PortalLinkList
               links={[
-                { href: '/marcas/buscador-similitud', label: 'Buscar marcas anteriores', icon: Search },
-                { href: '/notificaciones-diarias', label: 'Revisar las notificaciones diarias de marcas', icon: Bell },
-                { href: '/marcas/como-registrar', label: 'Clasificar tus productos y servicios (Clasificación de Niza, NCL)', icon: Layers },
-                { href: '#', label: 'Descargar la guía para registrar una marca (PDF, 1,2 MB)', icon: FileText },
+                { href: '/marcas/buscadores', label: 'Buscador de marcas', icon: Search },
+                { href: '/notificaciones-diarias', label: 'Notificaciones INAPI de marcas', icon: Bell },
+                { href: '/marcas/como-registrar', label: 'Leer cómo registrar una marca, paso a paso', icon: Layers },
               ]}
             />
           </section>
@@ -166,10 +195,25 @@ export default function MarcasPage() {
             <PortalTramiteGrid
               items={[
                 { href: '/marcas/solicitud-nueva', title: 'Ingresar una solicitud nueva', icon: NotebookPen },
-                { href: '#', title: 'Renovar un registro', icon: RefreshCw },
-                { href: '#', title: 'Anotar un cambio', icon: Pencil },
-                { href: '#', title: 'Pedir títulos y certificados', icon: Award },
+                { href: '/tramites', title: 'Renovar un registro', icon: RefreshCw },
+                { href: '/tramites', title: 'Anotar un cambio', icon: Pencil },
+                { href: '/tramites', title: 'Pedir títulos y certificados', icon: Award },
               ]}
+            />
+          </section>
+
+          <section>
+            <PortalSectionTitle>¿Qué pasa después?</PortalSectionTitle>
+            <PortalProse>
+              Tras presentar, INAPI revisa la forma, publica la solicitud y abre el plazo de{' '}
+              <GlosarioTerm termino="Oposición">oposición</GlosarioTerm>. Si no hay oposiciones y el examen de fondo es favorable, pagas la tasa de registro y recibes el certificado.
+            </PortalProse>
+            <PortalPdfLink
+              className="mt-gob-4"
+              href="/marcas/como-registrar"
+              title="Guía para registrar una marca 2026"
+              size="1,2 MB"
+              description="Resume etapas, tasas y documentos. Es una guía de lectura, no reemplaza el formulario en línea."
             />
           </section>
         </PortalMain>

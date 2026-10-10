@@ -5,6 +5,7 @@ import { ChatFAB } from '@/components/layout/ChatFAB'
 import { CommitPortalChrome } from '@/components/layout/CommitPortalChrome'
 import { DownloadToast } from '@/components/tramites/DownloadToast'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 
 export type PortalShellProps = SiteHeaderProps & {
   children: React.ReactNode
@@ -30,7 +31,14 @@ export function PortalShell({
       <div className="min-h-screen flex flex-col bg-background">
         <SkipLink />
         <SiteHeader {...headerProps} />
-        <div id="contenido-principal" tabIndex={-1} className="flex-1 outline-none">
+        <div
+          id="contenido-principal"
+          tabIndex={-1}
+          className={cn(
+            'flex-1 outline-none',
+            headerProps.variant === 'page' && 'pt-gob-8 min-[905px]:pt-gob-8',
+          )}
+        >
           {children}
         </div>
         <FooterINAPI />

@@ -78,22 +78,22 @@ export function SiacForm() {
     return (
       <div
         role="status"
-        className="bg-[#E8F5E9] border border-[#43A047] rounded-gob-md p-gob-6 flex gap-gob-4 items-start"
+        className="bg-gob-success-bg border border-gob-success rounded-gob-md p-gob-6 flex gap-gob-4 items-start"
       >
-        <CheckCircle2 className="w-8 h-8 text-[#2E7D32] shrink-0" aria-hidden />
+        <CheckCircle2 className="w-8 h-8 text-gob-success shrink-0" aria-hidden />
         <div>
-          <h2 className="text-xl font-bold text-[#1B5E20] mb-gob-2">Recibimos tu solicitud</h2>
-          <p className="text-gri-body-sm text-[#2E4230] leading-relaxed mb-1.5">
+          <h2 className="text-xl font-bold text-gob-text mb-gob-2">Recibimos tu solicitud</h2>
+          <p className="text-gri-body-sm text-muted-foreground leading-relaxed mb-1.5">
             Tu número de atención es <strong>{ticket}</strong>. Te enviamos un correo de confirmación a la casilla que
             indicaste.
           </p>
-          <p className="text-gri-body-sm text-[#2E4230] leading-relaxed">
+          <p className="text-gri-body-sm text-muted-foreground leading-relaxed">
             Para hacer seguimiento, inicia sesión con ClaveÚnica.
           </p>
           <Button
             type="button"
             onClick={handleReset}
-            className="mt-gob-4 rounded-none bg-inapi-cta hover:bg-[#003B8D] text-gob-text-inverse font-bold"
+            className="mt-gob-4 rounded-gob-md bg-inapi-cta hover:bg-gob-primary-dark text-gob-text-inverse font-medium"
           >
             Enviar otra solicitud
           </Button>
@@ -186,7 +186,7 @@ export function SiacForm() {
       {errorMsg && (
         <p
           role="alert"
-          className="flex items-center gap-gob-2 bg-[#FDECEA] border border-[#D32F2F] rounded-md px-gob-3 py-gob-3 text-[#B71C1C] text-gri-body-sm mt-gob-5"
+          className="flex items-center gap-gob-2 bg-gob-danger-bg border border-gob-danger rounded-md px-gob-3 py-gob-3 text-gob-danger text-gri-body-sm mt-gob-5"
         >
           <AlertCircle className="w-5 h-5 shrink-0" aria-hidden />
           {errorMsg}
@@ -194,7 +194,7 @@ export function SiacForm() {
       )}
 
       <div className="flex flex-wrap gap-gob-3 mt-gob-6">
-        <Button type="submit" className="rounded-none bg-inapi-cta hover:bg-[#003B8D] text-gob-text-inverse font-bold h-auto py-gob-3 px-gob-7">
+        <Button type="submit" className="rounded-gob-md bg-inapi-cta hover:bg-gob-primary-dark text-gob-text-inverse font-medium h-auto min-h-11 py-gob-3 px-gob-7">
           Enviar solicitud
         </Button>
         <Button
@@ -210,7 +210,12 @@ export function SiacForm() {
       <p className="text-gri-body-xs text-muted-foreground leading-relaxed mt-gob-5">
         Tratamos tus datos personales solo para responder tu solicitud. Puedes ejercer tus derechos de acceso,
         rectificación, cancelación y oposición (ARCO) según la{' '}
-        <a href="#" className="text-gob-link hover:text-gob-primary-dark font-medium">
+        <a
+          href="https://www.inapi.cl/docs/default-source/default-document-library/politica_de_privacidad.pdf?sfvrsn=b781d48b_2"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-gob-link hover:text-gob-link-hover font-medium"
+        >
           política de privacidad de INAPI
         </a>
         .

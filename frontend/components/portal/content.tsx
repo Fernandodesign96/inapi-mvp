@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
 import { ArrowRight } from 'lucide-react'
-import { DownloadPdfLink } from '@/components/tramites/DownloadToast'
+import { PortalPdfLink } from '@/components/portal/PortalPdfLink'
 import { cn } from '@/lib/utils'
 
 export function PortalMain({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn('py-gob-2 pb-gob-8 space-y-gob-7', className)}>{children}</div>
+  return <div className={cn('space-y-gob-7 py-gob-8 min-[905px]:py-12', className)}>{children}</div>
 }
 
 export function PortalSectionTitle({ children, id }: { children: React.ReactNode; id?: string }) {
@@ -17,7 +17,11 @@ export function PortalSectionTitle({ children, id }: { children: React.ReactNode
 }
 
 export function PortalProse({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <p className={cn('text-gri-body text-muted-foreground leading-relaxed max-w-3xl', className)}>{children}</p>
+  return (
+    <p className={cn('mb-[1.5em] max-w-none text-left text-gri-body leading-[1.5] text-muted-foreground', className)}>
+      {children}
+    </p>
+  )
 }
 
 type QuickAccess = {
@@ -30,7 +34,7 @@ type QuickAccess = {
 
 export function PortalQuickAccessGrid({ items }: { items: QuickAccess[] }) {
   return (
-    <section aria-label="Accesos rápidos" className="grid min-[600px]:grid-cols-3 gap-gob-4 -mt-gob-2 mb-gob-6">
+    <section aria-label="Accesos rápidos" className="grid min-[600px]:grid-cols-3 gap-gob-4 mb-gob-6">
       {items.map(item => {
         const Icon = item.icon
         const primary = item.variant === 'primary'
@@ -41,7 +45,7 @@ export function PortalQuickAccessGrid({ items }: { items: QuickAccess[] }) {
             className={cn(
               'rounded-gob-md p-gob-5 flex flex-col gap-gob-3 transition-colors',
               primary
-                ? 'bg-inapi-cta text-gob-text-inverse hover:bg-[#003B8D]'
+                ? 'bg-inapi-cta text-gob-text-inverse hover:bg-gob-primary-dark'
                 : 'bg-card text-gob-text border border-gob-border hover:border-gob-primary/40',
             )}
           >
@@ -63,7 +67,7 @@ export function PortalStepList({
   steps: { num: number; title: string; body: string }[]
 }) {
   return (
-    <ol className="list-none space-y-gob-4 max-w-3xl">
+    <ol className="max-w-none list-none space-y-gob-4">
       {steps.map(step => (
         <li key={step.num} className="flex gap-gob-4 bg-gob-surface-elevated rounded-gob-md p-gob-5">
           <span
@@ -92,7 +96,7 @@ export function PortalFeeTable({
   rows: [string, string][]
 }) {
   return (
-    <div className="max-w-3xl overflow-x-auto">
+    <div className="max-w-none overflow-x-auto">
       <p className="text-gri-body-xs text-muted-foreground mb-gob-2">{caption}</p>
       <table className="w-full text-gri-body-sm border-collapse">
         <thead>
@@ -116,7 +120,7 @@ export function PortalFeeTable({
 
 export function PortalInfoGrid({ items }: { items: { title: string; body: string }[] }) {
   return (
-    <div className="grid min-[600px]:grid-cols-2 gap-gob-4 max-w-3xl">
+    <div className="grid max-w-none gap-gob-4 min-[600px]:grid-cols-2">
       {items.map(item => (
         <div key={item.title} className="border border-gob-border rounded-gob-md p-gob-5 bg-card">
           <h3 className="font-bold text-gob-text mb-1">{item.title}</h3>
@@ -129,13 +133,13 @@ export function PortalInfoGrid({ items }: { items: { title: string; body: string
 
 export function PortalLinkList({ links }: { links: { href: string; label: string; icon?: LucideIcon }[] }) {
   return (
-    <ul className="list-none space-y-gob-3 max-w-3xl">
+    <ul className="max-w-none list-none space-y-gob-3">
       {links.map(link => {
         const Icon = link.icon
         return (
           <li key={link.label} className="flex items-center gap-gob-3">
             {Icon && <Icon className="w-5 h-5 text-gob-primary shrink-0" aria-hidden />}
-            <Link href={link.href} className="text-gri-body text-gob-link hover:text-gob-primary-dark font-medium">
+            <Link href={link.href} className="text-gri-body text-gob-link hover:text-gob-link-hover font-medium">
               {link.label}
             </Link>
           </li>
@@ -158,7 +162,7 @@ export function PortalTramiteGrid({
           <Link
             key={item.title}
             href={item.href}
-            className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-[#E6EEF7] transition-colors"
+            className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-inapi-tint transition-colors"
           >
             <Icon className="w-7 h-7 text-inapi-cta" aria-hidden />
             <span className="text-gri-body-sm font-bold leading-snug">{item.title}</span>
@@ -182,7 +186,7 @@ export function PortalCardGrid({
           <p className="text-gri-body-sm text-muted-foreground leading-relaxed flex-1">{item.body}</p>
           {item.footnote && <p className="text-gri-body-xs text-muted-foreground">{item.footnote}</p>}
           {item.href && item.cta && (
-            <Link href={item.href} className="inline-flex items-center gap-1 text-gri-body-sm font-bold text-gob-link hover:text-gob-primary-dark">
+            <Link href={item.href} className="inline-flex items-center gap-1 text-gri-body-sm font-bold text-gob-link hover:text-gob-link-hover">
               {item.cta}
               <ArrowRight className="w-4 h-4" aria-hidden />
             </Link>
@@ -213,7 +217,7 @@ export function PortalSidebarLayout({
                   'block px-gob-4 py-gob-3 rounded-gob-sm text-gri-body-sm font-medium transition-colors',
                   item.active
                     ? 'bg-inapi-cta text-gob-text-inverse font-bold'
-                    : 'text-gob-text hover:bg-[#E6EEF7]',
+                    : 'text-gob-text hover:bg-inapi-tint',
                 )}
               >
                 {item.label}
@@ -229,7 +233,7 @@ export function PortalSidebarLayout({
 
 export function PortalBulletList({ items }: { items: React.ReactNode[] }) {
   return (
-    <ul className="list-disc pl-gob-5 space-y-gob-2 text-gri-body text-muted-foreground max-w-3xl leading-relaxed">
+    <ul className="max-w-none list-disc space-y-gob-2 pl-gob-5 text-gri-body leading-relaxed text-muted-foreground">
       {items.map((item, i) => (
         <li key={i}>{item}</li>
       ))}
@@ -262,11 +266,11 @@ export function PortalCtaBanner({
   cta: string
 }) {
   return (
-    <div className="bg-inapi-portal-hero text-gob-text-inverse rounded-gob-md p-gob-6 flex flex-wrap items-center justify-between gap-gob-5 mt-gob-6">
-      <h3 className="text-lg font-bold">{title}</h3>
+    <div className="portal-ambient-hero rounded-gob-lg p-gob-6 flex flex-wrap items-center justify-between gap-gob-5 mt-gob-6">
+      <h3 className="relative z-[1] text-lg font-medium text-gob-text-inverse">{title}</h3>
       <Link
         href={href}
-        className="inline-flex items-center justify-center bg-background text-inapi-cta px-gob-6 py-gob-3 font-bold text-gri-body-sm hover:bg-gob-surface-elevated transition-colors shrink-0"
+        className="relative z-[1] inline-flex min-h-11 items-center justify-center rounded-full bg-gob-primary px-gob-6 py-gob-3 font-medium text-gri-body-sm text-gob-text-inverse hover:bg-gob-primary-dark transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
       >
         {cta}
       </Link>
@@ -288,7 +292,7 @@ export function PortalAccordion({
   items: { title: string; content: string }[]
 }) {
   return (
-    <div className="max-w-3xl divide-y divide-gob-border border border-gob-border rounded-gob-md overflow-hidden">
+    <div className="max-w-none divide-y divide-gob-border overflow-hidden rounded-gob-md border border-gob-border">
       {items.map(item => (
         <details key={item.title} className="group bg-card">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-gob-3 px-gob-5 py-gob-4 font-bold text-gob-text text-gri-body-sm hover:bg-gob-surface-elevated [&::-webkit-details-marker]:hidden">
@@ -307,18 +311,18 @@ export function PortalAccordion({
 export function PortalDownloadList({
   items,
 }: {
-  items: { label: string; href: string }[]
+  items: { label: string; href: string; size?: string; description?: string }[]
 }) {
   return (
-    <div className="flex flex-col gap-gob-3 max-w-3xl">
+    <div className="flex max-w-none flex-col gap-gob-3">
       {items.map(item => (
-        <div
+        <PortalPdfLink
           key={item.label}
-          className="flex items-center justify-between gap-gob-4 bg-gob-surface-elevated rounded-gob-md px-gob-5 py-gob-4"
-        >
-          <span className="text-gri-body-sm font-bold text-gob-text">{item.label}</span>
-          <DownloadPdfLink href={item.href}>Descargar (PDF)</DownloadPdfLink>
-        </div>
+          href={item.href}
+          title={item.label}
+          size={item.size ?? 'sin peso informado'}
+          description={item.description}
+        />
       ))}
     </div>
   )

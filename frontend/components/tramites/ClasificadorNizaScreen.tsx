@@ -73,7 +73,7 @@ export function ClasificadorNizaScreen() {
   return (
     <RequireAuth>
       <TramitesMain>
-        <ServicePanel title="Clasificador de productos y servicios" domain="marcas">
+        <ServicePanel title="Buscador de productos y servicios" domain="marcas">
           <p className="whitespace-pre-line text-gri-body leading-relaxed text-gob-text">{LEGAL_CLASIFICADOR}</p>
           <p className="text-gri-body-sm text-gob-text">
             Escribe el producto o servicio con tus palabras. El buscador sugiere la clase de Niza más cercana para que la

@@ -12,34 +12,28 @@ export type PortalNavId =
   | 'tramites'
   | 'prensa'
   | 'contacto'
+  | 'faq'
   /** @deprecated Usar prensa para Sala de Prensa */
   | 'conecta'
 
-/** Barra principal del header (diseño Claude v3 / Ctrl+U) */
+/** Barra principal: atajos de mayor prioridad (sin repetir subheader ni chips del hero). */
 export const PORTAL_PRIMARY_NAV = [
-  { id: 'nosotros' as const, label: 'Nosotros', href: '/nosotros' },
-  { id: 'conoce' as const, label: 'Conoce más', href: '/conoce-mas' },
   { id: 'marcas' as const, label: 'Marcas', href: '/marcas' },
   { id: 'patentes' as const, label: 'Patentes', href: '/patentes' },
-  { id: 'buscador' as const, label: 'Buscador', href: '/buscar' },
-  { id: 'tramites' as const, label: 'Trámites', href: '/tramites' },
-  { id: 'prensa' as const, label: 'Sala de Prensa', href: '/sala-de-prensa' },
+  { id: 'tramites' as const, label: 'Trámites digitales', href: '/tramites-digitales' },
+  { id: 'faq' as const, label: 'Preguntas frecuentes', href: '/preguntas-frecuentes' },
   { id: 'contacto' as const, label: 'Contacto', href: '/contacto' },
 ] satisfies { id: PortalNavId; label: string; href: string }[]
 
-/** Subheader — enlaces secundarios */
+/** Subheader: atajos institucionales que no están en el header ni en otra sección del home. */
 export const PORTAL_SECONDARY_NAV = [
-  { label: 'PCT', href: '/patentes/pct' },
-  { label: 'Sistema de Madrid', href: '/marcas/sistema-de-madrid' },
-  { label: 'Sello de Origen', href: '/sello-de-origen' },
-  { label: 'Aprende', href: '/aprende' },
-  { label: 'Conecta', href: '/conecta' },
-  { label: 'Centro de Documentación', href: '/documentacion' },
+  { label: 'Acerca de INAPI', href: '/nosotros' },
+  { label: 'Conoce más', href: '/conoce-mas' },
   { label: 'Glosario', href: '/glosario' },
   { label: 'Observancia', href: '/observancia' },
-  { label: 'Preguntas Frecuentes', href: '/preguntas-frecuentes' },
-  { label: 'Datos Abiertos', href: '/datos-abiertos' },
-  { label: 'Gasto Presupuestario', href: '/transparencia/gasto-presupuestario' },
+  { label: 'Centro de documentación', href: '/documentacion' },
+  { label: 'Conecta', href: '/conecta' },
+  { label: 'Gasto presupuestario', href: '/transparencia/gasto-presupuestario' },
 ] as const
 
 /** @deprecated Usar PORTAL_PRIMARY_NAV */
@@ -72,11 +66,21 @@ export const PORTAL_PAGES: PageMeta[] = [
   {
     slug: 'Buscador-de-Anterioridades',
     path: '/marcas/buscador-similitud',
-    title: 'Buscador de similitud de marcas',
+    title: 'Buscador de marcas',
     description: 'Usa esta herramienta antes de iniciar la solicitud de tu marca.',
     section: { label: 'Marcas', href: '/marcas' },
-    current: 'Buscador de similitud de marcas',
+    current: 'Buscador de marcas',
     navActive: 'marcas',
+  },
+  {
+    slug: 'Buscadores-de-Marcas',
+    path: '/marcas/buscadores',
+    title: 'Buscador de marcas',
+    description:
+      'Compara tu marca con las ya solicitadas o registradas y revisa el buscador de patentes.',
+    section: { label: 'Marcas', href: '/marcas' },
+    current: 'Buscador de marcas',
+    navActive: 'buscador',
   },
   {
     slug: 'Marcas-Para-Informarse',
@@ -133,17 +137,34 @@ export const PORTAL_PAGES: PageMeta[] = [
     slug: 'Acerca-de-INAPI',
     path: '/nosotros',
     title: 'Acerca de INAPI',
+    description:
+      'INAPI administra los derechos de propiedad industrial en Chile: registra, resuelve y publica marcas, patentes y otros derechos.',
     navActive: 'nosotros',
-    current: 'INAPI',
+    current: 'Acerca de INAPI',
   },
-  { slug: 'Tramites-Digitales', path: '/tramites-digitales', title: 'Trámites digitales', navActive: 'tramites' },
+  {
+    slug: 'Tramites-Digitales',
+    path: '/tramites-digitales',
+    title: 'Trámites digitales',
+    description:
+      'Trámites de INAPI inscritos en el Registro Nacional de Trámites del Estado. Los inicias y terminas por internet, con ClaveÚnica.',
+    navActive: 'tramites',
+    current: 'Trámites digitales',
+  },
   {
     slug: 'Preguntas-Frecuentes',
     path: '/preguntas-frecuentes',
     title: 'Preguntas frecuentes',
     description: 'Respuestas a las dudas más comunes sobre marcas, patentes y otros derechos.',
+    navActive: 'faq',
+    current: 'Preguntas frecuentes',
   },
-  { slug: 'Glosario', path: '/glosario', title: 'Glosario de propiedad industrial' },
+  {
+    slug: 'Glosario',
+    path: '/glosario',
+    title: 'Glosario de propiedad industrial',
+    current: 'Glosario',
+  },
   {
     slug: 'Contacto',
     path: '/contacto',
@@ -159,7 +180,12 @@ export const PORTAL_PAGES: PageMeta[] = [
     current: 'SIAC',
     navActive: 'contacto',
   },
-  { slug: 'Aprende', path: '/aprende', title: 'Aprende de propiedad industrial' },
+  {
+    slug: 'Aprende',
+    path: '/aprende',
+    title: 'Aprende de propiedad industrial',
+    current: 'Aprende',
+  },
   {
     slug: 'Conecta',
     path: '/conecta',
@@ -167,7 +193,49 @@ export const PORTAL_PAGES: PageMeta[] = [
     navActive: 'conecta',
     current: 'Conecta',
   },
-  { slug: 'Conoce-Mas', path: '/conoce-mas', title: 'Conoce más', navActive: 'conoce' },
+  { slug: 'Conoce-Mas', path: '/conoce-mas', title: 'Conoce más', navActive: 'conoce', current: 'Conoce más' },
+  {
+    slug: 'Que-es-PI',
+    path: '/conoce-mas/que-es-la-propiedad-intelectual-e-industrial',
+    title: 'Qué es la propiedad intelectual e industrial',
+    section: { label: 'Conoce más', href: '/conoce-mas' },
+    current: 'Qué es la propiedad intelectual e industrial',
+    navActive: 'conoce',
+  },
+  {
+    slug: 'Conceptos-PI',
+    path: '/conoce-mas/conceptos-fundamentales',
+    title: 'Conceptos fundamentales',
+    section: { label: 'Conoce más', href: '/conoce-mas' },
+    current: 'Conceptos fundamentales',
+    navActive: 'conoce',
+  },
+  {
+    slug: 'Derechos-PI',
+    path: '/conoce-mas/derechos-de-propiedad-intelectual',
+    title: 'Derechos de la propiedad intelectual',
+    section: { label: 'Conoce más', href: '/conoce-mas' },
+    current: 'Derechos de la propiedad intelectual',
+    navActive: 'conoce',
+  },
+  {
+    slug: 'TDPI',
+    path: '/conoce-mas/tribunal-de-propiedad-industrial',
+    title: 'Tribunal de Propiedad Industrial',
+    section: { label: 'Conoce más', href: '/conoce-mas' },
+    current: 'Tribunal de Propiedad Industrial',
+    navActive: 'conoce',
+  },
+  {
+    slug: 'Historia-PI',
+    path: '/conoce-mas/historia-propiedad-industrial',
+    title: 'Historia de la propiedad industrial',
+    description:
+      'Hitos del registro de marcas y patentes en Chile, desde las primeras concesiones del siglo XIX hasta INAPI.',
+    section: { label: 'Conoce más', href: '/conoce-mas' },
+    current: 'Historia de la propiedad industrial',
+    navActive: 'conoce',
+  },
   {
     slug: 'Sala-de-Prensa',
     path: '/sala-de-prensa',
@@ -193,6 +261,8 @@ export const PORTAL_PAGES: PageMeta[] = [
     slug: 'Centro-de-Documentacion',
     path: '/documentacion',
     title: 'Centro de documentación',
+    description: 'Leyes, reglamento, directrices y estadísticas de propiedad industrial en Chile.',
+    current: 'Centro de documentación',
   },
   {
     slug: 'Estadisticas',
@@ -201,24 +271,29 @@ export const PORTAL_PAGES: PageMeta[] = [
     section: { label: 'Centro de documentación', href: '/documentacion' },
     current: 'Estadísticas',
   },
-  { slug: 'Datos-Abiertos', path: '/datos-abiertos', title: 'Datos abiertos' },
+  { slug: 'Datos-Abiertos', path: '/datos-abiertos', title: 'Datos abiertos', current: 'Datos abiertos' },
   {
     slug: 'Gasto-Presupuestario',
     path: '/transparencia/gasto-presupuestario',
     title: 'Gasto presupuestario',
+    description:
+      'Presupuesto y ejecución de INAPI por subtítulo, según la Ley N.° 20.285 de Transparencia.',
+    current: 'Gasto presupuestario',
   },
   {
     slug: 'Notificaciones-Diarias',
     path: '/notificaciones-diarias',
-    title: 'Notificaciones diarias',
+    title: 'Notificaciones INAPI',
+    current: 'Notificaciones INAPI',
   },
-  { slug: 'Observancia', path: '/observancia', title: 'Observancia' },
-  { slug: 'Sello-de-Origen', path: '/sello-de-origen', title: 'Sello de Origen' },
+  { slug: 'Observancia', path: '/observancia', title: 'Observancia', current: 'Observancia' },
+  { slug: 'Sello-de-Origen', path: '/sello-de-origen', title: 'Sello de Origen', current: 'Sello de Origen' },
   {
     slug: 'Buscador',
     path: '/buscar',
     title: 'Resultados de búsqueda',
     navActive: 'buscador',
+    current: 'Resultados de búsqueda',
   },
 ]
 

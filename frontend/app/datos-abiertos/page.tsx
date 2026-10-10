@@ -4,6 +4,7 @@ import { Database } from 'lucide-react'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { PortalMain } from '@/components/portal/content'
+import { portalShellProps } from '@/lib/portal-page-props'
 
 export const metadata: Metadata = {
   title: 'Datos abiertos — INAPI',
@@ -14,24 +15,25 @@ export const metadata: Metadata = {
 const datasets = [
   {
     title: 'Solicitudes y registros de marcas',
-    href: '#',
+    href: 'https://tramites.inapi.cl/OpenData/TrademarkOpenData',
   },
   {
     title: 'Solicitudes y registros de patentes',
-    href: '#',
+    href: 'https://tramites.inapi.cl/OpenData/PatentOpenData',
   },
   {
-    title: 'Indicaciones geográficas y denominaciones de origen',
-    href: '#',
+    title: 'Open Data en el centro de documentación',
+    href: '/documentacion#opendata',
   },
 ]
 
 export default function DatosAbiertosPage() {
   return (
     <PortalShell
-      variant="page"
-      pageTitle="Datos abiertos"
-      pageSubtitle="Estos conjuntos de datos están disponibles para su descarga y reutilización, en formatos abiertos y bajo licencia Creative Commons."
+      {...portalShellProps('/datos-abiertos', {
+        pageSubtitle:
+          'Estos conjuntos de datos están disponibles para su descarga y reutilización, en formatos abiertos y bajo licencia Creative Commons.',
+      })}
     >
       <ContainerGRI size="portal">
         <PortalMain>
@@ -45,7 +47,7 @@ export default function DatosAbiertosPage() {
                 <h2 className="font-bold text-gob-text text-gri-body-sm leading-snug">{dataset.title}</h2>
                 <Link
                   href={dataset.href}
-                  className="text-gri-body-xs font-bold text-gob-link hover:text-gob-primary-dark"
+                  className="text-gri-body-xs font-bold text-gob-link hover:text-gob-link-hover"
                 >
                   Descargar conjunto de datos
                 </Link>

@@ -47,15 +47,15 @@ export default function SistemaDeMadridPage() {
 
           <section
             aria-labelledby="madrid-cta-title"
-            className="bg-inapi-portal-hero text-gob-text-inverse rounded-gob-md p-gob-6 flex flex-col min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between gap-gob-5"
+            className="portal-ambient-hero rounded-gob-lg p-gob-6 flex flex-col min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between gap-gob-5 relative"
           >
-            <div>
-              <h2 id="madrid-cta-title" className="text-lg font-bold mb-1.5">
+            <div className="relative z-[1]">
+              <h2 id="madrid-cta-title" className="text-lg font-medium mb-1.5 text-gob-text-inverse">
                 Presenta tu solicitud internacional de marca
               </h2>
               <p className="text-gri-body-sm text-gob-text-inverse/80">Contacto: inapi@inapi.cl</p>
             </div>
-            <Button className="rounded-none bg-white text-inapi-cta hover:bg-white/90 font-bold h-12 px-gob-6 shrink-0" asChild>
+            <Button className="relative z-[1] rounded-full bg-gob-primary hover:bg-gob-primary-dark font-medium h-12 px-gob-6 shrink-0" asChild>
               <Link href="/tramites-digitales">Ir a trámites</Link>
             </Button>
           </section>

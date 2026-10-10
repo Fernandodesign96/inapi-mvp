@@ -4,6 +4,7 @@ import { Moon, Sun } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useTheme } from '@/components/theme/ThemeProvider'
+import { useI18n } from '@/lib/i18n/LocaleProvider'
 
 interface Props {
   className?: string
@@ -13,12 +14,13 @@ interface Props {
 
 export function ThemeToggle({ className, variant = 'header' }: Props) {
   const { resolvedTheme, toggleTheme } = useTheme()
+  const { tx } = useI18n()
   const isDark = resolvedTheme === 'dark'
-  const label = isDark ? 'Activar modo claro' : 'Activar modo oscuro'
+  const label = tx(isDark ? 'Activar modo claro' : 'Activar modo oscuro')
   const icon = isDark ? (
-    <Sun className="w-5 h-5" aria-hidden />
+    <Sun className="size-5" strokeWidth={2.25} aria-hidden />
   ) : (
-    <Moon className="w-5 h-5" aria-hidden />
+    <Moon className="size-5" strokeWidth={2.25} aria-hidden />
   )
 
   if (variant === 'plain') {
@@ -27,7 +29,7 @@ export function ThemeToggle({ className, variant = 'header' }: Props) {
         type="button"
         onClick={toggleTheme}
         className={cn(
-          'p-2 rounded-full text-gob-text-inverse hover:bg-white/10 transition-colors focus-gob',
+          'inline-flex size-11 min-h-11 min-w-11 items-center justify-center rounded-full text-white hover:bg-white/20 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus [&_svg]:text-white',
           className
         )}
         aria-label={label}

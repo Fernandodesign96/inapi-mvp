@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { BotMessageSquare, X, ArrowLeft, Send, User, Phone } from 'lucide-react'
-import Image from 'next/image'
-import { Button } from '@/components/ui/button'
+import { BotMessageSquare, X, ArrowLeft, Send, User, Phone, ChevronUp, Mail } from 'lucide-react'
+import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 
@@ -14,18 +13,29 @@ interface Mensaje {
   contenido: string
 }
 
+const focusRing =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+
 export function ChatFAB({ title = 'Asistente GRI' }: { title?: string }) {
   const [panel, setPanel] = useState<PanelState>('closed')
   const [mensajes, setMensajes] = useState<Mensaje[]>([])
   const [input, setInput] = useState('')
   const [cargando, setCargando] = useState(false)
   const [visible, setVisible] = useState(false)
+  const [showTop, setShowTop] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 1000)
     return () => clearTimeout(t)
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 72)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
@@ -54,17 +64,20 @@ export function ChatFAB({ title = 'Asistente GRI' }: { title?: string }) {
       const data = await res.json()
       const reply: Mensaje = {
         rol: 'assistant',
-        contenido: data.reply ?? 'Lo siento, no pude procesar tu consulta.',
+        contenido: data.reply ?? 'No pude procesar tu consulta. Inténtalo otra vez o usa el formulario de contacto.',
       }
       setMensajes(prev => [...prev, reply])
     } catch {
       setMensajes(prev => [
         ...prev,
-        { rol: 'assistant', contenido: 'Hubo un problema de conexión. Inténtalo de nuevo.' },
+        {
+          rol: 'assistant',
+          contenido: 'Hubo un problema de conexión. Puedes escribir a inapi@inapi.cl o volver a intentar.',
+        },
       ])
     } finally {
       setCargando(false)
-      setTimeout(() => inputRef.current?.focus(), 100)
+      window.setTimeout(() => inputRef.current?.focus(), 100)
     }
   }
 
@@ -72,225 +85,262 @@ export function ChatFAB({ title = 'Asistente GRI' }: { title?: string }) {
 
   return (
     <div
+      data-chat-fab
       className={cn(
-        'fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4',
-        'transition-all duration-500',
-        visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+        'fixed bottom-6 right-6 z-50 flex flex-col items-end gap-gob-3',
+        'transition-all duration-150',
+        visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0',
       )}
     >
-      {isOpen && (
-        <div
-          className="w-[calc(100vw-2rem)] sm:w-[380px] bg-gob-surface rounded-gob-xl shadow-elevation-04 border border-gob-border flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300"
+      {isOpen ? (
+        <section
+          aria-labelledby="asistente-titulo"
+          className="flex w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-gob-lg border border-gob-border bg-card shadow-elevation-05 sm:w-[380px]"
           style={{ maxHeight: 'calc(100vh - 6rem)' }}
         >
-          {/* Header */}
-          <div className="bg-primary-dark p-gob-5 text-gob-text-inverse flex items-center gap-gob-3">
-            {panel !== 'menu' && (
+          <header className="flex items-center gap-gob-3 bg-gob-primary p-gob-4 text-gob-text-inverse">
+            {panel !== 'menu' ? (
               <button
+                type="button"
                 onClick={() => setPanel('menu')}
-                className="p-1.5 hover:bg-white/10 rounded-full transition-colors shrink-0"
+                className={cn('inline-flex size-11 shrink-0 items-center justify-center rounded-full hover:bg-white/15', focusRing)}
                 aria-label="Volver al menú"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="size-5" aria-hidden />
               </button>
+            ) : (
+              <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-gob-md bg-white/15" aria-hidden>
+                <BotMessageSquare className="size-5" />
+              </span>
             )}
-            <div className="bg-white/10 p-2 rounded-gob-md">
-              <BotMessageSquare className="w-5 h-5" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-gri-body-sm">
-                {panel === 'ia' ? title : panel === 'ejecutivo' ? 'Ejecutivo INAPI' : title}
+            <div className="min-w-0 flex-1">
+              <p id="asistente-titulo" className="text-gri-body-sm font-medium">
+                {panel === 'ia' ? 'Chat con IA' : panel === 'ejecutivo' ? 'Atención ciudadana' : title}
               </p>
-              <p className="text-gri-label font-semibold text-gob-text-inverse/60 uppercase tracking-widest">
-                {panel === 'ia' ? 'Respuestas automáticas' : panel === 'ejecutivo' ? 'Atención personalizada' : 'Portal INAPI · Marcas'}
+              <p className="text-gri-label font-medium uppercase tracking-wider text-gob-text-inverse/90">
+                {panel === 'ia'
+                  ? 'Respuestas automáticas'
+                  : panel === 'ejecutivo'
+                    ? 'Horario de atención'
+                    : 'Portal INAPI · Marcas'}
               </p>
             </div>
             <button
+              type="button"
               onClick={() => setPanel('closed')}
-              className="p-1.5 hover:bg-white/10 rounded-full transition-colors shrink-0"
+              className={cn('inline-flex size-11 shrink-0 items-center justify-center rounded-full hover:bg-white/15', focusRing)}
               aria-label="Cerrar asistente"
             >
-              <X className="w-4 h-4" />
+              <X className="size-5" aria-hidden />
             </button>
-          </div>
+          </header>
 
-          {/* MENU */}
-          {panel === 'menu' && (
-            <div className="p-gob-5 space-y-gob-3">
-              <p className="text-gri-body-sm font-semibold text-gob-text mb-gob-4">
-                ¿Cómo puedo ayudarte hoy?
-              </p>
+          {panel === 'menu' ? (
+            <div className="space-y-gob-3 p-gob-5">
+              <p className="text-gri-body font-medium text-gob-text">¿Cómo puedo ayudarte hoy?</p>
 
               <button
+                type="button"
                 onClick={() => {
                   setPanel('ia')
                   if (mensajes.length === 0) {
-                    setMensajes([{
-                      rol: 'assistant',
-                      contenido: '¡Hola! Soy el asistente virtual de INAPI. Puedo ayudarte con dudas sobre el registro de marcas: costos, plazos, clases de Niza y más. ¿En qué te puedo ayudar?',
-                    }])
+                    setMensajes([
+                      {
+                        rol: 'assistant',
+                        contenido:
+                          'Hola. Soy el asistente virtual de INAPI. Puedo orientarte sobre marcas, plazos, tasas y el clasificador de Niza. Esta orientación no reemplaza una resolución oficial. ¿En qué te ayudo?',
+                      },
+                    ])
                   }
                 }}
-                className="w-full flex items-center gap-gob-4 p-gob-4 bg-gob-surface-elevated hover:bg-gob-info-bg border border-gob-border hover:border-gob-primary/30 rounded-gob-lg text-left transition-all group"
+                className={cn(
+                  'group flex min-h-11 w-full items-center gap-gob-4 rounded-gob-md border border-gob-border bg-gob-surface-elevated p-gob-4 text-left transition-colors duration-150 hover:border-gob-primary hover:bg-gob-info-bg',
+                  focusRing,
+                )}
               >
-                <div className="w-10 h-10 rounded-gob-md bg-gob-primary/10 flex items-center justify-center shrink-0 group-hover:bg-gob-primary/20 transition-colors">
-                  <BotMessageSquare className="w-5 h-5 text-gob-primary" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-gri-body-sm font-semibold text-gob-text">Chatear con IA</p>
-                  <p className="text-gri-body-xs text-muted-foreground leading-snug mt-0.5">
+                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-gob-md bg-gob-primary/10 text-gob-primary">
+                  <BotMessageSquare className="size-5" aria-hidden />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-gri-body-sm font-medium text-gob-text">Chatear con IA</span>
+                  <span className="mt-0.5 block text-gri-body-xs leading-snug text-muted-foreground">
                     Respuestas automáticas sobre el proceso de registro de marcas
-                  </p>
-                </div>
+                  </span>
+                </span>
               </button>
 
               <button
+                type="button"
                 onClick={() => setPanel('ejecutivo')}
-                className="w-full flex items-center gap-gob-4 p-gob-4 bg-gob-surface-elevated hover:bg-gob-success-bg border border-gob-border hover:border-gob-success/30 rounded-gob-lg text-left transition-all group"
+                className={cn(
+                  'group flex min-h-11 w-full items-center gap-gob-4 rounded-gob-md border border-gob-border bg-gob-surface-elevated p-gob-4 text-left transition-colors duration-150 hover:border-gob-primary hover:bg-gob-info-bg',
+                  focusRing,
+                )}
               >
-                <div className="w-10 h-10 rounded-gob-md bg-gob-success-bg flex items-center justify-center shrink-0 group-hover:bg-gob-success-bg/80 transition-colors">
-                  <User className="w-5 h-5 text-gob-success" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-gri-body-sm font-semibold text-gob-text">Hablar con un ejecutivo</p>
-                  <p className="text-gri-body-xs text-muted-foreground leading-snug mt-0.5">
+                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-gob-md bg-[#E8F5E9] text-gob-success">
+                  <User className="size-5" aria-hidden />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-gri-body-sm font-medium text-gob-text">Hablar con un ejecutivo</span>
+                  <span className="mt-0.5 block text-gri-body-xs leading-snug text-muted-foreground">
                     Atención personalizada de INAPI · Lun–Vie, 9:00–18:00
-                  </p>
-                </div>
+                  </span>
+                </span>
               </button>
 
-              <div className="flex items-center gap-2 px-1 pt-2">
-                <Image
-                  src="/inapi-mvp/inapi-logo.jpg"
-                  alt="INAPI"
-                  width={52}
-                  height={20}
-                  className="object-contain opacity-50"
-                />
-                <span className="text-gri-label text-muted-foreground font-semibold uppercase tracking-wider">
-                  Portal de Marcas
-                </span>
-              </div>
+              <p className="pt-gob-2 text-gri-label font-medium uppercase tracking-wider text-muted-foreground">
+                Portal de marcas
+              </p>
             </div>
-          )}
+          ) : null}
 
-          {/* CHAT IA */}
-          {panel === 'ia' && (
+          {panel === 'ia' ? (
             <>
               <div
-                className="flex-1 overflow-y-auto p-gob-4 space-y-gob-3 bg-background"
-                style={{ minHeight: 300, maxHeight: 420 }}
+                className="flex-1 space-y-gob-3 overflow-y-auto bg-background p-gob-4"
+                style={{ minHeight: 280, maxHeight: 400 }}
               >
                 {mensajes.map((m, i) => (
-                  <div
-                    key={i}
-                    className={cn('flex', m.rol === 'user' ? 'justify-end' : 'justify-start')}
-                  >
-                    <div
+                  <div key={`${m.rol}-${i}`} className={cn('flex', m.rol === 'user' ? 'justify-end' : 'justify-start')}>
+                    <p
                       className={cn(
-                        'max-w-[80%] rounded-gob-lg px-gob-4 py-2.5 text-gri-body-sm leading-relaxed',
+                        'max-w-[80%] rounded-gob-md px-gob-4 py-gob-3 text-gri-body-sm leading-[1.5]',
                         m.rol === 'user'
-                          ? 'bg-gob-primary text-gob-text-inverse rounded-br-sm font-medium'
-                          : 'bg-gob-surface border border-gob-border text-gob-text rounded-bl-sm'
+                          ? 'rounded-br-sm bg-gob-primary text-gob-text-inverse'
+                          : 'rounded-bl-sm border border-gob-border bg-card text-gob-text',
                       )}
                     >
                       {m.contenido}
-                    </div>
+                    </p>
                   </div>
                 ))}
-
-                {cargando && (
-                  <div className="flex justify-start">
-                    <div className="bg-gob-surface border border-gob-border rounded-gob-lg rounded-bl-sm px-gob-4 py-gob-3 flex gap-1.5 items-center">
-                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:0ms]" />
-                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:150ms]" />
-                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:300ms]" />
+                {cargando ? (
+                  <div className="flex justify-start" aria-live="polite">
+                    <p className="sr-only">El asistente está escribiendo</p>
+                    <div className="flex items-center gap-1.5 rounded-gob-md border border-gob-border bg-card px-gob-4 py-gob-3">
+                      <span className="size-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:0ms]" />
+                      <span className="size-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:150ms]" />
+                      <span className="size-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:300ms]" />
                     </div>
                   </div>
-                )}
+                ) : null}
                 <div ref={messagesEndRef} />
               </div>
-
-              <div className="p-gob-3 border-t border-gob-border bg-gob-surface flex gap-2">
+              <form
+                className="flex gap-gob-2 border-t border-gob-border bg-card p-gob-3"
+                onSubmit={e => {
+                  e.preventDefault()
+                  void enviarMensaje()
+                }}
+              >
                 <Input
                   ref={inputRef}
                   value={input}
                   onChange={e => setInput(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && !e.shiftKey && enviarMensaje()}
-                  placeholder="Escribe tu consulta..."
-                  className="flex-1 h-11 text-gri-body-sm"
+                  placeholder="Escribe tu consulta"
+                  className="h-11 min-h-11 flex-1 text-gri-body-sm"
                   disabled={cargando}
                   aria-label="Mensaje para el asistente"
                 />
                 <button
-                  onClick={enviarMensaje}
+                  type="submit"
                   disabled={!input.trim() || cargando}
-                  className="w-11 h-11 bg-gob-primary hover:bg-gob-primary-dark disabled:opacity-40 disabled:cursor-not-allowed text-gob-text-inverse rounded-gob-md flex items-center justify-center transition-colors shrink-0"
+                  className={cn(
+                    'inline-flex size-11 min-h-11 shrink-0 items-center justify-center rounded-gob-md bg-gob-primary text-gob-text-inverse transition-colors duration-150 hover:bg-gob-primary-dark disabled:cursor-not-allowed disabled:opacity-40',
+                    focusRing,
+                  )}
                   aria-label="Enviar mensaje"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="size-4" aria-hidden />
                 </button>
-              </div>
+              </form>
             </>
-          )}
+          ) : null}
 
-          {/* EJECUTIVO */}
-          {panel === 'ejecutivo' && (
-            <div className="p-gob-6 space-y-gob-5">
-              <div className="bg-gob-success-bg border border-gob-success/30 rounded-gob-lg p-gob-4 space-y-1">
-                <p className="text-gri-body-sm font-semibold text-gob-success">
-                  Atención presencial y telefónica
-                </p>
-                <p className="text-gri-body-xs text-gob-success/80">
-                  Lunes a Viernes, 9:00 a 18:00 hrs.
+          {panel === 'ejecutivo' ? (
+            <div className="space-y-gob-4 p-gob-5">
+              <div className="rounded-gob-md border border-[#C8E6C9] bg-[#E8F5E9] p-gob-4">
+                <p className="text-gri-body-sm font-medium text-[#1B5E20]">Atención presencial y telefónica</p>
+                <p className="mt-1 text-gri-body-xs text-[#2E7D32]">
+                  Lunes a jueves, 09:00 a 18:00. Viernes, 09:00 a 17:00.
                 </p>
               </div>
-              <div className="space-y-gob-3">
-                <a
-                  href="tel:+56223400800"
-                  className="flex items-center gap-gob-4 p-gob-4 bg-gob-surface-elevated hover:bg-gob-surface-elevated/80 rounded-gob-lg border border-gob-border transition-colors"
-                >
-                  <div className="w-10 h-10 rounded-gob-md bg-gob-primary/10 flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-gob-primary" />
-                  </div>
-                  <div>
-                    <p className="text-gri-body-sm font-semibold text-gob-text">+56 2 2340 0800</p>
-                    <p className="text-gri-body-xs text-muted-foreground">Mesa central INAPI</p>
-                  </div>
-                </a>
-              </div>
-              <Button
-                onClick={() => setPanel('ia')}
-                variant="outline"
-                size="form"
-                className="w-full font-semibold text-gri-body-sm gap-2"
+              <a
+                href="tel:+56228870400"
+                className={cn(
+                  'flex min-h-11 items-center gap-gob-4 rounded-gob-md border border-gob-border bg-gob-surface-elevated p-gob-4 transition-colors duration-150 hover:border-gob-primary hover:bg-gob-info-bg',
+                  focusRing,
+                )}
               >
-                <BotMessageSquare className="w-4 h-4" />
-                O chatea con nuestra IA mientras esperas
-              </Button>
+                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-gob-md bg-gob-primary/10 text-gob-primary">
+                  <Phone className="size-5" aria-hidden />
+                </span>
+                <span>
+                  <span className="block text-gri-body-sm font-medium text-gob-text">(56 2) 2 887 0400</span>
+                  <span className="text-gri-body-xs text-muted-foreground">Mesa central INAPI</span>
+                </span>
+              </a>
+              <a
+                href="mailto:inapi@inapi.cl"
+                className={cn(
+                  'flex min-h-11 items-center gap-gob-4 rounded-gob-md border border-gob-border bg-gob-surface-elevated p-gob-4 transition-colors duration-150 hover:border-gob-primary hover:bg-gob-info-bg',
+                  focusRing,
+                )}
+              >
+                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-gob-md bg-gob-primary/10 text-gob-primary">
+                  <Mail className="size-5" aria-hidden />
+                </span>
+                <span>
+                  <span className="block text-gri-body-sm font-medium text-gob-text">inapi@inapi.cl</span>
+                  <span className="text-gri-body-xs text-muted-foreground">Atención ciudadana</span>
+                </span>
+              </a>
+              <Link
+                href="/contacto"
+                className={cn(
+                  'inline-flex min-h-11 w-full items-center justify-center rounded-gob-md border border-gob-primary px-gob-5 text-gri-body-sm font-medium text-gob-primary transition-colors duration-150 hover:bg-gob-primary hover:text-gob-text-inverse',
+                  focusRing,
+                )}
+              >
+                Ver todos los canales de contacto
+              </Link>
             </div>
-          )}
-        </div>
-      )}
+          ) : null}
+        </section>
+      ) : null}
 
-      {/* FAB Button */}
-      <button
-        onClick={() => setPanel(isOpen ? 'closed' : 'menu')}
-        className={cn(
-          'w-14 h-14 rounded-full flex items-center justify-center shadow-elevation-04 transition-all duration-200 active:scale-95',
-          isOpen
-            ? 'bg-destructive hover:bg-destructive/90 rotate-90'
-            : 'bg-gob-brand-from hover:bg-gob-brand-to hover:scale-110'
-        )}
-        aria-label={isOpen ? 'Cerrar asistente' : `Abrir ${title}`}
-        aria-expanded={isOpen}
-      >
-        {isOpen ? (
-          <X className="w-6 h-6 text-gob-text-inverse" />
-        ) : (
-          <BotMessageSquare className="w-7 h-7 text-gob-text-inverse" />
-        )}
-      </button>
+      <div className="flex items-center gap-gob-3">
+        {showTop ? (
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className={cn(
+              'inline-flex size-14 items-center justify-center rounded-full border border-gob-primary bg-white text-gob-primary shadow-elevation-04 transition-colors duration-150 hover:border-gob-primary-dark hover:bg-gob-primary hover:text-white',
+              focusRing,
+            )}
+            aria-label="Volver al inicio de la página"
+          >
+            <ChevronUp className="size-7" aria-hidden />
+          </button>
+        ) : null}
+        <button
+          type="button"
+          onClick={() => setPanel(isOpen ? 'closed' : 'menu')}
+          className={cn(
+            'inline-flex size-14 items-center justify-center rounded-full shadow-elevation-04 transition-colors duration-150',
+            isOpen ? 'bg-gob-accent hover:bg-[#E4332C]' : 'bg-gob-primary hover:bg-gob-primary-dark',
+            focusRing,
+          )}
+          aria-label={isOpen ? 'Cerrar asistente' : `Abrir ${title}`}
+          aria-expanded={isOpen}
+        >
+          {isOpen ? (
+            <X className="size-6 text-gob-text-inverse" aria-hidden />
+          ) : (
+            <BotMessageSquare className="size-7 text-gob-text-inverse" aria-hidden />
+          )}
+        </button>
+      </div>
     </div>
   )
 }

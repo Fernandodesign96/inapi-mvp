@@ -1,79 +1,167 @@
 'use client'
 
-import { useRef } from 'react'
-import Link from 'next/link'
+import { useCallback, useRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { ContainerGRI } from '@/components/layout/ContainerGRI'
+import { HomeRuleHeading } from '@/components/home/HomeRuleHeading'
+import { cn } from '@/lib/utils'
 
-const items = [
-  'Transparencia Activa · Ley de Transparencia',
-  'Plan anual de Capacitación 2026',
-  'MESU 2025',
-  'Sistema de Teletrabajo',
-  'Plataforma Ley del Lobby',
-  'Código de Ética',
-  'Información de interés',
-  'Participación ciudadana',
+type InstitutionalLink = {
+  label: string
+  title: string
+  href: string
+  external?: boolean
+}
+
+const items: InstitutionalLink[] = [
+  {
+    label: 'Transparencia Activa Ley de Transparencia',
+    title: 'Transparencia Activa de la Ley de Transparencia',
+    href: 'https://www.portaltransparencia.cl/PortalPdT/pdtta?codOrganismo=AY001',
+    external: true,
+  },
+  {
+    label: 'Plan anual de Capacitación 2026',
+    title: 'Plan anual de capacitación 2025 - 2027 (PDF 293 KB)',
+    href: 'https://www.inapi.cl/docs/default-source/2025-doc/home/footer/res-pac-2025.pdf',
+    external: true,
+  },
+  {
+    label: 'MESU 2026',
+    title: 'Medición de Satisfacción Usuaria INAPI 2026',
+    href: 'https://satisfaccion.gob.cl/medicion-de-satisfaccion-usuaria/proceso-2026',
+    external: true,
+  },
+  {
+    label: 'Sistema de Teletrabajo',
+    title: 'Sistema de Teletrabajo (PDF 3,26 KB)',
+    href: 'https://www.inapi.cl/docs/default-source/2023/home/footer/inapi_informes_teletrabajo.pdf',
+    external: true,
+  },
+  {
+    label: 'Plataforma Ley del Lobby',
+    title: 'Plataforma de la Ley del Lobby',
+    href: 'https://www.leylobby.gob.cl/instituciones/AY001',
+    external: true,
+  },
+  {
+    label: 'Código de Ética',
+    title: 'Código de Ética de INAPI 2026 (PDF 591 KB)',
+    href: 'https://inapi.cl/docs/default-source/2026-doc/footer/codigo-de-etica_inapi-2026.pdf',
+    external: true,
+  },
+  {
+    label: 'Tribunal de Propiedad Industrial',
+    title: 'Tribunal de Propiedad Industrial',
+    href: 'https://www.tdpi.gob.cl/',
+    external: true,
+  },
+  {
+    label: 'Recursos Genéticos Microbianos',
+    title: 'Recursos Genéticos Microbianos',
+    href: 'https://www.cchrgm.cl/depositos/deposito_ida/',
+    external: true,
+  },
+  {
+    label: 'Departamento de Derechos Intelectuales',
+    title: 'Departamento de Derechos Intelectuales',
+    href: 'http://www.propiedadintelectual.cl/623/w3-channel.html',
+    external: true,
+  },
+  {
+    label: 'Empleos Públicos',
+    title: 'Empleos Públicos',
+    href: 'https://www.empleospublicos.cl/',
+    external: true,
+  },
+  {
+    label: 'Participe en nuestras licitaciones',
+    title: 'Participe en nuestras licitaciones',
+    href: 'http://www.mercadopublico.cl/Portal/FeedOrg.aspx?qs=lzKAE36ktKRtGr8VOYwf6w==',
+    external: true,
+  },
+  {
+    label: 'Solicitud de información',
+    title: 'Solicitud de información de la Ley de Transparencia',
+    href: 'https://www.portaltransparencia.cl/PortalPdT/web/guest/directorio-de-organismos-regulados?p_p_id=pdtorganismos_WAR_pdtorganismosportlet&orgcode=f165622f6b44eb212dd83942a6e02ddf',
+    external: true,
+  },
+  {
+    label: 'Gobierno Transparente Histórico',
+    title: 'Gobierno Transparente Histórico',
+    href: 'http://www.inapi.cl/transparencia/index.html',
+    external: true,
+  },
 ]
 
 export function HomeObservanciaCarousel() {
-  const ref = useRef<HTMLDivElement>(null)
+  const scrollerRef = useRef<HTMLDivElement>(null)
 
-  const scroll = (dir: -1 | 1) => {
-    ref.current?.scrollBy({ left: dir * 220, behavior: 'smooth' })
-  }
+  const scrollByCards = useCallback((direction: -1 | 1) => {
+    const node = scrollerRef.current
+    if (!node) return
+    const card = node.querySelector<HTMLElement>('[data-inst-card]')
+    const step = (card?.offsetWidth ?? 180) + 16
+    node.scrollBy({ left: direction * step * 2, behavior: 'smooth' })
+  }, [])
 
   return (
-    <section className="mt-gob-8">
-      <div className="bg-card py-gob-4 text-center border-b-4 border-gob-primary">
-        <h2 className="portal-h2 text-gob-text">Observancia</h2>
-      </div>
-      <div className="bg-gob-surface-elevated py-gob-8 px-gob-4">
-        <div className="mx-auto max-w-[1140px] space-y-gob-6 text-center">
-          <h3 className="portal-h3 text-inapi-cta max-w-3xl mx-auto">
-            Conoce y utiliza las herramientas de protección de la propiedad intelectual en Chile
-          </h3>
-          <Button
-            variant="outline"
-            size="form"
-            className="rounded-gob-md border-2 border-inapi-cta text-inapi-cta font-medium hover:bg-inapi-cta/5"
-            asChild
+    <section
+      data-i18n-skip
+      aria-labelledby="transparencia-title"
+      className="bg-card py-gob-8 min-[905px]:py-20"
+    >
+      <HomeRuleHeading id="transparencia-title">
+        Transparencia, ética y participación ciudadana
+      </HomeRuleHeading>
+      <ContainerGRI size="wide" className="mt-gob-8">
+        <div className="flex items-center justify-center gap-gob-3">
+          <button
+            type="button"
+            onClick={() => scrollByCards(-1)}
+            className="flex size-9 shrink-0 items-center justify-center rounded-gob-md border-2 border-gob-border bg-card text-inapi-cta shadow-elevation-01 transition-colors hover:border-gob-primary hover:bg-gob-surface hover:text-gob-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+            aria-label="Ver accesos anteriores"
           >
-            <Link href="/observancia">Conoce más</Link>
-          </Button>
-          <div className="relative px-14">
-            <button
-              type="button"
-              aria-label="Anterior"
-              onClick={() => scroll(-1)}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 size-11 rounded-full bg-card text-inapi-cta shadow-elevation-03 flex items-center justify-center hover:bg-gob-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <div
-              ref={ref}
-              className="flex gap-gob-4 overflow-x-auto scroll-smooth pb-gob-2 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            >
-              {items.map(label => (
-                <div
-                  key={label}
-                  className="snap-start shrink-0 min-w-[190px] min-h-[120px] flex-[0_0_calc(20%-13px)] bg-inapi-cta text-gob-text-inverse rounded-gob-md p-gob-5 flex items-center shadow-elevation-02"
-                >
-                  <h4 className="text-gri-body font-medium leading-[1.5] text-left">{label}</h4>
-                </div>
-              ))}
-            </div>
-            <button
-              type="button"
-              aria-label="Siguiente"
-              onClick={() => scroll(1)}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 size-11 rounded-full bg-card text-inapi-cta shadow-elevation-03 flex items-center justify-center hover:bg-gob-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
+            <ChevronLeft className="size-4" aria-hidden />
+          </button>
+
+          <div
+            ref={scrollerRef}
+            className="flex min-w-0 max-w-[1180px] flex-1 justify-start gap-gob-3 overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {items.map(item => (
+              <a
+                data-inst-card
+                key={item.href}
+                href={item.href}
+                aria-label={item.title}
+                title={item.title}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
+                className={cn(
+                  'inline-flex w-[168px] shrink-0 snap-start items-center justify-center rounded-gob-lg border-2 border-gob-border bg-card px-gob-3 py-gob-3 min-h-14 text-center text-gri-body-sm font-semibold leading-[1.3] text-gob-text transition-colors',
+                  'hover:border-gob-primary hover:bg-gob-surface hover:text-gob-primary',
+                  'active:border-gob-primary active:bg-gob-surface active:text-gob-primary',
+                  'visited:text-gob-text visited:hover:text-gob-primary',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+                  'min-[905px]:w-[176px]',
+                )}
+              >
+                <span className="line-clamp-2 text-gri-body-sm font-semibold leading-[1.3]">{item.label}</span>
+              </a>
+            ))}
           </div>
+
+          <button
+            type="button"
+            onClick={() => scrollByCards(1)}
+            className="flex size-9 shrink-0 items-center justify-center rounded-gob-md border-2 border-gob-border bg-card text-inapi-cta shadow-elevation-01 transition-colors hover:border-gob-primary hover:bg-gob-surface hover:text-gob-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+            aria-label="Ver más accesos"
+          >
+            <ChevronRight className="size-4" aria-hidden />
+          </button>
         </div>
-      </div>
+      </ContainerGRI>
     </section>
   )
 }

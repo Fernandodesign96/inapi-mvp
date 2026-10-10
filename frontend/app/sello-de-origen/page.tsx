@@ -3,6 +3,7 @@ import { BadgeCheck, Globe, Mountain, Users } from 'lucide-react'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { PortalInfoGrid, PortalMain, PortalSectionTitle } from '@/components/portal/content'
+import { portalShellProps } from '@/lib/portal-page-props'
 
 export const metadata: Metadata = {
   title: 'Sello de Origen — INAPI',
@@ -30,7 +31,7 @@ const pasos = [
 
 export default function SelloDeOrigenPage() {
   return (
-    <PortalShell variant="page" pageTitle="Sello de Origen">
+    <PortalShell {...portalShellProps('/sello-de-origen')}>
       <ContainerGRI size="portal">
         <PortalMain>
           <section>

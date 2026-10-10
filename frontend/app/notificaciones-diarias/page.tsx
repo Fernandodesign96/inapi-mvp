@@ -8,17 +8,17 @@ import { portalShellProps } from '@/lib/portal-page-props'
 import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Notificaciones diarias — INAPI',
+  title: 'Notificaciones INAPI — INAPI',
   description: 'Consulta las notificaciones diarias de marcas y patentes publicadas por INAPI.',
 }
 
 const items = [
   {
-    href: 'https://tramites.inapi.cl/EstadosDiariosMarcas',
+    href: '/tramites/marcas/estados-diarios',
     title: 'Notificaciones diarias de marcas',
   },
   {
-    href: 'https://tramites.inapi.cl/EstadosDiariosPatentes',
+    href: '/tramites/patentes/estados-diarios',
     title: 'Notificaciones diarias de patentes',
   },
 ]
@@ -28,13 +28,11 @@ export default function NotificacionesDiariasPage() {
     <PortalShell {...portalShellProps('/notificaciones-diarias')}>
       <ContainerGRI size="portal">
         <PortalMain>
-          <div className="grid min-[600px]:grid-cols-2 gap-gob-5 max-w-3xl">
+          <div className="grid min-[600px]:grid-cols-2 gap-gob-5">
             {items.map(item => (
               <Link
                 key={item.title}
                 href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className={cn(
                   'bg-card border border-gob-border rounded-gob-md p-gob-6',
                   'flex flex-col gap-gob-3 text-gob-text hover:border-gob-link transition-colors',

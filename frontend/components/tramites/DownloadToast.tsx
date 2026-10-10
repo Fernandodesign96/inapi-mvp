@@ -15,7 +15,7 @@ export function DownloadPdfLink({
   return (
     <a
       href={href}
-      className="text-gri-body-xs font-bold text-gob-link hover:text-gob-primary-dark shrink-0"
+      className="text-gri-body-xs font-bold text-gob-link hover:text-gob-link-hover shrink-0"
       onClick={() => notifyDownload(typeof children === 'string' ? children : 'PDF')}
     >
       {children}

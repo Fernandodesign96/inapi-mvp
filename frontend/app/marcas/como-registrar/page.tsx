@@ -12,7 +12,7 @@ import { portalShellProps } from '@/lib/portal-page-props'
 
 export const metadata: Metadata = {
   title: 'Cómo registrar una marca — INAPI',
-  description: 'Información para registrarse una marca comercial en Chile: qué es, ventajas, pasos, tasas y vigencia.',
+  description: 'Pasos, tasas y plazos para registrar una marca comercial en Chile.',
 }
 
 export default function ComoRegistrarMarcaPage() {

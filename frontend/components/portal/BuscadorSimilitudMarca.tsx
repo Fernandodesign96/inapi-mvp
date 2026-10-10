@@ -5,6 +5,7 @@ import Fuse from 'fuse.js'
 import { Ban, ChevronDown, ChevronLeft, ChevronRight, Info, Scale, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { GlosarioTerm } from '@/components/GlosarioTerm'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { selectClass } from '@/components/tramites/ui-helpers'
 import { useClaseSugerida } from '@/hooks/useClaseSugerida'
@@ -194,7 +195,7 @@ export function BuscadorSimilitudMarca() {
               type="checkbox"
               checked={legalOk}
               onChange={e => setLegalOk(e.target.checked)}
-              className="size-[18px] accent-[#0051A8]"
+              className="size-[18px] accent-[var(--inapi-cta)]"
             />
             Leí el aviso y quiero continuar
           </label>
@@ -221,15 +222,15 @@ export function BuscadorSimilitudMarca() {
           <h3 className="font-heading text-lg font-medium">Detalles de la marca</h3>
           <div className="grid gap-gob-5 min-[800px]:grid-cols-3">
             <div>
-              <p className="text-gri-body-xs uppercase tracking-wide text-muted-foreground">Parecido al escribir</p>
+              <p className="portal-kicker text-muted-foreground">Parecido al escribir</p>
               <p className="mt-1 font-medium">{nivel(detalle.escritura)}</p>
             </div>
             <div>
-              <p className="text-gri-body-xs uppercase tracking-wide text-muted-foreground">Parecido al pronunciar</p>
+              <p className="portal-kicker text-muted-foreground">Parecido al pronunciar</p>
               <p className="mt-1 font-medium">{nivelPron(detalle.pronunciacion)}</p>
             </div>
             <div>
-              <p className="text-gri-body-xs uppercase tracking-wide text-muted-foreground">Misma clase de productos o servicios</p>
+              <p className="portal-kicker text-muted-foreground">Misma clase de productos o servicios</p>
               <p className="mt-1 font-medium">
                 {detalle.mismaClase
                   ? `Pertenece a la misma clase solicitada (${detalle.clase})`
@@ -499,7 +500,15 @@ export function BuscadorSimilitudMarca() {
           </p>
 
           {slice.length === 0 ? (
-            <p>No encontramos marcas parecidas con los criterios indicados.</p>
+            <div className="rounded-gob-md border border-gob-border bg-card p-gob-5 space-y-gob-3">
+              <p className="text-gob-text">
+                No encontramos marcas parecidas con los criterios que indicaste.
+              </p>
+              <p className="text-gri-body-sm text-muted-foreground">
+                Prueba con otra escritura o revisa las{' '}
+                <GlosarioTerm termino="Niza">clases de Niza</GlosarioTerm> antes de pagar la solicitud.
+              </p>
+            </div>
           ) : (
             <ul className="space-y-gob-3">
               {slice.map(m => (

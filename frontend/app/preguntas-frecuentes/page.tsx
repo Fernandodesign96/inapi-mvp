@@ -12,26 +12,41 @@ export const metadata: Metadata = {
   description: meta?.description,
 }
 
-const derechos = [
+const bloques = [
   {
-    title: '1. Las marcas',
-    body: 'Distinguen productos, servicios o establecimientos en el mercado. La protección es territorial (nacional) y dura 10 años, renovables indefinidamente.',
+    title: '¿Qué cubre INAPI y qué no?',
+    paragraphs: [
+      'INAPI registra y administra la propiedad industrial: marcas, patentes, modelos de utilidad, diseños, esquemas de trazado e indicaciones geográficas o denominaciones de origen, según la Ley N.° 19.039.',
+      'El derecho de autor (libros, música, software como obra, entre otros) lo lleva el Departamento de Derechos Intelectuales, no este Instituto.',
+    ],
   },
   {
-    title: '2. Las patentes',
-    body: 'Otorgan el derecho exclusivo de usar y explotar una invención. Deben ser novedosas, tener nivel inventivo y ser aplicables industrialmente. Duran 20 años desde la presentación de la solicitud.',
+    title: '¿Qué es una marca y cuánto dura?',
+    paragraphs: [
+      'Es un signo que distingue tus productos o servicios de los de otras personas. Debe ser distintivo: el público tiene que poder reconocerlo.',
+      'La protección vale en Chile y dura diez años. Puedes renovarla por periodos iguales, pagando la tasa a tiempo.',
+    ],
   },
   {
-    title: '3. Indicaciones geográficas y denominaciones de origen',
-    body: 'Identifican un producto como originario de una región, protegiendo sus cualidades y reputación frente a usos desleales de terceros.',
+    title: '¿Qué se necesita para una patente?',
+    paragraphs: [
+      'El Estado concede un derecho exclusivo si la invención es nueva, tiene nivel inventivo y puede usarse en la industria.',
+      'La protección es nacional y dura 20 años desde el día en que presentas la solicitud. Nadie puede fabricar, vender o usar esa invención sin tu permiso mientras el derecho esté vigente.',
+    ],
   },
   {
-    title: '4. El derecho de autor',
-    body: 'Protege obras literarias y artísticas, software y bases de datos originales. Incluye derechos patrimoniales (explotación económica) y derechos morales (paternidad e integridad de la obra).',
+    title: '¿Qué diferencia hay entre indicación geográfica y denominación de origen?',
+    paragraphs: [
+      'Ambas ligan un producto a un territorio y protegen su fama frente a usos desleales.',
+      'La denominación de origen, además, considera factores humanos —oficios, recetas, formas de elaborar— que dan carácter al producto.',
+    ],
   },
   {
-    title: '5. Las variedades vegetales',
-    body: 'Todo obtentor de una nueva variedad vegetal puede inscribirla en el Registro de Variedades Protegidas si cumple los requisitos de la Ley 19.342: ser nueva, distinta, homogénea y estable.',
+    title: '¿Por qué existen estas leyes?',
+    paragraphs: [
+      'Protegen a quien crea y, al mismo tiempo, permiten que la sociedad acceda a esas creaciones con reglas claras.',
+      'También premian la innovación y frenan prácticas desleales. El Convenio de París (1883) y el Convenio de Berna (1886) sentaron esa base; la OMPI administra ambos tratados.',
+    ],
   },
 ]
 
@@ -40,48 +55,24 @@ export default function PreguntasFrecuentesPage() {
     <PortalShell {...portalShellProps('/preguntas-frecuentes')}>
       <ContainerGRI size="portal">
         <PortalMain>
-          <section>
-            <PortalSectionTitle>¿Qué es la propiedad intelectual e industrial?</PortalSectionTitle>
-            <PortalProse className="mb-gob-3">
-              La propiedad intelectual protege toda creación de la mente humana: inventos, modelos de utilidad,
-              marcas, obras literarias y artísticas, entre otras.
-            </PortalProse>
-            <PortalProse className="mb-gob-3">
-              <strong className="text-gob-text">Propiedad industrial:</strong> incluye patentes de invención, modelos
-              de utilidad, marcas comerciales, colectivas y de certificación, e indicaciones geográficas y
-              denominaciones de origen. INAPI administra estos derechos según la Ley 19.039.
-            </PortalProse>
-            <PortalProse>
-              <strong className="text-gob-text">Derecho de autor:</strong> protege a los artistas intérpretes,
-              productores de fonogramas y organismos de radiodifusión. Lo administra el Departamento de Derechos
-              Intelectuales, dependiente de la DIBAM, Ministerio de Educación.
-            </PortalProse>
-          </section>
-
-          <section>
-            <PortalSectionTitle>¿Cuáles son los principales derechos de propiedad intelectual?</PortalSectionTitle>
-            <div className="space-y-gob-4 max-w-3xl">
-              {derechos.map(item => (
-                <div key={item.title}>
-                  <h3 className="font-bold text-gob-text text-gri-body-sm mb-1.5">{item.title}</h3>
-                  <p className="text-gri-body-sm text-muted-foreground leading-relaxed">{item.body}</p>
-                </div>
+          {bloques.map(bloque => (
+            <section key={bloque.title}>
+              <PortalSectionTitle>{bloque.title}</PortalSectionTitle>
+              {bloque.paragraphs.map(texto => (
+                <PortalProse key={texto}>{texto}</PortalProse>
               ))}
-            </div>
-          </section>
-
-          <section>
-            <PortalSectionTitle>¿Cuál es la importancia legal de la propiedad intelectual?</PortalSectionTitle>
-            <PortalProse className="mb-gob-3">
-              Las leyes de propiedad intelectual protegen los derechos morales y patrimoniales de los creadores, y a la
-              vez el derecho de la sociedad a acceder a esas creaciones.
-            </PortalProse>
-            <PortalProse>
-              También incentivan la creatividad y fomentan prácticas comerciales leales que contribuyen al desarrollo
-              económico y social. El Convenio de París (1883) y el Convenio de Berna (1886) reconocen por primera vez
-              esta importancia; la Organización Mundial de la Propiedad Intelectual (OMPI) administra ambos tratados.
-            </PortalProse>
-          </section>
+            </section>
+          ))}
+          <p>
+            <a
+              href="https://www.inapi.cl/preguntas-frecuentes/propiedad-industrial"
+              className="text-gob-link font-medium hover:underline underline-offset-4"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver más preguntas sobre marcas, patentes, PCT y Sello de Origen en inapi.cl
+            </a>
+          </p>
         </PortalMain>
       </ContainerGRI>
     </PortalShell>
