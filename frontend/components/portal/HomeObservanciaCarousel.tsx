@@ -109,9 +109,9 @@ export function HomeObservanciaCarousel() {
     <section
       data-i18n-skip
       aria-labelledby="transparencia-title"
-      className="bg-card py-gob-8 min-[905px]:py-20"
+      className="relative z-[1] py-gob-8 min-[905px]:py-20"
     >
-      <HomeRuleHeading id="transparencia-title">
+      <HomeRuleHeading id="transparencia-title" tone="inverse">
         Transparencia, ética y participación ciudadana
       </HomeRuleHeading>
       <ContainerGRI size="wide" className="mt-gob-8">
@@ -119,7 +119,7 @@ export function HomeObservanciaCarousel() {
           <button
             type="button"
             onClick={() => scrollByCards(-1)}
-            className="flex size-9 shrink-0 items-center justify-center rounded-gob-md border-2 border-gob-border bg-card text-inapi-cta shadow-elevation-01 transition-colors hover:border-gob-primary hover:bg-gob-surface hover:text-gob-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+            className="flex size-9 shrink-0 items-center justify-center rounded-gob-md border-2 border-white/25 bg-white/10 text-white shadow-elevation-01 transition-colors hover:border-[#A1D1FF] hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
             aria-label="Ver accesos anteriores"
           >
             <ChevronLeft className="size-4" aria-hidden />
@@ -139,15 +139,15 @@ export function HomeObservanciaCarousel() {
                 target={item.external ? '_blank' : undefined}
                 rel={item.external ? 'noopener noreferrer' : undefined}
                 className={cn(
-                  'inline-flex w-[168px] shrink-0 snap-start items-center justify-center rounded-gob-lg border-2 border-gob-border bg-card px-gob-3 py-gob-3 min-h-14 text-center text-gri-body-sm font-semibold leading-[1.3] text-gob-text transition-colors',
-                  'hover:border-gob-primary hover:bg-gob-surface hover:text-gob-primary',
-                  'active:border-gob-primary active:bg-gob-surface active:text-gob-primary',
-                  'visited:text-gob-text visited:hover:text-gob-primary',
+                  'inline-flex w-[168px] shrink-0 snap-start items-center justify-center rounded-gob-lg border-2 border-white/25 bg-white/10 px-gob-3 py-gob-3 min-h-14 text-center text-gri-body-sm font-semibold leading-[1.3] text-white transition-colors',
+                  'hover:border-[#A1D1FF] hover:bg-white/20 hover:text-white',
+                  'active:border-[#A1D1FF] active:bg-white/24 active:text-white',
+                  'visited:text-white visited:hover:text-white',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
                   'min-[905px]:w-[176px]',
                 )}
               >
-                <span className="line-clamp-2 text-gri-body-sm font-semibold leading-[1.3]">{item.label}</span>
+                <span className="line-clamp-2 text-gri-body-sm font-semibold leading-[1.3] text-white">{item.label}</span>
               </a>
             ))}
           </div>
@@ -155,7 +155,7 @@ export function HomeObservanciaCarousel() {
           <button
             type="button"
             onClick={() => scrollByCards(1)}
-            className="flex size-9 shrink-0 items-center justify-center rounded-gob-md border-2 border-gob-border bg-card text-inapi-cta shadow-elevation-01 transition-colors hover:border-gob-primary hover:bg-gob-surface hover:text-gob-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+            className="flex size-9 shrink-0 items-center justify-center rounded-gob-md border-2 border-white/25 bg-white/10 text-white shadow-elevation-01 transition-colors hover:border-[#A1D1FF] hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
             aria-label="Ver más accesos"
           >
             <ChevronRight className="size-4" aria-hidden />

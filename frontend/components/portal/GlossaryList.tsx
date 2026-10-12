@@ -66,8 +66,8 @@ export function GlossaryList() {
         {filtered.length} {filtered.length === 1 ? tx('término') : tx('términos')}
       </p>
       <dl className="space-y-gob-5">
-        {filtered.map(({ term, definition }) => (
-          <div key={term} id={term.toLowerCase().replace(/\s+/g, '-')}>
+        {filtered.map(({ term, definition }, index) => (
+          <div key={`${term}-${index}`} id={term.toLowerCase().replace(/\s+/g, '-')}>
             <dt className="font-medium text-gob-text text-gri-body mb-1.5">{term}</dt>
             <dd className="text-gri-body-sm text-gob-text leading-[1.5]">{definition}</dd>
           </div>

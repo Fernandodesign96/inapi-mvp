@@ -95,7 +95,7 @@ export function ChatFAB({ title = 'Asistente GRI' }: { title?: string }) {
       {isOpen ? (
         <section
           aria-labelledby="asistente-titulo"
-          className="flex w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-gob-lg border border-gob-border bg-card shadow-elevation-05 sm:w-[380px]"
+          className="flex w-[min(23.75rem,calc(100%-2rem))] flex-col overflow-hidden rounded-gob-lg border border-gob-border bg-card shadow-elevation-05"
           style={{ maxHeight: 'calc(100vh - 6rem)' }}
         >
           <header className="flex items-center gap-gob-3 bg-gob-primary p-gob-4 text-gob-text-inverse">

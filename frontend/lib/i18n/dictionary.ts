@@ -18,6 +18,7 @@ const EN_BASE: Record<string, string> = {
   'Conoce más': 'Learn more',
   Glosario: 'Glossary',
   Observancia: 'Enforcement',
+  'Sello de origen': 'Seal of Origin',
   'Centro de documentación': 'Documentation centre',
   Conecta: 'Connect',
   'Gasto presupuestario': 'Budget spending',
@@ -50,6 +51,7 @@ const EN_BASE: Record<string, string> = {
   'Buscador de productos y servicios': 'Goods and services search',
   'Buscador de patentes': 'Patent search',
   'Notificaciones INAPI': 'INAPI notifications',
+  'Notificaciones diarias en INAPI': 'Daily notifications at INAPI',
   'Notificaciones diarias': 'INAPI notifications',
   'Notificaciones INAPI de marcas': 'INAPI trademark notifications',
   'Notificaciones INAPI de patentes': 'INAPI patent notifications',
@@ -69,9 +71,14 @@ const EN_BASE: Record<string, string> = {
   'Solicitud de anotación de patentes': 'Patent annotation request',
   'Mostrar trámites secundarios': 'Show follow-up procedures',
   'Ocultar trámites secundarios': 'Hide follow-up procedures',
+  'Mostrar otros trámites': 'Show other procedures',
+  'Ocultar otros trámites': 'Hide other procedures',
   'Revisa los tipos de herramientas de INAPI': 'Review INAPI tool types',
   'Revisa los tipos de trámites en INAPI': 'Review INAPI procedure types',
   'Ir a los buscadores': 'Go to the search tools',
+  'Abrir el buscador de marcas': 'Open the trademark search',
+  'Abrir el buscador de productos y servicios': 'Open the goods and services search',
+  'Abrir el buscador de patentes': 'Open the patent search',
   'Iniciar un trámite': 'Start a procedure',
 
   // Footer
@@ -218,7 +225,6 @@ const EN_BASE: Record<string, string> = {
   'Ver accesos anteriores': 'See previous links',
   'Volver al inicio de la página': 'Back to top',
   'Abrir Asistente GRI': 'Open GRI assistant',
-  'Abrir el buscador de patentes': 'Open the patent search',
   'Diseños industriales': 'Industrial designs',
   'Indicaciones geográficas': 'Geographical indications',
 
@@ -248,6 +254,9 @@ const EN_BASE: Record<string, string> = {
   'En el Sitio de Trámites entras con ClaveÚnica.': 'On the Procedures Site you sign in with ClaveÚnica.',
   'No necesitas ir a una oficina para presentar.': 'You do not need to go to an office to file.',
   'Atención ciudadana responde dudas de canal y estado.': 'Citizen support answers questions about channels and status.',
+  'Puedes presentar cuando quieras. En 2024, una marca sin oposición tardó en promedio':
+    'You can file whenever you want. In 2024, a trademark without opposition took on average',
+  '4,5 meses': '4.5 months',
   'La publicación abre un plazo legal de oposición.': 'Publication opens a legal opposition period.',
   'Una oposición o un examen de fondo alarga el plazo.': 'An opposition or a substantive examination extends the timeline.',
   'Si rechazan, puedes apelar en el Tribunal de PI.': 'If it is refused, you can appeal before the IP Court.',

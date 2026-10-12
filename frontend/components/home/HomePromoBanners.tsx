@@ -34,7 +34,7 @@ const banners = [
 
 export function HomePromoBanners() {
   return (
-    <section aria-label="Programas y plataformas" className="bg-card py-gob-8 min-[905px]:py-12">
+    <section aria-label="Programas y plataformas" className="relative z-[1] py-gob-8 min-[905px]:py-12">
       <div className="flex flex-col gap-gob-8 min-[905px]:gap-20">
         {banners.map(banner => {
           const image = (
@@ -50,7 +50,7 @@ export function HomePromoBanners() {
           )
           return (
             <article key={banner.src} className="space-y-gob-6 min-[905px]:space-y-gob-8">
-              <HomeRuleHeading>{banner.title}</HomeRuleHeading>
+              <HomeRuleHeading tone="inverse">{banner.title}</HomeRuleHeading>
               {banner.external ? (
                 <a
                   href={banner.href}

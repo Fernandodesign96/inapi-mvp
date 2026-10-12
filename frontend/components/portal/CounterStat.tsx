@@ -10,6 +10,7 @@ export function CounterStat({
   prefix = '',
   label,
   decimals = 0,
+  separator,
   tone = 'dark',
 }: {
   end: number
@@ -17,10 +18,12 @@ export function CounterStat({
   prefix?: string
   label: string
   decimals?: number
+  separator?: string
   tone?: 'dark' | 'light'
 }) {
   const reduce = useReducedMotion()
   const light = tone === 'light'
+  const staticValue = `${prefix}${separator ? end.toLocaleString('es-CL') : end}${suffix}`
   return (
     <div
       className={cn(
@@ -37,9 +40,17 @@ export function CounterStat({
         )}
       >
         {reduce ? (
-          `${prefix}${end}${suffix}`
+          staticValue
         ) : (
-          <CountUp end={end} suffix={suffix} prefix={prefix} decimals={decimals} duration={1.2} start={0} />
+          <CountUp
+            end={end}
+            suffix={suffix}
+            prefix={prefix}
+            decimals={decimals}
+            separator={separator}
+            duration={1.2}
+            start={0}
+          />
         )}
       </p>
       <p className={cn('text-gri-body-sm leading-[1.4]', light ? 'text-gob-text' : 'text-gob-text-inverse')}>

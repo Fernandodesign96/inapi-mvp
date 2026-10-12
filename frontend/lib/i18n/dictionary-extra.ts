@@ -1,15 +1,70 @@
 /** Additional Spanish → English copy for home lower sections and portal pages. */
 export const EN_EXTRA: Record<string, string> = {
   // Stats
+  'Solicitudes de marca (serie de referencia)': 'Trademark filings (reference series)',
   'Volumen de solicitudes de marcas 2022-2026': 'Trademark application volume 2022-2026',
-  'Cifras de referencia del MVP para mostrar el orden de magnitud del trabajo de INAPI. No reemplazan las estadísticas oficiales publicadas en el centro de documentación.':
-    'MVP reference figures to show the order of magnitude of INAPI’s work. They do not replace the official statistics published in the documentation centre.',
-  'Marcas presentadas al año, cifra de referencia.': 'Trademark filings per year, reference figure.',
+  'Volumen de solicitudes de marcas 2024-2025': 'Trademark application volume 2024-2025',
+  'Volumen de solicitudes de marcas 2020-2025': 'Trademark application volume 2020-2025',
+  'INAPI recibió 275.987 solicitudes de marca entre 2020 y 2025. Elige un año en los gráficos circulares para ver el detalle.':
+    'INAPI received 275,987 trademark applications between 2020 and 2025. Choose a year in the doughnut charts to see the breakdown.',
+  'Solicitudes de marca por año': 'Trademark applications per year',
+  'Cada solicitud cuenta una vez, aunque incluya varias clases de productos o servicios.':
+    'Each application counts once, even if it includes several classes of goods or services.',
+  'Marcas de no residentes': 'Non-resident trademarks',
+  'Compara cuántas llegaron por la vía nacional y cuántas por el Protocolo de Madrid.':
+    'Compare how many arrived by the national route and how many by the Madrid Protocol.',
+  'Patentes por tipo': 'Patents by type',
+  'Revisa cuántas solicitudes fueron invenciones, diseños industriales o modelos de utilidad.':
+    'See how many applications were inventions, industrial designs or utility models.',
+  'También puedes ver cómo INAPI ejecuta su presupuesto, con cifras y documentos oficiales.':
+    'You can also see how INAPI executes its budget, with official figures and documents.',
+  'Consulta el gasto presupuestario': 'See budget spending',
+  'No residentes: vía nacional y Madrid': 'Non-residents: national route and Madrid',
+  'Solicitudes de patente por tipo': 'Patent applications by type',
+  'Vía nacional': 'National route',
+  'Protocolo de Madrid': 'Madrid Protocol',
+  Invenciones: 'Inventions',
+  'Diseños industriales': 'Industrial designs',
+  'Modelos de utilidad': 'Utility models',
+  'por Protocolo de Madrid': 'via the Madrid Protocol',
+  'Solicitudes de marca en 2025, conteo multiclase.': 'Trademark applications in 2025, multiclass count.',
+  'Solicitudes de marca resueltas en menos de siete meses en 2025.':
+    'Trademark applications resolved in under seven months in 2025.',
+  'Duración de una patente de invención, desde la presentación.':
+    'Term of an invention patent, from filing.',
   'Vigencia de una marca, renovable al vencimiento.': 'Term of a trademark, renewable at expiry.',
-  'Etapas habituales de una marca: forma, publicación y fondo.':
-    'Usual trademark stages: formality, publication and substance.',
-  'Tope de una patente de invención, desde la presentación.': 'Maximum term of an invention patent, from filing.',
-  'Miles de solicitudes de marca por año (serie ilustrativa)': 'Thousands of trademark applications per year (illustrative series)',
+  'Solicitudes de marca por año (conteo multiclase, INAPI)':
+    'Trademark applications per year (multiclass count, INAPI)',
+  'Reporte anual INAPI 2025': 'INAPI 2025 annual report',
+  'Solicitudes de marca en conteo multiclase publicadas por INAPI: 44.449 en 2024 y 50.388 en 2025. Fuente:':
+    'Trademark applications in the multiclass count published by INAPI: 44,449 in 2024 and 50,388 in 2025. Source:',
+  'y Cuenta Pública participativa.': 'and the participatory Public Account.',
+  'Solicitudes de marca en 2025': 'Trademark applications in 2025',
+  'Vigencia de una marca': 'Trademark term',
+  'Marcas resueltas en menos de 7 meses': 'Trademarks resolved in under 7 months',
+  'Solicitudes de patente en 2024': 'Patent applications in 2024',
+  'Solicitudes de marca 2020-2025': 'Trademark applications 2020-2025',
+  'Volumen de solicitudes de patentes 2023-2025': 'Patent application volume 2023-2025',
+  'INAPI recibió 12.286 solicitudes de patente entre 2023 y 2025. Elige un año en los gráficos circulares para ver el detalle.':
+    'INAPI received 12,286 patent applications between 2023 and 2025. Choose a year in the doughnut charts to see the breakdown.',
+  'Solicitudes de patente por año': 'Patent applications per year',
+  'Incluye invenciones, diseños, modelos de utilidad y solicitudes provisionales publicadas por INAPI.':
+    'Includes inventions, designs, utility models and provisional applications published by INAPI.',
+  'Origen de las solicitudes': 'Origin of applications',
+  'Compara cuántas marcas presentaron residentes en Chile y cuántas no residentes.':
+    'Compare how many trademarks were filed by residents in Chile and how many by non-residents.',
+  'Compara cuántas patentes presentaron residentes en Chile y cuántas no residentes.':
+    'Compare how many patents were filed by residents in Chile and how many by non-residents.',
+  'También puedes ver cómo se solicita una patente en Chile, con plazos, tasas y requisitos.':
+    'You can also see how to apply for a patent in Chile, with timelines, fees and requirements.',
+  'Consulta las patentes': 'See patents',
+  'presentadas por residentes': 'filed by residents',
+  'Solicitudes de patente en 2025': 'Patent applications in 2025',
+  'Vigencia de una patente de invención': 'Invention patent term',
+  'En trámite con 3 años o menos': 'Pending for 3 years or less',
+  'Solicitudes de patente 2023-2025': 'Patent applications 2023-2025',
+  'Tipo de volumen': 'Volume type',
+  'Cifras de marcas y patentes': 'Trademark and patent figures',
   Solicitudes: 'Applications',
   ' años': ' years',
 
@@ -83,6 +138,8 @@ export const EN_EXTRA: Record<string, string> = {
   'Leer cómo registrar una marca': 'Read how to register a trademark',
   'El registro tiene tres etapas. Si no hay oposiciones, suele tardar entre 6 y 8 meses.':
     'Registration has three stages. If there are no oppositions, it usually takes 6 to 8 months.',
+  'El registro tiene tres etapas. En 2024, las marcas sin oposición tardaron en promedio 4,5 meses.':
+    'Registration has three stages. In 2024, trademarks without opposition took 4.5 months on average.',
   'Presentación y revisión de forma.': 'Filing and formality check.',
   'Publicación en el Diario Oficial y plazo de oposición.': 'Publication in the Official Gazette and opposition period.',
   'Examen de fondo, pago de registro y certificado.': 'Substantive examination, registration fee and certificate.',
@@ -90,6 +147,8 @@ export const EN_EXTRA: Record<string, string> = {
   'Un atraso o un signo parecido puede alargar o cerrar el trámite. Revisa estos puntos antes de presentar.':
     'A delay or a similar sign can extend or close the procedure. Review these points before you file.',
   'Una oposición alarga el plazo habitual de 6 a 8 meses.': 'An opposition extends the usual 6-to-8-month timeline.',
+  'Una oposición alarga el plazo: el promedio general en 2024 fue de 8,4 meses.':
+    'An opposition extends the timeline: the overall average in 2024 was 8.4 months.',
   'Si rechazan, puedes apelar ante el Tribunal de Propiedad Industrial.':
     'If it is refused, you can appeal before the Industrial Property Court.',
   'Un pago fuera de plazo puede dejar sin efecto la solicitud.': 'A late payment can void the application.',

@@ -1,15 +1,29 @@
 import type { ReactNode } from 'react'
+import { cn } from '@/lib/utils'
 
-export function HomeRuleHeading({ id, children }: { id?: string; children: ReactNode }) {
+export function HomeRuleHeading({
+  id,
+  children,
+  tone = 'default',
+}: {
+  id?: string
+  children: ReactNode
+  tone?: 'default' | 'inverse'
+}) {
+  const inverse = tone === 'inverse'
   return (
-    <div className="relative flex items-center justify-center px-gob-4 py-gob-4 min-[905px]:py-gob-6">
-      <span className="absolute inset-x-0 top-1/2 h-px bg-gob-border" aria-hidden />
+    <div className="flex items-center justify-center gap-gob-4 px-gob-4 py-gob-4 min-[905px]:py-gob-6">
+      <span className={cn('h-px min-w-0 flex-1', inverse ? 'bg-white/25' : 'bg-gob-border')} aria-hidden />
       <h2
         id={id}
-        className="relative bg-card px-gob-5 text-center portal-h2 text-gob-text"
+        className={cn(
+          'shrink-0 text-center portal-h2',
+          inverse ? 'text-gob-text-inverse' : 'text-gob-text',
+        )}
       >
         {children}
       </h2>
+      <span className={cn('h-px min-w-0 flex-1', inverse ? 'bg-white/25' : 'bg-gob-border')} aria-hidden />
     </div>
   )
 }
