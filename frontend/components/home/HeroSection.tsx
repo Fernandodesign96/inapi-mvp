@@ -1,3 +1,6 @@
+'use client'
+
+import { Fragment, useRef, useState } from 'react'
 import Link from 'next/link'
 import {
   Bell,
@@ -5,19 +8,39 @@ import {
   FileSearch,
   HelpCircle,
   LayoutGrid,
+  Lightbulb,
   MapPin,
   Route,
   Search,
+  Stamp,
   Users,
 } from 'lucide-react'
+import CountUp from 'react-countup'
+import { useInView, useReducedMotion } from 'framer-motion'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
-import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 const heroShortcuts = [
   { href: '/marcas/buscador-similitud', label: 'Buscador de marcas', icon: Search },
   { href: '/tramites/marcas/clasificador', label: 'Buscador de productos y servicios', icon: LayoutGrid },
   { href: '/tramites/patentes/buscador', label: 'Buscador de patentes', icon: FileSearch },
-  { href: '/notificaciones-diarias', label: 'Notificaciones INAPI', icon: Bell },
+  { href: '/notificaciones-diarias', label: 'Notificaciones diarias en INAPI', icon: Bell },
+] as const
+
+const heroMuted = 'text-[#F3F7FC]'
+
+const heroMarcaStats = [
+  { end: 50388, suffix: '', prefix: '', label: 'Solicitudes de marca en 2025' },
+  { end: 10, suffix: ' años', prefix: '', label: 'Vigencia de una marca' },
+  { end: 97, suffix: '%', prefix: '', label: 'Marcas resueltas en menos de 7 meses' },
+  { end: 275987, suffix: '', prefix: '', label: 'Solicitudes de marca 2020-2025' },
+] as const
+
+const heroPatenteStats = [
+  { end: 4189, suffix: '', prefix: '', label: 'Solicitudes de patente en 2025' },
+  { end: 20, suffix: ' años', prefix: '', label: 'Vigencia de una patente de invención' },
+  { end: 91.8, suffix: '%', prefix: '', decimals: 1, label: 'En trámite con 3 años o menos' },
+  { end: 12286, suffix: '', prefix: '', label: 'Solicitudes de patente 2023-2025' },
 ] as const
 
 const editorialCards = [
@@ -85,8 +108,8 @@ const editorialCards = [
     title: 'Cuánto demora y qué pasa si se atrasa',
     lead: (
       <>
-        Puedes presentar cuando quieras. Una marca suele tardar{' '}
-        <strong className="text-gob-text font-medium">6 a 8 meses</strong> si no hay oposiciones.
+        Puedes presentar cuando quieras. En 2024, una marca sin oposición tardó en promedio{' '}
+        <strong className="text-gob-text font-medium">4,5 meses</strong>.
       </>
     ),
     items: [
@@ -120,40 +143,154 @@ const editorialCards = [
   },
 ] as const
 
-export function HeroSection() {
+function HeroStatsStrip({
+  stats,
+}: {
+  stats: readonly {
+    end: number
+    suffix: string
+    prefix: string
+    label: string
+    decimals?: number
+  }[]
+}) {
+  const ref = useRef<HTMLUListElement>(null)
+  const inView = useInView(ref, { once: true, amount: 0.35 })
+  const reduce = useReducedMotion()
+  const formatMiles = (value: number, decimals = 0) =>
+    value.toLocaleString('es-CL', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+
   return (
-    <section aria-label="Presentación" className="relative portal-ambient-hero bg-inapi-portal-hero">
-      <ContainerGRI size="wide" className="relative z-[1] pt-gob-8 pb-gob-6 min-[905px]:pt-gob-12">
+    <ul
+      ref={ref}
+      className="mx-auto flex w-full list-none flex-nowrap items-stretch justify-between gap-x-gob-3 overflow-x-auto min-[905px]:gap-x-gob-6"
+    >
+      {(stats ?? []).map((stat, index) => (
+        <Fragment key={stat.label}>
+          {index > 0 ? (
+            <li className="hidden min-[700px]:flex" aria-hidden>
+              <span className="h-full min-h-10 w-px bg-[rgba(162,209,255,0.15)]" />
+            </li>
+          ) : null}
+          <li className="min-w-[8rem] flex-1 px-gob-2 text-center">
+            <p className="font-heading text-[1.75rem] font-bold leading-[1.2] text-white">
+              {reduce || !inView ? (
+                `${stat.prefix}${formatMiles(stat.end, stat.decimals)}${stat.suffix}`
+              ) : (
+                <CountUp
+                  start={0}
+                  end={stat.end}
+                  prefix={stat.prefix}
+                  suffix={stat.suffix}
+                  separator="."
+                  decimals={stat.decimals ?? 0}
+                  decimal=","
+                  duration={1.2}
+                />
+              )}
+            </p>
+            <p className={`mt-1 font-sans text-[0.75rem] leading-[1.4] ${heroMuted}`}>{stat.label}</p>
+          </li>
+        </Fragment>
+      ))}
+    </ul>
+  )
+}
+
+const heroStatTabs = [
+  { id: 'marcas' as const, label: 'Marcas', icon: Stamp, stats: heroMarcaStats },
+  { id: 'patentes' as const, label: 'Patentes', icon: Lightbulb, stats: heroPatenteStats },
+] as const
+
+export function HeroSection() {
+  const [panel, setPanel] = useState<'marcas' | 'patentes'>('marcas')
+  const stats = panel === 'patentes' ? heroPatenteStats : heroMarcaStats
+
+  return (
+    <section aria-label="Presentación" className="relative">
+      <div className="home-atmosphere relative overflow-hidden">
+      <ContainerGRI size="wide" className="relative z-[1] pt-gob-8 pb-16 min-[905px]:pt-gob-12">
         <div className="mx-auto flex w-full flex-col items-center text-center">
-          <h1 className="portal-h1 w-full text-gob-text-inverse">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[rgba(162,209,255,0.3)] bg-[rgba(15,105,195,0.12)] px-4 py-1.5 text-sm font-medium text-[#A1D1FF]">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#2195F2]" aria-hidden />
+            Instituto Nacional de Propiedad Industrial
+          </div>
+          <h1 className="w-full max-w-3xl font-heading text-[2rem] font-bold not-italic leading-[1.5] text-white min-[905px]:text-[3rem]">
             Registra y protege tu marca o patente en Chile
           </h1>
-          <h2 className="mt-gob-6 w-full font-sans text-gri-body min-[600px]:text-[1.1875rem] font-normal leading-[1.5] !text-center text-gob-text-inverse">
-            Descubre cómo buscar, solicitar y proteger tus ideas e invenciones en línea.
-          </h2>
-          <Button
-            size="lg"
-            className="mt-gob-8 h-14 min-h-14 rounded-full bg-gob-primary px-gob-8 text-gri-h2 font-medium text-gob-text-inverse hover:bg-gob-primary-dark shadow-elevation-03"
-            asChild
-          >
-            <Link href="/tramites">Iniciar un trámite</Link>
-          </Button>
-          <ul className="mt-gob-8 flex w-full list-none flex-wrap items-center justify-center gap-x-gob-7 gap-y-gob-3">
-            {heroShortcuts.map(item => {
-              const Icon = item.icon
-              return (
-                <li key={item.href}>
+          <div className="mt-gob-5 w-full overflow-x-auto">
+            <h2 className={`mx-auto w-max whitespace-nowrap text-center font-sans text-[0.95rem] font-normal leading-[1.5] ${heroMuted} min-[905px]:text-lg`}>
+              Descubre cómo buscar, solicitar y proteger tus ideas e invenciones en línea.
+            </h2>
+          </div>
+          <div className="mt-gob-8 flex flex-row flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/tramites"
+              className="inline-flex h-12 min-h-12 items-center justify-center rounded-[8px] bg-[#0F69C3] px-gob-6 text-gri-btn font-medium text-white transition-colors hover:bg-gob-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+            >
+              Iniciar un trámite
+            </Link>
+            <Link
+              href="/tramites-digitales"
+              className={`inline-flex h-12 min-h-12 items-center justify-center rounded-[8px] border-[1.5px] border-white/55 bg-transparent px-gob-6 text-gri-btn font-medium ${heroMuted} transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus`}
+            >
+              Ver cómo iniciar el trámite
+            </Link>
+          </div>
+        </div>
+        <ul className="mt-12 flex w-full list-none flex-nowrap items-center justify-center gap-x-6 overflow-x-auto min-[905px]:mt-14 min-[905px]:gap-x-10">
+          {heroShortcuts.map((item, index) => {
+            const Icon = item.icon
+            return (
+              <Fragment key={item.href}>
+                {index > 0 ? (
+                  <li className="hidden shrink-0 min-[600px]:flex" aria-hidden>
+                    <div className="h-4 w-px bg-[rgba(162,209,255,0.2)]" />
+                  </li>
+                ) : null}
+                <li className="shrink-0">
                   <Link
                     href={item.href}
-                    className="inline-flex min-h-11 items-center gap-2 text-gri-body-sm font-medium text-gob-text-inverse underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+                    className={`inline-flex min-h-11 items-center gap-2 whitespace-nowrap text-gri-body-sm font-medium ${heroMuted} underline-offset-4 hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus`}
                   >
                     <Icon className="size-4 shrink-0" aria-hidden />
                     {item.label}
                   </Link>
                 </li>
+              </Fragment>
+            )
+          })}
+        </ul>
+        <div className="mt-16 min-[905px]:mt-20">
+          <div
+            role="tablist"
+            aria-label="Cifras de marcas y patentes"
+            className="mb-gob-5 flex flex-wrap items-center justify-center gap-gob-2"
+          >
+            {heroStatTabs.map(tab => {
+              const Icon = tab.icon
+              const selected = tab.id === panel
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={selected}
+                  className={cn(
+                    'inline-flex min-h-11 items-center gap-2 rounded-full border px-gob-4 py-gob-2 text-gri-body-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+                    selected
+                      ? 'border-white bg-white text-[#081F38] shadow-elevation-03'
+                      : `border-white/40 bg-transparent ${heroMuted} hover:border-white hover:text-white`,
+                  )}
+                  onClick={() => setPanel(tab.id)}
+                >
+                  <Icon className="size-4" aria-hidden />
+                  {tab.label}
+                </button>
               )
             })}
-          </ul>
+          </div>
+          <HeroStatsStrip key={panel} stats={stats} />
         </div>
       </ContainerGRI>
 
@@ -197,6 +334,7 @@ export function HeroSection() {
           })}
         </ul>
       </ContainerGRI>
+      </div>
     </section>
   )
 }

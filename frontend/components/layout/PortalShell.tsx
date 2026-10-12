@@ -5,7 +5,6 @@ import { ChatFAB } from '@/components/layout/ChatFAB'
 import { CommitPortalChrome } from '@/components/layout/CommitPortalChrome'
 import { DownloadToast } from '@/components/tramites/DownloadToast'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
 
 export type PortalShellProps = SiteHeaderProps & {
   children: React.ReactNode
@@ -25,23 +24,34 @@ export function PortalShell({
   lockChrome = false,
   ...headerProps
 }: PortalShellProps) {
+  const isHome = headerProps.variant === 'home'
+
   return (
     <TooltipProvider delayDuration={200}>
       {lockChrome ? null : <CommitPortalChrome />}
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="flex min-h-screen min-w-0 max-w-full flex-col bg-background">
         <SkipLink />
-        <SiteHeader {...headerProps} />
-        <div
-          id="contenido-principal"
-          tabIndex={-1}
-          className={cn(
-            'flex-1 outline-none',
-            headerProps.variant === 'page' && 'pt-gob-8 min-[905px]:pt-gob-8',
-          )}
-        >
-          {children}
-        </div>
-        <FooterINAPI />
+        {isHome ? (
+          <div className="home-atmosphere flex min-h-screen min-w-0 flex-col">
+            <SiteHeader {...headerProps} />
+            <div id="contenido-principal" tabIndex={-1} className="relative z-[1] flex-1 outline-none">
+              {children}
+            </div>
+            <FooterINAPI />
+          </div>
+        ) : (
+          <>
+            <div className="home-atmosphere">
+              <SiteHeader {...headerProps} />
+            </div>
+            <div id="contenido-principal" tabIndex={-1} className="relative z-[1] flex-1 outline-none">
+              {children}
+            </div>
+            <div className="home-atmosphere">
+              <FooterINAPI />
+            </div>
+          </>
+        )}
         <DownloadToast />
         {showChat && <ChatFAB />}
       </div>

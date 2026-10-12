@@ -26,6 +26,8 @@ const LOCALE_EVENT = 'inapi-locale-change'
 const originals = new WeakMap<Text, string>()
 const attrOriginals = new WeakMap<Element, Record<string, string>>()
 const TRANSLATABLE_ATTRS = ['placeholder', 'aria-label', 'title', 'alt'] as const
+const I18N_SKIP =
+  'script, style, noscript, template, [data-i18n-skip], nextjs-portal, [data-nextjs-dialog], [data-next-badge-root], [data-nextjs-toast]'
 
 type I18nContextValue = {
   locale: Locale
@@ -70,7 +72,7 @@ function translateTree(root: ParentNode, locale: Locale) {
   let node = walker.nextNode()
   while (node) {
     const textNode = node as Text
-    if (textNode.parentElement?.closest('script, style, noscript, [data-i18n-skip]')) {
+    if (textNode.parentElement?.closest(I18N_SKIP)) {
       node = walker.nextNode()
       continue
     }
@@ -95,7 +97,7 @@ function translateAttrs(root: ParentNode, locale: Locale) {
   let node = walker.nextNode()
   while (node) {
     const el = node as Element
-    if (el.closest('script, style, noscript, [data-i18n-skip]')) {
+    if (el.closest(I18N_SKIP)) {
       node = walker.nextNode()
       continue
     }
@@ -118,15 +120,22 @@ function translateAttrs(root: ParentNode, locale: Locale) {
 
 let applyingLocale = false
 
-function applyLocaleToDom(locale: Locale) {
-  if (applyingLocale) return
+function isSkippableNode(node: Node) {
+  const el = node instanceof Element ? node : node.parentElement
+  return !el || Boolean(el.closest(I18N_SKIP))
+}
+
+function applyLocaleToDom(locale: Locale, observer?: MutationObserver) {
+  if (applyingLocale || !document.body) return
   applyingLocale = true
+  observer?.disconnect()
   try {
     document.documentElement.lang = locale === 'en' ? 'en' : 'es'
     translateTree(document.body, locale)
     translateAttrs(document.body, locale)
   } finally {
     applyingLocale = false
+    observer?.observe(document.body, { childList: true, subtree: true })
   }
 }
 
@@ -141,11 +150,15 @@ export function LocaleProvider({
   const locale = useSyncExternalStore(subscribeLocale, readStoredLocale, () => initialLocale)
 
   useEffect(() => {
-    applyLocaleToDom(locale)
-    const observer = new MutationObserver(() => {
-      applyLocaleToDom(locale)
+    const observer = new MutationObserver(mutations => {
+      const shouldApply = mutations.some(mutation => {
+        if (isSkippableNode(mutation.target)) return false
+        if (mutation.addedNodes.length === 0) return true
+        return Array.from(mutation.addedNodes).some(node => !isSkippableNode(node))
+      })
+      if (shouldApply) applyLocaleToDom(locale, observer)
     })
-    observer.observe(document.body, { childList: true, subtree: true })
+    applyLocaleToDom(locale, observer)
     return () => observer.disconnect()
   }, [locale, pathname])
 

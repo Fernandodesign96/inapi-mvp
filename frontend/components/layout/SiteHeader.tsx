@@ -34,9 +34,11 @@ function resolveActive(active: PortalNavId): PortalNavId | 'none' {
 function SiteSearchForm({
   id,
   className,
+  compact = false,
 }: {
   id: string
   className?: string
+  compact?: boolean
 }) {
   const router = useRouter()
   const { tx } = useI18n()
@@ -45,7 +47,11 @@ function SiteSearchForm({
 
   return (
     <form
-      className={cn('flex items-center w-full min-w-0 max-w-[16rem]', className)}
+      className={cn(
+        'flex min-w-0 items-center',
+        compact ? 'w-full max-w-[22rem] min-[905px]:max-w-[28rem]' : 'w-full max-w-[16rem]',
+        className,
+      )}
       role="search"
       onSubmit={e => {
         e.preventDefault()
@@ -63,10 +69,18 @@ function SiteSearchForm({
           value={query}
           onChange={e => setQuery(e.target.value)}
           placeholder={searchLabel}
-          className="w-full h-11 min-h-11 pl-gob-4 pr-11 rounded-gob-md border border-gob-border bg-card text-gob-text text-gri-body outline-none focus-visible:ring-2 focus-visible:ring-gob-focus focus-visible:border-gob-focus-contrast"
+          className={cn(
+            'w-full pl-gob-4 pr-11 outline-none focus-visible:ring-2 focus-visible:ring-gob-focus focus-visible:border-gob-focus-contrast',
+            compact
+              ? 'home-search-input h-9 min-h-9 rounded-full border-0 bg-white text-gri-body-xs text-[#373737]'
+              : 'h-11 min-h-11 rounded-gob-md border border-gob-border bg-card text-gri-body text-gob-text',
+          )}
         />
         <Search
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gob-primary dark:text-gob-link pointer-events-none"
+          className={cn(
+            'pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#0051A8]',
+            compact ? 'size-4' : 'size-5',
+          )}
           aria-hidden
         />
       </div>
@@ -113,7 +127,9 @@ export function SiteHeader({
 
   const primaryNav = (
     <nav
-      className="flex items-center justify-center gap-gob-5 xl:gap-gob-7 flex-wrap"
+      className={cn(
+        'flex flex-nowrap items-center justify-center gap-gob-5 xl:gap-gob-7',
+      )}
       aria-label="Secciones principales"
     >
       {PORTAL_PRIMARY_NAV.map(item => {
@@ -137,7 +153,7 @@ export function SiteHeader({
                 <ChevronDown className="size-4" aria-hidden />
               </button>
               {open ? (
-                <ul className="absolute left-1/2 top-full z-50 mt-2 min-w-[16rem] -translate-x-1/2 rounded-gob-md border border-gob-border bg-card py-gob-2 text-gob-text shadow-elevation-04">
+                <ul className="absolute left-1/2 top-full z-[80] mt-2 min-w-[16rem] -translate-x-1/2 rounded-gob-md border border-gob-border bg-card py-gob-2 text-gob-text shadow-elevation-04">
                   {portalMenus[item.id].map(link => (
                     <li key={link.href}>
                       <Link
@@ -175,9 +191,9 @@ export function SiteHeader({
 
   return (
     <>
-    <header className="sticky top-0 z-50 w-full bg-inapi-portal-deep">
-      <div className="portal-nav-tone bg-inapi-portal-deep text-gob-text-inverse" ref={navRef}>
-        <div className="mx-auto flex max-w-[1600px] items-center gap-gob-3 min-[600px]:gap-gob-5 px-gob-4 min-[600px]:px-gob-5 min-[905px]:px-gob-8 py-gob-4">
+    <header className="sticky top-0 z-50 w-full bg-transparent px-gob-4 pt-gob-3 pb-gob-3 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
+      <div className="home-chrome-bar relative z-20 overflow-visible text-gob-text-inverse" ref={navRef}>
+        <div className="mx-auto flex max-w-[1600px] items-center gap-gob-3 px-gob-4 py-gob-3 min-[600px]:gap-gob-5 min-[600px]:px-gob-5">
           <div className="flex min-w-0 shrink-0 items-center sm:min-w-[8.5rem] lg:min-w-[12rem]">
             <Link href="/" className="flex items-center gap-gob-3 shrink-0 min-w-0">
               <Image
@@ -188,7 +204,7 @@ export function SiteHeader({
                 className="h-11 w-auto object-contain"
                 priority
               />
-              <span className="hidden xl:block text-gri-body-sm font-medium leading-[1.5] text-gob-text-inverse/90 max-w-[180px]">
+              <span className="hidden max-w-[180px] text-gri-body-sm font-medium leading-[1.5] text-gob-text-inverse/90 min-[1600px]:block">
                 Instituto Nacional de Propiedad Industrial
               </span>
             </Link>
@@ -214,25 +230,32 @@ export function SiteHeader({
         </div>
       </div>
 
-      <div className="hidden min-[768px]:block border-b border-gob-border bg-inapi-portal-subnav">
-        <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-center gap-x-gob-6 gap-y-gob-2 px-gob-4 min-[600px]:px-gob-5 min-[905px]:px-gob-8 py-gob-3">
-          <nav className="flex flex-wrap items-center justify-center gap-x-gob-6 gap-y-gob-2" aria-label="Enlaces del portal">
+      <div className="relative z-10 mt-gob-2 hidden w-full min-[768px]:block">
+        <div className="home-chrome-sub flex w-full items-center justify-between gap-x-gob-4 px-gob-5 py-gob-2 min-[905px]:px-gob-6">
+          <nav
+            className="flex min-w-0 flex-1 flex-nowrap items-center justify-start gap-x-gob-4 overflow-x-auto min-[905px]:gap-x-gob-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            aria-label="Enlaces del portal"
+          >
             {PORTAL_SECONDARY_NAV.map(item => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-gri-body-sm font-medium leading-[1.5] text-gob-link hover:text-gob-link-hover hover:underline underline-offset-4 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+                className="whitespace-nowrap text-[0.75rem] font-medium leading-[1.5] text-white/88 transition-colors hover:text-white hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
-          <SiteSearchForm id={desktopSearchId} />
+          <SiteSearchForm
+            id={desktopSearchId}
+            compact
+            className="ml-auto w-48 shrink-0 min-[1100px]:w-64 min-[1440px]:w-80 min-[1600px]:w-[22rem]"
+          />
         </div>
       </div>
 
-      <div className="min-[768px]:hidden border-b border-gob-border bg-inapi-portal-subnav px-gob-4 py-gob-3">
-        <SiteSearchForm id={mobileSearchId} className="max-w-none" />
+      <div className="relative z-10 mt-gob-2 home-chrome-sub px-gob-4 py-gob-2 min-[768px]:hidden">
+        <SiteSearchForm id={mobileSearchId} compact className="max-w-none" />
       </div>
 
       {mobileOpen && (
@@ -295,13 +318,11 @@ export function SiteHeader({
       )}
     </header>
     {variant === 'page' && pageTitle ? (
-      <div className="portal-ambient-hero bg-inapi-portal-hero border-b border-white/10">
-        <div className="relative z-[1] mx-auto max-w-[1600px] px-gob-4 min-[600px]:px-gob-5 min-[905px]:px-gob-8 pt-gob-7 pb-gob-8 space-y-gob-4">
+      <div className="relative z-[1] border-b border-white/10">
+        <div className="mx-auto max-w-[1600px] space-y-gob-4 px-gob-4 pt-gob-7 pb-gob-8 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
           {breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} tone="inverse" />}
           <h1 className="portal-h1 text-gob-text-inverse">{pageTitle}</h1>
-          {pageSubtitle ? (
-            <p className="portal-lead max-w-none text-gob-text-inverse">{pageSubtitle}</p>
-          ) : null}
+          {pageSubtitle ? <p className="portal-lead max-w-none text-gob-text-inverse">{pageSubtitle}</p> : null}
         </div>
       </div>
     ) : null}

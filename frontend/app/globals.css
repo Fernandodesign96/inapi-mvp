@@ -212,6 +212,10 @@
 }
 
 :root {
+  --home-sky-0: #0A2C4D;
+  --home-sky-1: #0E4A78;
+  --home-sky-2: #125FA0;
+  --home-beam: color-mix(in srgb, #4282e0 52%, transparent);
   /* ── 1. Variables fuente UI Kit v3.0.1 (Fase 0) ── */
 
   /* Primario GOB.COLOR.PRIMARIO */
@@ -350,6 +354,10 @@
 
 /* ── Tema oscuro UI Kit v3.0.1 (Fase 8) — §4 DESIGN_SYSTEM.md ── */
 .dark {
+  --home-sky-0: #03070E;
+  --home-sky-1: #061526;
+  --home-sky-2: #00135A;
+  --home-beam: color-mix(in srgb, #4282e0 38%, transparent);
   /* Primario — lighten sobre fondo oscuro */
   --gob-primary: #0F69C4;
   --gob-primary-dark: #0051A8;
@@ -454,17 +462,28 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground text-gri-body;
+    @apply overflow-x-clip bg-background text-foreground text-gri-body;
   }
 
   html {
-    @apply font-sans;
+    @apply overflow-x-clip font-sans;
   }
 
-  .dark header input[type='search'] {
+  .dark header input[type='search']:not(.home-search-input) {
     background-color: var(--background);
     border-color: var(--gob-border-strong);
     color: var(--gob-text);
+  }
+
+  .home-search-input,
+  .dark .home-search-input {
+    background-color: #ffffff;
+    color: #373737;
+  }
+
+  .home-search-input::placeholder,
+  .dark .home-search-input::placeholder {
+    color: #6b7280;
   }
 
   /* Encabezados institucionales → Roboto Slab */
@@ -579,6 +598,89 @@
   .focus-gob {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
+}
+
+.home-atmosphere {
+  position: relative;
+  isolation: isolate;
+  background-color: #081f38;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='rgba(162,209,255,0.06)' stroke-width='0.5'/%3E%3C/svg%3E"),
+    linear-gradient(170deg, #081f38 0%, #001359 55%, #002672 100%);
+  background-repeat: repeat, no-repeat;
+  background-size: 60px 60px, 100% 100%;
+}
+
+.home-atmosphere::before {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 110%,
+    rgba(15, 105, 195, 0.45) 0%,
+    rgba(0, 80, 168, 0.2) 40%,
+    transparent 70%
+  );
+}
+
+.home-atmosphere::after {
+  content: none;
+}
+
+.home-chrome-bar {
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--home-sky-0) 62%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 32px rgba(6, 21, 38, 0.22);
+  backdrop-filter: blur(18px);
+}
+
+.home-chrome-sub {
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--home-sky-0) 38%, transparent);
+  box-shadow: 0 6px 18px rgba(6, 21, 38, 0.16);
+  backdrop-filter: blur(16px);
+}
+
+.home-footer-dusk {
+  background-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, #00135a 32%, transparent) 42%,
+    color-mix(in srgb, #000814 88%, #00135a) 100%
+  );
+}
+
+.home-footer-rule {
+  height: 1px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.home-soft-band {
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--home-sky-2) 42%, var(--gob-surface)) 0%,
+    color-mix(in srgb, var(--gob-surface) 88%, var(--home-sky-1)) 22%,
+    var(--gob-surface) 52%,
+    color-mix(in srgb, var(--gob-surface) 92%, var(--home-sky-0)) 100%
+  );
+}
+
+.home-visual-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.home-visual-ring {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, #bfeeff 35%, transparent);
+  pointer-events: none;
 }
 
 .portal-ambient-hero {

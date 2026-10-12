@@ -18,11 +18,11 @@ export default function HomePage() {
   return (
     <PortalShell active="home" variant="home">
       <HeroSection />
-      <WhatToProtect />
-      <div className="portal-ambient-hero bg-inapi-portal-hero">
+      <div className="relative z-[1] bg-background">
+        <WhatToProtect />
         <QuickAccess />
-        <StatsSection />
       </div>
+      <StatsSection />
       <NewsSection />
       <HomePromoBanners />
       <HomeObservanciaCarousel />

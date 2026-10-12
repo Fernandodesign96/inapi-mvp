@@ -28,8 +28,13 @@ const linkClass =
 
 export function FooterINAPI() {
   return (
-    <footer className="w-full bg-inapi-portal-hero text-gob-text-inverse mt-auto">
-      <ContainerGRI size="wide" className="py-gob-8 grid gap-gob-8 min-[700px]:grid-cols-2 min-[1280px]:grid-cols-4 min-[1280px]:justify-between">
+    <footer className="home-footer-dusk relative z-[1] mt-auto w-full text-gob-text-inverse">
+      <div className="home-footer-rule" aria-hidden />
+
+      <ContainerGRI
+        size="wide"
+        className="grid gap-gob-8 py-gob-8 min-[700px]:grid-cols-2 min-[1280px]:grid-cols-4 min-[1280px]:justify-between"
+      >
         <div className="space-y-gob-4 min-[1280px]:max-w-sm">
           <Image
             src="/inapi-mvp/inapi-logo.jpg"
@@ -71,12 +76,7 @@ export function FooterINAPI() {
             </li>
             {SOCIAL_LINKS.map(item => (
               <li key={item.href}>
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={linkClass}
-                >
+                <a href={item.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
                   {item.label}
                 </a>
               </li>
@@ -98,27 +98,20 @@ export function FooterINAPI() {
         </div>
       </ContainerGRI>
 
-      <div className="bg-inapi-portal-deep py-gob-5 px-gob-4">
-        <ContainerGRI
-          size="wide"
-          className="flex flex-col gap-gob-4 min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between text-gri-body-sm text-gob-text-inverse/78"
-        >
+      <div className="home-footer-rule" aria-hidden />
+      <ContainerGRI size="wide">
+        <div className="flex flex-col gap-gob-4 py-gob-5 min-[600px]:flex-row min-[600px]:items-center min-[600px]:justify-between text-gri-body-sm text-gob-text-inverse/78">
           <p>©2026 INAPI. Todos los derechos reservados</p>
           <nav className="flex flex-wrap gap-gob-5" aria-label="Enlaces legales">
-            <a
-              href={PRIVACY_PDF}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={linkClass}
-            >
+            <a href={PRIVACY_PDF} target="_blank" rel="noopener noreferrer" className={linkClass}>
               Política de privacidad
             </a>
           </nav>
-        </ContainerGRI>
-        <ContainerGRI size="wide" className="mt-gob-3">
-          <p className="text-gri-body-sm text-gob-text-inverse/78">Última actualización: {LAST_UPDATED}</p>
-        </ContainerGRI>
-      </div>
+        </div>
+        <p className="pb-gob-6 text-gri-body-sm text-gob-text-inverse/78">
+          {`Última actualización: ${LAST_UPDATED}`}
+        </p>
+      </ContainerGRI>
     </footer>
   )
 }

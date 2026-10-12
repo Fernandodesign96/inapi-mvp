@@ -37,16 +37,16 @@ const novedades = [
 
 export function NewsSection() {
   return (
-    <section aria-labelledby="noticias-title" className="bg-card py-gob-8 min-[905px]:py-20">
+    <section aria-labelledby="noticias-title" className="relative z-[1] py-gob-8 min-[905px]:py-20">
       <ContainerGRI size="wide" className="space-y-gob-8">
         <div className="space-y-gob-3">
           <h2
             id="noticias-title"
-            className="font-heading text-[clamp(1.25rem,2.4vw,2.25rem)] font-medium leading-[1.5] text-gob-text min-[600px]:whitespace-nowrap"
+            className="font-heading text-[clamp(1.25rem,2.4vw,2.25rem)] font-medium leading-[1.5] text-gob-text-inverse"
           >
             Conoce las novedades más recientes de nuestra sala de prensa
           </h2>
-          <p className="portal-lead max-w-none text-gob-text">
+          <p className="portal-lead max-w-none text-gob-text-inverse">
             Comunicados, hitos y actividades recientes del Instituto Nacional de Propiedad Industrial.
           </p>
         </div>
@@ -54,7 +54,7 @@ export function NewsSection() {
           {novedades.map(n => (
             <article
               key={n.titulo}
-              className="portal-card-motion flex flex-col overflow-hidden rounded-gob-lg border border-gob-border bg-background shadow-elevation-02"
+              className="portal-card-motion flex flex-col overflow-hidden rounded-gob-lg border border-gob-border bg-card shadow-elevation-02"
             >
               <Image
                 src={n.image}

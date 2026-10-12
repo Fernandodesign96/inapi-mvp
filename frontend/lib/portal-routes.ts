@@ -31,6 +31,7 @@ export const PORTAL_SECONDARY_NAV = [
   { label: 'Conoce más', href: '/conoce-mas' },
   { label: 'Glosario', href: '/glosario' },
   { label: 'Observancia', href: '/observancia' },
+  { label: 'Sello de origen', href: '/sello-de-origen' },
   { label: 'Centro de documentación', href: '/documentacion' },
   { label: 'Conecta', href: '/conecta' },
   { label: 'Gasto presupuestario', href: '/transparencia/gasto-presupuestario' },

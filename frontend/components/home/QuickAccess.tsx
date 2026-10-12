@@ -29,6 +29,8 @@ type CatalogItem = {
   how: string[]
   needs: string[]
   example: string
+  href?: string
+  cta?: string
 }
 
 const herramientas: CatalogItem[] = [
@@ -47,6 +49,8 @@ const herramientas: CatalogItem[] = [
       'Una idea de las clases de productos o servicios.',
     ],
     example: 'Ejemplo: buscas “Andes Café” y ves una marca “Andes Coffee” en la misma clase.',
+    href: '/marcas/buscador-similitud',
+    cta: 'Abrir el buscador de marcas',
   },
   {
     icon: LayoutGrid,
@@ -62,6 +66,8 @@ const herramientas: CatalogItem[] = [
       'La lista de productos o servicios que quieres proteger.',
     ],
     example: 'Ejemplo: escribes “café tostado” y el clasificador te sugiere la clase 30.',
+    href: '/tramites/marcas/clasificador',
+    cta: 'Abrir el buscador de productos y servicios',
   },
   {
     icon: FileSearch,
@@ -77,6 +83,8 @@ const herramientas: CatalogItem[] = [
       'Palabras que describan el invento, o un número de solicitud.',
     ],
     example: 'Ejemplo: buscas “filtro de agua portátil” y ves solicitudes con un mecanismo similar.',
+    href: '/tramites/patentes/buscador',
+    cta: 'Abrir el buscador de patentes',
   },
 ]
 
@@ -300,6 +308,14 @@ function CatalogCard({ item }: { item: CatalogItem }) {
         ))}
       </ul>
       <p className="mt-gob-3 flex-1 text-gri-body-sm leading-[1.5] text-muted-foreground">{item.example}</p>
+      {item.href && item.cta ? (
+        <Link
+          href={item.href}
+          className="mt-gob-4 inline-flex min-h-11 items-center text-gri-body-sm font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+        >
+          {item.cta}
+        </Link>
+      ) : null}
     </article>
   )
 }
@@ -324,24 +340,26 @@ function SectionIntro({
   titleId: string
   title: string
   lead: string
-  ctaHref: string
-  ctaLabel: string
+  ctaHref?: string
+  ctaLabel?: string
 }) {
   return (
     <div className="flex flex-col gap-gob-5 min-[905px]:flex-row min-[905px]:items-end min-[905px]:justify-between">
       <div className="max-w-4xl space-y-gob-4">
-        <h2 id={titleId} className="portal-h2 text-gob-text-inverse">
+        <h2 id={titleId} className="portal-h2 text-gob-text">
           {title}
         </h2>
-        <p className="portal-lead text-gob-text-inverse">{lead}</p>
+        <p className="portal-lead text-gob-text">{lead}</p>
       </div>
-      <Button
-        size="lg"
-        className="h-14 min-h-14 shrink-0 rounded-full bg-gob-primary px-gob-8 text-gob-text-inverse hover:bg-gob-primary-dark"
-        asChild
-      >
-        <Link href={ctaHref}>{ctaLabel}</Link>
-      </Button>
+      {ctaHref && ctaLabel ? (
+        <Button
+          size="lg"
+          className="h-14 min-h-14 shrink-0 rounded-full bg-gob-primary px-gob-8 text-gob-text-inverse hover:bg-gob-primary-dark"
+          asChild
+        >
+          <Link href={ctaHref}>{ctaLabel}</Link>
+        </Button>
+      ) : null}
     </div>
   )
 }
@@ -358,8 +376,6 @@ export function QuickAccess() {
             titleId="herramientas-inapi-title"
             title="Revisa los tipos de herramientas de INAPI"
             lead="Compara marcas, elige las clases de Niza y busca patentes antes de presentar. Estas herramientas son de consulta: no inician un trámite ni reemplazan el examen de INAPI."
-            ctaHref="/marcas/buscadores"
-            ctaLabel="Ir a los buscadores"
           />
           <CatalogGrid items={herramientas} />
         </ContainerGRI>
@@ -379,14 +395,14 @@ export function QuickAccess() {
           <div className="text-center">
             <button
               type="button"
-              className="inline-flex min-h-11 items-center justify-center gap-gob-2 rounded-gob-md px-gob-4 text-gri-body font-medium text-gob-text-inverse underline decoration-white/40 underline-offset-4 hover:decoration-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+              className="inline-flex min-h-11 items-center justify-center gap-gob-2 rounded-gob-md px-gob-4 text-gri-body font-medium text-gob-link underline decoration-gob-link/40 underline-offset-4 hover:decoration-gob-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
               aria-expanded={showSecondary}
               aria-controls={secondaryId}
               onClick={() => setShowSecondary(open => !open)}
             >
               {showSecondary
-                ? 'Ocultar trámites secundarios'
-                : 'Mostrar trámites secundarios'}
+                ? 'Ocultar otros trámites'
+                : 'Mostrar otros trámites'}
               <ChevronDown
                 className={cn('size-5 transition-transform duration-200', showSecondary && 'rotate-180')}
                 aria-hidden

@@ -99,7 +99,7 @@ const tabs: Tab[] = [
         icon: ListOrdered,
         title: 'Etapas',
         description:
-          'El registro tiene tres etapas. Si no hay oposiciones, suele tardar entre 6 y 8 meses.',
+          'El registro tiene tres etapas. En 2024, las marcas sin oposición tardaron en promedio 4,5 meses.',
         bullets: [
           'Presentación y revisión de forma.',
           'Publicación en el Diario Oficial y plazo de oposición.',
@@ -114,7 +114,7 @@ const tabs: Tab[] = [
         description:
           'Un atraso o un signo parecido puede alargar o cerrar el trámite. Revisa estos puntos antes de presentar.',
         bullets: [
-          'Una oposición alarga el plazo habitual de 6 a 8 meses.',
+          'Una oposición alarga el plazo: el promedio general en 2024 fue de 8,4 meses.',
           'Si rechazan, puedes apelar ante el Tribunal de Propiedad Industrial.',
           'Un pago fuera de plazo puede dejar sin efecto la solicitud.',
           'Busca marcas parecidas para reducir el riesgo de rechazo.',
@@ -438,7 +438,7 @@ export function WhatToProtect() {
   const current = tabs.find(tab => tab.id === active) ?? tabs[0]
 
   return (
-    <section id="que-proteger" aria-labelledby="que-proteger-title" className="bg-card pb-gob-8 pt-gob-8 min-[905px]:py-gob-8">
+    <section id="que-proteger" aria-labelledby="que-proteger-title" className="relative z-[1] bg-background pb-gob-8 pt-gob-8 min-[905px]:py-gob-8">
       <ContainerGRI size="wide" className="space-y-gob-7">
         <div className="mx-auto max-w-4xl space-y-gob-4 text-center">
           <h2 id="que-proteger-title" className="portal-h2 text-gob-text">

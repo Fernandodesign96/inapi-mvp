@@ -32,6 +32,7 @@ export const INAPI_CHROME_EVENT = 'inapi-chrome-change'
 export function writeInapiChrome(chrome: InapiChrome) {
   if (typeof window === 'undefined') return
   try {
+    if (readInapiChrome() === chrome) return
     sessionStorage.setItem(INAPI_CHROME_KEY, chrome)
     document.cookie = `inapi-chrome=${chrome}; path=/; SameSite=Lax`
     window.dispatchEvent(new Event(INAPI_CHROME_EVENT))
