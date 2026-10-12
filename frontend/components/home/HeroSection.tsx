@@ -173,7 +173,10 @@ function HeroStatsStrip({
             </li>
           ) : null}
           <li className="min-w-[8rem] flex-1 px-gob-2 text-center">
-            <p className="font-heading text-[1.75rem] font-bold leading-[1.2] text-white">
+            <p
+              className="font-heading text-[1.75rem] font-bold leading-[1.2] text-white"
+              data-i18n-skip
+            >
               {reduce || !inView ? (
                 `${stat.prefix}${formatMiles(stat.end, stat.decimals)}${stat.suffix}`
               ) : (

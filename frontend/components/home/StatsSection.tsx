@@ -53,9 +53,9 @@ function AreaCard({
   return (
     <article
       data-i18n-skip
-      className="flex min-h-[18rem] min-w-0 flex-1 flex-col rounded-gob-lg border border-white/12 bg-[#07182b] p-gob-5"
+      className="flex h-[18rem] min-w-0 flex-col rounded-gob-lg border border-white/12 bg-[#07182b] p-gob-5"
     >
-      <div className="min-h-0 flex-1">
+      <div className="h-full min-h-0 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={[...data]} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <defs>

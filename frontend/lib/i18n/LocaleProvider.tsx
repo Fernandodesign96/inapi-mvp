@@ -27,7 +27,7 @@ const originals = new WeakMap<Text, string>()
 const attrOriginals = new WeakMap<Element, Record<string, string>>()
 const TRANSLATABLE_ATTRS = ['placeholder', 'aria-label', 'title', 'alt'] as const
 const I18N_SKIP =
-  'script, style, noscript, template, [data-i18n-skip], nextjs-portal, [data-nextjs-dialog], [data-next-badge-root], [data-nextjs-toast]'
+  'script, style, noscript, template, svg, canvas, [data-i18n-skip], nextjs-portal, [data-nextjs-dialog], [data-next-badge-root], [data-nextjs-toast]'
 
 type I18nContextValue = {
   locale: Locale
@@ -118,25 +118,11 @@ function translateAttrs(root: ParentNode, locale: Locale) {
   }
 }
 
-let applyingLocale = false
-
-function isSkippableNode(node: Node) {
-  const el = node instanceof Element ? node : node.parentElement
-  return !el || Boolean(el.closest(I18N_SKIP))
-}
-
-function applyLocaleToDom(locale: Locale, observer?: MutationObserver) {
-  if (applyingLocale || !document.body) return
-  applyingLocale = true
-  observer?.disconnect()
-  try {
-    document.documentElement.lang = locale === 'en' ? 'en' : 'es'
-    translateTree(document.body, locale)
-    translateAttrs(document.body, locale)
-  } finally {
-    applyingLocale = false
-    observer?.observe(document.body, { childList: true, subtree: true })
-  }
+function applyLocaleToDom(locale: Locale) {
+  if (!document.body) return
+  document.documentElement.lang = locale === 'en' ? 'en' : 'es'
+  translateTree(document.body, locale)
+  translateAttrs(document.body, locale)
 }
 
 export function LocaleProvider({
@@ -150,16 +136,16 @@ export function LocaleProvider({
   const locale = useSyncExternalStore(subscribeLocale, readStoredLocale, () => initialLocale)
 
   useEffect(() => {
-    const observer = new MutationObserver(mutations => {
-      const shouldApply = mutations.some(mutation => {
-        if (isSkippableNode(mutation.target)) return false
-        if (mutation.addedNodes.length === 0) return true
-        return Array.from(mutation.addedNodes).some(node => !isSkippableNode(node))
-      })
-      if (shouldApply) applyLocaleToDom(locale, observer)
-    })
-    applyLocaleToDom(locale, observer)
-    return () => observer.disconnect()
+    let cancelled = false
+    const run = () => {
+      if (!cancelled) applyLocaleToDom(locale)
+    }
+    run()
+    const trailing = window.setTimeout(run, 400)
+    return () => {
+      cancelled = true
+      window.clearTimeout(trailing)
+    }
   }, [locale, pathname])
 
   const setLocale = useCallback((next: Locale) => {
