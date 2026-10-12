@@ -19,7 +19,7 @@ const estadoConfig = {
   activa: {
     circle: 'bg-stepper-active-bg text-stepper-active border-stepper-active ring-4 ring-stepper-active/10 scale-110',
     linea: 'bg-gob-border',
-    label: 'text-stepper-active font-bold',
+    label: 'text-stepper-active font-semibold',
     icono: (num: number) => <span className="text-gri-body-xs font-bold">{num}</span>,
   },
   completada: {
@@ -47,17 +47,17 @@ export function StepperSolicitud({ secciones }: Props) {
       {/* Encabezado con progreso */}
       <div className="flex items-end justify-between px-1">
         <div className="space-y-0.5">
-          <p className="text-gri-label font-semibold text-muted-foreground uppercase tracking-widest sm:hidden">
+          <p className="text-gri-body-sm font-medium text-gob-text sm:hidden">
             Paso {pasoActualNum} de {secciones.length}
           </p>
-          <h3 className="hidden sm:block font-heading text-gri-body-sm font-medium text-gob-text tracking-tight uppercase">
-            Avance de Solicitud
+          <h3 className="hidden font-heading text-gri-body-sm font-medium text-gob-text sm:block">
+            Avance de la solicitud
           </h3>
-          <p className="hidden sm:block text-gri-body-xs text-muted-foreground font-medium">
+          <p className="hidden text-gri-body-xs font-medium text-gob-text/80 sm:block">
             {completadas} de {secciones.length} etapas procesadas
           </p>
         </div>
-        <span className="text-2xl font-black text-gob-primary tabular-nums font-mono">
+        <span className="font-heading text-2xl font-bold tabular-nums text-gob-primary">
           {porcentaje}%
         </span>
       </div>
@@ -115,7 +115,7 @@ export function StepperSolicitud({ secciones }: Props) {
                 <div className="mt-2.5 text-center px-1">
                   <span
                     className={cn(
-                      'block text-gri-label uppercase tracking-wider font-bold transition-colors duration-300 leading-tight',
+                      'block text-gri-body-xs font-medium leading-tight transition-colors duration-300',
                       config.label
                     )}
                   >
@@ -131,7 +131,7 @@ export function StepperSolicitud({ secciones }: Props) {
       {/* Vista móvil — nombre del paso actual */}
       <div className="sm:hidden">
         {secciones.map((s, i) => s.estado === 'activa' && (
-          <p key={s.id} className="text-gri-body-sm font-bold text-stepper-active text-center">
+          <p key={s.id} className="text-center text-gri-body-sm font-medium text-stepper-active">
             {i + 1}. {s.nombre}
           </p>
         ))}

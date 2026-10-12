@@ -1,7 +1,7 @@
 'use client'
 
 import { useId, useState, type ComponentType } from 'react'
-import Link from 'next/link'
+import { TramitesLink } from '@/components/tramites/TramitesLink'
 import {
   ChevronDown,
   CreditCard,
@@ -309,12 +309,12 @@ function CatalogCard({ item }: { item: CatalogItem }) {
       </ul>
       <p className="mt-gob-3 flex-1 text-gri-body-sm leading-[1.5] text-muted-foreground">{item.example}</p>
       {item.href && item.cta ? (
-        <Link
+        <TramitesLink
           href={item.href}
           className="mt-gob-4 inline-flex min-h-11 items-center text-gri-body-sm font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
         >
           {item.cta}
-        </Link>
+        </TramitesLink>
       ) : null}
     </article>
   )
@@ -357,7 +357,7 @@ function SectionIntro({
           className="h-14 min-h-14 shrink-0 rounded-full bg-gob-primary px-gob-8 text-gob-text-inverse hover:bg-gob-primary-dark"
           asChild
         >
-          <Link href={ctaHref}>{ctaLabel}</Link>
+          <TramitesLink href={ctaHref}>{ctaLabel}</TramitesLink>
         </Button>
       ) : null}
     </div>

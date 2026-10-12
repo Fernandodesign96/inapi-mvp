@@ -5,7 +5,7 @@ import { goTramites } from '@/lib/tramites/go'
 
 export default function IngresarRedirectPage() {
   useEffect(() => {
-    goTramites('/tramites/auth')
+    goTramites(`/tramites/auth${window.location.search}`)
   }, [])
 
   return (

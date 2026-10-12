@@ -2,6 +2,7 @@
 
 import { Fragment, useRef, useState } from 'react'
 import Link from 'next/link'
+import { TramitesLink } from '@/components/tramites/TramitesLink'
 import {
   Bell,
   Clock,
@@ -18,6 +19,7 @@ import {
 import CountUp from 'react-countup'
 import { useInView, useReducedMotion } from 'framer-motion'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
+import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { cn } from '@/lib/utils'
 
 const heroShortcuts = [
@@ -154,18 +156,24 @@ function HeroStatsStrip({
     decimals?: number
   }[]
 }) {
+  const { tx, locale } = useI18n()
   const ref = useRef<HTMLUListElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.35 })
   const reduce = useReducedMotion()
   const formatMiles = (value: number, decimals = 0) =>
-    value.toLocaleString('es-CL', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+    value.toLocaleString(locale === 'en' ? 'en-US' : 'es-CL', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    })
 
   return (
     <ul
       ref={ref}
       className="mx-auto flex w-full list-none flex-nowrap items-stretch justify-between gap-x-gob-3 overflow-x-auto min-[905px]:gap-x-gob-6"
     >
-      {(stats ?? []).map((stat, index) => (
+      {(stats ?? []).map((stat, index) => {
+        const suffix = tx(stat.suffix || '')
+        return (
         <Fragment key={stat.label}>
           {index > 0 ? (
             <li className="hidden min-[700px]:flex" aria-hidden>
@@ -178,24 +186,25 @@ function HeroStatsStrip({
               data-i18n-skip
             >
               {reduce || !inView ? (
-                `${stat.prefix}${formatMiles(stat.end, stat.decimals)}${stat.suffix}`
+                `${stat.prefix}${formatMiles(stat.end, stat.decimals)}${suffix}`
               ) : (
                 <CountUp
                   start={0}
                   end={stat.end}
                   prefix={stat.prefix}
-                  suffix={stat.suffix}
-                  separator="."
+                  suffix={suffix}
+                  separator={locale === 'en' ? ',' : '.'}
                   decimals={stat.decimals ?? 0}
-                  decimal=","
+                  decimal={locale === 'en' ? '.' : ','}
                   duration={1.2}
                 />
               )}
             </p>
-            <p className={`mt-1 font-sans text-[0.75rem] leading-[1.4] ${heroMuted}`}>{stat.label}</p>
+            <p className={`mt-1 font-sans text-[0.75rem] leading-[1.4] ${heroMuted}`}>{tx(stat.label)}</p>
           </li>
         </Fragment>
-      ))}
+        )
+      })}
     </ul>
   )
 }
@@ -206,6 +215,7 @@ const heroStatTabs = [
 ] as const
 
 export function HeroSection() {
+  const { tx } = useI18n()
   const [panel, setPanel] = useState<'marcas' | 'patentes'>('marcas')
   const stats = panel === 'patentes' ? heroPatenteStats : heroMarcaStats
 
@@ -227,12 +237,12 @@ export function HeroSection() {
             </h2>
           </div>
           <div className="mt-gob-8 flex flex-row flex-wrap items-center justify-center gap-3">
-            <Link
+            <TramitesLink
               href="/tramites"
               className="inline-flex h-12 min-h-12 items-center justify-center rounded-[8px] bg-[#0F69C3] px-gob-6 text-gri-btn font-medium text-white transition-colors hover:bg-gob-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
             >
               Iniciar un trámite
-            </Link>
+            </TramitesLink>
             <Link
               href="/tramites-digitales"
               className={`inline-flex h-12 min-h-12 items-center justify-center rounded-[8px] border-[1.5px] border-white/55 bg-transparent px-gob-6 text-gri-btn font-medium ${heroMuted} transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus`}
@@ -252,13 +262,13 @@ export function HeroSection() {
                   </li>
                 ) : null}
                 <li className="shrink-0">
-                  <Link
+                  <TramitesLink
                     href={item.href}
                     className={`inline-flex min-h-11 items-center gap-2 whitespace-nowrap text-gri-body-sm font-medium ${heroMuted} underline-offset-4 hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus`}
                   >
                     <Icon className="size-4 shrink-0" aria-hidden />
                     {item.label}
-                  </Link>
+                  </TramitesLink>
                 </li>
               </Fragment>
             )
@@ -288,7 +298,7 @@ export function HeroSection() {
                   onClick={() => setPanel(tab.id)}
                 >
                   <Icon className="size-4" aria-hidden />
-                  {tab.label}
+                  {tx(tab.label)}
                 </button>
               )
             })}
@@ -325,12 +335,12 @@ export function HeroSection() {
                       <li key={item}>{item}</li>
                     ))}
                   </ListTag>
-                  <Link
+                  <TramitesLink
                     href={card.href}
                     className="mt-gob-4 inline-flex min-h-11 items-center text-gri-body-sm font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
                   >
                     {card.cta}
-                  </Link>
+                  </TramitesLink>
                 </article>
               </li>
             )

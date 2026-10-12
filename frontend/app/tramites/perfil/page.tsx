@@ -1,19 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { UserRound } from 'lucide-react'
+import { LogOut, UserRound } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
 import { TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import { COMUNAS_POR_REGION, REGIONES_CHILE } from '@/lib/tramites/catalogs'
+import { goTramites } from '@/lib/tramites/go'
 import { useTramitesSession } from '@/lib/tramites/use-session'
 import { cn } from '@/lib/utils'
 
 type Tab = 'clave' | 'email' | 'datos' | 'claveunica' | 'olvidar'
 
 export default function PerfilPage() {
-  const { session } = useTramitesSession()
+  const { session, logout } = useTramitesSession()
   const [tab, setTab] = useState<Tab>('clave')
   const [msg, setMsg] = useState('')
   const [region, setRegion] = useState('Valparaíso')
@@ -57,16 +58,16 @@ export default function PerfilPage() {
               <dt className="mt-2 text-muted-foreground">Correo principal</dt>
               <dd>{session.email}</dd>
             </dl>
-            <nav className="flex flex-col border border-gob-border rounded-gob-md overflow-hidden">
+            <nav className="flex flex-col overflow-hidden rounded-gob-md border border-gob-border">
               {tabs.map(t => (
                 <button
                   key={t.id}
                   type="button"
                   className={cn(
-                    'min-h-12 px-gob-4 text-left text-gri-body-xs font-medium uppercase tracking-wide border-b border-gob-border last:border-0',
+                    'border-b border-gob-border px-gob-5 text-left text-gri-body-sm font-medium leading-snug last:border-0',
                     tab === t.id || (tab === 'olvidar' && t.id === 'clave')
-                      ? 'bg-gob-primary text-white'
-                      : 'bg-card hover:bg-gob-surface-elevated',
+                      ? 'min-h-16 bg-gob-primary py-gob-4 text-white'
+                      : 'min-h-14 bg-card py-gob-3 text-gob-text hover:bg-gob-surface-elevated',
                   )}
                   onClick={() => {
                     setTab(t.id)
@@ -77,6 +78,19 @@ export default function PerfilPage() {
                 </button>
               ))}
             </nav>
+            <Button
+              type="button"
+              variant="destructive"
+              size="form"
+              className="w-full gap-2 border border-destructive/30 font-semibold"
+              onClick={() => {
+                logout()
+                goTramites('/')
+              }}
+            >
+              <LogOut className="size-4" aria-hidden />
+              Cerrar sesión
+            </Button>
           </aside>
 
           <div className="flex-1 space-y-gob-5">

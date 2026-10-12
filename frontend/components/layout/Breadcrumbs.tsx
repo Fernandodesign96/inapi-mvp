@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import { ChevronRight, Home } from 'lucide-react'
+import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { cn } from '@/lib/utils'
 import type { BreadcrumbItem } from '@/lib/portal-routes'
 
@@ -7,9 +10,18 @@ type BreadcrumbsProps = {
   items: BreadcrumbItem[]
   className?: string
   tone?: 'default' | 'inverse'
+  homeHref?: string
+  homeLabel?: string
 }
 
-export function Breadcrumbs({ items, className, tone = 'default' }: BreadcrumbsProps) {
+export function Breadcrumbs({
+  items,
+  className,
+  tone = 'default',
+  homeHref = '/',
+  homeLabel = 'Inicio',
+}: BreadcrumbsProps) {
+  const { tx } = useI18n()
   if (items.length === 0) return null
 
   const inverse = tone === 'inverse'
@@ -21,20 +33,20 @@ export function Breadcrumbs({ items, className, tone = 'default' }: BreadcrumbsP
 
   return (
     <nav aria-label="Ruta de navegación" className={cn('flex flex-wrap items-center gap-gob-2 text-gri-body', className)}>
-      <Link href="/" className={cn('inline-flex items-center gap-gob-2 min-h-11', linkClass)}>
+      <Link href={homeHref} className={cn('inline-flex items-center gap-gob-2 min-h-11', linkClass)}>
         <Home className="w-4 h-4" aria-hidden />
-        Inicio
+        {tx(homeLabel)}
       </Link>
       {items.map((item, i) => (
         <span key={`${item.label}-${i}`} className="inline-flex items-center gap-1">
           <ChevronRight className={cn('w-4 h-4', chevronClass)} aria-hidden />
           {item.href ? (
             <Link href={item.href} className={linkClass}>
-              {item.label}
+              {tx(item.label)}
             </Link>
           ) : (
             <span className={currentClass} aria-current="page">
-              {item.label}
+              {tx(item.label)}
             </span>
           )}
         </span>

@@ -107,7 +107,6 @@ export function HomeObservanciaCarousel() {
 
   return (
     <section
-      data-i18n-skip
       aria-labelledby="transparencia-title"
       className="relative z-[1] py-gob-8 min-[905px]:py-20"
     >
@@ -132,6 +131,7 @@ export function HomeObservanciaCarousel() {
             {items.map(item => (
               <a
                 data-inst-card
+                data-i18n-skip
                 key={item.href}
                 href={item.href}
                 aria-label={item.title}

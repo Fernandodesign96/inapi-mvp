@@ -3,11 +3,13 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ClaveUnicaButton } from '@/components/auth/ClaveUnicaButton'
+import { SkipIfAuthenticated } from '@/components/tramites/SkipIfAuthenticated'
 import { TramitesMain } from '@/components/tramites/ui-helpers'
 
 export default function RegistrarsePage() {
   const router = useRouter()
   return (
+    <SkipIfAuthenticated>
     <TramitesMain>
       <div className="max-w-lg space-y-gob-4 rounded-gob-lg border border-gob-border bg-card p-gob-6">
         <p className="text-gri-body text-gob-text leading-relaxed">
@@ -27,5 +29,6 @@ export default function RegistrarsePage() {
         </p>
       </div>
     </TramitesMain>
+    </SkipIfAuthenticated>
   )
 }

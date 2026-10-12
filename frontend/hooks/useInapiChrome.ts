@@ -4,7 +4,6 @@ import { useLayoutEffect, useSyncExternalStore } from 'react'
 import { usePathname } from 'next/navigation'
 import {
   inferInapiChrome,
-  isTramitesHub,
   readInapiChrome,
   subscribeInapiChrome,
   writeInapiChrome,
@@ -15,8 +14,7 @@ type ChromeMode = 'commit-portal' | 'commit-tramites' | 'tool' | 'tramites-layou
 
 function chromeFor(mode: ChromeMode, pathname: string, client: boolean): InapiChrome {
   if (mode === 'commit-portal') return 'portal'
-  if (mode === 'commit-tramites') return 'tramites'
-  if (mode === 'tramites-layout' && (!client || isTramitesHub(pathname))) return 'tramites'
+  if (mode === 'commit-tramites' || mode === 'tramites-layout') return 'tramites'
   if (!client) return inferInapiChrome(pathname)
   return readInapiChrome() ?? inferInapiChrome(pathname)
 }
@@ -32,8 +30,7 @@ export function useInapiChrome(mode: ChromeMode) {
 
   useLayoutEffect(() => {
     if (mode === 'commit-portal') writeInapiChrome('portal')
-    else if (mode === 'commit-tramites') writeInapiChrome('tramites')
-    else if (mode === 'tramites-layout' && isTramitesHub(pathname)) writeInapiChrome('tramites')
+    else if (mode === 'commit-tramites' || mode === 'tramites-layout') writeInapiChrome('tramites')
   }, [mode, pathname])
 
   return chrome

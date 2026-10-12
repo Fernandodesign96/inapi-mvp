@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { TramitesLink } from '@/components/tramites/TramitesLink'
 import { Search } from 'lucide-react'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { ToolFlowShell } from '@/components/layout/ToolFlowShell'
@@ -33,10 +33,10 @@ export default function MarcasBuscadoresPage() {
             <GlosarioTerm termino="Niza">clases de Niza</GlosarioTerm>.
           </p>
           <Button variant="outline" size="form" className="rounded-full" asChild>
-            <Link href="/tramites/patentes/buscador">
+            <TramitesLink href="/tramites/patentes/buscador">
               <Search className="w-5 h-5 mr-2" aria-hidden />
               Abrir el buscador de patentes
-            </Link>
+            </TramitesLink>
           </Button>
         </section>
         <BuscadorSimilitudMarca />

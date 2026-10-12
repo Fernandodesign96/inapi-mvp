@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/button'
 import { TipWrap } from '@/components/tramites/HelpTooltip'
 import { Spinner, TramitesMain } from '@/components/tramites/ui-helpers'
 import { MARCAS_MEGA, PATENTES_MEGA, type MegaColumn, type MegaItem } from '@/lib/tramites/nav'
+import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { useTramitesSession } from '@/lib/tramites/use-session'
 import { cn } from '@/lib/utils'
 
@@ -68,8 +69,9 @@ function ShortcutLink({
   item: MegaItem
   accent: 'marcas' | 'patentes'
 }) {
+  const { tx } = useI18n()
   const className = cn(
-    'flex min-h-[4.5rem] items-center gap-gob-3 rounded-gob-lg border bg-white px-gob-4 py-gob-3 text-gri-body-sm text-gob-text shadow-elevation-01 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-elevation-03 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+    'flex min-h-[4.5rem] items-center gap-gob-3 rounded-gob-lg border bg-card px-gob-4 py-gob-3 text-gri-body-sm text-gob-text shadow-elevation-01 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-elevation-03 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
     accent === 'marcas' ? 'border-gob-accent/20 hover:border-gob-accent' : 'border-gob-primary/20 hover:border-gob-primary',
   )
   const iconWrap = (
@@ -82,7 +84,7 @@ function ShortcutLink({
       <TipWrap text={item.tooltip}>
         <a href={item.href} className={className} rel="noopener noreferrer">
           {iconWrap}
-          <span className="font-medium leading-snug">{item.label}</span>
+          <span className="font-medium leading-snug">{tx(item.label)}</span>
         </a>
       </TipWrap>
     )
@@ -91,7 +93,7 @@ function ShortcutLink({
     <TipWrap text={item.tooltip}>
       <Link href={item.href} className={className}>
         {iconWrap}
-        <span className="font-medium leading-snug">{item.label}</span>
+        <span className="font-medium leading-snug">{tx(item.label)}</span>
       </Link>
     </TipWrap>
   )
@@ -104,6 +106,7 @@ function PrimaryCards({
   items: typeof PRIMARY_MARCAS
   accent: 'marcas' | 'patentes'
 }) {
+  const { tx } = useI18n()
   return (
     <ul className="grid gap-gob-3 min-[600px]:grid-cols-2 min-[905px]:grid-cols-4">
       {items.map(item => {
@@ -126,7 +129,7 @@ function PrimaryCards({
                 >
                   <Icon className="size-5" aria-hidden />
                 </span>
-                <span className="font-medium text-gri-body text-gob-text">{item.label}</span>
+                <span className="font-medium text-gri-body text-gob-text">{tx(item.label)}</span>
               </Link>
             </TipWrap>
           </li>
@@ -145,6 +148,7 @@ function AccordionColumns({
   accent: 'marcas' | 'patentes'
   excludeHrefs: string[]
 }) {
+  const { tx } = useI18n()
   const [open, setOpen] = useState<string | null>(null)
   return (
     <div className="space-y-gob-3">
@@ -179,10 +183,12 @@ function AccordionColumns({
                 <Icon className="size-5" aria-hidden />
               </span>
               <span className="flex-1">
-                <span className="block font-heading text-gri-body font-medium">{col.title}</span>
-                <span className="block text-gri-body-xs text-muted-foreground">{items.length} accesos</span>
+                <span className="block font-heading text-gri-body font-medium">{tx(col.title)}</span>
+                <span className="block text-gri-body-xs text-gob-text/80">
+                  {items.length} {tx(items.length === 1 ? 'acceso' : 'accesos')}
+                </span>
               </span>
-              <ChevronDown className={cn('size-5 text-muted-foreground transition-transform', isOpen && 'rotate-180')} />
+              <ChevronDown className={cn('size-5 text-gob-text/70 transition-transform', isOpen && 'rotate-180')} />
             </button>
             {isOpen ? (
               <ul className="grid gap-gob-3 border-t border-gob-border bg-gob-surface-elevated/40 p-gob-4 min-[600px]:grid-cols-2 min-[905px]:grid-cols-3">
@@ -201,6 +207,7 @@ function AccordionColumns({
 }
 
 export default function TramitesHomePage() {
+  const { tx } = useI18n()
   const { session, ready } = useTramitesSession()
   const router = useRouter()
 
@@ -216,17 +223,20 @@ export default function TramitesHomePage() {
     return (
       <TramitesMain>
         <div className="space-y-gob-2">
-          <h1 className="font-heading text-gri-h2 font-medium text-gob-text">Hola, {session.nombre.split(' ')[0]}</h1>
+          <h1 className="portal-h2 text-gob-text">
+            {tx('Hola,')} {session.nombre.split(' ')[0]}
+          </h1>
           <p className="text-gri-body text-gob-text max-w-3xl leading-relaxed">
-            Desde aquí puedes solicitar marcas y patentes, pagar tasas, consultar expedientes, descargar estados diarios y
-            presentar escritos. Empieza por un atajo frecuente o abre el resto de trámites cuando lo necesites.
+            {tx(
+              'Desde aquí puedes solicitar marcas y patentes, pagar tasas, consultar expedientes, descargar estados diarios y presentar escritos. Empieza por un atajo frecuente o abre el resto de trámites cuando lo necesites.',
+            )}
           </p>
         </div>
         <section className="space-y-gob-5">
-          <h2 className="font-heading text-xl font-medium text-gob-text border-l-4 border-gob-accent pl-gob-3">Marcas</h2>
+          <h2 className="font-heading text-xl font-medium text-gob-text border-l-4 border-gob-accent pl-gob-3">{tx('Marcas')}</h2>
           <PrimaryCards items={PRIMARY_MARCAS} accent="marcas" />
           <div className="pt-gob-2">
-            <p className="mb-gob-3 text-gri-body-sm font-medium text-gob-text">Más trámites de marcas</p>
+            <p className="mb-gob-3 text-gri-body-sm font-medium text-gob-text">{tx('Más trámites de marcas')}</p>
             <AccordionColumns
               columns={MARCAS_MEGA}
               accent="marcas"
@@ -235,10 +245,10 @@ export default function TramitesHomePage() {
           </div>
         </section>
         <section className="space-y-gob-5 pt-gob-4">
-          <h2 className="font-heading text-xl font-medium text-gob-text border-l-4 border-gob-primary pl-gob-3">Patentes</h2>
+          <h2 className="font-heading text-xl font-medium text-gob-text border-l-4 border-gob-primary pl-gob-3">{tx('Patentes')}</h2>
           <PrimaryCards items={PRIMARY_PATENTES} accent="patentes" />
           <div className="pt-gob-2">
-            <p className="mb-gob-3 text-gri-body-sm font-medium text-gob-text">Más trámites de patentes</p>
+            <p className="mb-gob-3 text-gri-body-sm font-medium text-gob-text">{tx('Más trámites de patentes')}</p>
             <AccordionColumns
               columns={PATENTES_MEGA}
               accent="patentes"
@@ -259,20 +269,20 @@ export default function TramitesHomePage() {
     <TramitesMain>
       <div className="grid gap-gob-6 min-[905px]:grid-cols-2">
         <section className="rounded-gob-lg border border-gob-border bg-card p-gob-6 space-y-gob-4">
-          <h1 className="font-heading text-gri-h2 font-medium text-gob-text">Trámites en línea</h1>
-          <p className="text-gri-body text-gob-text leading-relaxed">
-            Desde aquí solicitas marcas y patentes, revisas notificaciones, abres tus documentos y pides certificados.
+          <h1 className="portal-h2 text-gob-text">{tx('Trámites en línea')}</h1>
+          <p className="text-gri-body leading-relaxed text-gob-text">
+            {tx('Desde aquí solicitas marcas y patentes, revisas notificaciones, abres tus documentos y pides certificados.')}
           </p>
-          <ul className="list-disc pl-gob-5 text-gri-body text-gob-text space-y-gob-2">
-            <li>Presentar una solicitud nueva</li>
-            <li>Seguir un expediente ya ingresado</li>
-            <li>Usar el Buscador de Marcas o el Buscador de Patentes</li>
+          <ul className="list-disc space-y-gob-2 pl-gob-5 text-gri-body text-gob-text">
+            <li>{tx('Presentar una solicitud nueva')}</li>
+            <li>{tx('Seguir un expediente ya ingresado')}</li>
+            <li>{tx('Usar el Buscador de Marcas o el Buscador de Patentes')}</li>
           </ul>
         </section>
         <section className="rounded-gob-lg border border-gob-border bg-card p-gob-6 space-y-gob-4">
-          <h2 className="font-heading text-xl font-medium text-gob-text">Inicia sesión</h2>
-          <p className="text-gri-body-sm text-muted-foreground">
-            Si es tu primera vez, valida tu identidad con ClaveÚnica. Después puedes entrar con ClaveÚnica o con Clave INAPI.
+          <h2 className="font-heading text-xl font-medium text-gob-text">{tx('Inicia sesión')}</h2>
+          <p className="text-gri-body-sm text-gob-text">
+            {tx('Si es tu primera vez, valida tu identidad con ClaveÚnica. Después puedes entrar con ClaveÚnica o con Clave INAPI.')}
           </p>
           <TipWrap text="Valida tu identidad con ClaveÚnica para entrar a trámites.">
             <span className="block">
@@ -284,7 +294,7 @@ export default function TramitesHomePage() {
             </span>
           </TipWrap>
           <Button asChild variant="outline" size="form">
-            <Link href="/tramites/ingresar">Ingresar con Clave INAPI</Link>
+            <Link href="/tramites/ingresar">{tx('Ingresar con Clave INAPI')}</Link>
           </Button>
         </section>
       </div>

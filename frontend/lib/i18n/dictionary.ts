@@ -1,4 +1,13 @@
 import { EN_EXTRA } from '@/lib/i18n/dictionary-extra'
+import { EN_EXTRA_PRIORITY } from '@/lib/i18n/dictionary-extra-priority'
+import { EN_EXTRA_FAQ_PATENTES } from '@/lib/i18n/dictionary-extra-faq-patentes'
+import { EN_EXTRA_BATCH_00 } from '@/lib/i18n/dictionary-extra-batch-00'
+import { EN_EXTRA_BATCH_01 } from '@/lib/i18n/dictionary-extra-batch-01'
+import { EN_EXTRA_BATCH_02 } from '@/lib/i18n/dictionary-extra-batch-02'
+import { EN_EXTRA_BATCH_03 } from '@/lib/i18n/dictionary-extra-batch-03'
+import { EN_EXTRA_BATCH_04 } from '@/lib/i18n/dictionary-extra-batch-04'
+import { EN_EXTRA_BATCH_05 } from '@/lib/i18n/dictionary-extra-batch-05'
+import { EN_EXTRA_BATCH_06 } from '@/lib/i18n/dictionary-extra-batch-06'
 
 export type Locale = 'es' | 'en'
 
@@ -45,11 +54,20 @@ const EN_BASE: Record<string, string> = {
   'Ir al Sitio de Trámites': 'Go to the Procedures Site',
   'Sitio de Trámites': 'Procedures Site',
   'Accesos del encabezado': 'Header shortcuts',
+  'Ir a mi perfil': 'Go to my profile',
+  'Ingresar para ver tu perfil': 'Sign in to view your profile',
+  'Menú de usuario': 'User menu',
+  'Ver perfil': 'View profile',
+  'Ir a sitio de trámites': 'Go to the Procedures Site',
+  'Ir a sitio informativo': 'Go to the information site',
+  'Cerrar sesión': 'Sign out',
 
   // Canonical tools
   'Buscador de marcas': 'Trademark search',
   'Buscador de productos y servicios': 'Goods and services search',
   'Buscador de patentes': 'Patent search',
+  'Mis notificaciones': 'My notifications',
+  'Notificaciones diarias INAPI': 'INAPI daily notifications',
   'Notificaciones INAPI': 'INAPI notifications',
   'Notificaciones diarias en INAPI': 'Daily notifications at INAPI',
   'Notificaciones diarias': 'INAPI notifications',
@@ -271,7 +289,19 @@ const EN_BASE: Record<string, string> = {
   'Trámites': 'Procedures',
 }
 
-export const EN: Record<string, string> = { ...EN_BASE, ...EN_EXTRA }
+export const EN: Record<string, string> = {
+  ...EN_BASE,
+  ...EN_EXTRA,
+  ...EN_EXTRA_PRIORITY,
+  ...EN_EXTRA_FAQ_PATENTES,
+  ...EN_EXTRA_BATCH_00,
+  ...EN_EXTRA_BATCH_01,
+  ...EN_EXTRA_BATCH_02,
+  ...EN_EXTRA_BATCH_03,
+  ...EN_EXTRA_BATCH_04,
+  ...EN_EXTRA_BATCH_05,
+  ...EN_EXTRA_BATCH_06,
+}
 
 export function translateText(locale: Locale, text: string): string {
   if (locale === 'es') return text

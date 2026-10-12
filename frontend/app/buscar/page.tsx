@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { PortalShell } from '@/components/layout/PortalShell'
+import { ToolFlowShell } from '@/components/layout/ToolFlowShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { BuscadorSitio } from '@/components/portal/BuscadorSitio'
 import { PortalMain } from '@/components/portal/content'
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function BuscarPage() {
   return (
-    <PortalShell {...portalShellProps('/buscar')}>
+    <ToolFlowShell {...portalShellProps('/buscar')}>
       <ContainerGRI size="portal">
         <PortalMain>
           <Suspense fallback={<p className="text-gri-body text-muted-foreground">Cargando buscador…</p>}>
@@ -21,6 +21,6 @@ export default function BuscarPage() {
           </Suspense>
         </PortalMain>
       </ContainerGRI>
-    </PortalShell>
+    </ToolFlowShell>
   )
 }

@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
 import { ArrowRight } from 'lucide-react'
 import { PortalPdfLink } from '@/components/portal/PortalPdfLink'
+import { TramitesLink } from '@/components/tramites/TramitesLink'
 import { cn } from '@/lib/utils'
 
 export function PortalMain({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -39,7 +39,7 @@ export function PortalQuickAccessGrid({ items }: { items: QuickAccess[] }) {
         const Icon = item.icon
         const primary = item.variant === 'primary'
         return (
-          <Link
+          <TramitesLink
             key={item.title}
             href={item.href}
             className={cn(
@@ -54,7 +54,7 @@ export function PortalQuickAccessGrid({ items }: { items: QuickAccess[] }) {
             <span className={cn('text-gri-body-sm leading-relaxed', primary ? 'text-gob-text-inverse/85' : 'text-muted-foreground')}>
               {item.description}
             </span>
-          </Link>
+          </TramitesLink>
         )
       })}
     </section>
@@ -139,9 +139,9 @@ export function PortalLinkList({ links }: { links: { href: string; label: string
         return (
           <li key={link.label} className="flex items-center gap-gob-3">
             {Icon && <Icon className="w-5 h-5 text-gob-primary shrink-0" aria-hidden />}
-            <Link href={link.href} className="text-gri-body text-gob-link hover:text-gob-link-hover font-medium">
+            <TramitesLink href={link.href} className="text-gri-body text-gob-link hover:text-gob-link-hover font-medium">
               {link.label}
-            </Link>
+            </TramitesLink>
           </li>
         )
       })}
@@ -159,14 +159,14 @@ export function PortalTramiteGrid({
       {items.map(item => {
         const Icon = item.icon
         return (
-          <Link
+          <TramitesLink
             key={item.title}
             href={item.href}
             className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-inapi-tint transition-colors"
           >
             <Icon className="w-7 h-7 text-inapi-cta" aria-hidden />
             <span className="text-gri-body-sm font-bold leading-snug">{item.title}</span>
-          </Link>
+          </TramitesLink>
         )
       })}
     </div>
@@ -186,10 +186,10 @@ export function PortalCardGrid({
           <p className="text-gri-body-sm text-muted-foreground leading-relaxed flex-1">{item.body}</p>
           {item.footnote && <p className="text-gri-body-xs text-muted-foreground">{item.footnote}</p>}
           {item.href && item.cta && (
-            <Link href={item.href} className="inline-flex items-center gap-1 text-gri-body-sm font-bold text-gob-link hover:text-gob-link-hover">
+            <TramitesLink href={item.href} className="inline-flex items-center gap-1 text-gri-body-sm font-bold text-gob-link hover:text-gob-link-hover">
               {item.cta}
               <ArrowRight className="w-4 h-4" aria-hidden />
-            </Link>
+            </TramitesLink>
           )}
         </article>
       ))}
@@ -210,7 +210,7 @@ export function PortalSidebarLayout({
         <ul className="list-none space-y-0.5">
           {sidebar.map(item => (
             <li key={item.label}>
-              <Link
+              <TramitesLink
                 href={item.href}
                 aria-current={item.active ? 'page' : undefined}
                 className={cn(
@@ -221,7 +221,7 @@ export function PortalSidebarLayout({
                 )}
               >
                 {item.label}
-              </Link>
+              </TramitesLink>
             </li>
           ))}
         </ul>
@@ -268,12 +268,12 @@ export function PortalCtaBanner({
   return (
     <div className="portal-ambient-hero rounded-gob-lg p-gob-6 flex flex-wrap items-center justify-between gap-gob-5 mt-gob-6">
       <h3 className="relative z-[1] text-lg font-medium text-gob-text-inverse">{title}</h3>
-      <Link
+      <TramitesLink
         href={href}
         className="relative z-[1] inline-flex min-h-11 items-center justify-center rounded-full bg-gob-primary px-gob-6 py-gob-3 font-medium text-gri-body-sm text-gob-text-inverse hover:bg-gob-primary-dark transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
       >
         {cta}
-      </Link>
+      </TramitesLink>
     </div>
   )
 }

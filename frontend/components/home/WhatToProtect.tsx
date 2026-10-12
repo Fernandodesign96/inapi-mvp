@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { TramitesLink } from '@/components/tramites/TramitesLink'
 import {
   AlertTriangle,
   Banknote,
@@ -18,6 +18,7 @@ import {
 import type { LucideIcon } from 'lucide-react'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { notifyDownload } from '@/components/tramites/DownloadToast'
+import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { cn } from '@/lib/utils'
 
 type SubCard = {
@@ -63,7 +64,7 @@ const tabs: Tab[] = [
       label: 'Descargar guía de marcas (PDF 16,4 MB)',
     },
     notifications: {
-      href: '/tramites/marcas/estados-diarios',
+      href: '/notificaciones-diarias/marcas',
       label: 'Notificaciones diarias de marcas',
     },
     cards: [
@@ -164,7 +165,7 @@ const tabs: Tab[] = [
       label: 'Descargar guía de patentes (PDF 12,5 MB)',
     },
     notifications: {
-      href: '/tramites/patentes/estados-diarios',
+      href: '/notificaciones-diarias/patentes',
       label: 'Notificaciones diarias de patentes',
     },
     cards: [
@@ -434,6 +435,7 @@ const tabs: Tab[] = [
 ]
 
 export function WhatToProtect() {
+  const { tx } = useI18n()
   const [active, setActive] = useState(tabs[0].id)
   const current = tabs.find(tab => tab.id === active) ?? tabs[0]
 
@@ -442,10 +444,10 @@ export function WhatToProtect() {
       <ContainerGRI size="wide" className="space-y-gob-7">
         <div className="mx-auto max-w-4xl space-y-gob-4 text-center">
           <h2 id="que-proteger-title" className="portal-h2 text-gob-text">
-            ¿Qué tipo de propiedad intelectual te interesa?
+            {tx('¿Qué tipo de propiedad intelectual te interesa?')}
           </h2>
           <p className="portal-lead !text-center text-muted-foreground">
-            Elige una pestaña. Ves pagos, proceso, etapas, avisos, herramientas y requisitos de ese derecho.
+            {tx('Elige una pestaña. Ves pagos, proceso, etapas, avisos, herramientas y requisitos de ese derecho.')}
           </p>
         </div>
 
@@ -470,7 +472,7 @@ export function WhatToProtect() {
                 onClick={() => setActive(tab.id)}
               >
                 <Icon className="size-6" aria-hidden />
-                {tab.label}
+                {tx(tab.label)}
               </button>
             )
           })}
@@ -482,7 +484,7 @@ export function WhatToProtect() {
           aria-labelledby={`tab-${current.id}`}
           className="space-y-gob-6"
         >
-          <p className="text-gri-body leading-[1.5] text-gob-text">{current.intro}</p>
+          <p className="text-gri-body leading-[1.5] text-gob-text">{tx(current.intro)}</p>
           <div className="grid gap-gob-5 min-[700px]:grid-cols-2 min-[1280px]:grid-cols-3">
             {orderedCards(current.cards).map(card => {
               const Icon = card.icon
@@ -494,30 +496,30 @@ export function WhatToProtect() {
                   <span className="inline-flex size-11 items-center justify-center rounded-gob-md bg-gob-info-bg text-gob-primary">
                     <Icon className="size-5" aria-hidden />
                   </span>
-                  <h3 className="mt-gob-4 font-heading text-gri-h2 font-medium text-gob-text">{card.title}</h3>
-                  <p className="mt-gob-2 text-gri-body-sm leading-[1.5] text-gob-text">{card.description}</p>
+                  <h3 className="mt-gob-4 font-heading text-gri-h2 font-medium text-gob-text">{tx(card.title)}</h3>
+                  <p className="mt-gob-2 text-gri-body-sm leading-[1.5] text-gob-text">{tx(card.description)}</p>
                   <ul className="mt-gob-3 flex-1 list-disc space-y-gob-2 pl-gob-5 text-gri-body-sm leading-[1.5] text-gob-text">
                     {card.bullets.map(bullet => (
-                      <li key={bullet}>{bullet}</li>
+                      <li key={bullet}>{tx(bullet)}</li>
                     ))}
                   </ul>
-                  <Link
+                  <TramitesLink
                     href={card.href}
                     className="mt-gob-4 inline-flex min-h-11 items-center text-gri-body-sm font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
                   >
-                    {card.cta}
-                  </Link>
+                    {tx(card.cta)}
+                  </TramitesLink>
                 </article>
               )
             })}
           </div>
           <div className="flex flex-wrap items-center gap-x-gob-6 gap-y-gob-2">
-            <Link
+            <TramitesLink
               href={current.href}
               className="inline-flex min-h-11 items-center text-gri-body font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
             >
-              {current.cta}
-            </Link>
+              {tx(current.cta)}
+            </TramitesLink>
             {current.guide ? (
               <a
                 href={current.guide.href}
@@ -525,16 +527,16 @@ export function WhatToProtect() {
                 className="inline-flex min-h-11 items-center text-gri-body font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
                 onClick={() => notifyDownload(current.guide?.label ?? 'guía')}
               >
-                {current.guide.label}
+                {tx(current.guide.label)}
               </a>
             ) : null}
             {current.notifications ? (
-              <Link
+              <TramitesLink
                 href={current.notifications.href}
                 className="inline-flex min-h-11 items-center text-gri-body font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
               >
-                {current.notifications.label}
-              </Link>
+                {tx(current.notifications.label)}
+              </TramitesLink>
             ) : null}
           </div>
         </div>

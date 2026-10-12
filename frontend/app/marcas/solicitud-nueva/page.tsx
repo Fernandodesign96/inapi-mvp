@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { TramitesLink } from '@/components/tramites/TramitesLink'
 import { FileEdit, CreditCard, LogIn, Newspaper, Save } from 'lucide-react'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
@@ -68,13 +69,13 @@ export default function SolicitudNuevaMarcaPage() {
                   Necesitas iniciar sesión con ClaveÚnica. El pago se realiza en línea al final del trámite.
                 </p>
               </div>
-              <Link
+              <TramitesLink
                 href="/tramites/solicitudmarca"
                 className="inline-flex items-center gap-gob-2 bg-background text-inapi-cta px-gob-6 py-gob-3 font-bold text-gri-body-sm hover:bg-gob-surface-elevated transition-colors shrink-0"
               >
                 <LogIn className="w-5 h-5" aria-hidden />
                 Iniciar solicitud de marca
-              </Link>
+              </TramitesLink>
             </section>
 
             <section className="mb-gob-8">

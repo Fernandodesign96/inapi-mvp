@@ -5,6 +5,7 @@ import { ArcElement, Chart as ChartJS, Tooltip as ChartTooltip, type ChartOption
 import { Doughnut } from 'react-chartjs-2'
 import { Tabs } from 'radix-ui'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { cn } from '@/lib/utils'
 
 ChartJS.register(ArcElement, ChartTooltip)
@@ -33,6 +34,7 @@ export function InapiDoughnutCard({
   centerLabel,
   centerCaption,
 }: InapiDoughnutCardProps) {
+  const { tx, locale } = useI18n()
   const valuesKey = slices.map(slice => slice.value).join('-')
   const data = useMemo(
     () => ({
@@ -66,7 +68,7 @@ export function InapiDoughnutCard({
           label: context => {
             const slice = slices[context.dataIndex]
             if (!slice) return ''
-            return ` ${slice.value.toLocaleString('es-CL')} solicitudes`
+            return ` ${slice.value.toLocaleString(locale === 'en' ? 'en-US' : 'es-CL')} ${tx('solicitudes')}`
           },
         },
       },
@@ -75,12 +77,11 @@ export function InapiDoughnutCard({
 
   return (
     <article
-      data-i18n-skip
       className="flex h-full min-h-[18rem] min-w-0 flex-col overflow-hidden rounded-gob-lg border border-white/12 bg-[#07182b] p-gob-5"
     >
       <Tabs.Root value={year} onValueChange={onYearChange}>
         <Tabs.List
-          aria-label="Año de las cifras"
+          aria-label={tx('Año de las cifras')}
           className="ml-auto inline-flex rounded-gob-md border border-white/16 p-0.5"
         >
           {years.map(item => (
@@ -103,7 +104,7 @@ export function InapiDoughnutCard({
         <Doughnut key={`${year}-${valuesKey}`} data={data} options={options} />
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
           <p className="font-heading text-[1.35rem] font-bold leading-none text-white">{centerLabel}</p>
-          <p className="mt-1 max-w-[6.5rem] text-[0.65rem] leading-tight text-[#A1D1FF]">{centerCaption}</p>
+          <p className="mt-1 max-w-[6.5rem] text-[0.65rem] leading-tight text-[#A1D1FF]">{tx(centerCaption)}</p>
         </div>
       </div>
       <ul className="mt-gob-4 flex flex-1 flex-col justify-end gap-gob-2">
@@ -120,12 +121,12 @@ export function InapiDoughnutCard({
                     style={{ backgroundColor: slice.color }}
                     aria-hidden
                   />
-                  <span className="flex-1">{slice.label}</span>
-                  <span className="font-medium text-white">{slice.value.toLocaleString('es-CL')}</span>
+                  <span className="flex-1">{tx(slice.label)}</span>
+                  <span className="font-medium text-white">{slice.value.toLocaleString(locale === 'en' ? 'en-US' : 'es-CL')}</span>
                 </button>
               </TooltipTrigger>
               <TooltipContent side="top" className="max-w-xs">
-                {slice.hint}
+                {tx(slice.hint)}
               </TooltipContent>
             </Tooltip>
           </li>

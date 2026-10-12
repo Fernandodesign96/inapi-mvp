@@ -141,7 +141,7 @@ function FeaturedCard({
   onOpen: () => void
 }) {
   return (
-    <article className="min-w-[16rem] flex-1 overflow-hidden rounded-gob-md border border-gob-border bg-white shadow-elevation-01 transition-shadow hover:shadow-elevation-02">
+    <article className="min-w-[16rem] flex-1 overflow-hidden rounded-gob-md border border-[#E5E7EB] bg-white shadow-elevation-01 transition-shadow hover:shadow-elevation-02">
       <h3 className="bg-[#3d5a80] px-gob-4 py-gob-2 text-center text-gri-body-sm font-medium text-white">{title}</h3>
       <button
         type="button"
@@ -149,9 +149,9 @@ function FeaturedCard({
           notifyDownload(date)
           onOpen()
         }}
-        className="flex w-full items-center justify-center gap-gob-2 py-gob-8 text-gob-link underline underline-offset-4 hover:text-gob-link-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+        className="flex w-full items-center justify-center gap-gob-2 py-gob-8 text-[#1D70B8] underline underline-offset-4 hover:text-[#0051A8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFBE5C]"
       >
-        <CalendarDays className="size-4" aria-hidden />
+        <CalendarDays className="size-4 text-[#1D70B8]" aria-hidden />
         {date}
       </button>
     </article>
@@ -178,6 +178,7 @@ function DateArchiveScreen({
   archiveTitle,
   dates,
   columns,
+  gated = true,
 }: {
   domain: 'marcas' | 'patentes'
   featuredTitle: string
@@ -185,6 +186,7 @@ function DateArchiveScreen({
   archiveTitle: string
   dates: string[]
   columns: 'simple' | 'marcas-estados'
+  gated?: boolean
 }) {
   const [query, setQuery] = useState('')
   const [pageSize, setPageSize] = useState(10)
@@ -197,8 +199,7 @@ function DateArchiveScreen({
 
   const slice = filtered.slice((page - 1) * pageSize, page * pageSize)
 
-  return (
-    <RequireAuth>
+  const body = (
       <TramitesMain>
         <ServicePanel title={featuredTitle} domain={domain}>
           <div className="flex flex-wrap justify-center gap-gob-4">
@@ -253,8 +254,9 @@ function DateArchiveScreen({
           <Pager page={page} pageSize={pageSize} total={filtered.length} onPage={setPage} />
         </ServicePanel>
       </TramitesMain>
-    </RequireAuth>
   )
+
+  return gated ? <RequireAuth>{body}</RequireAuth> : body
 }
 
 export function GacetaMarcasScreen() {
@@ -271,7 +273,7 @@ export function GacetaMarcasScreen() {
   )
 }
 
-export function EstadosDiariosMarcasScreen() {
+export function EstadosDiariosMarcasScreen({ gated = false }: { gated?: boolean } = {}) {
   const dates = ESTADOS_DIARIOS_MARCAS_FECHAS
   return (
     <DateArchiveScreen
@@ -285,11 +287,12 @@ export function EstadosDiariosMarcasScreen() {
       archiveTitle="Estados diarios anteriores (últimos 30 días)"
       dates={dates}
       columns="marcas-estados"
+      gated={gated}
     />
   )
 }
 
-export function EstadosDiariosPatentesScreen() {
+export function EstadosDiariosPatentesScreen({ gated = false }: { gated?: boolean } = {}) {
   const latest = ESTADOS_DIARIOS_PATENTES_FECHAS[0]
   return (
     <DateArchiveScreen
@@ -299,6 +302,7 @@ export function EstadosDiariosPatentesScreen() {
       archiveTitle="Estados diarios anteriores (últimos 30 días)"
       dates={ESTADOS_DIARIOS_PATENTES_FECHAS}
       columns="simple"
+      gated={gated}
     />
   )
 }

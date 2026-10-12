@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Bell } from 'lucide-react'
-import { PortalShell } from '@/components/layout/PortalShell'
+import { ToolFlowShell } from '@/components/layout/ToolFlowShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { PortalMain } from '@/components/portal/content'
 import { portalShellProps } from '@/lib/portal-page-props'
@@ -14,18 +14,18 @@ export const metadata: Metadata = {
 
 const items = [
   {
-    href: '/tramites/marcas/estados-diarios',
+    href: '/notificaciones-diarias/marcas',
     title: 'Notificaciones diarias de marcas',
   },
   {
-    href: '/tramites/patentes/estados-diarios',
+    href: '/notificaciones-diarias/patentes',
     title: 'Notificaciones diarias de patentes',
   },
 ]
 
 export default function NotificacionesDiariasPage() {
   return (
-    <PortalShell {...portalShellProps('/notificaciones-diarias')}>
+    <ToolFlowShell {...portalShellProps('/notificaciones-diarias')}>
       <ContainerGRI size="portal">
         <PortalMain>
           <div className="grid min-[600px]:grid-cols-2 gap-gob-5">
@@ -45,6 +45,6 @@ export default function NotificacionesDiariasPage() {
           </div>
         </PortalMain>
       </ContainerGRI>
-    </PortalShell>
+    </ToolFlowShell>
   )
 }

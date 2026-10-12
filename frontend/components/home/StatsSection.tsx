@@ -31,10 +31,11 @@ import {
 } from '@/lib/inapi-official-stats'
 
 function ChartHeading({ title, description }: { title: string; description: string }) {
+  const { tx } = useI18n()
   return (
     <div className="space-y-gob-2">
-      <h3 className="font-heading text-gri-h2 font-medium text-gob-text-inverse">{title}</h3>
-      <p className="text-gri-body-sm leading-[1.5] text-[#E8F1FC]">{description}</p>
+      <h3 className="font-heading text-gri-h2 font-medium text-gob-text-inverse">{tx(title)}</h3>
+      <p className="text-gri-body-sm leading-[1.5] text-[#E8F1FC]">{tx(description)}</p>
     </div>
   )
 }
@@ -52,7 +53,6 @@ function AreaCard({
 
   return (
     <article
-      data-i18n-skip
       className="flex h-[18rem] min-w-0 flex-col rounded-gob-lg border border-white/12 bg-[#07182b] p-gob-5"
     >
       <div className="h-full min-h-0 w-full">
@@ -111,6 +111,7 @@ function AreaCard({
 }
 
 export function StatsSection() {
+  const { tx } = useI18n()
   const [panel, setPanel] = useState<'marcas' | 'patentes'>('marcas')
   const [madridYear, setMadridYear] = useState('2025')
   const [marcaOrigenYear, setMarcaOrigenYear] = useState('2025')
@@ -218,14 +219,18 @@ export function StatsSection() {
         <ContainerGRI size="wide" className="space-y-gob-8">
           <div className="max-w-4xl space-y-gob-4">
             <h2 id="datos-title" className="portal-h2 text-gob-text-inverse">
-              {panel === 'marcas'
-                ? 'Volumen de solicitudes de marcas 2020-2025'
-                : 'Volumen de solicitudes de patentes 2023-2025'}
+              {tx(
+                panel === 'marcas'
+                  ? 'Volumen de solicitudes de marcas 2020-2025'
+                  : 'Volumen de solicitudes de patentes 2023-2025',
+              )}
             </h2>
             <p className="portal-lead text-gob-text-inverse">
-              {panel === 'marcas'
-                ? 'INAPI recibió 275.987 solicitudes de marca entre 2020 y 2025. Elige un año en los gráficos circulares para ver el detalle.'
-                : 'INAPI recibió 12.286 solicitudes de patente entre 2023 y 2025. Elige un año en los gráficos circulares para ver el detalle.'}
+              {tx(
+                panel === 'marcas'
+                  ? 'INAPI recibió 275.987 solicitudes de marca entre 2020 y 2025. Elige un año en los gráficos circulares para ver el detalle.'
+                  : 'INAPI recibió 12.286 solicitudes de patente entre 2023 y 2025. Elige un año en los gráficos circulares para ver el detalle.',
+              )}
             </p>
           </div>
 
@@ -248,7 +253,7 @@ export function StatsSection() {
                   onClick={() => setPanel(tab.id)}
                 >
                   <Icon className="size-6" aria-hidden />
-                  {tab.label}
+                  {tx(tab.label)}
                 </button>
               )
             })}
@@ -294,12 +299,12 @@ export function StatsSection() {
                 </div>
               </div>
               <p className="max-w-none text-gri-body leading-[1.5] text-[#E8F1FC]">
-                También puedes ver cómo INAPI ejecuta su presupuesto, con cifras y documentos oficiales.{' '}
+                  {tx('También puedes ver cómo INAPI ejecuta su presupuesto, con cifras y documentos oficiales.')}{' '}
                 <Link
                   href="/transparencia/gasto-presupuestario"
                   className="font-medium text-white underline underline-offset-4 hover:text-[#A1D1FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
                 >
-                  Consulta el gasto presupuestario
+                  {tx('Consulta el gasto presupuestario')}
                 </Link>
                 .
               </p>
@@ -344,12 +349,12 @@ export function StatsSection() {
                 </div>
               </div>
               <p className="max-w-none text-gri-body leading-[1.5] text-[#E8F1FC]">
-                También puedes ver cómo se solicita una patente en Chile, con plazos, tasas y requisitos.{' '}
+                  {tx('También puedes ver cómo se solicita una patente en Chile, con plazos, tasas y requisitos.')}{' '}
                 <Link
                   href="/patentes"
                   className="font-medium text-white underline underline-offset-4 hover:text-[#A1D1FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
                 >
-                  Consulta las patentes
+                  {tx('Consulta las patentes')}
                 </Link>
                 .
               </p>
