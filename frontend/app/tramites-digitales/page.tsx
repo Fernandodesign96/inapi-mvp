@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { FileText, Users } from 'lucide-react'
-import Link from 'next/link'
+import { TramitesLink } from '@/components/tramites/TramitesLink'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import {
@@ -39,12 +39,12 @@ export default function TramitesDigitalesPage() {
           </PortalProse>
 
           <p>
-            <Link
+            <TramitesLink
               href="/tramites"
               className="inline-flex min-h-11 items-center rounded-full bg-gob-primary px-gob-6 text-gri-btn font-medium text-gob-text-inverse hover:bg-gob-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
             >
               Ir al Sitio de Trámites
-            </Link>
+            </TramitesLink>
           </p>
 
           <PortalCardGrid

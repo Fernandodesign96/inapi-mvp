@@ -43,7 +43,7 @@ function Acordeon({ titulo, children, defaultOpen = false }: {
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between px-gob-4 py-gob-4 text-left bg-background hover:bg-gob-surface-elevated transition-colors focus-gob"
       >
-        <span className="text-gri-body-sm font-semibold text-gob-text uppercase tracking-wide">{titulo}</span>
+        <span className="text-gri-body-sm font-semibold text-gob-text">{titulo}</span>
         <ChevronDown className={cn('w-4 h-4 text-muted-foreground transition-transform', open && 'rotate-180')} aria-hidden />
       </button>
       {open && (
@@ -152,7 +152,7 @@ export default function SolicitudPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex min-h-screen flex-col bg-background">
       <SkipLink />
       <HeaderINAPI />
       <main id="contenido-principal" tabIndex={-1} className="flex-1 py-gob-5 outline-none">
@@ -565,7 +565,9 @@ export default function SolicitudPage() {
         </DialogContent>
       </Dialog>
 
-      <FooterINAPI />
+      <div className="home-atmosphere">
+        <FooterINAPI />
+      </div>
       <ChatFAB title="Chat INAPI" />
     </div>
   )

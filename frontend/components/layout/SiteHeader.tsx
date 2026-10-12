@@ -2,12 +2,12 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useEffect, useId, useRef, useState } from 'react'
-import { ChevronDown, Menu, Search, X } from 'lucide-react'
+import { ChevronDown, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { HeaderUtilities } from '@/components/layout/HeaderUtilities'
+import { SiteSearchForm } from '@/components/layout/SiteSearchForm'
 import {
   PORTAL_PRIMARY_NAV,
   PORTAL_SECONDARY_NAV,
@@ -29,63 +29,6 @@ function resolveActive(active: PortalNavId): PortalNavId | 'none' {
   if (active === 'home') return 'home'
   if (active === 'conecta') return 'none'
   return active
-}
-
-function SiteSearchForm({
-  id,
-  className,
-  compact = false,
-}: {
-  id: string
-  className?: string
-  compact?: boolean
-}) {
-  const router = useRouter()
-  const { tx } = useI18n()
-  const [query, setQuery] = useState('')
-  const searchLabel = tx('Buscar en el sitio')
-
-  return (
-    <form
-      className={cn(
-        'flex min-w-0 items-center',
-        compact ? 'w-full max-w-[22rem] min-[905px]:max-w-[28rem]' : 'w-full max-w-[16rem]',
-        className,
-      )}
-      role="search"
-      onSubmit={e => {
-        e.preventDefault()
-        const q = query.trim()
-        router.push(q ? `/buscar?q=${encodeURIComponent(q)}` : '/buscar')
-      }}
-    >
-      <div className="relative w-full min-w-0">
-        <label htmlFor={id} className="sr-only">
-          {searchLabel}
-        </label>
-        <input
-          id={id}
-          type="search"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          placeholder={searchLabel}
-          className={cn(
-            'w-full pl-gob-4 pr-11 outline-none focus-visible:ring-2 focus-visible:ring-gob-focus focus-visible:border-gob-focus-contrast',
-            compact
-              ? 'home-search-input h-9 min-h-9 rounded-full border-0 bg-white text-gri-body-xs text-[#373737]'
-              : 'h-11 min-h-11 rounded-gob-md border border-gob-border bg-card text-gri-body text-gob-text',
-          )}
-        />
-        <Search
-          className={cn(
-            'pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#0051A8]',
-            compact ? 'size-4' : 'size-5',
-          )}
-          aria-hidden
-        />
-      </div>
-    </form>
-  )
 }
 
 export function SiteHeader({
@@ -149,7 +92,7 @@ export function SiteHeader({
                     : 'border-transparent text-gob-text-inverse/78 hover:text-gob-text-inverse hover:border-white/40',
                 )}
               >
-                {item.label}
+                {tx(item.label)}
                 <ChevronDown className="size-4" aria-hidden />
               </button>
               {open ? (
@@ -161,7 +104,7 @@ export function SiteHeader({
                         className="block min-h-11 px-gob-4 py-gob-2 text-gri-body-sm hover:bg-gob-surface-elevated"
                         onClick={() => setOpenMenu(null)}
                       >
-                        {link.label}
+                        {tx(link.label)}
                       </Link>
                     </li>
                   ))}
@@ -182,7 +125,7 @@ export function SiteHeader({
                 : 'border-transparent text-gob-text-inverse/90 hover:text-gob-text-inverse hover:border-white/40',
             )}
           >
-            {item.label}
+            {tx(item.label)}
           </Link>
         )
       })}
@@ -242,7 +185,7 @@ export function SiteHeader({
                 href={item.href}
                 className="whitespace-nowrap text-[0.75rem] font-medium leading-[1.5] text-white/88 transition-colors hover:text-white hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
               >
-                {item.label}
+                {tx(item.label)}
               </Link>
             ))}
           </nav>
@@ -278,15 +221,15 @@ export function SiteHeader({
             </Button>
           </div>
           <nav className="flex flex-col gap-gob-1 p-gob-5">
-            <p className="portal-kicker text-gob-text-inverse mb-gob-2">Buscar</p>
+            <p className="portal-kicker text-gob-text-inverse mb-gob-2">{tx('Buscar')}</p>
             <SiteSearchForm id={drawerSearchId} className="mb-gob-4 max-w-none" />
-            <p className="portal-kicker text-gob-text-inverse mb-gob-2">Secciones</p>
+            <p className="portal-kicker text-gob-text-inverse mb-gob-2">{tx('Secciones')}</p>
             <Link
               href="/"
               onClick={() => setMobileOpen(false)}
               className="py-gob-3 min-h-11 text-gri-body font-medium text-gob-text-inverse"
             >
-              Inicio
+              {tx('Inicio')}
             </Link>
             {PORTAL_PRIMARY_NAV.map(item => (
               <Link
@@ -298,11 +241,11 @@ export function SiteHeader({
                   navActive === item.id ? 'text-gob-focus' : 'text-gob-text-inverse',
                 )}
               >
-                {item.label}
+                {tx(item.label)}
               </Link>
             ))}
             <div className="border-t border-white/12 my-gob-4" />
-            <p className="portal-kicker text-gob-text-inverse mb-gob-2">Más enlaces</p>
+            <p className="portal-kicker text-gob-text-inverse mb-gob-2">{tx('Más enlaces')}</p>
             {PORTAL_SECONDARY_NAV.map(item => (
               <Link
                 key={item.href}
@@ -310,7 +253,7 @@ export function SiteHeader({
                 onClick={() => setMobileOpen(false)}
                 className="py-gob-3 min-h-11 text-gri-body text-gob-text-inverse/90"
               >
-                {item.label}
+                {tx(item.label)}
               </Link>
             ))}
           </nav>
@@ -321,8 +264,8 @@ export function SiteHeader({
       <div className="relative z-[1] border-b border-white/10">
         <div className="mx-auto max-w-[1600px] space-y-gob-4 px-gob-4 pt-gob-7 pb-gob-8 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
           {breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} tone="inverse" />}
-          <h1 className="portal-h1 text-gob-text-inverse">{pageTitle}</h1>
-          {pageSubtitle ? <p className="portal-lead max-w-none text-gob-text-inverse">{pageSubtitle}</p> : null}
+          <h1 className="portal-h1 text-gob-text-inverse">{tx(pageTitle)}</h1>
+          {pageSubtitle ? <p className="portal-lead max-w-none text-gob-text-inverse">{tx(pageSubtitle)}</p> : null}
         </div>
       </div>
     ) : null}

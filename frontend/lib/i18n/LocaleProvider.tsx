@@ -78,9 +78,13 @@ function translateTree(root: ParentNode, locale: Locale) {
     }
     const current = textNode.textContent ?? ''
     const key = normalizeI18nKey(current)
+    const stored = originals.get(textNode)
+    const storedTranslated = stored !== undefined ? translateText(locale, stored) : null
+    const textChanged =
+      stored !== undefined && current !== stored && current !== storedTranslated
     if (key in EN || EN_TO_ES.has(key)) {
       originals.set(textNode, spanishSource(current))
-    } else if (!originals.has(textNode)) {
+    } else if (!stored || textChanged) {
       originals.set(textNode, current)
     }
     const source = originals.get(textNode) ?? ''
@@ -109,7 +113,10 @@ function translateAttrs(root: ParentNode, locale: Locale) {
     for (const attr of TRANSLATABLE_ATTRS) {
       const current = el.getAttribute(attr)
       if (!current) continue
-      const source = spanishSource(current)
+      const stored = snap[attr]
+      const storedTranslated = stored ? translateText(locale, stored) : null
+      const attrChanged = Boolean(stored && current !== stored && current !== storedTranslated)
+      const source = attrChanged || !stored ? spanishSource(current) : stored
       snap[attr] = source
       const next = translateText(locale, source)
       if (current !== next) el.setAttribute(attr, next)
@@ -137,14 +144,42 @@ export function LocaleProvider({
 
   useEffect(() => {
     let cancelled = false
+    const applying = { current: false }
+    let frame = 0
     const run = () => {
-      if (!cancelled) applyLocaleToDom(locale)
+      if (cancelled) return
+      applying.current = true
+      applyLocaleToDom(locale)
+      queueMicrotask(() => {
+        applying.current = false
+      })
     }
     run()
     const trailing = window.setTimeout(run, 400)
+    const observer = new MutationObserver(mutations => {
+      if (applying.current || cancelled) return
+      for (const mutation of mutations) {
+        const node = mutation.target instanceof Element ? mutation.target : mutation.target.parentElement
+        if (node?.closest(I18N_SKIP)) continue
+        if (frame) return
+        frame = window.requestAnimationFrame(() => {
+          frame = 0
+          run()
+        })
+        return
+      }
+    })
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: [...TRANSLATABLE_ATTRS],
+    })
     return () => {
       cancelled = true
+      observer.disconnect()
       window.clearTimeout(trailing)
+      if (frame) window.cancelAnimationFrame(frame)
     }
   }, [locale, pathname])
 

@@ -184,7 +184,7 @@ export default function MarcasPage() {
             <PortalLinkList
               links={[
                 { href: '/marcas/buscadores', label: 'Buscador de marcas', icon: Search },
-                { href: '/notificaciones-diarias', label: 'Notificaciones INAPI de marcas', icon: Bell },
+                { href: '/notificaciones-diarias/marcas', label: 'Notificaciones INAPI de marcas', icon: Bell },
                 { href: '/marcas/como-registrar', label: 'Leer cómo registrar una marca, paso a paso', icon: Layers },
               ]}
             />

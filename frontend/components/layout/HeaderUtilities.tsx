@@ -1,9 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { ClipboardList, Languages } from 'lucide-react'
+import { ClipboardList, Languages, User } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme/ThemeToggle'
+import { UserMenu } from '@/components/layout/UserMenu'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
+import { useTramitesSession } from '@/lib/tramites/use-session'
 import { cn } from '@/lib/utils'
 
 const iconBtn =
@@ -11,16 +13,22 @@ const iconBtn =
 
 type HeaderUtilitiesProps = {
   className?: string
-  /** Cierra el menú móvil al elegir un enlace (p. ej. Sitio de Trámites). */
   onNavigate?: () => void
+  third?: 'tramites-site' | 'profile'
 }
 
-export function HeaderUtilities({ className, onNavigate }: HeaderUtilitiesProps) {
+export function HeaderUtilities({
+  className,
+  onNavigate,
+  third = 'tramites-site',
+}: HeaderUtilitiesProps) {
   const { locale, setLocale, tx } = useI18n()
+  const { session, ready } = useTramitesSession()
   const nextLocale = locale === 'es' ? 'en' : 'es'
   const languageLabel =
     locale === 'es' ? 'Cambiar idioma a inglés' : 'Cambiar idioma a español'
   const localeBadge = locale === 'es' ? 'EN' : 'ES'
+  const loggedIn = ready && session.authenticated
 
   return (
     <div
@@ -34,6 +42,7 @@ export function HeaderUtilities({ className, onNavigate }: HeaderUtilitiesProps)
         aria-label={tx(languageLabel)}
         aria-pressed={locale === 'en'}
         onClick={() => setLocale(nextLocale)}
+        suppressHydrationWarning
       >
         <Languages className="size-5" strokeWidth={2.25} aria-hidden />
         <span
@@ -47,14 +56,29 @@ export function HeaderUtilities({ className, onNavigate }: HeaderUtilitiesProps)
 
       <ThemeToggle className={iconBtn} variant="plain" />
 
-      <Link
-        href="/tramites"
-        className={iconBtn}
-        aria-label={tx('Ir al Sitio de Trámites')}
-        onClick={() => onNavigate?.()}
-      >
-        <ClipboardList className="size-5" strokeWidth={2.25} aria-hidden />
-      </Link>
+      {!ready ? (
+        <span className={cn(iconBtn, 'pointer-events-none opacity-0')} aria-hidden />
+      ) : loggedIn ? (
+        <UserMenu onNavigate={onNavigate} />
+      ) : third === 'profile' ? (
+        <Link
+          href="/tramites/ingresar"
+          className={iconBtn}
+          aria-label={tx('Ingresar para ver tu perfil')}
+          onClick={() => onNavigate?.()}
+        >
+          <User className="size-5" strokeWidth={2.25} aria-hidden />
+        </Link>
+      ) : (
+        <Link
+          href="/tramites"
+          className={iconBtn}
+          aria-label={tx('Ir al Sitio de Trámites')}
+          onClick={() => onNavigate?.()}
+        >
+          <ClipboardList className="size-5" strokeWidth={2.25} aria-hidden />
+        </Link>
+      )}
     </div>
   )
 }

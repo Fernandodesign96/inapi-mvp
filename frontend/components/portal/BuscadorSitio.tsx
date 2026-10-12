@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { Search, SearchX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { PORTAL_SEARCH_INDEX } from '@/lib/portal-search-index'
+import { searchSite, SITE_SEARCH_INDEX } from '@/lib/site-search'
 import { cn } from '@/lib/utils'
 
 export function BuscadorSitio() {
@@ -15,17 +15,11 @@ export function BuscadorSitio() {
   const [query, setQuery] = useState(initialQuery)
   const [applied, setApplied] = useState(initialQuery.trim())
 
-  const visibleResults = useMemo(() => {
-    const q = applied.toLowerCase()
-    if (!q) return PORTAL_SEARCH_INDEX
-    return PORTAL_SEARCH_INDEX.filter(r =>
-      `${r.title} ${r.summary} ${r.category}`.toLowerCase().includes(q),
-    )
-  }, [applied])
+  const visibleResults = useMemo(() => searchSite(applied), [applied])
 
   const resultLabel = applied
     ? `${visibleResults.length} resultado(s) para "${applied}"`
-    : `Mostrando ${PORTAL_SEARCH_INDEX.length} páginas del sitio`
+    : `Mostrando ${SITE_SEARCH_INDEX.length} páginas del sitio`
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

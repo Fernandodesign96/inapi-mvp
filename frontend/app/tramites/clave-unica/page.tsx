@@ -5,7 +5,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { SkipIfAuthenticated } from '@/components/tramites/SkipIfAuthenticated'
 import { TramitesMain } from '@/components/tramites/ui-helpers'
+import { nextAfterAuth } from '@/lib/tramites/entry'
 import { DEMO_USER, markRegistered, signIn } from '@/lib/tramites/session'
 import { useQueryParams } from '@/lib/tramites/use-query'
 
@@ -17,6 +19,7 @@ export default function ClaveUnicaSimPage() {
   const [email, setEmail] = useState(DEMO_USER.email)
 
   return (
+    <SkipIfAuthenticated>
     <TramitesMain>
       <div className="max-w-lg space-y-gob-4 rounded-gob-lg border border-gob-warning/40 bg-gob-warning-bg p-gob-6">
         <h2 className="font-heading text-xl font-medium text-gob-text">Validación con ClaveÚnica</h2>
@@ -31,7 +34,7 @@ export default function ClaveUnicaSimPage() {
                 if (fromRegister) setStep('datos')
                 else {
                   signIn({ metodo: 'clave-unica' })
-                  router.push('/tramites')
+                  router.push(nextAfterAuth(params.toString()))
                 }
               }}
             >
@@ -66,5 +69,6 @@ export default function ClaveUnicaSimPage() {
         )}
       </div>
     </TramitesMain>
+    </SkipIfAuthenticated>
   )
 }

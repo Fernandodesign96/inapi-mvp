@@ -10,9 +10,11 @@ import { DataTable, Td } from '@/components/tramites/DataTable'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { EmptyState, TramitesMain } from '@/components/tramites/ui-helpers'
 import { RESULTADOS_PATENTES } from '@/lib/tramites/mock-data'
+import { useTramitesSession } from '@/lib/tramites/use-session'
 
 export default function BuscadorPatentesPage() {
   const router = useRouter()
+  const { session } = useTramitesSession()
   const [q, setQ] = useState('')
   const [ran, setRan] = useState(false)
   const results = ran
@@ -53,6 +55,7 @@ export default function BuscadorPatentesPage() {
           Ir a búsqueda avanzada
         </Link>
       </p>
+      {session.authenticated ? null : (
       <div className="flex flex-wrap items-center gap-gob-3 rounded-gob-md border border-gob-border p-gob-4">
         <p className="text-gri-body-sm text-gob-text flex-1">
           Si ingresas con ClaveÚnica, esta consulta no pide captcha.
@@ -62,6 +65,7 @@ export default function BuscadorPatentesPage() {
           onClick={() => router.push('/tramites/clave-unica?next=/tramites/patentes/buscador')}
         />
       </div>
+      )}
       {ran && results.length === 0 && <EmptyState>No hay resultados con estos filtros</EmptyState>}
       {results.length > 0 && (
         <DataTable headers={['Número', 'Tipo', 'Título', 'Solicitante', 'Fecha']} caption="Resultados">

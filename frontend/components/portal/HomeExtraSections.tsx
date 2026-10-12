@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { TramitesLink } from '@/components/tramites/TramitesLink'
 import type { LucideIcon } from 'lucide-react'
 import {
   CheckCircle2,
@@ -372,10 +373,10 @@ function DomainGuide({
             )}
             asChild
           >
-            <Link href={ctaHref}>
+            <TramitesLink href={ctaHref}>
               {ctaLabel}
               <ChevronRight className="w-5 h-5 ml-1" aria-hidden />
-            </Link>
+            </TramitesLink>
           </Button>
         </div>
       </ContainerGRI>
@@ -439,7 +440,7 @@ export function HomeExtraSections() {
           </div>
           <div className="flex flex-col sm:flex-row gap-gob-3">
             <Button size="form" className="rounded-full bg-gob-primary hover:bg-gob-primary-dark font-medium h-11 px-gob-6" asChild>
-              <Link href="/tramites/marcas/solicitar">Comenzar mi registro</Link>
+              <TramitesLink href="/tramites/marcas/solicitar">Comenzar mi registro</TramitesLink>
             </Button>
             <Button
               variant="outline"

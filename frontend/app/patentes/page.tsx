@@ -176,7 +176,7 @@ export default function PatentesPage() {
             <PortalLinkList
               links={[
                 { href: '/tramites/patentes/buscador', label: 'Buscador de patentes', icon: Search },
-                { href: '/notificaciones-diarias', label: 'Notificaciones INAPI de patentes', icon: Bell },
+                { href: '/notificaciones-diarias/patentes', label: 'Notificaciones INAPI de patentes', icon: Bell },
                 { href: '/patentes/pct', label: 'Conocer el Tratado de Cooperación en materia de Patentes (PCT)', icon: Bolt },
               ]}
             />

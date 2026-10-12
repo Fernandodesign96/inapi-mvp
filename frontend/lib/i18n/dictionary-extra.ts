@@ -66,6 +66,14 @@ export const EN_EXTRA: Record<string, string> = {
   'Tipo de volumen': 'Volume type',
   'Cifras de marcas y patentes': 'Trademark and patent figures',
   Solicitudes: 'Applications',
+  solicitudes: 'applications',
+  'Hola,': 'Hello,',
+  Atajos: 'Shortcuts',
+  accesos: 'shortcuts',
+  acceso: 'shortcut',
+  'solicitudes en 2023': 'applications in 2023',
+  'solicitudes en 2024': 'applications in 2024',
+  'solicitudes en 2025': 'applications in 2025',
   ' años': ' years',
 
   // News

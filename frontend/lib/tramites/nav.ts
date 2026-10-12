@@ -315,6 +315,46 @@ export const PATENTES_MEGA: MegaColumn[] = [
   },
 ]
 
+export const TRAMITES_SECONDARY_NAV = [
+  { label: 'Solicitar marca', href: '/tramites/marcas/solicitar' },
+  { label: 'Solicitar patente', href: '/tramites/patentes/solicitar' },
+  { label: 'Buscador de marcas', href: '/marcas/buscador-similitud' },
+  { label: 'Buscador de productos y servicios', href: '/tramites/marcas/clasificador' },
+  { label: 'Buscador de patentes', href: '/tramites/patentes/buscador' },
+  { label: 'Mis notificaciones', href: '/tramites/notificaciones' },
+  { label: 'Notificaciones diarias INAPI', href: '/notificaciones-diarias' },
+] as const
+
+function splitHref(href: string) {
+  const [path, query = ''] = href.split('?')
+  return { path, query }
+}
+
+/** Título de la franja: coincide con el atajo elegido (incl. query). */
+export function resolveTramitesHeading(pathname: string, search = '') {
+  const query = search.replace(/^\?/, '')
+  const items: { label: string; href: string; external?: boolean }[] = [
+    ...TRAMITES_SECONDARY_NAV,
+    ...MARCAS_MEGA.flatMap(col => col.items),
+    ...PATENTES_MEGA.flatMap(col => col.items),
+  ]
+  const exact = items.find(item => {
+    if (item.external) return false
+    const { path, query: itemQuery } = splitHref(item.href)
+    return path === pathname && itemQuery === query
+  })
+  const pathMatch = items.find(item => {
+    if (item.external) return false
+    const { path, query: itemQuery } = splitHref(item.href)
+    return path === pathname && !itemQuery
+  })
+  const meta = PAGE_TITLES[pathname]
+  if (exact) return { title: exact.label, subtitle: meta?.subtitle, domain: meta?.domain ?? 'general' }
+  if (pathMatch) return { title: pathMatch.label, subtitle: meta?.subtitle, domain: meta?.domain ?? 'general' }
+  if (meta) return meta
+  return { title: 'Trámites en línea', domain: 'general' as const }
+}
+
 export const PAGE_TITLES: Record<string, { title: string; subtitle?: string; domain: TramitesDomain | 'general' }> = {
   '/tramites': { title: 'Trámites en línea', subtitle: 'Gestiona tus marcas y patentes', domain: 'general' },
   '/marcas/buscador-similitud': { title: 'Buscador de marcas', subtitle: 'Usa esta herramienta antes de pedir el registro de tu marca.', domain: 'marcas' },
