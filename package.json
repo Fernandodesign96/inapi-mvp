@@ -8,9 +8,5 @@
     "start": "bun run --cwd frontend start",
     "lint": "bun run --cwd frontend lint",
     "typecheck": "bun run --cwd frontend typecheck"
-  },
-  "dependencies": {
-    "chart.js": "^4.5.1",
-    "react-chartjs-2": "^5.3.1"
   }
 }
