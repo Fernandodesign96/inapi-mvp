@@ -301,7 +301,7 @@ export function SolicitudesGuardadasPatentesScreen() {
       <TramitesMain>
         <SavedListScreen
           domain="patentes"
-          panelTitle="Filtros de búsqueda"
+          panelTitle="Solicitudes guardadas"
           createHref="/tramites/patentes/solicitar"
           createLabel="Crear nueva solicitud - patente / modelo de utilidad"
           emptyText="No hay solicitudes guardadas aún."
@@ -340,7 +340,7 @@ export function PatentLanding({ variant }: { variant: 'patente' | 'diseno' }) {
           </Link>
           .
         </AlertBanner>
-        <ServicePanel title="Nueva solicitud" domain="patentes">
+        <ServicePanel title={variant === 'patente' ? 'Solicitar patente' : 'Solicitar diseño'} domain="patentes">
           <p className="text-gri-body font-medium">Indique el tipo y título de la solicitud</p>
           <div className="max-w-xl space-y-gob-4">
             <div className="space-y-gob-2">

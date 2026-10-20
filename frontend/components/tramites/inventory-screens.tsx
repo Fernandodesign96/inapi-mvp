@@ -317,7 +317,7 @@ export function PresentarEscritosScreen({ domain }: { domain: 'marcas' | 'patent
   return (
     <RequireAuth>
       <TramitesMain>
-        <ServicePanel title={`Presentar escritos de ${domain}`} domain={domain}>
+        <ServicePanel title={domain === 'marcas' ? 'Presentar escritos de marcas' : 'Presentar escritos de patentes'} domain={domain}>
           <p className="text-gri-body">
             Ingrese el número de documento de la {domain === 'marcas' ? 'Marca' : 'Patente'} a la que requiere presentar un
             escrito.
@@ -407,7 +407,7 @@ export function DatosAbiertosScreen({ domain }: { domain: 'marcas' | 'patentes' 
           marcasHref="/tramites/marcas/datos-abiertos"
           patentesHref="/tramites/patentes/datos-abiertos"
         />
-        <ServicePanel title="Datos abiertos" domain={domain}>
+        <ServicePanel title={domain === 'marcas' ? 'Datos abiertos de marcas' : 'Datos abiertos de patentes'} domain={domain}>
           <div className="grid gap-gob-6 min-[905px]:grid-cols-2">
             {cards.map(c => (
               <article key={c.title} className="space-y-gob-3">
@@ -433,8 +433,12 @@ export function LibroRegistroScreen({ domain }: { domain: 'marcas' | 'patentes' 
       <TramitesMain>
         <LookupForm
           domain={domain}
-          title="Filtro de búsqueda"
-          description={`Ingrese el número de Registro de ${domain === 'marcas' ? 'marca' : 'Patente'}.`}
+          title={domain === 'marcas' ? 'Libro de registro de marcas' : 'Libro de registro de patentes'}
+          description={
+            domain === 'marcas'
+              ? 'Consulta el libro de registro de marcas. Ingresa el número de registro.'
+              : 'Consulta el libro de registro de patentes. Ingresa el número de registro.'
+          }
           label="Número de Registro"
           demoValue={domain === 'marcas' ? DEMO_NUMEROS.registroMarca : DEMO_NUMEROS.solicitudPatente}
           errorMessage="No se encontró el registro en el libro. Recuerde que la actualización ocurre 7 días hábiles después del acto."
@@ -492,7 +496,7 @@ export function VerificarTitulosScreen({ domain }: { domain: 'marcas' | 'patente
           patentesHref="/tramites/patentes/verificar-titulos"
         />
         <ServicePanel
-          title={`Validar títulos y certificados ${domain === 'marcas' ? 'marcas' : 'patentes'}`}
+          title={domain === 'marcas' ? 'Verificar certificados de marcas' : 'Verificar certificados de patentes'}
           domain={domain}
         >
           {domain === 'patentes' ? (
@@ -613,9 +617,9 @@ export function DocumentacionPctScreen() {
   return (
     <RequireAuth>
       <TramitesMain>
-        <ServicePanel title="Colección nacional de patentes de Chile" domain="patentes">
+        <ServicePanel title="Documentación mínima PCT" domain="patentes">
           <p className="text-gri-body leading-relaxed text-gob-text">
-            Consulta los XML de registros concedidos y el Authority File de INAPI, conforme al Tratado de Cooperación en Materia de Patentes (PCT).
+            Authority File y XML de la colección nacional de patentes. Consulta los XML de registros concedidos conforme al Tratado de Cooperación en Materia de Patentes (PCT).
           </p>
         </ServicePanel>
         <AccordionBlock title="Authority File INAPI" open={open === 'af'} onToggle={() => setOpen(open === 'af' ? null : 'af')}>

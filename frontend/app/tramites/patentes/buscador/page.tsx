@@ -30,7 +30,7 @@ export default function BuscadorPatentesPage() {
   return (
     <TramitesMain>
       <p className="text-gri-body text-gob-text max-w-3xl">
-        Busca patentes de invención, modelos de utilidad y diseños industriales. Escribe un número, un título o un nombre.
+        Busca patentes, modelos de utilidad y diseños. Escribe un número, un título o un nombre.
       </p>
       <form
         className="flex flex-col min-[600px]:flex-row gap-gob-3 min-[600px]:items-end"
