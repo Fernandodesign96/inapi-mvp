@@ -1,3 +1,5 @@
 'use client'
-import { TgrCouponScreen } from '@/components/tramites/payment-screens'
-export default function Page() { return <TgrCouponScreen domain="patentes" /> }
+import { RedirectTo } from '@/components/tramites/RedirectTo'
+export default function Page() {
+  return <RedirectTo href="/tramites/patentes/pagos" />
+}

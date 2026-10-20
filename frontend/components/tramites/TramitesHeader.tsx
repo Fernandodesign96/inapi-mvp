@@ -9,7 +9,6 @@ import { ChevronDown, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { HeaderUtilities } from '@/components/layout/HeaderUtilities'
 import { SiteSearchForm } from '@/components/layout/SiteSearchForm'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
 import {
   MARCAS_MEGA,
@@ -41,21 +40,17 @@ function MegaPanel({
               {col.items.map(item => {
                 const className =
                   'flex min-h-11 items-center rounded-gob-sm px-gob-2 text-gri-body-sm font-medium text-gob-link hover:bg-gob-surface-elevated hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus'
-                const inner = item.external ? (
-                  <a href={item.href} className={className} rel="noopener noreferrer" title={tx(item.tooltip)} onClick={onNavigate}>
-                    {tx(item.label)}
-                  </a>
-                ) : (
-                  <Link href={item.href} className={className} title={tx(item.tooltip)} onClick={onNavigate}>
-                    {tx(item.label)}
-                  </Link>
-                )
                 return (
                   <li key={item.href + item.label}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>{inner}</TooltipTrigger>
-                      <TooltipContent className="max-w-xs">{tx(item.tooltip)}</TooltipContent>
-                    </Tooltip>
+                    {item.external ? (
+                      <a href={item.href} className={className} rel="noopener noreferrer" onClick={onNavigate}>
+                        {tx(item.label)}
+                      </a>
+                    ) : (
+                      <Link href={item.href} className={className} onClick={onNavigate}>
+                        {tx(item.label)}
+                      </Link>
+                    )}
                   </li>
                 )
               })}

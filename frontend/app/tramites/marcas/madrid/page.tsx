@@ -1,7 +1,5 @@
 'use client'
-
-import { MadridRedirectScreen } from '@/components/tramites/part2-screens'
-
+import { RedirectTo } from '@/components/tramites/RedirectTo'
 export default function Page() {
-  return <MadridRedirectScreen />
+  return <RedirectTo href="/tramites/marcas/tramites" />
 }

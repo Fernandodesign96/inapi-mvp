@@ -21,20 +21,10 @@ function ext(label: string, href: string, tooltip: string): MegaItem {
 
 export const MARCAS_MEGA: MegaColumn[] = [
   {
-    title: 'Mi INAPI',
+    title: 'Anotaciones y escritos',
     items: [
       {
-        label: 'Notificaciones electrónicas marcas',
-        href: '/tramites/notificaciones?ambito=marcas',
-        tooltip: 'Revisa avisos de tus trámites de marcas',
-      },
-      {
-        label: 'Solicitudes guardadas de marcas',
-        href: '/tramites/marcas/solicitudes-guardadas',
-        tooltip: 'Retoma un borrador de solicitud de marca',
-      },
-      {
-        label: 'Anotaciones guardadas marcas',
+        label: 'Anotaciones guardadas de marcas',
         href: '/tramites/marcas/anotaciones-guardadas',
         tooltip: 'Revisa anotaciones guardadas de marcas',
       },
@@ -54,64 +44,49 @@ export const MARCAS_MEGA: MegaColumn[] = [
         tooltip: 'Inicia una solicitud nueva de marca',
       },
       {
-        label: 'Solicitar marca Sistema de Madrid',
-        href: '/tramites/marcas/madrid',
-        tooltip: 'Te lleva al sitio de Madrid e-filing',
+        label: 'Buscador de marcas',
+        href: '/marcas/buscador-similitud',
+        tooltip: 'Compara tu nombre con marcas anteriores',
       },
       {
-        label: 'Solicitar renovaciones',
-        href: '/tramites/marcas/renovaciones',
-        tooltip: 'Renueva el registro de tu marca',
+        label: 'Buscador de productos y servicios',
+        href: '/tramites/marcas/clasificador',
+        tooltip: 'Busca productos y servicios y te sugiere la clase de Niza',
       },
       {
-        label: 'Solicitar anotación de marcas',
-        href: '/tramites/marcas/anotaciones',
-        tooltip: 'Anota cambios de tu marca',
+        label: 'Mis notificaciones de marcas',
+        href: '/tramites/notificaciones?ambito=marcas',
+        tooltip: 'Revisa avisos de tus trámites de marcas',
       },
       {
-        label: 'Presentar escritos de marcas',
-        href: '/tramites/marcas/presentar-escritos',
-        tooltip: 'Presenta un escrito a una solicitud, anotación o juicio de marcas',
+        label: 'Solicitudes guardadas de marcas',
+        href: '/tramites/marcas/solicitudes-guardadas',
+        tooltip: 'Retoma un borrador de solicitud de marca',
       },
       {
-        label: 'Presentar demanda de oposición',
-        href: '/tramites/marcas/oposicion',
-        tooltip: 'Presenta una oposición a una solicitud de marca',
-      },
-      {
-        label: 'Custodia de poderes y personerías',
-        href: '/tramites/custodia-poderes',
-        tooltip: 'Registra un poder o personería una sola vez',
+        label: 'Realiza otras solicitudes y presentaciones de marcas',
+        href: '/tramites/marcas/tramites',
+        tooltip: 'Renovaciones, anotaciones, escritos, oposición, Madrid y custodia en un solo paso',
       },
     ],
   },
   {
     title: 'Pagos',
     items: [
-      {
-        label: 'Pagar tasa de concesión final marcas',
-        href: '/tramites/marcas/pago-concesion',
-        tooltip: 'Paga el segundo pago o derechos finales de una marca',
-      },
       ext(
-        'Pagar publicación en Diario Oficial',
+        'Pagar publicación en el Diario Oficial',
         URLS_EXTERNAS.diarioOficialMarcas,
         'Paga la publicación de tu marca en el Diario Oficial',
       ),
       {
-        label: 'Otros pagos en línea marcas',
-        href: '/tramites/marcas/otros-pagos',
-        tooltip: 'Pagos complementarios de marcas',
-      },
-      {
-        label: 'Comprobantes para pago marcas',
-        href: '/tramites/marcas/comprobante-pago',
-        tooltip: 'Genera el Formulario 10 para pago en banco',
+        label: 'Realiza todos tus pagos de marcas aquí',
+        href: '/tramites/marcas/pagos',
+        tooltip: 'Concesión, otros pagos y comprobante Formulario 10 en un solo paso',
       },
     ],
   },
   {
-    title: 'Servicios',
+    title: 'Mis documentos y otras consultas',
     items: [
       {
         label: 'Estados diarios de marcas',
@@ -124,12 +99,7 @@ export const MARCAS_MEGA: MegaColumn[] = [
         tooltip: 'Descarga la gaceta de marcas nuevas',
       },
       {
-        label: 'Buscador de marcas',
-        href: '/marcas/buscador-similitud',
-        tooltip: 'Compara tu nombre con marcas anteriores',
-      },
-      {
-        label: 'Expedientes digitales marcas',
+        label: 'Expedientes digitales de marcas',
         href: '/tramites/marcas/documentos',
         tooltip: 'Abre el expediente digital de una marca',
       },
@@ -139,7 +109,7 @@ export const MARCAS_MEGA: MegaColumn[] = [
         'Consulta marcas, empresas y dominios .cl',
       ),
       {
-        label: 'Datos abiertos marcas',
+        label: 'Datos abiertos de marcas',
         href: '/tramites/marcas/datos-abiertos',
         tooltip: 'Descarga listados de marcas en datos.gob.cl',
       },
@@ -154,12 +124,7 @@ export const MARCAS_MEGA: MegaColumn[] = [
         tooltip: 'Pide un certificado de tu marca',
       },
       {
-        label: 'Buscador de productos y servicios',
-        href: '/tramites/marcas/clasificador',
-        tooltip: 'Busca productos y servicios y te sugiere la clase de Niza',
-      },
-      {
-        label: 'Verificar certificados marcas',
+        label: 'Verificar certificados de marcas',
         href: '/tramites/marcas/verificar-titulos',
         tooltip: 'Valida un título o certificado con CVE',
       },
@@ -174,20 +139,10 @@ export const MARCAS_MEGA: MegaColumn[] = [
 
 export const PATENTES_MEGA: MegaColumn[] = [
   {
-    title: 'Mi INAPI',
+    title: 'Anotaciones y escritos',
     items: [
       {
-        label: 'Notificaciones electrónicas patentes',
-        href: '/tramites/notificaciones?ambito=patentes',
-        tooltip: 'Revisa avisos de tus trámites de patentes',
-      },
-      {
-        label: 'Solicitudes guardadas de patentes',
-        href: '/tramites/patentes/solicitudes-guardadas',
-        tooltip: 'Retoma un borrador de solicitud de patente',
-      },
-      {
-        label: 'Anotaciones guardadas patentes',
+        label: 'Anotaciones guardadas de patentes',
         href: '/tramites/patentes/anotaciones-guardadas',
         tooltip: 'Revisa anotaciones guardadas de patentes',
       },
@@ -196,20 +151,40 @@ export const PATENTES_MEGA: MegaColumn[] = [
         href: '/tramites/patentes/escritos',
         tooltip: 'Revisa escritos guardados de patentes',
       },
+      {
+        label: 'Custodia de poderes y personerías',
+        href: '/tramites/custodia-poderes',
+        tooltip: 'Registra un poder o personería una sola vez',
+      },
     ],
   },
   {
     title: 'Tramitación',
     items: [
       {
-        label: 'Solicitar patente o modelo de utilidad',
+        label: 'Solicitar patente',
         href: '/tramites/patentes/solicitar',
         tooltip: 'Inicia una solicitud de patente o modelo de utilidad',
       },
       {
-        label: 'Solicitar diseño o dibujo industrial',
+        label: 'Solicitar diseño',
         href: '/tramites/patentes/solicitar-diseno',
-        tooltip: 'Inicia una solicitud de diseño o dibujo industrial',
+        tooltip: 'Inicia un diseño o dibujo industrial',
+      },
+      {
+        label: 'Buscador de patentes',
+        href: '/tramites/patentes/buscador',
+        tooltip: 'Busca patentes, modelos de utilidad y diseños',
+      },
+      {
+        label: 'Mis notificaciones de patentes',
+        href: '/tramites/notificaciones?ambito=patentes',
+        tooltip: 'Revisa avisos de tus trámites de patentes',
+      },
+      {
+        label: 'Solicitudes guardadas',
+        href: '/tramites/patentes/solicitudes-guardadas',
+        tooltip: 'Retoma un borrador de patente',
       },
       {
         label: 'Solicitar anotación de patentes',
@@ -221,65 +196,35 @@ export const PATENTES_MEGA: MegaColumn[] = [
         href: '/tramites/patentes/presentar-escritos',
         tooltip: 'Presenta un escrito a una solicitud, anotación o nulidad',
       },
-      {
-        label: 'Custodia de poderes y personerías',
-        href: '/tramites/custodia-poderes',
-        tooltip: 'Registra un poder o personería una sola vez',
-      },
     ],
   },
   {
     title: 'Pagos',
     items: [
-      {
-        label: 'Pagar tasa de presentación patentes',
-        href: '/tramites/patentes/pago-presentacion',
-        tooltip: 'Paga la tasa de presentación si postergaste el pago',
-      },
-      {
-        label: 'Pagar arancel pericial',
-        href: '/tramites/patentes/pago-arancel-pericial',
-        tooltip: 'Paga el arancel pericial cuando INAPI lo requiere',
-      },
-      {
-        label: 'Pagar derechos finales',
-        href: '/tramites/patentes/pago-derechos-finales',
-        tooltip: 'Paga decenios, quinquenios o anualidades',
-      },
-      {
-        label: 'Pagar tasas PCT fase internacional',
-        href: '/tramites/patentes/pago-pct',
-        tooltip: 'Paga tasas de una solicitud PCT',
-      },
       ext(
         'Pagar publicación en el Diario Oficial',
         URLS_EXTERNAS.diarioOficialPatentes,
         'Paga la publicación de tu patente en el Diario Oficial',
       ),
       {
-        label: 'Otros pagos en línea patentes',
-        href: '/tramites/patentes/otros-pagos',
-        tooltip: 'Pagos complementarios de patentes',
-      },
-      {
-        label: 'Comprobantes para pago patentes',
-        href: '/tramites/patentes/comprobante-pago',
-        tooltip: 'Genera el Formulario 10 para pago en banco',
+        label: 'Realiza todos tus pagos de patentes aquí',
+        href: '/tramites/patentes/pagos',
+        tooltip: 'Presentación, peritaje, derechos, PCT, otros pagos y comprobante en un solo paso',
       },
     ],
   },
   {
-    title: 'Servicios',
+    title: 'Mis documentos y otras consultas',
     items: [
       {
-        label: 'Estados diarios patentes',
+        label: 'Estados diarios de patentes',
         href: '/tramites/patentes/estados-diarios',
         tooltip: 'Descarga los estados diarios de patentes',
       },
       {
-        label: 'Buscador de patentes',
-        href: '/tramites/patentes/buscador',
-        tooltip: 'Busca patentes, modelos de utilidad y diseños',
+        label: 'Expedientes digitales de patentes',
+        href: '/tramites/patentes/documentos',
+        tooltip: 'Abre el expediente digital de una patente',
       },
       {
         label: 'Libro de registro de patentes',
@@ -287,17 +232,17 @@ export const PATENTES_MEGA: MegaColumn[] = [
         tooltip: 'Consulta el libro de registro de patentes',
       },
       {
-        label: 'Datos abiertos patentes',
+        label: 'Datos abiertos de patentes',
         href: '/tramites/patentes/datos-abiertos',
         tooltip: 'Descarga listados de patentes en datos.gob.cl',
       },
       {
-        label: 'Títulos y certificados patentes',
+        label: 'Títulos y certificados de patentes',
         href: '/tramites/patentes/certificados',
         tooltip: 'Pide un certificado de tu patente',
       },
       {
-        label: 'Verificar certificados patentes',
+        label: 'Verificar certificados de patentes',
         href: '/tramites/patentes/verificar-titulos',
         tooltip: 'Valida un título o certificado con CVE',
       },
@@ -330,13 +275,38 @@ function splitHref(href: string) {
   return { path, query }
 }
 
+type PageHeading = { title: string; subtitle?: string; domain: TramitesDomain | 'general' }
+
+function withDot(text?: string) {
+  if (!text) return undefined
+  const trimmed = text.trim()
+  return /[.!?…]$/.test(trimmed) ? trimmed : `${trimmed}.`
+}
+
+function titlesFromMega(columns: MegaColumn[], domain: TramitesDomain) {
+  const out: Record<string, PageHeading> = {}
+  for (const col of columns) {
+    for (const item of col.items) {
+      if (item.external) continue
+      const { path } = splitHref(item.href)
+      if (out[path]) continue
+      out[path] = { title: item.label, subtitle: withDot(item.tooltip), domain }
+    }
+  }
+  return out
+}
+
+function headingSubtitle(tooltip?: string, fallback?: string) {
+  return withDot(tooltip) ?? fallback
+}
+
 /** Título de la franja: coincide con el atajo elegido (incl. query). */
 export function resolveTramitesHeading(pathname: string, search = '') {
   const query = search.replace(/^\?/, '')
-  const items: { label: string; href: string; external?: boolean }[] = [
-    ...TRAMITES_SECONDARY_NAV,
+  const items: MegaItem[] = [
     ...MARCAS_MEGA.flatMap(col => col.items),
     ...PATENTES_MEGA.flatMap(col => col.items),
+    ...TRAMITES_SECONDARY_NAV.map(item => ({ ...item, tooltip: '' })),
   ]
   const exact = items.find(item => {
     if (item.external) return false
@@ -349,67 +319,83 @@ export function resolveTramitesHeading(pathname: string, search = '') {
     return path === pathname && !itemQuery
   })
   const meta = PAGE_TITLES[pathname]
-  if (exact) return { title: exact.label, subtitle: meta?.subtitle, domain: meta?.domain ?? 'general' }
-  if (pathMatch) return { title: pathMatch.label, subtitle: meta?.subtitle, domain: meta?.domain ?? 'general' }
+  if (exact) {
+    return {
+      title: exact.label,
+      subtitle: headingSubtitle(exact.tooltip, meta?.subtitle),
+      domain: meta?.domain ?? 'general',
+    }
+  }
+  if (pathMatch) {
+    return {
+      title: pathMatch.label,
+      subtitle: headingSubtitle(pathMatch.tooltip, meta?.subtitle),
+      domain: meta?.domain ?? 'general',
+    }
+  }
   if (meta) return meta
   return { title: 'Trámites en línea', domain: 'general' as const }
 }
 
-export const PAGE_TITLES: Record<string, { title: string; subtitle?: string; domain: TramitesDomain | 'general' }> = {
+const MEGA_PAGE_TITLES = {
+  ...titlesFromMega(MARCAS_MEGA, 'marcas'),
+  ...titlesFromMega(PATENTES_MEGA, 'patentes'),
+}
+
+const MARCAS_TRAMITES_HEADING: PageHeading = MEGA_PAGE_TITLES['/tramites/marcas/tramites'] ?? {
+  title: 'Realiza otras solicitudes y presentaciones de marcas',
+  subtitle: 'Renovaciones, anotaciones, escritos, oposición, Madrid y custodia en un solo paso.',
+  domain: 'marcas',
+}
+const MARCAS_PAGOS_HEADING: PageHeading = MEGA_PAGE_TITLES['/tramites/marcas/pagos'] ?? {
+  title: 'Realiza todos tus pagos de marcas aquí',
+  subtitle: 'Concesión, otros pagos y comprobante Formulario 10 en un solo paso.',
+  domain: 'marcas',
+}
+const PATENTES_PAGOS_HEADING: PageHeading = MEGA_PAGE_TITLES['/tramites/patentes/pagos'] ?? {
+  title: 'Realiza todos tus pagos de patentes aquí',
+  subtitle: 'Presentación, peritaje, derechos, PCT, otros pagos y comprobante en un solo paso.',
+  domain: 'patentes',
+}
+
+export const PAGE_TITLES: Record<string, PageHeading> = {
   '/tramites': { title: 'Trámites en línea', subtitle: 'Gestiona tus marcas y patentes', domain: 'general' },
-  '/marcas/buscador-similitud': { title: 'Buscador de marcas', subtitle: 'Usa esta herramienta antes de pedir el registro de tu marca.', domain: 'marcas' },
+  ...MEGA_PAGE_TITLES,
+  '/tramites/notificaciones': {
+    title: 'Mis notificaciones',
+    subtitle: 'Revisa avisos de tus trámites de marcas y patentes.',
+    domain: 'general',
+  },
+  '/tramites/custodia-poderes': {
+    title: 'Custodia de poderes y personerías',
+    subtitle: 'Registra un poder o personería una sola vez.',
+    domain: 'general',
+  },
   '/tramites/auth': { title: 'Iniciar sesión', domain: 'general' },
   '/tramites/ingresar': { title: 'Ingresar con Clave INAPI', domain: 'general' },
   '/tramites/solicitudmarca': { title: 'Solicitud de marca', domain: 'marcas' },
   '/tramites/registrarse': { title: 'Regístrate en trámites INAPI', domain: 'general' },
   '/tramites/clave-unica': { title: 'Validación con ClaveÚnica', domain: 'general' },
-  '/tramites/notificaciones': { title: 'Notificaciones electrónicas', domain: 'general' },
   '/tramites/perfil': { title: 'Mi perfil', domain: 'general' },
-  '/tramites/custodia-poderes': { title: 'Trámites y Servicios • Ingreso de Documentos, Poderes y Personerías', domain: 'general' },
-  '/tramites/marcas/documentos': { title: 'Marcas • Expedientes digitales', domain: 'marcas' },
-  '/tramites/marcas/solicitudes-guardadas': { title: 'Marcas • Solicitudes guardadas de marcas', domain: 'marcas' },
-  '/tramites/marcas/escritos': { title: 'Marcas • Escritos guardados de marcas', domain: 'marcas' },
-  '/tramites/marcas/presentar-escritos': { title: 'Marcas • Presentar escritos de marcas', domain: 'marcas' },
-  '/tramites/marcas/gaceta': { title: 'Trámites y Servicios • Gaceta de marcas nuevas', domain: 'marcas' },
-  '/tramites/marcas/estados-diarios': { title: 'Trámites y Servicios • Estados diarios de marcas', domain: 'marcas' },
-  '/tramites/marcas/clasificador': { title: 'Marcas • Buscador de productos y servicios', domain: 'marcas' },
-  '/tramites/marcas/formularios': { title: 'Marcas • Descargar formularios (PDF)', domain: 'marcas' },
-  '/tramites/marcas/certificados': { title: 'Marcas • Certificados de marcas', domain: 'marcas' },
-  '/tramites/marcas/solicitar': { title: 'Marcas • Solicitar marca', domain: 'marcas' },
-  '/tramites/marcas/madrid': { title: 'Marcas • Solicitar marca Sistema de Madrid', domain: 'marcas' },
-  '/tramites/marcas/renovaciones': { title: 'Marcas • Solicitar renovaciones', domain: 'marcas' },
-  '/tramites/marcas/anotaciones-guardadas': { title: 'Marcas • Anotaciones guardadas', domain: 'marcas' },
-  '/tramites/marcas/anotaciones': { title: 'Marcas • Solicitar anotación de marcas', domain: 'marcas' },
-  '/tramites/marcas/oposicion': { title: 'Marcas • Presentar demanda de oposición', domain: 'marcas' },
-  '/tramites/marcas/pago-concesion': { title: 'Marcas • Pagar tasa de concesión final marcas', domain: 'marcas' },
-  '/tramites/marcas/otros-pagos': { title: 'Marcas • Otros pagos en línea marcas', domain: 'marcas' },
-  '/tramites/marcas/comprobante-pago': { title: 'Trámites y Servicios • Comprobante para pago', domain: 'marcas' },
-  '/tramites/marcas/datos-abiertos': { title: 'Trámites y Servicios • Datos abiertos', domain: 'marcas' },
-  '/tramites/marcas/libro-registro': { title: 'Marcas • Libro de registro marcas', domain: 'marcas' },
-  '/tramites/marcas/verificar-titulos': { title: 'Trámites y Servicios • Verificador de títulos y certificados', domain: 'marcas' },
-  '/tramites/patentes/documentos': { title: 'Patentes • Expedientes digitales', domain: 'patentes' },
-  '/tramites/patentes/solicitudes-guardadas': { title: 'Patentes • Solicitudes guardadas de patentes', domain: 'patentes' },
-  '/tramites/patentes/escritos': { title: 'Patentes • Escritos guardados de patentes', domain: 'patentes' },
-  '/tramites/patentes/presentar-escritos': { title: 'Patentes • Presentar escritos de patentes', domain: 'patentes' },
-  '/tramites/patentes/estados-diarios': { title: 'Trámites y Servicios • Estados diarios de patentes', domain: 'patentes' },
-  '/tramites/patentes/datos-abiertos': { title: 'Trámites y Servicios • Datos abiertos', domain: 'patentes' },
-  '/tramites/patentes/libro-registro': { title: 'Patentes • Libro de registro patentes', domain: 'patentes' },
-  '/tramites/patentes/verificar-titulos': { title: 'Trámites y Servicios • Verificador de títulos y certificados', domain: 'patentes' },
-  '/tramites/patentes/documentacion-pct': { title: 'Patentes • Documentación mínima PCT - Colección nacional de patentes de Chile', domain: 'patentes' },
-  '/tramites/patentes/formularios': { title: 'Patentes • Descargar formularios (PDF)', domain: 'patentes' },
-  '/tramites/patentes/certificados': { title: 'Patentes • Títulos y certificados patentes', domain: 'patentes' },
-  '/tramites/patentes/buscador': { title: 'Buscador de Patentes', domain: 'patentes' },
-  '/tramites/patentes/buscador/avanzada': { title: 'Búsqueda avanzada de patentes', domain: 'patentes' },
-  '/tramites/patentes/solicitar': { title: 'Patentes • Solicitud de patente o modelo de utilidad', domain: 'patentes' },
-  '/tramites/patentes/solicitar-diseno': { title: 'Patentes • Solicitud de diseño o dibujo industrial', domain: 'patentes' },
-  '/tramites/patentes/anotaciones-guardadas': { title: 'Patentes • Anotaciones guardadas', domain: 'patentes' },
-  '/tramites/patentes/anotaciones': { title: 'Patentes • Solicitar anotación de patentes', domain: 'patentes' },
-  '/tramites/patentes/pago-presentacion': { title: 'Patentes • Pagar tasa de presentación patentes', domain: 'patentes' },
-  '/tramites/patentes/pago-arancel-pericial': { title: 'Patentes • Pagar arancel pericial', domain: 'patentes' },
-  '/tramites/patentes/pago-derechos-finales': { title: 'Patentes • Pagar derechos finales', domain: 'patentes' },
-  '/tramites/patentes/pago-pct': { title: 'Patentes • Pagos PCT', domain: 'patentes' },
-  '/tramites/patentes/otros-pagos': { title: 'Patentes • Otros pagos en línea patentes', domain: 'patentes' },
-  '/tramites/patentes/comprobante-pago': { title: 'Trámites y Servicios • Comprobante para pago', domain: 'patentes' },
+  '/tramites/patentes/buscador/avanzada': {
+    title: 'Búsqueda avanzada de patentes',
+    subtitle: 'Afina la búsqueda por número, titular, fechas o clasificación.',
+    domain: 'patentes',
+  },
+  '/tramites/marcas/presentar-escritos': MARCAS_TRAMITES_HEADING,
+  '/tramites/marcas/madrid': MARCAS_TRAMITES_HEADING,
+  '/tramites/marcas/renovaciones': MARCAS_TRAMITES_HEADING,
+  '/tramites/marcas/anotaciones': MARCAS_TRAMITES_HEADING,
+  '/tramites/marcas/oposicion': MARCAS_TRAMITES_HEADING,
+  '/tramites/marcas/pago-concesion': MARCAS_PAGOS_HEADING,
+  '/tramites/marcas/otros-pagos': MARCAS_PAGOS_HEADING,
+  '/tramites/marcas/comprobante-pago': MARCAS_PAGOS_HEADING,
+  '/tramites/patentes/pago-presentacion': PATENTES_PAGOS_HEADING,
+  '/tramites/patentes/pago-arancel-pericial': PATENTES_PAGOS_HEADING,
+  '/tramites/patentes/pago-derechos-finales': PATENTES_PAGOS_HEADING,
+  '/tramites/patentes/pago-pct': PATENTES_PAGOS_HEADING,
+  '/tramites/patentes/otros-pagos': PATENTES_PAGOS_HEADING,
+  '/tramites/patentes/comprobante-pago': PATENTES_PAGOS_HEADING,
   '/tramites/pago': { title: 'Pago en Tesorería', domain: 'general' },
   '/tramites/pago-tgr': { title: 'Pago de tasas INAPI', domain: 'general' },
   '/tramites/proximamente': { title: 'Próxima entrega', domain: 'general' },

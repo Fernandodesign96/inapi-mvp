@@ -45,105 +45,91 @@ const heroPatenteStats = [
   { end: 12286, suffix: '', prefix: '', label: 'Solicitudes de patente 2023-2025' },
 ] as const
 
-const editorialCards = [
+const HERO_H2 =
+  'Transformamos el talento de Chile en un derecho exclusivo: marcas, patentes y diseños, con un trámite digital y ClaveÚnica.'
+
+const editorialCards: {
+  step: string
+  icon: typeof HelpCircle
+  kicker: string
+  title: string
+  lead: string
+  items: string[]
+  href: string
+  cta: string
+}[] = [
   {
+    step: '01',
     icon: HelpCircle,
     kicker: 'Qué',
-    title: 'Qué es INAPI y qué protege',
-    lead: (
-      <>
-        El Instituto Nacional de Propiedad Industrial es el servicio público que administra la{' '}
-        <strong className="text-gob-text font-medium">propiedad industrial en Chile</strong>.
-      </>
-    ),
+    title: 'Qué protege INAPI',
+    lead: 'INAPI registra y resuelve las solicitudes de propiedad industrial en Chile.',
     items: [
-      'Marcas comerciales y frases de propaganda',
-      'Patentes de invención y modelos de utilidad',
-      'Diseños industriales y esquemas de trazado',
-      'Indicaciones geográficas y denominaciones de origen',
+      'Marcas: nombre, logo o signo de tus productos o servicios.',
+      'Patentes: invención o modelo de utilidad.',
+      'Diseños: apariencia de un producto.',
+      'Esquemas de trazado: diseño de un circuito integrado.',
     ],
     href: '/marcas',
     cta: 'Leer qué puedes proteger',
   },
   {
+    step: '02',
     icon: Route,
     kicker: 'Cómo',
-    title: 'Cómo iniciar y realizar un trámite',
-    lead: (
-      <>
-        El camino es el mismo para una marca, una patente o un diseño:{' '}
-        <strong className="text-gob-text font-medium">informarte, buscar y presentar</strong>.
-      </>
-    ),
-    numbered: true,
+    title: 'Cómo iniciar el trámite',
+    lead: 'El camino es el mismo para una marca, una patente o un diseño.',
     items: [
-      'Selecciona el área: marcas, patentes u otro derecho.',
-      'Haz la búsqueda previa en los buscadores oficiales.',
-      'Inicia la solicitud en línea, paga y adjunta documentos.',
+      'Infórmate sobre el derecho que necesitas.',
+      'Busca si ya existe algo parecido.',
+      'Presenta, paga y adjunta documentos en línea.',
     ],
     href: '/tramites-digitales',
     cta: 'Ver cómo iniciar el trámite',
   },
   {
+    step: '03',
     icon: MapPin,
     kicker: 'Dónde',
     title: 'Dónde te informas y dónde tramitas',
-    lead: (
-      <>
-        Este portal informa. El{' '}
-        <strong className="text-gob-text font-medium">Sitio de Trámites</strong> es donde presentas, pagas y
-        sigues el expediente.
-      </>
-    ),
+    lead: 'Este portal informa. El Sitio de Trámites es donde presentas.',
     items: [
-      'Aquí lees requisitos, plazos, tasas y avisos.',
-      'En el Sitio de Trámites entras con ClaveÚnica.',
-      'No necesitas ir a una oficina para presentar.',
-      'Atención ciudadana responde dudas de canal y estado.',
+      'Aquí lees requisitos, plazos y tasas.',
+      'En el Sitio de Trámites presentas, pagas y sigues el expediente.',
+      'Ingresas con ClaveÚnica, sin ir a una oficina.',
     ],
     href: '/tramites',
     cta: 'Ir al Sitio de Trámites',
   },
   {
+    step: '04',
     icon: Clock,
     kicker: 'Cuándo',
-    title: 'Cuánto demora y qué pasa si se atrasa',
-    lead: (
-      <>
-        Puedes presentar cuando quieras. En 2024, una marca sin oposición tardó en promedio{' '}
-        <strong className="text-gob-text font-medium">4,5 meses</strong>.
-      </>
-    ),
+    title: 'Cuánto demora un registro',
+    lead: 'Puedes presentar cuando quieras.',
     items: [
-      'La publicación abre un plazo legal de oposición.',
+      'Una marca sin oposición tardó 4,5 meses en 2024.',
       'Una oposición o un examen de fondo alarga el plazo.',
       'Si rechazan, puedes apelar en el Tribunal de PI.',
-      'Un pago fuera de plazo puede dejar sin efecto el trámite.',
     ],
     href: '/marcas/como-registrar',
     cta: 'Revisar plazos del registro',
   },
   {
+    step: '05',
     icon: Users,
     kicker: 'Para quién',
-    title: 'A quién están dirigidos estos servicios',
-    lead: (
-      <>
-        Puede pedir protección{' '}
-        <strong className="text-gob-text font-medium">una persona o una empresa</strong>, con o sin
-        representante.
-      </>
-    ),
+    title: 'Quién puede solicitar',
+    lead: 'Puede pedir protección una persona o una empresa.',
     items: [
-      'Personas naturales',
-      'Micro, pequeñas, medianas y grandes empresas',
-      'Emprendedores e inventores',
-      'Científicos, académicos y representantes legales',
+      'Personas naturales.',
+      'Empresas de cualquier tamaño.',
+      'Inventores, creadores y representantes.',
     ],
     href: '/marcas',
     cta: 'Ver quién puede solicitar',
   },
-] as const
+]
 
 function HeroStatsStrip({
   stats,
@@ -222,36 +208,34 @@ export function HeroSection() {
   return (
     <section aria-label="Presentación" className="relative">
       <div className="home-atmosphere relative overflow-hidden">
-      <ContainerGRI size="wide" className="relative z-[1] pt-gob-8 pb-16 min-[905px]:pt-gob-12">
+      <ContainerGRI size="wide" className="relative z-[1] pt-gob-6 pb-gob-10 min-[905px]:pt-gob-8 min-[905px]:pb-12">
         <div className="mx-auto flex w-full flex-col items-center text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[rgba(162,209,255,0.3)] bg-[rgba(15,105,195,0.12)] px-4 py-1.5 text-sm font-medium text-[#A1D1FF]">
+          <div className="mb-gob-4 inline-flex items-center gap-2 rounded-full border border-[rgba(162,209,255,0.3)] bg-[rgba(15,105,195,0.12)] px-4 py-1.5 text-sm font-medium text-[#A1D1FF]">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#2195F2]" aria-hidden />
             Instituto Nacional de Propiedad Industrial
           </div>
-          <h1 className="w-full max-w-3xl font-heading text-[2rem] font-bold not-italic leading-[1.5] text-white min-[905px]:text-[3rem]">
-            Registra y protege tu marca o patente en Chile
+          <h1 className="w-full max-w-4xl font-heading text-[1.75rem] font-bold not-italic leading-[1.2] text-white min-[600px]:text-[2.25rem] min-[905px]:text-[2.75rem]">
+            {tx('Impulsa el valor de tus ideas con el registro oficial de INAPI')}
           </h1>
-          <div className="mt-gob-5 w-full overflow-x-auto">
-            <h2 className={`mx-auto w-max whitespace-nowrap text-center font-sans text-[0.95rem] font-normal leading-[1.5] ${heroMuted} min-[905px]:text-lg`}>
-              Descubre cómo buscar, solicitar y proteger tus ideas e invenciones en línea.
-            </h2>
-          </div>
+          <h2 className={`mt-gob-5 w-full max-w-[40rem] text-pretty font-sans text-[0.95rem] font-normal leading-[1.5] ${heroMuted} min-[905px]:text-[1.125rem]`}>
+            {tx(HERO_H2)}
+          </h2>
           <div className="mt-gob-8 flex flex-row flex-wrap items-center justify-center gap-3">
             <TramitesLink
               href="/tramites"
               className="inline-flex h-12 min-h-12 items-center justify-center rounded-[8px] bg-[#0F69C3] px-gob-6 text-gri-btn font-medium text-white transition-colors hover:bg-gob-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
             >
-              Iniciar un trámite
+              {tx('Iniciar un trámite')}
             </TramitesLink>
             <Link
               href="/tramites-digitales"
               className={`inline-flex h-12 min-h-12 items-center justify-center rounded-[8px] border-[1.5px] border-white/55 bg-transparent px-gob-6 text-gri-btn font-medium ${heroMuted} transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus`}
             >
-              Ver cómo iniciar el trámite
+              {tx('Ver cómo iniciar el trámite')}
             </Link>
           </div>
         </div>
-        <ul className="mt-12 flex w-full list-none flex-nowrap items-center justify-center gap-x-6 overflow-x-auto min-[905px]:mt-14 min-[905px]:gap-x-10">
+        <ul className="mt-gob-8 flex w-full list-none flex-nowrap items-center justify-center gap-x-6 overflow-x-auto min-[905px]:mt-10 min-[905px]:gap-x-10">
           {heroShortcuts.map((item, index) => {
             const Icon = item.icon
             return (
@@ -274,7 +258,7 @@ export function HeroSection() {
             )
           })}
         </ul>
-        <div className="mt-16 min-[905px]:mt-20">
+        <div className="mt-gob-10 min-[905px]:mt-12">
           <div
             role="tablist"
             aria-label="Cifras de marcas y patentes"
@@ -308,38 +292,38 @@ export function HeroSection() {
       </ContainerGRI>
 
       <ContainerGRI size="wide" className="relative z-[1] pb-gob-8 pt-gob-10 min-[905px]:pb-20 min-[905px]:pt-20">
-        <h2 className="sr-only">Qué, cómo, dónde, cuándo y para quién</h2>
-        <ul className="grid list-none gap-gob-5 min-[700px]:grid-cols-2 min-[1440px]:grid-cols-5">
+        <h2 className="sr-only">{tx('Qué, cómo, dónde, cuándo y para quién')}</h2>
+        <ul className="grid list-none gap-gob-4 min-[700px]:grid-cols-2 min-[1440px]:grid-cols-5">
           {editorialCards.map(card => {
             const Icon = card.icon
-            const ListTag = 'numbered' in card && card.numbered ? 'ol' : 'ul'
             return (
               <li key={card.kicker}>
                 <article className="portal-card-motion flex h-full flex-col rounded-gob-lg border border-gob-border bg-card p-gob-5 text-left shadow-elevation-04">
-                  <span className="inline-flex size-11 items-center justify-center rounded-gob-md bg-gob-info-bg text-gob-primary">
-                    <Icon className="size-5" aria-hidden />
-                  </span>
-                  <p className="mt-gob-4 text-gri-body-sm font-medium text-gob-primary">{card.kicker}</p>
-                  <h3 className="mt-gob-1 font-heading text-gri-h2 font-medium text-gob-text leading-[1.35]">
-                    {card.title}
+                  <div className="flex items-center justify-between gap-gob-3">
+                    <span className="inline-flex size-11 items-center justify-center rounded-gob-md bg-gob-info-bg text-gob-primary">
+                      <Icon className="size-5" aria-hidden />
+                    </span>
+                    <span className="font-heading text-gri-body-sm font-bold tabular-nums tracking-wide text-gob-primary/70">
+                      {card.step}
+                    </span>
+                  </div>
+                  <p className="mt-gob-4 text-gri-body-xs font-medium uppercase tracking-wider text-gob-primary">
+                    {tx(card.kicker)}
+                  </p>
+                  <h3 className="mt-gob-1 font-heading text-[1.25rem] font-medium leading-[1.35] text-gob-text min-[905px]:text-[1.375rem]">
+                    {tx(card.title)}
                   </h3>
-                  <p className="mt-gob-3 text-gri-body-sm leading-[1.5] text-gob-text">{card.lead}</p>
-                  <ListTag
-                    className={
-                      'numbered' in card && card.numbered
-                        ? 'mt-gob-3 flex-1 list-decimal space-y-gob-2 pl-gob-5 text-gri-body-sm leading-[1.5] text-gob-text'
-                        : 'mt-gob-3 flex-1 list-disc space-y-gob-2 pl-gob-5 text-gri-body-sm leading-[1.5] text-gob-text'
-                    }
-                  >
+                  <p className="mt-gob-3 text-gri-body-sm leading-[1.5] text-gob-text">{tx(card.lead)}</p>
+                  <ul className="mt-gob-3 flex-1 list-disc space-y-gob-2 pl-gob-5 text-gri-body-sm leading-[1.5] text-gob-text">
                     {card.items.map(item => (
-                      <li key={item}>{item}</li>
+                      <li key={item}>{tx(item)}</li>
                     ))}
-                  </ListTag>
+                  </ul>
                   <TramitesLink
                     href={card.href}
                     className="mt-gob-4 inline-flex min-h-11 items-center text-gri-body-sm font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
                   >
-                    {card.cta}
+                    {tx(card.cta)}
                   </TramitesLink>
                 </article>
               </li>

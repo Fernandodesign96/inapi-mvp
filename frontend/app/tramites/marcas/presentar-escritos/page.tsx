@@ -1,5 +1,5 @@
 'use client'
-import { PresentarEscritosScreen } from '@/components/tramites/inventory-screens'
+import { RedirectTo } from '@/components/tramites/RedirectTo'
 export default function Page() {
-  return <PresentarEscritosScreen domain="marcas" />
+  return <RedirectTo href="/tramites/marcas/tramites" />
 }

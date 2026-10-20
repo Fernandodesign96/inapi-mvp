@@ -9,9 +9,9 @@ import { HomePromoBanners } from '@/components/home/HomePromoBanners'
 import { HomeObservanciaCarousel } from '@/components/portal/HomeObservanciaCarousel'
 
 export const metadata: Metadata = {
-  title: 'INAPI — Registra y protege tu marca o patente en Chile',
+  title: 'INAPI — Impulsa el valor de tus ideas con el registro oficial',
   description:
-    'Bienvenido al portal web de INAPI. Busca, solicita y protege tus ideas e invenciones en línea. Administra y sigue tus trámites de propiedad intelectual en Chile.',
+    'INAPI registra marcas, patentes, diseños y otros derechos de propiedad industrial en Chile. Infórmate en este portal y presenta con ClaveÚnica en el Sitio de Trámites.',
 }
 
 export default function HomePage() {

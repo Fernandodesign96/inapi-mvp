@@ -10,6 +10,7 @@ import {
   PortalProse,
   PortalSectionTitle,
 } from '@/components/portal/content'
+import { CatalogGrid, tramitesPrincipales, tramitesSecundarios } from '@/components/portal/ProcedureCatalog'
 import { portalShellProps } from '@/lib/portal-page-props'
 import { getPageMeta } from '@/lib/portal-routes'
 
@@ -37,6 +38,9 @@ export default function TramitesDigitalesPage() {
             <strong className="text-gob-text">Qué pasa después:</strong> el expediente queda en el Sitio de Trámites.
             Allí ves plazos, pagos y el estado.
           </PortalProse>
+
+          <PortalSectionTitle>Qué es cada trámite</PortalSectionTitle>
+          <CatalogGrid items={[...tramitesPrincipales, ...tramitesSecundarios]} />
 
           <p>
             <TramitesLink
@@ -67,7 +71,7 @@ export default function TramitesDigitalesPage() {
                 title: 'Anotaciones de marcas',
                 body: 'Informa cambios que afectan un registro de marca: titular, representante, dirección u otras menciones al margen.',
                 footnote: 'Requiere ClaveÚnica.',
-                href: '/tramites/marcas/anotaciones',
+                href: '/tramites/marcas/tramites',
                 cta: 'Presentar una anotación de marca',
               },
               {

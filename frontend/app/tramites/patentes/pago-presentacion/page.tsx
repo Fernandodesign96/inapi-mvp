@@ -1,3 +1,5 @@
 'use client'
-import { PagoPresentacionPatentesScreen } from '@/components/tramites/payment-screens'
-export default function Page() { return <PagoPresentacionPatentesScreen /> }
+import { RedirectTo } from '@/components/tramites/RedirectTo'
+export default function Page() {
+  return <RedirectTo href="/tramites/patentes/pagos" />
+}

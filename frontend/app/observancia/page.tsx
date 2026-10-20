@@ -5,7 +5,7 @@ import { ObservanciaHub } from '@/components/portal/ObservanciaHub'
 import { portalShellProps } from '@/lib/portal-page-props'
 
 export const metadata: Metadata = {
-  title: 'Observancia — INAPI',
+  title: 'Observancia: Protege tu marca o patente de copias — INAPI',
   description:
     'Información sobre piratería, falsificación, delitos, denuncia y cómo prevenir infracciones a la propiedad intelectual.',
 }

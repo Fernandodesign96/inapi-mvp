@@ -5,7 +5,7 @@ import { BuscadorSimilitudMarca } from '@/components/portal/BuscadorSimilitudMar
 
 export const metadata: Metadata = {
   title: 'Buscador de marcas — INAPI',
-  description: 'Compara tu marca con las ya registradas o solicitadas en INAPI antes de pedir el registro.',
+  description: 'Compara tu nombre con marcas anteriores.',
 }
 
 export default function BuscadorSimilitudPage() {
@@ -14,7 +14,7 @@ export default function BuscadorSimilitudPage() {
       active="marcas"
       variant="page"
       pageTitle="Buscador de marcas"
-      pageSubtitle="Usa esta herramienta antes de pedir el registro de tu marca."
+      pageSubtitle="Compara tu nombre con marcas anteriores."
       breadcrumbs={[
         { label: 'Marcas', href: '/marcas' },
         { label: 'Buscador de marcas' },

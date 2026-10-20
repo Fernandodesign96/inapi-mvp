@@ -13,40 +13,69 @@ import {
   FolderOpen,
   Landmark,
   LayoutGrid,
+  Newspaper,
   PenLine,
   Scale,
   Search,
   Stamp,
   Wallet,
+  type LucideIcon,
 } from 'lucide-react'
 import { ClaveUnicaButton } from '@/components/auth/ClaveUnicaButton'
 import { Button } from '@/components/ui/button'
 import { TipWrap } from '@/components/tramites/HelpTooltip'
 import { Spinner, TramitesMain } from '@/components/tramites/ui-helpers'
+import { URLS_EXTERNAS } from '@/lib/tramites/catalogs'
 import { MARCAS_MEGA, PATENTES_MEGA, type MegaColumn, type MegaItem } from '@/lib/tramites/nav'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { useTramitesSession } from '@/lib/tramites/use-session'
 import { cn } from '@/lib/utils'
 
-const PRIMARY_MARCAS = [
-  { href: '/tramites/marcas/solicitar', label: 'Solicitar marca', icon: Stamp, tooltip: 'Inicia una solicitud nueva de marca' },
-  { href: '/marcas/buscador-similitud', label: 'Buscador de marcas', icon: Search, tooltip: 'Compara tu nombre con marcas anteriores' },
-  { href: '/tramites/marcas/documentos', label: 'Expediente digital', icon: FolderOpen, tooltip: 'Abre el expediente de una marca' },
-  { href: '/tramites/notificaciones?ambito=marcas', label: 'Notificaciones', icon: Bell, tooltip: 'Revisa avisos de tus trámites de marcas' },
+type HubCard = {
+  href: string
+  label: string
+  icon: LucideIcon
+  external?: boolean
+}
+
+const PRIMARY_MARCAS: HubCard[] = [
+  { href: '/tramites/marcas/solicitar', label: 'Solicitar marca', icon: Stamp },
+  { href: '/marcas/buscador-similitud', label: 'Buscador de marcas', icon: Search },
+  { href: '/tramites/marcas/clasificador', label: 'Buscador de productos y servicios', icon: LayoutGrid },
+  { href: '/tramites/notificaciones?ambito=marcas', label: 'Mis notificaciones de marcas', icon: Bell },
+  { href: '/tramites/marcas/solicitudes-guardadas', label: 'Solicitudes guardadas de marcas', icon: FileSearch },
+  {
+    href: URLS_EXTERNAS.diarioOficialMarcas,
+    label: 'Pagar publicación en el Diario Oficial',
+    icon: Newspaper,
+    external: true,
+  },
+  { href: '/tramites/marcas/pagos', label: 'Realiza todos tus pagos de marcas aquí', icon: CreditCard },
+  { href: '/tramites/marcas/tramites', label: 'Realiza otras solicitudes y presentaciones de marcas', icon: PenLine },
 ]
 
-const PRIMARY_PATENTES = [
-  { href: '/tramites/patentes/solicitar', label: 'Solicitar patente', icon: FileText, tooltip: 'Inicia una solicitud de patente o modelo' },
-  { href: '/tramites/patentes/solicitar-diseno', label: 'Solicitar diseño', icon: Landmark, tooltip: 'Inicia un diseño o dibujo industrial' },
-  { href: '/tramites/patentes/buscador', label: 'Buscador de patentes', icon: Search, tooltip: 'Busca patentes, modelos y diseños' },
-  { href: '/tramites/patentes/solicitudes-guardadas', label: 'Solicitudes guardadas', icon: FileSearch, tooltip: 'Retoma un borrador de patente' },
+const PRIMARY_PATENTES: HubCard[] = [
+  { href: '/tramites/patentes/solicitar', label: 'Solicitar patente', icon: FileText },
+  { href: '/tramites/patentes/solicitar-diseno', label: 'Solicitar diseño', icon: Landmark },
+  { href: '/tramites/patentes/buscador', label: 'Buscador de patentes', icon: Search },
+  { href: '/tramites/notificaciones?ambito=patentes', label: 'Mis notificaciones de patentes', icon: Bell },
+  { href: '/tramites/patentes/solicitudes-guardadas', label: 'Solicitudes guardadas', icon: FileSearch },
+  {
+    href: URLS_EXTERNAS.diarioOficialPatentes,
+    label: 'Pagar publicación en el Diario Oficial',
+    icon: Newspaper,
+    external: true,
+  },
+  { href: '/tramites/patentes/pagos', label: 'Realiza todos tus pagos de patentes aquí', icon: CreditCard },
+  { href: '/tramites/patentes/anotaciones', label: 'Solicitar anotación de patentes', icon: PenLine },
+  { href: '/tramites/patentes/presentar-escritos', label: 'Presentar escritos de patentes', icon: FileText },
 ]
 
 const COL_ICON: Record<string, typeof Stamp> = {
-  'Mi INAPI': LayoutGrid,
+  'Anotaciones y escritos': LayoutGrid,
   Tramitación: PenLine,
   Pagos: Wallet,
-  Servicios: BookOpen,
+  'Mis documentos y otras consultas': BookOpen,
 }
 
 function ShortcutGlyph({ label }: { label: string }) {
@@ -55,6 +84,7 @@ function ShortcutGlyph({ label }: { label: string }) {
   if (key.includes('notif')) return <Bell className={className} aria-hidden />
   if (key.includes('busc')) return <Search className={className} aria-hidden />
   if (key.includes('exped')) return <FolderOpen className={className} aria-hidden />
+  if (key.includes('todos tus trámites') || key.includes('otras solicitudes')) return <PenLine className={className} aria-hidden />
   if (key.includes('pago') || key.includes('comprob')) return <CreditCard className={className} aria-hidden />
   if (key.includes('solicitar')) return <Stamp className={className} aria-hidden />
   if (key.includes('escrito') || key.includes('anot')) return <FileText className={className} aria-hidden />
@@ -81,21 +111,17 @@ function ShortcutLink({
   )
   if (item.external) {
     return (
-      <TipWrap text={item.tooltip}>
-        <a href={item.href} className={className} rel="noopener noreferrer">
-          {iconWrap}
-          <span className="font-medium leading-snug">{tx(item.label)}</span>
-        </a>
-      </TipWrap>
+      <a href={item.href} className={className} rel="noopener noreferrer">
+        {iconWrap}
+        <span className="font-medium leading-snug">{tx(item.label)}</span>
+      </a>
     )
   }
   return (
-    <TipWrap text={item.tooltip}>
-      <Link href={item.href} className={className}>
-        {iconWrap}
-        <span className="font-medium leading-snug">{tx(item.label)}</span>
-      </Link>
-    </TipWrap>
+    <Link href={item.href} className={className}>
+      {iconWrap}
+      <span className="font-medium leading-snug">{tx(item.label)}</span>
+    </Link>
   )
 }
 
@@ -103,7 +129,7 @@ function PrimaryCards({
   items,
   accent,
 }: {
-  items: typeof PRIMARY_MARCAS
+  items: HubCard[]
   accent: 'marcas' | 'patentes'
 }) {
   const { tx } = useI18n()
@@ -111,27 +137,34 @@ function PrimaryCards({
     <ul className="grid gap-gob-3 min-[600px]:grid-cols-2 min-[905px]:grid-cols-4">
       {items.map(item => {
         const Icon = item.icon
+        const className = cn(
+          'flex min-h-[7rem] flex-col gap-gob-3 rounded-gob-lg border border-gob-border bg-card p-gob-4 shadow-elevation-01 transition-all duration-150 hover:shadow-elevation-03 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+          accent === 'marcas' ? 'hover:border-gob-accent' : 'hover:border-gob-primary',
+        )
+        const inner = (
+          <>
+            <span
+              className={cn(
+                'inline-flex size-10 items-center justify-center rounded-gob-md text-white',
+                accent === 'marcas' ? 'bg-gob-accent' : 'bg-gob-primary',
+              )}
+            >
+              <Icon className="size-5" aria-hidden />
+            </span>
+            <span className="font-medium text-gri-body text-gob-text">{tx(item.label)}</span>
+          </>
+        )
         return (
           <li key={item.href}>
-            <TipWrap text={item.tooltip}>
-              <Link
-                href={item.href}
-                className={cn(
-                  'flex min-h-[7rem] flex-col gap-gob-3 rounded-gob-lg border border-gob-border bg-card p-gob-4 shadow-elevation-01 transition-all duration-150 hover:shadow-elevation-03 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-                  accent === 'marcas' ? 'hover:border-gob-accent' : 'hover:border-gob-primary',
-                )}
-              >
-                <span
-                  className={cn(
-                    'inline-flex size-10 items-center justify-center rounded-gob-md text-white',
-                    accent === 'marcas' ? 'bg-gob-accent' : 'bg-gob-primary',
-                  )}
-                >
-                  <Icon className="size-5" aria-hidden />
-                </span>
-                <span className="font-medium text-gri-body text-gob-text">{tx(item.label)}</span>
+            {item.external ? (
+              <a href={item.href} className={className} rel="noopener noreferrer">
+                {inner}
+              </a>
+            ) : (
+              <Link href={item.href} className={className}>
+                {inner}
               </Link>
-            </TipWrap>
+            )}
           </li>
         )
       })}
@@ -153,6 +186,7 @@ function AccordionColumns({
   return (
     <div className="space-y-gob-3">
       {columns.map((col, i) => {
+        if (col.title === 'Pagos') return null
         const items = col.items.filter(item => !excludeHrefs.includes(item.href.split('?')[0]))
         if (items.length === 0) return null
         const isOpen = open === col.title
@@ -240,7 +274,15 @@ export default function TramitesHomePage() {
             <AccordionColumns
               columns={MARCAS_MEGA}
               accent="marcas"
-              excludeHrefs={['/tramites/marcas/solicitar', '/marcas/buscador-similitud', '/tramites/marcas/documentos', '/tramites/notificaciones']}
+              excludeHrefs={[
+                '/tramites/marcas/solicitar',
+                '/marcas/buscador-similitud',
+                '/tramites/marcas/solicitudes-guardadas',
+                '/tramites/notificaciones',
+                '/tramites/marcas/tramites',
+                '/tramites/marcas/pagos',
+                '/tramites/marcas/clasificador',
+              ]}
             />
           </div>
         </section>
@@ -257,6 +299,10 @@ export default function TramitesHomePage() {
                 '/tramites/patentes/solicitar-diseno',
                 '/tramites/patentes/buscador',
                 '/tramites/patentes/solicitudes-guardadas',
+                '/tramites/patentes/pagos',
+                '/tramites/notificaciones',
+                '/tramites/patentes/anotaciones',
+                '/tramites/patentes/presentar-escritos',
               ]}
             />
           </div>

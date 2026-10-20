@@ -37,8 +37,8 @@ export function DocumentosScreen({ domain }: { domain: TramitesDomain }) {
     <RequireAuth>
       <TramitesMain>
         <p className="text-gri-body text-gob-text">
-          Escribe el número de {domain === 'marcas' ? 'solicitud de marca' : 'solicitud de patente'} para ver los documentos del expediente.
-          Prueba con el número {expected}.
+          Abre el expediente digital de {domain === 'marcas' ? 'una marca' : 'una patente'}. Escribe el número de
+          solicitud. Prueba con {expected}.
         </p>
         <div className="flex flex-col min-[600px]:flex-row gap-gob-3 min-[600px]:items-end">
           <div className="flex-1 space-y-gob-2">

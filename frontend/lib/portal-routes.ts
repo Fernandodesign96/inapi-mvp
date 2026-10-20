@@ -305,7 +305,12 @@ export const PORTAL_PAGES: PageMeta[] = [
     current: 'Notificaciones diarias de patentes',
     navActive: 'patentes',
   },
-  { slug: 'Observancia', path: '/observancia', title: 'Observancia', current: 'Observancia' },
+  {
+    slug: 'Observancia',
+    path: '/observancia',
+    title: 'Observancia: Protege tu marca o patente de copias',
+    current: 'Observancia: Protege tu marca o patente de copias',
+  },
   { slug: 'Sello-de-Origen', path: '/sello-de-origen', title: 'Sello de Origen', current: 'Sello de Origen' },
   {
     slug: 'Buscador',

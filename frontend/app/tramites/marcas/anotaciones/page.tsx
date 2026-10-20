@@ -1,3 +1,5 @@
 'use client'
-import { CrearAnotacionScreen } from '@/components/tramites/part2-screens'
-export default function Page() { return <CrearAnotacionScreen domain="marcas" /> }
+import { RedirectTo } from '@/components/tramites/RedirectTo'
+export default function Page() {
+  return <RedirectTo href="/tramites/marcas/tramites" />
+}
