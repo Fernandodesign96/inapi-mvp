@@ -21,17 +21,17 @@ function ext(label: string, href: string, tooltip: string): MegaItem {
 
 export const MARCAS_MEGA: MegaColumn[] = [
   {
-    title: 'Anotaciones y escritos',
+    title: 'Cambios y documentos',
     items: [
       {
-        label: 'Anotaciones guardadas de marcas',
+        label: 'Cambios guardados de marcas',
         href: '/tramites/marcas/anotaciones-guardadas',
-        tooltip: 'Revisa anotaciones guardadas de marcas',
+        tooltip: 'Revisa cambios guardados de marcas',
       },
       {
-        label: 'Escritos guardados de marcas',
+        label: 'Adjuntar documentos a tu solicitud de marca',
         href: '/tramites/marcas/escritos',
-        tooltip: 'Presenta o retoma un escrito de marcas',
+        tooltip: 'Adjunta documentos a una solicitud de marca',
       },
     ],
   },
@@ -54,14 +54,14 @@ export const MARCAS_MEGA: MegaColumn[] = [
         tooltip: 'Busca productos y servicios y te sugiere la clase de Niza',
       },
       {
-        label: 'Mis notificaciones de marcas',
+        label: 'Estado de mis solicitudes de marca',
         href: '/tramites/notificaciones?ambito=marcas',
-        tooltip: 'Revisa avisos de tus trámites de marcas',
+        tooltip: 'Revisa el estado de tus solicitudes de marca',
       },
       {
-        label: 'Solicitudes guardadas de marcas',
+        label: 'Borradores de solicitudes de marca',
         href: '/tramites/marcas/solicitudes-guardadas',
-        tooltip: 'Retoma un borrador de solicitud de marca',
+        tooltip: 'Retoma un borrador. Los borradores se eliminan a los 60 días.',
       },
       {
         label: 'Realiza otras solicitudes y presentaciones de marcas',
@@ -139,22 +139,22 @@ export const MARCAS_MEGA: MegaColumn[] = [
 
 export const PATENTES_MEGA: MegaColumn[] = [
   {
-    title: 'Anotaciones y escritos',
+    title: 'Cambios y documentos',
     items: [
       {
-        label: 'Anotaciones guardadas de patentes',
+        label: 'Cambios guardados de patentes',
         href: '/tramites/patentes/anotaciones-guardadas',
-        tooltip: 'Revisa anotaciones guardadas de patentes',
+        tooltip: 'Revisa cambios guardados de patentes',
       },
       {
-        label: 'Escritos guardados de patentes',
+        label: 'Adjuntar documentos a tu solicitud de patente',
         href: '/tramites/patentes/escritos',
-        tooltip: 'Revisa escritos guardados de patentes',
+        tooltip: 'Adjunta documentos a una solicitud de patente',
       },
       {
-        label: 'Custodia de poderes y personerías',
+        label: 'Documentos de representación legal',
         href: '/tramites/custodia-poderes',
-        tooltip: 'Registra un poder o personería una sola vez',
+        tooltip: 'Sube el poder notarial de quien tramita en tu nombre',
       },
     ],
   },
@@ -177,24 +177,24 @@ export const PATENTES_MEGA: MegaColumn[] = [
         tooltip: 'Busca patentes, modelos de utilidad y diseños',
       },
       {
-        label: 'Mis notificaciones de patentes',
+        label: 'Estado de mis solicitudes de patentes',
         href: '/tramites/notificaciones?ambito=patentes',
-        tooltip: 'Revisa avisos de tus trámites de patentes',
+        tooltip: 'Revisa el estado de tus solicitudes de patentes',
       },
       {
-        label: 'Solicitudes guardadas',
+        label: 'Borradores de solicitudes de patente',
         href: '/tramites/patentes/solicitudes-guardadas',
-        tooltip: 'Retoma un borrador de patente',
+        tooltip: 'Retoma un borrador. Los borradores se eliminan a los 60 días.',
       },
       {
-        label: 'Solicitar anotación de patentes',
+        label: 'Cambios en solicitudes de patentes',
         href: '/tramites/patentes/anotaciones',
-        tooltip: 'Anota cambios de tu patente, modelo o diseño',
+        tooltip: 'Registra cambios de tu patente, modelo o diseño',
       },
       {
-        label: 'Presentar escritos de patentes',
+        label: 'Adjuntar documentos a tu solicitud de patente',
         href: '/tramites/patentes/presentar-escritos',
-        tooltip: 'Presenta un escrito a una solicitud, anotación o nulidad',
+        tooltip: 'Adjunta documentos a una solicitud, un cambio o una nulidad',
       },
     ],
   },
@@ -261,13 +261,13 @@ export const PATENTES_MEGA: MegaColumn[] = [
 ]
 
 export const TRAMITES_SECONDARY_NAV = [
-  { label: 'Solicitar marca', href: '/tramites/marcas/solicitar' },
-  { label: 'Solicitar patente', href: '/tramites/patentes/solicitar' },
-  { label: 'Buscador de marcas', href: '/marcas/buscador-similitud' },
-  { label: 'Buscador de productos y servicios', href: '/tramites/marcas/clasificador' },
-  { label: 'Buscador de patentes', href: '/tramites/patentes/buscador' },
-  { label: 'Mis notificaciones', href: '/tramites/notificaciones' },
-  { label: 'Notificaciones diarias INAPI', href: '/notificaciones-diarias' },
+  { label: 'Solicitar marca', hint: 'Presenta una nueva solicitud de registro de marca en línea', href: '/tramites/marcas/solicitar' },
+  { label: 'Solicitar patente', hint: 'Presenta una solicitud de patente, modelo de utilidad o diseño', href: '/tramites/patentes/solicitar' },
+  { label: 'Buscador de marcas', hint: 'Buscador de marcas: revisa si existen marcas parecidas a la tuya', href: '/marcas/buscador-similitud' },
+  { label: 'Buscador de productos y servicios', hint: 'Buscador de productos y servicios: te sugiere la clase de Niza', href: '/tramites/marcas/clasificador' },
+  { label: 'Buscador de patentes', hint: 'Buscador de patentes: consulta solicitudes y registros publicados', href: '/tramites/patentes/buscador' },
+  { label: 'Mis solicitudes', hint: 'Estado de mis solicitudes: avisos y plazos de tus trámites', href: '/tramites/notificaciones' },
+  { label: 'Estado público', hint: 'Estado público de solicitudes: notificaciones diarias de INAPI', href: '/notificaciones-diarias' },
 ] as const
 
 function splitHref(href: string) {
@@ -334,7 +334,7 @@ export function resolveTramitesHeading(pathname: string, search = '') {
     }
   }
   if (meta) return meta
-  return { title: 'Trámites en línea', domain: 'general' as const }
+  return { title: 'Portal de trámites de INAPI', domain: 'general' as const }
 }
 
 const MEGA_PAGE_TITLES = {
@@ -359,16 +359,40 @@ const PATENTES_PAGOS_HEADING: PageHeading = MEGA_PAGE_TITLES['/tramites/patentes
 }
 
 export const PAGE_TITLES: Record<string, PageHeading> = {
-  '/tramites': { title: 'Trámites en línea', subtitle: 'Gestiona tus marcas y patentes', domain: 'general' },
+  '/tramites': {
+    title: 'Portal de trámites de INAPI',
+    subtitle: 'Aquí presentas solicitudes, pagas y sigues el expediente.',
+    domain: 'general',
+  },
   ...MEGA_PAGE_TITLES,
   '/tramites/notificaciones': {
-    title: 'Mis notificaciones',
-    subtitle: 'Revisa avisos de tus trámites de marcas y patentes.',
+    title: 'Estado de mis solicitudes',
+    subtitle: 'Revisa el estado de tus solicitudes de marcas y patentes.',
     domain: 'general',
   },
   '/tramites/custodia-poderes': {
-    title: 'Custodia de poderes y personerías',
-    subtitle: 'Registra un poder o personería una sola vez.',
+    title: 'Documentos de representación legal',
+    subtitle: 'Sube el poder notarial de quien tramita en tu nombre.',
+    domain: 'general',
+  },
+  '/tramites/categoria/tramitacion': {
+    title: 'Tramitación',
+    subtitle: 'Solicita, busca antes de presentar y retoma tus borradores.',
+    domain: 'general',
+  },
+  '/tramites/categoria/cambios': {
+    title: 'Cambios y documentos',
+    subtitle: 'Adjunta escritos, revisa cambios guardados y sube poderes.',
+    domain: 'general',
+  },
+  '/tramites/categoria/pagos': {
+    title: 'Pagos',
+    subtitle: 'Paga tasas, publicaciones y descarga tus comprobantes.',
+    domain: 'general',
+  },
+  '/tramites/categoria/documentos': {
+    title: 'Mis documentos',
+    subtitle: 'Expedientes, certificados, estados diarios y formularios.',
     domain: 'general',
   },
   '/tramites/auth': { title: 'Iniciar sesión', domain: 'general' },

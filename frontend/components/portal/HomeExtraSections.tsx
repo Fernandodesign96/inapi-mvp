@@ -73,7 +73,7 @@ const marcasTopics: TopicCardData[] = [
     titulo: 'Buscador de marcas',
     texto: 'Compara tu nombre con marcas ya solicitadas o registradas antes de pagar la solicitud.',
     href: '/marcas/buscadores',
-    cta: 'Abrir el buscador de marcas',
+    cta: 'Abrir el Buscador de marcas',
   },
   {
     icon: Layers,
@@ -118,7 +118,7 @@ const patentesTopics: TopicCardData[] = [
     titulo: 'Buscador de patentes',
     texto: 'Revisa si tu invento, modelo o diseño ya fue solicitado antes de invertir en la documentación técnica.',
     href: '/tramites/patentes/buscador',
-    cta: 'Abrir el buscador de patentes',
+    cta: 'Abrir el Buscador de patentes',
   },
   {
     icon: Globe,

@@ -7,6 +7,7 @@ import { Field, FilterPanel } from '@/components/tramites/FilterPanel'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
 import { DataTable, Td } from '@/components/tramites/DataTable'
+import { citizenStatusLabel } from '@/lib/citizen-status'
 import { EmptyState, TramitesMain } from '@/components/tramites/ui-helpers'
 import { NOTIFICACIONES } from '@/lib/tramites/mock-data'
 import { useQueryParams } from '@/lib/tramites/use-query'
@@ -89,14 +90,18 @@ function NotificacionesInner() {
       </FilterPanel>
 
       {filtradas.length === 0 ? (
-        <EmptyState>No hay notificaciones con estos filtros</EmptyState>
+        <EmptyState
+          title="Todavía no tienes solicitudes"
+          description="Cuando presentes una solicitud de marca o patente, aparecerá aquí."
+          cta={{ label: 'Presentar mi primera solicitud', href: '/tramites/marcas/solicitar' }}
+        />
       ) : (
         <DataTable headers={['Fecha', 'Número', 'Tipo', 'Resumen']} caption="Notificaciones">
           {filtradas.map(n => (
             <tr key={n.id}>
               <Td>{n.fecha}</Td>
               <Td>{n.numero}</Td>
-              <Td>{n.tipo}</Td>
+              <Td>{citizenStatusLabel(n.tipo)}</Td>
               <Td>{n.resumen}</Td>
             </tr>
           ))}

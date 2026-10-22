@@ -6,8 +6,11 @@ import { FooterINAPI } from '@/components/layout/FooterINAPI'
 import { SkipLink } from '@/components/layout/SkipLink'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { DownloadToast } from '@/components/tramites/DownloadToast'
-import { TramitesHeader } from '@/components/tramites/TramitesHeader'
+import { FocusOnHeading } from '@/components/shared/FocusOnHeading'
+import { PlatformContextBanner } from '@/components/shared/PlatformContextBanner'
+import { TramitesSidebar } from '@/components/tramites/TramitesSidebar'
 import { TramitesSubheader } from '@/components/tramites/TramitesSubheader'
+import { TramitesTopbar } from '@/components/tramites/TramitesTopbar'
 import { useInapiChrome } from '@/hooks/useInapiChrome'
 
 const BARE_ROUTES = new Set(['/tramites/solicitudmarca', '/tramites/pago-tgr', '/tramites/pago'])
@@ -15,19 +18,20 @@ const BARE_ROUTES = new Set(['/tramites/solicitudmarca', '/tramites/pago-tgr', '
 export function TramitesFrame({ children }: { children: React.ReactNode }) {
   return (
     <TooltipProvider delayDuration={200}>
-      <div className="flex min-h-screen min-w-0 max-w-full flex-col bg-background">
+      <div className="tramites-dashboard flex min-h-screen min-w-0 max-w-full bg-[var(--story-mist)]">
         <SkipLink />
-        <div className="relative z-30">
-          <div className="home-atmosphere">
-            <TramitesHeader />
+        <FocusOnHeading />
+        <TramitesSidebar />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <TramitesTopbar />
+          <div id="contenido-principal" tabIndex={-1} data-skip-focus-ring className="relative z-0 flex-1 outline-none">
+            <PlatformContextBanner platform="tramites" />
             <TramitesSubheader />
+            {children}
           </div>
-        </div>
-        <div id="contenido-principal" tabIndex={-1} className="relative z-0 flex-1 outline-none">
-          {children}
-        </div>
-        <div className="home-atmosphere">
-          <FooterINAPI />
+          <div className="home-atmosphere">
+            <FooterINAPI />
+          </div>
         </div>
         <DownloadToast />
         <ChatFAB title="Chat INAPI" />

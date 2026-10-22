@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { HeaderUtilities } from '@/components/layout/HeaderUtilities'
+import { PlatformBadge } from '@/components/shared/PlatformBadge'
 import { SiteSearchForm } from '@/components/layout/SiteSearchForm'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
 import {
@@ -124,6 +125,7 @@ function TramitesHeaderInner() {
       <button
         type="button"
         aria-expanded={selected}
+        aria-haspopup="true"
         aria-controls={controls}
         onClick={() => setOpen(o => (o === id ? null : id))}
         className={cn(
@@ -158,14 +160,17 @@ function TramitesHeaderInner() {
                 className="h-11 w-auto object-contain"
                 priority
               />
-              <span className="hidden max-w-[180px] text-gri-body-sm font-medium leading-[1.5] text-gob-text-inverse/90 min-[1600px]:block">
-                Trámites en línea
+              <span className="hidden max-w-[200px] flex-col gap-1 sm:flex">
+                <span className="hidden text-gri-body-sm font-medium leading-[1.5] text-gob-text-inverse/90 min-[1600px]:block">
+                  INAPI · Trámites
+                </span>
+                <PlatformBadge platform="tramites" />
               </span>
             </Link>
           </div>
 
           <nav
-            className="hidden min-w-0 flex-1 items-center justify-center gap-gob-5 min-[768px]:flex xl:gap-gob-7"
+            className="hidden min-w-0 flex-1 items-center justify-center gap-gob-5 lg:flex xl:gap-gob-7"
             aria-label="Atajos de trámites"
           >
             {navBtn('marcas', 'Marcas', marcasId)}
@@ -177,7 +182,7 @@ function TramitesHeaderInner() {
             <Button
               variant="ghost"
               size="icon"
-              className="size-10 shrink-0 text-gob-text-inverse hover:bg-white/10 min-[600px]:size-11 min-[768px]:hidden"
+              className="size-10 shrink-0 text-gob-text-inverse hover:bg-white/10 min-[600px]:size-11 lg:hidden"
               aria-label="Abrir menú de trámites"
               aria-expanded={mobile}
               onClick={() => setMobile(true)}
@@ -188,7 +193,7 @@ function TramitesHeaderInner() {
         </div>
       </div>
 
-      <div className="relative z-10 mt-gob-2 hidden w-full min-[768px]:block">
+      <div className="relative z-10 mt-gob-2 hidden w-full lg:block">
         <div className="home-chrome-sub flex w-full items-center justify-between gap-x-gob-4 px-gob-5 py-gob-2 min-[905px]:px-gob-6">
           <nav
             className="flex min-w-0 flex-1 flex-nowrap items-center justify-start gap-x-gob-4 overflow-x-auto min-[905px]:gap-x-gob-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -212,7 +217,7 @@ function TramitesHeaderInner() {
         </div>
       </div>
 
-      <div className="relative z-10 mt-gob-2 home-chrome-sub px-gob-4 py-gob-2 min-[768px]:hidden">
+      <div className="relative z-10 mt-gob-2 home-chrome-sub px-gob-4 py-gob-2 lg:hidden">
         <SiteSearchForm id={mobileSearchId} compact className="max-w-none" />
       </div>
 

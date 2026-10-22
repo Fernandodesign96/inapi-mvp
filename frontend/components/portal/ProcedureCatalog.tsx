@@ -181,51 +181,42 @@ export const tramitesSecundarios: CatalogItem[] = [
   },
 ]
 
-function CatalogCard({ item }: { item: CatalogItem }) {
-  const Icon = item.icon
+/** Contenido de un trámite sin tarjeta (para acordeones). */
+export function CatalogDetails({ item }: { item: CatalogItem }) {
   return (
-    <article className="portal-card-motion flex flex-col rounded-gob-lg border border-gob-border bg-card p-gob-6 text-left shadow-elevation-03">
-      <span className="inline-flex size-11 items-center justify-center rounded-gob-md bg-gob-info-bg text-gob-primary">
-        <Icon className="size-6" aria-hidden />
-      </span>
-      <h3 className="mt-gob-4 font-heading text-gri-h2 font-medium text-gob-text">{item.title}</h3>
-      <p className="mt-gob-3 text-gri-body-sm leading-[1.5] text-gob-text">
-        <strong className="font-medium">Qué es.</strong> {item.what}
-      </p>
-      <p className="mt-gob-2 text-gri-body-sm leading-[1.5] text-gob-text">
-        <strong className="font-medium">Para qué sirve.</strong> {item.why}
-      </p>
-      <p className="mt-gob-3 text-gri-body-sm font-medium text-gob-primary">Cómo se hace</p>
-      <ul className="mt-gob-2 list-disc space-y-gob-1 pl-gob-5 text-gri-body-sm leading-[1.5] text-gob-text">
-        {item.how.map(step => (
-          <li key={step}>{step}</li>
-        ))}
-      </ul>
-      <p className="mt-gob-3 text-gri-body-sm font-medium text-gob-primary">Qué necesitas</p>
-      <ul className="mt-gob-2 list-disc space-y-gob-1 pl-gob-5 text-gri-body-sm leading-[1.5] text-gob-text">
-        {item.needs.map(need => (
-          <li key={need}>{need}</li>
-        ))}
-      </ul>
-      <p className="mt-gob-3 flex-1 text-gri-body-sm leading-[1.5] text-muted-foreground">{item.example}</p>
-      {item.href && item.cta ? (
-        <TramitesLink
-          href={item.href}
-          className="mt-gob-4 inline-flex min-h-11 items-center text-gri-body-sm font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-        >
-          {item.cta}
-        </TramitesLink>
-      ) : null}
-    </article>
-  )
-}
-
-export function CatalogGrid({ items }: { items: CatalogItem[] }) {
-  return (
-    <div className="grid gap-gob-6 min-[600px]:grid-cols-2 min-[905px]:grid-cols-3">
-      {items.map(item => (
-        <CatalogCard key={item.title} item={item} />
-      ))}
+    <div className="grid gap-gob-5 text-gri-body-sm leading-[1.55] text-gob-text min-[905px]:grid-cols-2">
+      <div className="space-y-gob-2">
+        <p>
+          <strong className="font-medium">Qué es.</strong> {item.what}
+        </p>
+        <p>
+          <strong className="font-medium">Para qué sirve.</strong> {item.why}
+        </p>
+        <p className="text-muted-foreground">{item.example}</p>
+      </div>
+      <div className="space-y-gob-3">
+        <div>
+          <p className="font-medium text-gob-primary-dark">Cómo se hace</p>
+          <ul>
+            {item.how.map(step => (
+              <li key={step}>{step}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="font-medium text-gob-primary-dark">Qué necesitas</p>
+          <ul>
+            {item.needs.map(need => (
+              <li key={need}>{need}</li>
+            ))}
+          </ul>
+        </div>
+        {item.href && item.cta ? (
+          <TramitesLink href={item.href} className="inline-flex min-h-11 items-center font-medium">
+            {item.cta}
+          </TramitesLink>
+        ) : null}
+      </div>
     </div>
   )
 }

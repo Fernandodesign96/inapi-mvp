@@ -18,7 +18,7 @@ export function SiteSearchForm({
   const router = useRouter()
   const { tx } = useI18n()
   const [query, setQuery] = useState('')
-  const searchLabel = tx('Buscar en el sitio')
+  const searchLabel = tx('Buscar en este sitio')
 
   return (
     <form

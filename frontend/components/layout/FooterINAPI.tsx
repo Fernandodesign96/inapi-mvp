@@ -17,7 +17,8 @@ const PRIVACY_PDF =
   'https://www.inapi.cl/docs/default-source/default-document-library/politica_de_privacidad.pdf?sfvrsn=b781d48b_2'
 
 const ACCESOS = [
-  { label: 'Registrar una marca', href: '/marcas/solicitud-nueva' },
+  { label: 'Ir a trámites en línea', href: '/tramites' },
+  { label: 'Ver estado de solicitudes', href: '/tramites/notificaciones' },
   { label: 'Buscador de marcas', href: '/marcas/buscador-similitud' },
   { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes' },
   { label: 'Glosario de propiedad industrial', href: '/glosario' },

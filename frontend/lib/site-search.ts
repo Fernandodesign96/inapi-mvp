@@ -44,7 +44,7 @@ function buildIndex(): SiteSearchHit[] {
     })
   }
 
-  for (const item of [...PORTAL_PRIMARY_NAV, ...PORTAL_SECONDARY_NAV]) {
+  for (const item of PORTAL_PRIMARY_NAV) {
     upsert(map, {
       title: item.label,
       category: 'Portal',
@@ -54,13 +54,23 @@ function buildIndex(): SiteSearchHit[] {
     })
   }
 
+  for (const item of PORTAL_SECONDARY_NAV) {
+    upsert(map, {
+      title: item.label,
+      category: 'Portal',
+      summary: item.hint,
+      href: item.href,
+      keywords: `${item.label} ${item.hint}`,
+    })
+  }
+
   for (const item of TRAMITES_SECONDARY_NAV) {
     upsert(map, {
       title: item.label,
       category: 'Trámites',
-      summary: item.label,
+      summary: item.hint,
       href: item.href,
-      keywords: item.label,
+      keywords: `${item.label} ${item.hint}`,
     })
   }
 

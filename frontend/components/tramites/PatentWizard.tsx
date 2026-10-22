@@ -36,13 +36,13 @@ import { cn } from '@/lib/utils'
 const BASE_STEPS = [
   { id: 'datos', label: 'Datos' },
   { id: 'cip', label: 'CIP' },
-  { id: 'prioridad', label: 'Prioridad' },
+  { id: 'prioridad', label: '¿Tienes registro previo en otro país?' },
   { id: 'solicitante', label: 'Solicitante' },
   { id: 'representante', label: 'Representante' },
   { id: 'inventores', label: 'Inventores' },
   { id: 'declaraciones', label: 'Declaraciones' },
   { id: 'documentos', label: 'Documentos' },
-  { id: 'tasas', label: 'Tasas' },
+  { id: 'tasas', label: 'Cuánto pagarás' },
   { id: 'revision', label: 'Revisión' },
 ]
 

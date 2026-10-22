@@ -46,6 +46,15 @@ export function calculateTasas(numClases: number) {
 /**
  * Valida un RUT chileno (con o sin puntos/guión)
  */
+export function formatRUT(value: string): string {
+  const raw = value.replace(/[^0-9kK]/g, '').toUpperCase().slice(0, 9)
+  if (raw.length <= 1) return raw
+  const body = raw.slice(0, -1)
+  const dv = raw.slice(-1)
+  const withDots = body.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+  return `${withDots}-${dv}`
+}
+
 export function validarRUT(rut: string): boolean {
   if (!rut || rut.trim() === '') return false
   const tmp = rut.replace(/\./g, '').replace('-', '').toUpperCase()

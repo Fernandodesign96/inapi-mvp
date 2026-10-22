@@ -1,22 +1,9 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { SectionPills, SectionSubnav } from '@/components/portal/SectionPills'
+import { ChartCard } from '@/components/story/ChartCard'
+import { StatTile } from '@/components/story/StatTile'
 import { PortalProse, PortalSectionTitle } from '@/components/portal/content'
 import { PortalPdfLink } from '@/components/portal/PortalPdfLink'
 
@@ -57,8 +44,6 @@ const ESTADOS_SUB = ['2025', '2024', '2023', '2022', '2021', '2020', '2019', '20
   id: `ef-${y}`,
   label: y,
 }))
-
-const COLORS = ['#3d5c80', '#7aa2ce', '#c4a35a', '#5b8c6f', '#a15c6e']
 
 const ANUAL = [
   { anio: '2018', presupuesto: 9800, ejecutado: 9420 },
@@ -138,10 +123,6 @@ const EDUCACION = [
 
 function clp(n: number) {
   return `$${n.toLocaleString('es-CL')} mill.`
-}
-
-function formatMoneyValue(value: unknown) {
-  return typeof value === 'number' ? clp(value) : String(value ?? '')
 }
 
 export function GastoDashboard() {
@@ -241,15 +222,6 @@ export function GastoDashboard() {
   )
 }
 
-function ChartCard({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className="rounded-gob-md border border-gob-border bg-card p-gob-5">
-      <h3 className="mb-gob-4 font-medium text-gob-text">{title}</h3>
-      <div className="h-72">{children}</div>
-    </section>
-  )
-}
-
 function MoneyTable({
   caption,
   headers,
@@ -288,6 +260,8 @@ function MoneyTable({
   )
 }
 
+const UNIT = 'millones de pesos'
+
 function GastoPanel({ sub }: { sub: string }) {
   const yearRow = useMemo(() => {
     if (/^20\d{2}$/.test(sub)) return ANUAL.find(r => r.anio === sub)
@@ -298,24 +272,24 @@ function GastoPanel({ sub }: { sub: string }) {
     return (
       <div className="space-y-gob-5">
         <PortalSectionTitle>Detalle mensual por subtítulo (2026, a julio)</PortalSectionTitle>
-        <ChartCard title="Ejecución mensual (millones de pesos, simulación)">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={MENSUAL}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="mes" />
-              <YAxis />
-              <Tooltip formatter={formatMoneyValue} />
-              <Legend />
-              <Bar dataKey="st21" name="Subtítulo 21" stackId="a" fill={COLORS[0]} />
-              <Bar dataKey="st22" name="Subtítulo 22" stackId="a" fill={COLORS[1]} />
-              <Bar dataKey="st29" name="Subtítulo 29" stackId="a" fill={COLORS[2]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-        <MoneyTable
-          caption="Detalle mensual"
-          headers={['Mes', 'Subtítulo 21', 'Subtítulo 22', 'Subtítulo 29']}
-          rows={MENSUAL.map(r => [r.mes, r.st21, r.st22, r.st29])}
+        <ChartCard
+          kind="bar"
+          stacked
+          unit={UNIT}
+          height={300}
+          title="Ejecución mensual (millones de pesos, simulación)"
+          views={[
+            {
+              id: 'mensual',
+              label: '2026',
+              labels: MENSUAL.map(r => r.mes),
+              series: [
+                { label: 'Subtítulo 21', data: MENSUAL.map(r => r.st21) },
+                { label: 'Subtítulo 22', data: MENSUAL.map(r => r.st22) },
+                { label: 'Subtítulo 29', data: MENSUAL.map(r => r.st29) },
+              ],
+            },
+          ]}
         />
       </div>
     )
@@ -328,70 +302,72 @@ function GastoPanel({ sub }: { sub: string }) {
     return (
       <div className="space-y-gob-5">
         <PortalSectionTitle>Subtítulo {title} por línea de productos</PortalSectionTitle>
-        <ChartCard title="Presupuesto y ejecución (millones de pesos, simulación)">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} layout="vertical" margin={{ left: 24 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" />
-              <YAxis type="category" dataKey="linea" width={160} />
-              <Tooltip formatter={formatMoneyValue} />
-              <Legend />
-              <Bar dataKey="presupuesto" name="Presupuesto" fill={COLORS[0]} />
-              <Bar dataKey="ejecutado" name="Ejecutado" fill={COLORS[1]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-        <MoneyTable
-          caption={`Subtítulo ${title}`}
-          headers={['Línea de producto', 'Presupuesto', 'Ejecutado']}
-          rows={data.map(r => [r.linea, r.presupuesto, r.ejecutado])}
+        <ChartCard
+          kind="bar"
+          unit={UNIT}
+          height={300}
+          title="Presupuesto y ejecución (millones de pesos, simulación)"
+          views={[
+            {
+              id: sub,
+              label: `Subtítulo ${title}`,
+              labels: data.map(r => r.linea),
+              series: [
+                { label: 'Presupuesto', data: data.map(r => r.presupuesto) },
+                { label: 'Ejecutado', data: data.map(r => r.ejecutado) },
+              ],
+            },
+          ]}
         />
       </div>
     )
   }
 
+  const subtotal = SUBTITULOS.reduce((s, r) => s + r.value, 0)
   return (
     <div className="space-y-gob-5">
       <PortalSectionTitle>{yearRow?.anio ?? '2026'}</PortalSectionTitle>
       <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
-        <div className="rounded-gob-md bg-gob-surface-elevated p-gob-5">
-          <p className="text-gri-body-sm text-muted-foreground">Total presupuesto anual</p>
-          <p className="font-heading text-3xl text-gob-text">{yearRow ? clp(yearRow.presupuesto) : '—'}</p>
-        </div>
-        <div className="rounded-gob-md bg-gob-surface-elevated p-gob-5">
-          <p className="text-gri-body-sm text-muted-foreground">
-            {yearRow?.anio === '2026' ? 'Total ejecutado a julio' : 'Total ejecutado'}
-          </p>
-          <p className="font-heading text-3xl text-gob-text">{yearRow ? clp(yearRow.ejecutado) : '—'}</p>
-        </div>
+        <StatTile tone="night" label="Total presupuesto anual" value={yearRow?.presupuesto ?? 0} prefix="$" suffix=" mill." />
+        <StatTile
+          label={yearRow?.anio === '2026' ? 'Total ejecutado a julio' : 'Total ejecutado'}
+          value={yearRow?.ejecutado ?? 0}
+          prefix="$"
+          suffix=" mill."
+          caption={yearRow ? `${Math.round((yearRow.ejecutado / yearRow.presupuesto) * 100)} % del presupuesto` : undefined}
+        />
       </div>
       <div className="grid gap-gob-4 min-[905px]:grid-cols-2">
-        <ChartCard title="Gastos según subtítulo">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie data={SUBTITULOS} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90} paddingAngle={2}>
-                {SUBTITULOS.map((entry, i) => (
-                  <Cell key={entry.name} fill={COLORS[i]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={formatMoneyValue} />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </ChartCard>
-        <ChartCard title="Serie presupuesto vs. ejecución">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={ANUAL}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="anio" />
-              <YAxis />
-              <Tooltip formatter={formatMoneyValue} />
-              <Legend />
-              <Line type="monotone" dataKey="presupuesto" name="Presupuesto" stroke={COLORS[0]} strokeWidth={2} />
-              <Line type="monotone" dataKey="ejecutado" name="Ejecutado" stroke={COLORS[2]} strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </ChartCard>
+        <ChartCard
+          kind="doughnut"
+          unit={UNIT}
+          title="Gastos según subtítulo"
+          views={[
+            {
+              id: 'subtitulos',
+              label: '2026',
+              labels: SUBTITULOS.map(r => r.name),
+              series: [{ label: 'Monto', data: SUBTITULOS.map(r => r.value) }],
+              center: { value: `$${subtotal.toLocaleString('es-CL')}`, caption: 'millones de pesos' },
+            },
+          ]}
+        />
+        <ChartCard
+          kind="line"
+          unit={UNIT}
+          title="Serie presupuesto vs. ejecución"
+          views={[
+            {
+              id: 'serie',
+              label: '2018-2026',
+              labels: ANUAL.map(r => r.anio),
+              series: [
+                { label: 'Presupuesto', data: ANUAL.map(r => r.presupuesto) },
+                { label: 'Ejecutado', data: ANUAL.map(r => r.ejecutado) },
+              ],
+            },
+          ]}
+        />
       </div>
       <PortalSectionTitle>Descripción según subtítulo</PortalSectionTitle>
       <ul className="max-w-none list-disc space-y-gob-2 pl-gob-5 text-gri-body text-muted-foreground">
@@ -411,59 +387,18 @@ function GastoPanel({ sub }: { sub: string }) {
 }
 
 function PersonasPanel({ sub }: { sub: string }) {
-  if (sub === 'renta') {
+  if (sub === 'renta' || sub === 'etario') {
+    const renta = sub === 'renta'
+    const rows = renta ? RENTA.map(r => ({ l: r.tramo, v: r.personas })) : ETARIO.map(r => ({ l: r.rango, v: r.personas }))
     return (
       <div className="space-y-gob-5">
-        <PortalSectionTitle>Renta</PortalSectionTitle>
-        <ChartCard title="Dotación según tramo de renta bruta (simulación)">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={RENTA}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="tramo" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="personas" name="Personas" fill={COLORS[0]} radius={4} />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-      </div>
-    )
-  }
-  if (sub === 'etario') {
-    return (
-      <div className="space-y-gob-5">
-        <PortalSectionTitle>Rango etario</PortalSectionTitle>
-        <ChartCard title="Dotación por tramo de edad (simulación)">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={ETARIO}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="rango" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="personas" name="Personas" fill={COLORS[1]} radius={4} />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-      </div>
-    )
-  }
-  if (sub === 'educacion') {
-    return (
-      <div className="space-y-gob-5">
-        <PortalSectionTitle>Nivel educacional</PortalSectionTitle>
-        <ChartCard title="Composición educacional (simulación)">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie data={EDUCACION} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90}>
-                {EDUCACION.map((e, i) => (
-                  <Cell key={e.name} fill={COLORS[i]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </ChartCard>
+        <PortalSectionTitle>{renta ? 'Renta' : 'Rango etario'}</PortalSectionTitle>
+        <ChartCard
+          kind="bar"
+          unit="personas"
+          title={renta ? 'Dotación según tramo de renta bruta (simulación)' : 'Dotación por tramo de edad (simulación)'}
+          views={[{ id: sub, label: renta ? 'Renta' : 'Edad', labels: rows.map(r => r.l), series: [{ label: 'Personas', data: rows.map(r => r.v) }] }]}
+        />
       </div>
     )
   }
@@ -483,22 +418,25 @@ function PersonasPanel({ sub }: { sub: string }) {
       </div>
     )
   }
+  const educacion = sub === 'educacion'
+  const data = educacion ? EDUCACION : GENERO
   return (
     <div className="space-y-gob-5">
-      <PortalSectionTitle>Género</PortalSectionTitle>
-      <ChartCard title="Dotación según género (simulación)">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie data={GENERO} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90}>
-              {GENERO.map((e, i) => (
-                <Cell key={e.name} fill={COLORS[i]} />
-              ))}
-            </Pie>
-            <Tooltip formatter={value => (typeof value === 'number' ? `${value} %` : String(value ?? ''))} />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
-      </ChartCard>
+      <PortalSectionTitle>{educacion ? 'Nivel educacional' : 'Género'}</PortalSectionTitle>
+      <ChartCard
+        kind="doughnut"
+        unit="%"
+        title={educacion ? 'Composición educacional (simulación)' : 'Dotación según género (simulación)'}
+        views={[
+          {
+            id: sub,
+            label: educacion ? 'Educación' : 'Género',
+            labels: data.map(r => r.name),
+            series: [{ label: 'Porcentaje', data: data.map(r => r.value) }],
+            center: { value: `${data[0].value} %`, caption: data[0].name },
+          },
+        ]}
+      />
     </div>
   )
 }
