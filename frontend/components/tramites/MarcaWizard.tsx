@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { StepHelper } from '@/components/shared/StepHelper'
 import { FormPersona } from '@/components/solicitud/FormPersona'
 import { ClaseSugeridaPanel } from '@/components/tramites/ClaseSugeridaPanel'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
@@ -26,13 +27,13 @@ import { useTramitesSession } from '@/lib/tramites/use-session'
 import { cn } from '@/lib/utils'
 
 const STEPS = [
-  { id: 'datos', label: 'Datos' },
-  { id: 'clases', label: 'Clases' },
-  { id: 'prioridad', label: 'Prioridad' },
+  { id: 'datos', label: 'Datos de tu marca' },
+  { id: 'clases', label: 'Clases y cobertura' },
+  { id: 'prioridad', label: '¿Tienes registro previo en otro país?' },
   { id: 'solicitante', label: 'Solicitante' },
   { id: 'representante', label: 'Representante' },
-  { id: 'tasas', label: 'Tasas' },
-  { id: 'revision', label: 'Revisión' },
+  { id: 'tasas', label: 'Cuánto pagarás' },
+  { id: 'revision', label: 'Revisión y pago' },
 ]
 
 export function MarcaWizard() {
@@ -128,15 +129,26 @@ export function MarcaWizard() {
 
         {step === 'clases' && (
           <StepSection
-            title="Clases de productos y servicios"
+            title="Clases y cobertura"
             description="Indica qué productos o servicios distinguirá tu marca. Puedes buscar por palabras clave o elegir la clase de Niza por su número. Cada clase se cobra aparte (1 UTM) y define el alcance de la protección."
           >
+            <StepHelper
+              title="¿Qué son las clases de Niza?"
+              body="Las clases agrupan productos y servicios similares. Pagas 1 UTM por cada clase. Elige solo las que necesitas."
+              example="Si tienes una cafetería, probablemente necesitas la clase 30 (café, té) y quizás la clase 43 (servicios de restaurante)."
+              href="/glosario#clase-de-niza"
+            />
             <ClaseSugeridaPanel selected={clases} onToggleClass={toggleClase} />
           </StepSection>
         )}
 
         {step === 'prioridad' && (
-          <StepSection title="Prioridad" description="Declara si tu marca se pidió antes en otro país. Si reclamas prioridad, agrega al menos una presentación anterior.">
+          <StepSection title="¿Tienes registro previo en otro país?" description="Esto no es urgencia del trámite. Si pediste la misma marca en otro país hace menos de 6 meses, puedes usar esa fecha como prioridad en Chile.">
+            <StepHelper
+              title="¿Qué es la prioridad?"
+              body="Si registraste esta marca en otro país hace menos de 6 meses, puedes usar esa fecha como prioridad en Chile."
+              href="/glosario#prioridad"
+            />
             <label className="flex items-center gap-gob-3 min-h-11">
               <input type="checkbox" checked={prio} onChange={e => setPrio(e.target.checked)} />
               Reclamo prioridad extranjera
@@ -170,12 +182,17 @@ export function MarcaWizard() {
         )}
         {step === 'representante' && (
           <StepSection title="Representante" description="Si alguien presenta el trámite por ti, completa sus datos. Si no, puedes seguir.">
+            <StepHelper
+              title="¿Quién puede ser representante?"
+              body="El representante es quien tramita en tu nombre. Si designas a otra persona, debes acreditar el poder notarial."
+              href="/glosario#representante"
+            />
             <FormPersona title="Datos del representante (opcional)" onChange={() => setRepresentanteOk(true)} />
           </StepSection>
         )}
 
         {step === 'tasas' && (
-          <StepSection title="Tasas de presentación" description="El cobro se calcula por cada clase de Niza elegida. El valor UTM es de referencia.">
+          <StepSection title="Cuánto pagarás" description="El cobro se calcula por cada clase de Niza elegida. El valor UTM es de referencia.">
             <div className="grid gap-gob-4 min-[600px]:grid-cols-3">
               <article className="rounded-gob-md border border-gob-border p-gob-4">
                 <p className="text-gri-body-sm text-muted-foreground">UTM de referencia</p>
@@ -214,13 +231,13 @@ export function MarcaWizard() {
               {
                 id: 'clases',
                 ok: clases.length > 0,
-                label: 'Clases',
+                label: 'Clases y cobertura',
                 detail: clases.length ? clases.map(n => `Clase ${n} · ${NIZA_CLASES.find(c => c.n === n)?.titulo ?? ''}`).join('; ') : 'Sin clases',
               },
               {
                 id: 'prioridad',
                 ok: !prio || priorities.length > 0,
-                label: 'Prioridad',
+                label: 'Registro previo en otro país',
                 detail: prio ? `${priorities.length} prioridad(es)` : 'Sin prioridad',
               },
               { id: 'solicitante', ok: solicitanteOk, label: 'Solicitante', detail: solicitanteOk ? session.nombre : 'Pendiente' },
@@ -228,7 +245,7 @@ export function MarcaWizard() {
               {
                 id: 'tasas',
                 ok: clases.length > 0,
-                label: 'Tasas',
+                label: 'Cuánto pagarás',
                 detail: clases.length ? `${clases.length} UTM · $${(clases.length * UTM_CLP).toLocaleString('es-CL')}` : 'Sin clases para calcular tasas',
               },
             ].map((item, i) => {

@@ -1,12 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import Link from 'next/link'
 import { TramitesLink } from '@/components/tramites/TramitesLink'
+import { GuillocheBg } from '@/components/story/PiSeal'
+import { SectionAccordion } from '@/components/story/SectionAccordion'
+import { SectionTabs } from '@/components/story/SectionTabs'
+import { StoryCta } from '@/components/story/StoryCta'
+import { StorySection } from '@/components/story/StorySection'
 import {
   AlertTriangle,
   Banknote,
   Bell,
   ClipboardList,
+  Download,
   FileCheck,
   Globe,
   Lightbulb,
@@ -16,10 +22,8 @@ import {
   Wrench,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { notifyDownload } from '@/components/tramites/DownloadToast'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
-import { cn } from '@/lib/utils'
 
 type SubCard = {
   icon: LucideIcon
@@ -65,7 +69,7 @@ const tabs: Tab[] = [
     },
     notifications: {
       href: '/notificaciones-diarias/marcas',
-      label: 'Notificaciones diarias de marcas',
+      label: 'Estado público de marcas',
     },
     cards: [
       {
@@ -166,7 +170,7 @@ const tabs: Tab[] = [
     },
     notifications: {
       href: '/notificaciones-diarias/patentes',
-      label: 'Notificaciones diarias de patentes',
+      label: 'Estado público de patentes',
     },
     cards: [
       {
@@ -222,7 +226,7 @@ const tabs: Tab[] = [
           'Un atraso en responder un oficio puede cerrar el expediente.',
         ],
         href: '/tramites/patentes/buscador',
-        cta: 'Buscar patentes existentes',
+        cta: 'Buscador de patentes',
       },
       {
         icon: Wrench,
@@ -434,113 +438,97 @@ const tabs: Tab[] = [
   },
 ]
 
-export function WhatToProtect() {
+function TabPanel({ tab }: { tab: Tab }) {
   const { tx } = useI18n()
-  const [active, setActive] = useState(tabs[0].id)
-  const current = tabs.find(tab => tab.id === active) ?? tabs[0]
-
+  const Icon = tab.icon
+  const linkClass =
+    'inline-flex min-h-11 items-center gap-gob-2 text-gri-body-sm font-medium text-white underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus'
   return (
-    <section id="que-proteger" aria-labelledby="que-proteger-title" className="relative z-[1] bg-background pb-gob-8 pt-gob-8 min-[905px]:py-gob-8">
-      <ContainerGRI size="wide" className="space-y-gob-7">
-        <div className="mx-auto max-w-4xl space-y-gob-4 text-center">
-          <h2 id="que-proteger-title" className="portal-h2 text-gob-text">
-            {tx('¿Qué tipo de propiedad intelectual te interesa?')}
-          </h2>
-          <p className="portal-lead !text-center text-muted-foreground">
-            {tx('Elige una pestaña. Ves pagos, proceso, etapas, avisos, herramientas y requisitos de ese derecho.')}
-          </p>
-        </div>
-
-        <div role="tablist" aria-label="Tipo de protección" className="flex flex-wrap justify-center gap-gob-3">
-          {tabs.map(tab => {
-            const Icon = tab.icon
-            const selected = tab.id === current.id
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                aria-selected={selected}
-                id={`tab-${tab.id}`}
-                aria-controls={`panel-${tab.id}`}
-                className={cn(
-                  'inline-flex min-h-14 items-center gap-gob-3 rounded-gob-lg border px-gob-5 py-gob-3 text-gri-h2 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-                  selected
-                    ? 'border-gob-primary bg-gob-primary text-gob-text-inverse shadow-elevation-03'
-                    : 'border-gob-border bg-background text-gob-text hover:border-gob-primary',
-                )}
-                onClick={() => setActive(tab.id)}
-              >
-                <Icon className="size-6" aria-hidden />
-                {tx(tab.label)}
-              </button>
-            )
-          })}
-        </div>
-
-        <div
-          role="tabpanel"
-          id={`panel-${current.id}`}
-          aria-labelledby={`tab-${current.id}`}
-          className="space-y-gob-6"
-        >
-          <p className="text-gri-body leading-[1.5] text-gob-text">{tx(current.intro)}</p>
-          <div className="grid gap-gob-5 min-[700px]:grid-cols-2 min-[1280px]:grid-cols-3">
-            {orderedCards(current.cards).map(card => {
-              const Icon = card.icon
-              return (
-                <article
-                  key={card.title}
-                  className="portal-card-motion flex flex-col rounded-gob-lg border border-gob-border bg-background p-gob-5 text-left shadow-elevation-02"
-                >
-                  <span className="inline-flex size-11 items-center justify-center rounded-gob-md bg-gob-info-bg text-gob-primary">
-                    <Icon className="size-5" aria-hidden />
-                  </span>
-                  <h3 className="mt-gob-4 font-heading text-gri-h2 font-medium text-gob-text">{tx(card.title)}</h3>
-                  <p className="mt-gob-2 text-gri-body-sm leading-[1.5] text-gob-text">{tx(card.description)}</p>
-                  <ul className="mt-gob-3 flex-1 list-disc space-y-gob-2 pl-gob-5 text-gri-body-sm leading-[1.5] text-gob-text">
-                    {card.bullets.map(bullet => (
-                      <li key={bullet}>{tx(bullet)}</li>
-                    ))}
-                  </ul>
-                  <TramitesLink
-                    href={card.href}
-                    className="mt-gob-4 inline-flex min-h-11 items-center text-gri-body-sm font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-                  >
-                    {tx(card.cta)}
-                  </TramitesLink>
-                </article>
-              )
-            })}
-          </div>
-          <div className="flex flex-wrap items-center gap-x-gob-6 gap-y-gob-2">
-            <TramitesLink
-              href={current.href}
-              className="inline-flex min-h-11 items-center text-gri-body font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-            >
-              {tx(current.cta)}
-            </TramitesLink>
-            {current.guide ? (
+    <div className="grid items-start gap-gob-5 min-[1100px]:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+      <article className="story-night relative overflow-hidden rounded-gob-xl p-gob-6 shadow-elevation-04 min-[1100px]:sticky min-[1100px]:top-32">
+        <GuillocheBg className="text-white opacity-50" />
+        <div className="relative flex flex-col gap-gob-4">
+          <span aria-hidden className="inline-flex size-12 items-center justify-center rounded-gob-md bg-white/12 text-white">
+            <Icon className="size-6" />
+          </span>
+          <h3 className="font-heading text-[1.5rem] font-medium leading-[1.3] text-white">{tx(tab.label)}</h3>
+          <p className="text-gri-body leading-[1.6] text-white/85">{tx(tab.intro)}</p>
+          <div className="mt-gob-2 flex flex-col items-start gap-gob-1">
+            <StoryCta href={tab.href} label={tx(tab.cta)} tone="night" />
+            {tab.guide ? (
               <a
-                href={current.guide.href}
+                href={tab.guide.href}
                 download
-                className="inline-flex min-h-11 items-center text-gri-body font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-                onClick={() => notifyDownload(current.guide?.label ?? 'guía')}
+                className={linkClass}
+                onClick={() => notifyDownload(tab.guide?.label ?? 'guía')}
               >
-                {tx(current.guide.label)}
+                <Download className="size-4" aria-hidden />
+                {tx(tab.guide.label)}
               </a>
             ) : null}
-            {current.notifications ? (
-              <TramitesLink
-                href={current.notifications.href}
-                className="inline-flex min-h-11 items-center text-gri-body font-medium text-gob-link hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-              >
-                {tx(current.notifications.label)}
+            {tab.notifications ? (
+              <TramitesLink href={tab.notifications.href} className={linkClass}>
+                <Bell className="size-4" aria-hidden />
+                {tx(tab.notifications.label)}
               </TramitesLink>
             ) : null}
           </div>
         </div>
-      </ContainerGRI>
-    </section>
+      </article>
+      <SectionAccordion
+        defaultOpen={[]}
+        items={orderedCards(tab.cards).map(card => {
+          const CardIcon = card.icon
+          return {
+            id: `${tab.id}-${card.title}`,
+            title: tx(card.title),
+            summary: tx(card.description),
+            icon: <CardIcon />,
+            content: (
+              <>
+                <ul>
+                  {card.bullets.map(bullet => (
+                    <li key={bullet}>{tx(bullet)}</li>
+                  ))}
+                </ul>
+                <p className="mt-gob-3">
+                  <TramitesLink href={card.href}>{tx(card.cta)}</TramitesLink>
+                </p>
+              </>
+            ),
+          }
+        })}
+      />
+    </div>
   )
 }
+
+export function WhatToProtect() {
+  const { tx } = useI18n()
+  return (
+    <StorySection
+      id="que-proteger"
+      tone="mist"
+      eyebrow="Qué proteger"
+      dot="primary"
+      title={tx('¿Qué tipo de propiedad industrial te interesa?')}
+      lead={
+        <>
+          {tx('Elige una pestaña y abre solo lo que necesitas: requisitos, proceso, etapas, pagos, avisos y herramientas.')}{' '}
+          <Link href="/que-proteger" className="font-medium text-gob-link underline underline-offset-4">
+            {tx('No sé qué tipo de protección necesito')}
+          </Link>
+        </>
+      }
+    >
+      <SectionTabs
+        label={tx('Tipo de protección')}
+        tabs={tabs.map(tab => {
+          const Icon = tab.icon
+          return { id: tab.id, label: tx(tab.label), icon: <Icon />, content: <TabPanel tab={tab} /> }
+        })}
+      />
+    </StorySection>
+  )
+}
+

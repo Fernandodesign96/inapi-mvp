@@ -3,7 +3,8 @@
 import { useState, useId } from 'react'
 import { Input } from '@/components/ui/input'
 import { PersonaData } from '@/lib/types'
-import { validarRUT } from '@/lib/utils'
+import { FieldError } from '@/components/shared/FieldMessages'
+import { formatRUT, validarRUT } from '@/lib/utils'
 import { User, Building2, Globe, Mail, Phone, MapPin } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -151,7 +152,10 @@ export function FormPersona({ initialData, onChange, title }: Props) {
             <Input
               id={`${fieldId}-rut`}
               value={data.rut}
-              onChange={(e) => update({ rut: e.target.value })}
+              onChange={(e) => update({ rut: isChile ? formatRUT(e.target.value) : e.target.value })}
+              onBlur={() => {
+                if (isChile && data.rut) update({ rut: formatRUT(data.rut) })
+              }}
               aria-invalid={rutInvalido}
               aria-describedby={rutInvalido ? `${fieldId}-rut-error` : undefined}
               className={cn(
@@ -161,9 +165,11 @@ export function FormPersona({ initialData, onChange, title }: Props) {
               placeholder={isChile ? '12.345.678-9' : 'ID Number'}
             />
             {rutInvalido && (
-              <p id={`${fieldId}-rut-error`} role="alert" className="text-gri-label text-destructive font-semibold uppercase animate-pulse">
-                RUT Inválido
-              </p>
+              <FieldError
+                id={`${fieldId}-rut-error`}
+                title="No pudimos verificar el RUT"
+                description="Ingresa el RUT con puntos y guión. Ejemplo: 12.345.678-9"
+              />
             )}
           </div>
         </div>

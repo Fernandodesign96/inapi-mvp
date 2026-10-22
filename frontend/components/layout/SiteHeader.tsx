@@ -2,13 +2,18 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { HeaderUtilities } from '@/components/layout/HeaderUtilities'
 import { SiteSearchForm } from '@/components/layout/SiteSearchForm'
+import { PlatformBadge } from '@/components/shared/PlatformBadge'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { CrossPlatformLink } from '@/components/shared/CrossPlatformLink'
 import {
+  HEADING_NATIVE_TITLE,
+  PORTAL_DROPDOWNS,
   PORTAL_PRIMARY_NAV,
   PORTAL_SECONDARY_NAV,
   type BreadcrumbItem,
@@ -23,6 +28,15 @@ export type SiteHeaderProps = {
   pageTitle?: string
   pageSubtitle?: string
   variant?: 'home' | 'page'
+}
+
+const SUBNAV_VISIBLE_LG = 4
+const SUBNAV_VISIBLE_XL = 6
+
+function overflowClass(index: number) {
+  if (index >= SUBNAV_VISIBLE_XL) return 'hidden min-[1440px]:inline'
+  if (index >= SUBNAV_VISIBLE_LG) return 'hidden min-[1240px]:inline'
+  return undefined
 }
 
 function resolveActive(active: PortalNavId): PortalNavId | 'none' {
@@ -55,17 +69,12 @@ export function SiteHeader({
     return () => document.removeEventListener('mousedown', onDoc)
   }, [])
 
-  const portalMenus: Record<'marcas' | 'patentes', { label: string; href: string }[]> = {
-    marcas: [
-      { label: 'Qué es una marca', href: '/marcas' },
-      { label: 'Cómo registrar una marca', href: '/marcas/como-registrar' },
-      { label: 'Sistema de Madrid', href: '/marcas/sistema-de-madrid' },
-    ],
-    patentes: [
-      { label: 'Qué es una patente', href: '/patentes' },
-      { label: 'Cómo registrar una patente', href: '/patentes/como-registrar' },
-      { label: 'PCT', href: '/patentes/pct' },
-    ],
+  const onMenuKey = (e: KeyboardEvent, id: 'marcas' | 'patentes') => {
+    if (e.key === 'Escape') setOpenMenu(null)
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setOpenMenu(id)
+    }
   }
 
   const primaryNav = (
@@ -83,7 +92,9 @@ export function SiteHeader({
               <button
                 type="button"
                 aria-expanded={open}
+                aria-haspopup="true"
                 aria-current={navActive === item.id ? 'page' : undefined}
+                onKeyDown={e => onMenuKey(e, item.id)}
                 onClick={() => setOpenMenu(open ? null : item.id)}
                 className={cn(
                   'inline-flex items-center gap-1 text-gri-body-sm min-[905px]:text-gri-body font-medium leading-[1.5] border-b-[3px] pb-gob-1 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
@@ -96,16 +107,41 @@ export function SiteHeader({
                 <ChevronDown className="size-4" aria-hidden />
               </button>
               {open ? (
-                <ul className="absolute left-1/2 top-full z-[80] mt-2 min-w-[16rem] -translate-x-1/2 rounded-gob-md border border-gob-border bg-card py-gob-2 text-gob-text shadow-elevation-04">
-                  {portalMenus[item.id].map(link => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="block min-h-11 px-gob-4 py-gob-2 text-gri-body-sm hover:bg-gob-surface-elevated"
-                        onClick={() => setOpenMenu(null)}
-                      >
-                        {tx(link.label)}
-                      </Link>
+                <ul
+                  role="menu"
+                  className="absolute left-1/2 top-full z-[80] mt-2 min-w-[18rem] -translate-x-1/2 rounded-gob-md border border-gob-border bg-card py-gob-2 text-gob-text shadow-elevation-04"
+                >
+                  {PORTAL_DROPDOWNS[item.id].map(link => (
+                    <li key={link.href + link.label} role="none" className={link.dividerBefore ? 'mt-gob-2 border-t border-gob-border pt-gob-2' : undefined}>
+                      {link.external ? (
+                        <CrossPlatformLink
+                          href={link.href}
+                          label={link.label}
+                          targetPlatform="tramites"
+                          requiresAuth={link.href.includes('solicitar')}
+                          variant="inherit"
+                          className="flex min-h-11 items-center gap-1 px-gob-4 py-gob-2 text-gri-body-sm hover:bg-gob-surface-elevated"
+                          onClick={() => setOpenMenu(null)}
+                        >
+                          {tx(link.label)}
+                        </CrossPlatformLink>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          role="menuitem"
+                          title={
+                            link.label === 'Sistema de Madrid'
+                              ? tx('Sistema de Madrid: protege tu marca en otros países con una sola solicitud')
+                              : link.label === 'PCT' || link.label.startsWith('Conocer el Tratado')
+                                ? tx('PCT: Tratado de Cooperación en materia de Patentes, sistema de presentación internacional')
+                                : undefined
+                          }
+                          className="block min-h-11 px-gob-4 py-gob-2 text-gri-body-sm hover:bg-gob-surface-elevated"
+                          onClick={() => setOpenMenu(null)}
+                        >
+                          {tx(link.label)}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -147,13 +183,16 @@ export function SiteHeader({
                 className="h-11 w-auto object-contain"
                 priority
               />
-              <span className="hidden max-w-[180px] text-gri-body-sm font-medium leading-[1.5] text-gob-text-inverse/90 min-[1600px]:block">
-                Instituto Nacional de Propiedad Industrial
+              <span className="hidden flex-col gap-1 sm:flex">
+                <span className="hidden max-w-[180px] text-gri-body-sm font-medium leading-[1.5] text-gob-text-inverse/90 min-[1600px]:block">
+                  Instituto Nacional de Propiedad Industrial
+                </span>
+                <PlatformBadge platform="informativo" />
               </span>
             </Link>
           </div>
 
-          <div className="hidden min-w-0 flex-1 min-[768px]:flex min-[768px]:justify-center">
+          <div className="hidden min-w-0 flex-1 lg:flex lg:justify-center">
             {primaryNav}
           </div>
 
@@ -162,7 +201,7 @@ export function SiteHeader({
             <Button
               variant="ghost"
               size="icon"
-              className="min-[768px]:hidden text-gob-text-inverse hover:bg-white/10 shrink-0 size-10 min-[600px]:size-11"
+              className="lg:hidden text-gob-text-inverse hover:bg-white/10 shrink-0 size-10 min-[600px]:size-11"
               aria-label={tx('Abrir menú')}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen(true)}
@@ -173,31 +212,61 @@ export function SiteHeader({
         </div>
       </div>
 
-      <div className="relative z-10 mt-gob-2 hidden w-full min-[768px]:block">
+      <div className="relative z-10 mt-gob-2 hidden w-full lg:block">
         <div className="home-chrome-sub flex w-full items-center justify-between gap-x-gob-4 px-gob-5 py-gob-2 min-[905px]:px-gob-6">
           <nav
             className="flex min-w-0 flex-1 flex-nowrap items-center justify-start gap-x-gob-4 overflow-x-auto min-[905px]:gap-x-gob-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             aria-label="Enlaces del portal"
           >
-            {PORTAL_SECONDARY_NAV.map(item => (
+            {PORTAL_SECONDARY_NAV.map((item, index) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="whitespace-nowrap text-[0.75rem] font-medium leading-[1.5] text-white/88 transition-colors hover:text-white hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+                title={tx(item.hint)}
+                aria-description={tx(item.hint)}
+                className={cn(
+                  'whitespace-nowrap rounded-sm text-[0.75rem] font-medium leading-[1.5] text-white/88 transition-colors hover:text-white hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+                  overflowClass(index),
+                )}
               >
                 {tx(item.label)}
               </Link>
             ))}
+            <Popover>
+              <PopoverTrigger
+                className="inline-flex shrink-0 items-center gap-1 rounded-sm text-[0.75rem] font-medium leading-[1.5] text-white/88 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus min-[1440px]:hidden"
+              >
+                {tx('Más')}
+                <ChevronDown className="size-3.5" aria-hidden />
+              </PopoverTrigger>
+              <PopoverContent align="end" sideOffset={10} className="w-80 p-gob-2">
+                <ul className="flex flex-col">
+                  {PORTAL_SECONDARY_NAV.map((item, index) =>
+                    index < SUBNAV_VISIBLE_LG ? null : (
+                      <li key={item.href} className={index < SUBNAV_VISIBLE_XL ? 'min-[1240px]:hidden' : undefined}>
+                        <Link
+                          href={item.href}
+                          className="flex min-h-11 flex-col justify-center rounded-gob-md px-gob-3 py-gob-2 hover:bg-gob-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+                        >
+                          <span className="text-gri-body-sm font-medium text-gob-text">{tx(item.label)}</span>
+                          <span className="text-gri-body-xs text-muted-foreground">{tx(item.hint)}</span>
+                        </Link>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </PopoverContent>
+            </Popover>
           </nav>
           <SiteSearchForm
             id={desktopSearchId}
             compact
-            className="ml-auto w-48 shrink-0 min-[1100px]:w-64 min-[1440px]:w-80 min-[1600px]:w-[22rem]"
+            className="ml-auto w-44 shrink-0 min-[1240px]:w-56 min-[1440px]:w-72 min-[1600px]:w-80"
           />
         </div>
       </div>
 
-      <div className="relative z-10 mt-gob-2 home-chrome-sub px-gob-4 py-gob-2 min-[768px]:hidden">
+      <div className="relative z-10 mt-gob-2 home-chrome-sub px-gob-4 py-gob-2 lg:hidden">
         <SiteSearchForm id={mobileSearchId} compact className="max-w-none" />
       </div>
 
@@ -251,9 +320,10 @@ export function SiteHeader({
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="py-gob-3 min-h-11 text-gri-body text-gob-text-inverse/90"
+                className="flex min-h-11 flex-col justify-center py-gob-2 text-gri-body text-gob-text-inverse/90"
               >
-                {tx(item.label)}
+                <span>{tx(item.label)}</span>
+                <span className="text-gri-body-xs text-white/65">{tx(item.hint)}</span>
               </Link>
             ))}
           </nav>
@@ -264,7 +334,14 @@ export function SiteHeader({
       <div className="relative z-[1] border-b border-white/10">
         <div className="mx-auto max-w-[1600px] space-y-gob-4 px-gob-4 pt-gob-7 pb-gob-8 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
           {breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} tone="inverse" />}
-          <h1 className="portal-h1 text-gob-text-inverse">{tx(pageTitle)}</h1>
+          <h1
+            tabIndex={-1}
+            data-skip-focus-ring
+            title={HEADING_NATIVE_TITLE[pageTitle] ? tx(HEADING_NATIVE_TITLE[pageTitle]) : undefined}
+            className="portal-h1 text-gob-text-inverse"
+          >
+            {tx(pageTitle)}
+          </h1>
           {pageSubtitle ? <p className="portal-lead max-w-none text-gob-text-inverse">{tx(pageSubtitle)}</p> : null}
         </div>
       </div>

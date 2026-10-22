@@ -1,16 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
 import { SectionPills, SectionSubnav } from '@/components/portal/SectionPills'
+import { ChartCard } from '@/components/story/ChartCard'
 import { PortalPdfLink } from '@/components/portal/PortalPdfLink'
 import { PortalLinkList, PortalProse, PortalSectionTitle } from '@/components/portal/content'
 import { DIRECTRICES_MARCAS } from '@/lib/directrices-marcas'
@@ -433,20 +425,22 @@ function EstadisticasPanel({ serie }: { serie: string }) {
         Gráfico de referencia del MVP (solicitudes y registros). Las visualizaciones oficiales en Tableau están en
         inapi.cl.
       </PortalProse>
-      <div className="h-72 rounded-gob-md border border-gob-border bg-card p-gob-4">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={current.data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="anio" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="solicitudes" name="Solicitudes" fill="#3d5c80" radius={4} />
-            {current.data.some(d => d.registros > 0) ? (
-              <Bar dataKey="registros" name="Registros" fill="#7aa2ce" radius={4} />
-            ) : null}
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+      <ChartCard
+        kind="bar"
+        title={current.title}
+        height={280}
+        views={[
+          {
+            id: serie,
+            label: '2021-2025',
+            labels: current.data.map(d => d.anio),
+            series: [
+              { label: 'Solicitudes', data: current.data.map(d => d.solicitudes) },
+              ...(current.data.some(d => d.registros > 0) ? [{ label: 'Registros', data: current.data.map(d => d.registros) }] : []),
+            ],
+          },
+        ]}
+      />
       <div className="overflow-x-auto rounded-gob-md border border-gob-border">
         <table className="w-full text-left text-gri-body-sm">
           <thead className="bg-inapi-portal-hero text-gob-text-inverse">

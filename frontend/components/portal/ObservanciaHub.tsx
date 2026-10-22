@@ -1,26 +1,7 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
-import { cn } from '@/lib/utils'
-
-type TabId =
-  | 'pirateria'
-  | 'riesgos'
-  | 'delitos'
-  | 'derechos'
-  | 'estadisticas'
-  | 'denuncia'
-  | 'prevenga'
-
-const TABS: { id: TabId; label: string }[] = [
-  { id: 'pirateria', label: 'Piratería y falsificación' },
-  { id: 'riesgos', label: 'Riesgos' },
-  { id: 'delitos', label: 'Delitos' },
-  { id: 'derechos', label: 'Tus derechos' },
-  { id: 'estadisticas', label: 'Estadísticas' },
-  { id: 'denuncia', label: 'Denuncia' },
-  { id: 'prevenga', label: 'Prevenga la infracción' },
-]
+import type { ReactNode } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 type CrimeRow = { conducta: string; articulo: string; sancion: string }
 
@@ -58,19 +39,17 @@ function CrimeTable({
 
 function Accordion({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <details className="group rounded-gob-md border border-gob-border bg-card open:shadow-elevation-01">
-      <summary className="cursor-pointer list-none px-gob-4 py-gob-3 font-medium text-gob-text bg-inapi-portal-hero text-gob-text-inverse rounded-t-gob-md [&::-webkit-details-marker]:hidden">
-        <span className="flex items-center justify-between gap-gob-3">
-          {title}
-          <span className="text-gri-h2 leading-none group-open:hidden" aria-hidden>
-            +
-          </span>
-          <span className="text-gri-h2 leading-none hidden group-open:inline" aria-hidden>
-            −
-          </span>
+    <details className="group overflow-hidden rounded-gob-lg border border-gob-border bg-card shadow-elevation-01 transition-shadow open:border-gob-primary/35 open:shadow-elevation-03">
+      <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-gob-3 px-gob-5 py-gob-3 font-heading text-gri-h2 font-medium text-gob-text hover:bg-gob-surface-elevated/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus [&::-webkit-details-marker]:hidden">
+        {title}
+        <span
+          aria-hidden
+          className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-gob-border-strong transition-transform duration-300 group-open:rotate-180"
+        >
+          <ChevronDown className="size-4" />
         </span>
       </summary>
-      <div className="space-y-gob-4 p-gob-4 text-gri-body leading-[1.5] text-gob-text">{children}</div>
+      <div className="space-y-gob-4 px-gob-5 pb-gob-5 text-gri-body leading-[1.5] text-gob-text">{children}</div>
     </details>
   )
 }
@@ -86,46 +65,7 @@ function Source({ href, label }: { href: string; label: string }) {
   )
 }
 
-export function ObservanciaHub() {
-  const [active, setActive] = useState<TabId>('pirateria')
-
-  return (
-    <div className="space-y-gob-6">
-      <div role="tablist" aria-label="Temas de observancia" className="flex flex-wrap gap-gob-2">
-        {TABS.map(tab => {
-          const selected = tab.id === active
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              className={cn(
-                'inline-flex min-h-11 items-center rounded-full border px-gob-4 py-gob-2 text-gri-body-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-                selected
-                  ? 'border-gob-primary bg-gob-info-bg text-gob-primary'
-                  : 'border-gob-border bg-card text-gob-text hover:border-gob-primary',
-              )}
-              onClick={() => setActive(tab.id)}
-            >
-              {tab.label}
-            </button>
-          )
-        })}
-      </div>
-
-      {active === 'pirateria' ? <PirateriaPanel /> : null}
-      {active === 'riesgos' ? <RiesgosPanel /> : null}
-      {active === 'delitos' ? <DelitosPanel /> : null}
-      {active === 'derechos' ? <DerechosPanel /> : null}
-      {active === 'estadisticas' ? <EstadisticasPanel /> : null}
-      {active === 'denuncia' ? <DenunciaPanel /> : null}
-      {active === 'prevenga' ? <PrevengaPanel /> : null}
-    </div>
-  )
-}
-
-function PirateriaPanel() {
+export function PirateriaPanel() {
   return (
     <div className="space-y-gob-4">
       <Accordion title="¿Qué es la piratería?">
@@ -172,7 +112,7 @@ function PirateriaPanel() {
   )
 }
 
-function RiesgosPanel() {
+export function RiesgosPanel() {
   return (
     <div className="space-y-gob-5">
       <h3 className="font-heading text-gri-h2 font-medium text-gob-text">Consecuencias de comprar productos falsificados</h3>
@@ -213,7 +153,7 @@ function RiesgosPanel() {
   )
 }
 
-function DelitosPanel() {
+export function DelitosPanel() {
   return (
     <div className="space-y-gob-4">
       <p className="text-gri-body leading-[1.5] text-gob-text">
@@ -398,7 +338,7 @@ function DelitosPanel() {
   )
 }
 
-function DerechosPanel() {
+export function DerechosPanel() {
   return (
     <div className="space-y-gob-5 text-gri-body leading-[1.5] text-gob-text">
       <h3 className="font-heading text-gri-h2 font-medium">Defienda sus derechos</h3>
@@ -498,7 +438,7 @@ function DerechosPanel() {
   )
 }
 
-function EstadisticasPanel() {
+export function EstadisticasPanel() {
   return (
     <div className="space-y-gob-5 text-gri-body leading-[1.5] text-gob-text">
       <p>
@@ -532,7 +472,7 @@ function EstadisticasPanel() {
   )
 }
 
-function DenunciaPanel() {
+export function DenunciaPanel() {
   return (
     <div className="space-y-gob-5 text-gri-body leading-[1.5] text-gob-text">
       <p>Las infracciones de carácter criminal en contra de la propiedad intelectual e industrial se deben denunciar:</p>
@@ -561,7 +501,7 @@ function DenunciaPanel() {
   )
 }
 
-function PrevengaPanel() {
+export function PrevengaPanel() {
   return (
     <div className="space-y-gob-5 text-gri-body leading-[1.5] text-gob-text">
       <p>Hay ciertas medidas básicas que pueden ayudar a determinar si existe o no infracción a un derecho de propiedad intelectual.</p>

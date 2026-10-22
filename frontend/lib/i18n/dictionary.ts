@@ -8,6 +8,9 @@ import { EN_EXTRA_BATCH_03 } from '@/lib/i18n/dictionary-extra-batch-03'
 import { EN_EXTRA_BATCH_04 } from '@/lib/i18n/dictionary-extra-batch-04'
 import { EN_EXTRA_BATCH_05 } from '@/lib/i18n/dictionary-extra-batch-05'
 import { EN_EXTRA_BATCH_06 } from '@/lib/i18n/dictionary-extra-batch-06'
+import { EN_STORY } from '@/lib/i18n/dictionary-story'
+import { EN_STORY_PAGES } from '@/lib/i18n/dictionary-story-pages'
+import { EN_STORY_TRAMITES } from '@/lib/i18n/dictionary-story-tramites'
 
 export type Locale = 'es' | 'en'
 
@@ -119,6 +122,7 @@ const EN_BASE: Record<string, string> = {
   'Presenta un escrito a una solicitud, anotación o nulidad.': 'File a submission on an application, annotation or invalidity case.',
   'Registra un poder o personería una sola vez.': 'File a power of attorney or legal standing once.',
   'Anotaciones y escritos': 'Annotations and submissions',
+  'Cambios y documentos': 'Changes and documents',
   'Pagar publicación en el Diario Oficial': 'Pay Diario Oficial publication',
   'Realiza todos tus pagos de marcas aquí': 'Complete all your trademark payments here',
   'Realiza todos tus pagos de patentes aquí': 'Complete all your patent payments here',
@@ -482,6 +486,42 @@ const EN_BASE: Record<string, string> = {
   'Qué, cómo, dónde, cuándo y para quién': 'What, how, where, when and who it is for',
   'Herramientas': 'Tools',
   'Trámites': 'Procedures',
+  'Qué es la propiedad industrial': 'What industrial property is',
+  'API para agentes y empresas': 'API for agents and companies',
+  'Cursos y talleres': 'Courses and workshops',
+  'Buscar en este sitio': 'Search this site',
+  'Estado de mis solicitudes': 'Status of my applications',
+  'Estado de mi solicitud': 'Status of my application',
+  'Estado de mis solicitudes de marca': 'Status of my trademark applications',
+  'Estado de mis solicitudes de patentes': 'Status of my patent applications',
+  'Estado público de solicitudes': 'Public application status',
+  'Estado público de marcas': 'Public trademark status',
+  'Estado público de patentes': 'Public patent status',
+  'Saber qué clase de Niza necesito': 'Find out which Nice class I need',
+  'Ir a trámites en línea': 'Go to online procedures',
+  'Ver estado de solicitudes': 'View application status',
+  'Ir al sitio informativo': 'Go to the information site',
+  'Ir al Portal de trámites': 'Go to the Procedures Portal',
+  'Portal de trámites de INAPI': 'INAPI Procedures Portal',
+  'Aquí presentas solicitudes, pagas y sigues el expediente.':
+    'Here you file applications, pay fees and follow the case file.',
+  'Sitio informativo': 'Information site',
+  'Portal de trámites': 'Procedures portal',
+  'Mis solicitudes activas': 'My active applications',
+  'Ver todas mis solicitudes': 'View all my applications',
+  'Borradores de solicitudes de marca': 'Trademark application drafts',
+  'Borradores de solicitudes de patente': 'Patent application drafts',
+  'Cambios en solicitudes de patentes': 'Changes to patent applications',
+  'Adjuntar documentos a tu solicitud': 'Attach documents to your application',
+  'Documentos de representación legal': 'Legal representation documents',
+  'Iniciar sesión con ClaveÚnica': 'Sign in with ClaveÚnica',
+  'No sé qué tipo de protección necesito': 'I do not know what protection I need',
+  'Volviste al sitio informativo de INAPI.': 'You are back on the INAPI information site.',
+  'Estás en el Portal de Trámites de INAPI.': 'You are on the INAPI Procedures Portal.',
+  'Tu sesión sigue activa.': 'Your session is still active.',
+  'Volver a trámites': 'Back to procedures',
+  'Cerrar aviso': 'Dismiss notice',
+  'Última actualización: 22-10-2026': 'Last updated: 22-10-2026',
 }
 
 export const EN: Record<string, string> = {
@@ -496,11 +536,18 @@ export const EN: Record<string, string> = {
   ...EN_EXTRA_BATCH_04,
   ...EN_EXTRA_BATCH_05,
   ...EN_EXTRA_BATCH_06,
+  ...EN_STORY,
+  ...EN_STORY_PAGES,
+  ...EN_STORY_TRAMITES,
 }
 
 export function translateText(locale: Locale, text: string): string {
   if (locale === 'es') return text
   const key = normalizeI18nKey(text)
   if (!key) return text
-  return EN[key] ?? text
+  const translated = EN[key]
+  if (translated === undefined) return text
+  const lead = /^\s*/.exec(text)?.[0] ?? ''
+  const trail = /\s*$/.exec(text)?.[0] ?? ''
+  return lead + translated + trail
 }

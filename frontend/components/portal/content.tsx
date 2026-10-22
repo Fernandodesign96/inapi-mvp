@@ -1,11 +1,17 @@
 import type { LucideIcon } from 'lucide-react'
 import { ArrowRight } from 'lucide-react'
+import { LastUpdated } from '@/components/shared/LastUpdated'
 import { PortalPdfLink } from '@/components/portal/PortalPdfLink'
 import { TramitesLink } from '@/components/tramites/TramitesLink'
 import { cn } from '@/lib/utils'
 
 export function PortalMain({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn('space-y-gob-7 py-gob-8 min-[905px]:py-12', className)}>{children}</div>
+  return (
+    <div className={cn('space-y-gob-7 py-gob-8 min-[905px]:py-12', className)}>
+      {children}
+      <LastUpdated />
+    </div>
+  )
 }
 
 export function PortalSectionTitle({ children, id }: { children: React.ReactNode; id?: string }) {

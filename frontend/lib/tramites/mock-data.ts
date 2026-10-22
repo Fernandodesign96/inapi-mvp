@@ -43,6 +43,24 @@ export const NOTIFICACIONES: Notificacion[] = [
   },
 ]
 
+export type PagoPendiente = {
+  id: string
+  dominio: TramitesDomain
+  numero: string
+  concepto: string
+  href: string
+}
+
+export const PAGOS_PENDIENTES: PagoPendiente[] = [
+  {
+    id: 'pg1',
+    dominio: 'marcas',
+    numero: 'SM1196003',
+    concepto: 'Pago de publicación en el Diario Oficial',
+    href: '/tramites/marcas/pagos',
+  },
+]
+
 export type DocumentoExpediente = {
   id: string
   fecha: string

@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { ClipboardList, Home, LogOut, User } from 'lucide-react'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
+import { FROM_INFORMATIVO_KEY, FROM_TRAMITES_KEY } from '@/lib/citizen-status'
 import { goTramites } from '@/lib/tramites/go'
 import { useTramitesSession } from '@/lib/tramites/use-session'
 import { cn } from '@/lib/utils'
@@ -23,9 +24,11 @@ const shortcutIconClass =
 
 export function UserMenu({
   className,
+  buttonClassName,
   onNavigate,
 }: {
   className?: string
+  buttonClassName?: string
   onNavigate?: () => void
 }) {
   const { tx } = useI18n()
@@ -121,16 +124,30 @@ export function UserMenu({
               href="/"
               role="menuitem"
               className={cn(itemClass, shortcutClass)}
-              onClick={close}
+              onClick={() => {
+                try {
+                  sessionStorage.setItem(FROM_TRAMITES_KEY, '1')
+                } catch {
+                  /* ignore */
+                }
+                close()
+              }}
             >
               <Home className={shortcutIconClass} aria-hidden />
-              {tx('Ir a sitio informativo')}
+              {tx('Ir al sitio informativo')}
             </Link>
             <Link
               href="/tramites"
               role="menuitem"
               className={cn(itemClass, shortcutClass)}
-              onClick={close}
+              onClick={() => {
+                try {
+                  sessionStorage.setItem(FROM_INFORMATIVO_KEY, '1')
+                } catch {
+                  /* ignore */
+                }
+                close()
+              }}
             >
               <ClipboardList className={shortcutIconClass} aria-hidden />
               {tx('Ir a sitio de trámites')}
@@ -164,7 +181,7 @@ export function UserMenu({
     <div className={cn('relative', className)} ref={wrapRef}>
       <button
         type="button"
-        className={iconBtn}
+        className={buttonClassName ?? iconBtn}
         aria-label={tx('Menú de usuario')}
         aria-expanded={open}
         aria-controls={menuId}

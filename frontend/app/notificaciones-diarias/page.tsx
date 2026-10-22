@@ -8,18 +8,18 @@ import { portalShellProps } from '@/lib/portal-page-props'
 import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Notificaciones INAPI — INAPI',
-  description: 'Consulta las notificaciones diarias de marcas y patentes publicadas por INAPI.',
+  title: 'Estado público de solicitudes — INAPI',
+  description: 'Consulta el listado público de estados de marcas y patentes publicado por INAPI.',
 }
 
 const items = [
   {
     href: '/notificaciones-diarias/marcas',
-    title: 'Notificaciones diarias de marcas',
+    title: 'Estado público de marcas',
   },
   {
     href: '/notificaciones-diarias/patentes',
-    title: 'Notificaciones diarias de patentes',
+    title: 'Estado público de patentes',
   },
 ]
 

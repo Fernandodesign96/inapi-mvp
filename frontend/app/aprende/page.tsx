@@ -1,75 +1,73 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { BookOpen, FolderOpen, History } from 'lucide-react'
-import { PortalShell } from '@/components/layout/PortalShell'
-import { ContainerGRI } from '@/components/layout/ContainerGRI'
-import { PortalCardGrid, PortalMain, PortalSectionTitle } from '@/components/portal/content'
-import { portalShellProps } from '@/lib/portal-page-props'
+import { BookOpen, CalendarDays, FolderOpen, History, MonitorPlay } from 'lucide-react'
+import { BentoCard, BentoGrid } from '@/components/story/Bento'
+import { CtaBand } from '@/components/story/CtaBand'
+import { StoryPage } from '@/components/story/StoryPage'
+import { StorySection } from '@/components/story/StorySection'
+import { VideoGallery } from '@/components/story/VideoSpotlight'
 
 export const metadata: Metadata = {
-  title: 'Aprende de propiedad industrial — INAPI',
+  title: 'Cursos y talleres — INAPI',
   description:
     'Cursos, talleres y recursos de capacitación sobre propiedad industrial que ofrece INAPI.',
 }
 
 export default function AprendePage() {
   return (
-    <PortalShell
-      {...portalShellProps('/aprende', {
-        pageSubtitle:
-          'Este módulo reúne contenidos, fechas clave, requisitos y formas de inscripción a los cursos, talleres y actividades de capacitación que ofrece INAPI.',
-      })}
+    <StoryPage
+      path="/aprende"
+      hero={{
+        eyebrow: 'Capacitación',
+        dot: 'primary',
+        lead: 'Este módulo reúne contenidos, fechas clave, requisitos y formas de inscripción a los cursos, talleres y actividades de capacitación que ofrece INAPI.',
+        primary: { href: '#capacitaciones', label: 'Ver cursos disponibles' },
+        secondary: { href: '#recursos', label: 'Recursos para aprender' },
+        seal: { center: 'PI', caption: 'APRENDE' },
+      }}
     >
-      <ContainerGRI size="portal">
-        <PortalMain>
-          <section>
-            <PortalSectionTitle>Tipos de capacitaciones</PortalSectionTitle>
-            <PortalCardGrid
-              items={[
-                {
-                  title: 'Cursos y talleres en línea',
-                  body: 'Actividades formativas a distancia sobre propiedad industrial.',
-                  href: '#',
-                  cta: 'Ver cursos disponibles',
-                },
-                {
-                  title: 'Martes de Propiedad Industrial',
-                  body: 'Ciclo formativo periódico abierto a todo el país, ya en su séptimo año.',
-                  href: '#',
-                  cta: 'Conocer el ciclo',
-                },
-              ]}
-            />
-          </section>
+      <StorySection tone="paper" id="capacitaciones" eyebrow="Tipos de capacitaciones" title="Aprende con INAPI">
+        <BentoGrid cols={2}>
+          <BentoCard
+            variant="night"
+            icon={<MonitorPlay />}
+            title="Cursos y talleres en línea"
+            body="Actividades formativas a distancia sobre propiedad industrial."
+            href="#"
+            cta="Ver cursos disponibles"
+          />
+          <BentoCard
+            icon={<CalendarDays />}
+            title="Martes de Propiedad Industrial"
+            body="Ciclo formativo periódico abierto a todo el país, ya en su séptimo año."
+            href="#"
+            cta="Conocer el ciclo"
+            delay={0.06}
+          />
+        </BentoGrid>
+      </StorySection>
 
-          <section>
-            <PortalSectionTitle>Recursos para aprender</PortalSectionTitle>
-            <div className="grid min-[600px]:grid-cols-3 gap-gob-4">
-              <Link
-                href="#"
-                className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-inapi-tint transition-colors"
-              >
-                <BookOpen className="w-7 h-7 text-inapi-cta" aria-hidden />
-                <span className="text-gri-body-sm font-bold leading-snug">Libro historia gráfica</span>
-              </Link>
-              <Link
-                href="/conoce-mas"
-                className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-inapi-tint transition-colors"
-              >
-                <History className="w-7 h-7 text-inapi-cta" aria-hidden />
-                <span className="text-gri-body-sm font-bold leading-snug">Línea de tiempo interactiva</span>
-              </Link>
-              <Link
-                href="#"
-                className="bg-gob-surface-elevated rounded-gob-md p-gob-5 flex flex-col gap-gob-3 text-gob-text hover:bg-inapi-tint transition-colors"
-              >
-                <FolderOpen className="w-7 h-7 text-inapi-cta" aria-hidden />
-                <span className="text-gri-body-sm font-bold leading-snug">Informes de dominio público</span>
-              </Link>
-            </div>
-          </section>
-        </PortalMain>
-      </ContainerGRI>
-    </PortalShell>
+      <VideoGallery
+        videos={['queEsPatente', 'patenteVsMarca', 'solicitarMarca']}
+        tone="night"
+        title="Aprende en video"
+        lead="Explicaciones breves del canal oficial de INAPI."
+      />
+
+      <StorySection tone="mist" id="recursos" eyebrow="Recursos para aprender" title="Lecturas y archivo">
+        <BentoGrid cols={3}>
+          <BentoCard icon={<BookOpen />} title="Libro historia gráfica" href="#" cta="Abrir" />
+          <BentoCard icon={<History />} title="Línea de tiempo interactiva" href="/conoce-mas/historia-propiedad-industrial" cta="Abrir" delay={0.05} />
+          <BentoCard icon={<FolderOpen />} title="Informes de dominio público" href="#" cta="Abrir" delay={0.1} />
+        </BentoGrid>
+      </StorySection>
+
+      <CtaBand
+        eyebrow="Conceptos básicos"
+        title="Qué es la propiedad industrial"
+        primary={{ href: '/conoce-mas', label: 'Leer los artículos' }}
+        secondary={{ href: '/glosario', label: 'Abrir el glosario' }}
+        seal={{ center: 'PI', caption: 'APRENDE' }}
+      />
+    </StoryPage>
   )
 }

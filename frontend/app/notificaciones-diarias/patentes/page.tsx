@@ -4,7 +4,7 @@ import { EstadosDiariosPatentesScreen } from '@/components/tramites/inventory-sc
 import { portalShellProps } from '@/lib/portal-page-props'
 
 export const metadata: Metadata = {
-  title: 'Notificaciones diarias de patentes — INAPI',
+  title: 'Estado público de patentes — INAPI',
   description: 'Consulta los estados diarios de patentes publicados por INAPI, sin iniciar sesión.',
 }
 

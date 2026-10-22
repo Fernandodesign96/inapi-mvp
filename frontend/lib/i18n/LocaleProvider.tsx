@@ -16,8 +16,11 @@ const EN_TO_ES = new Map(Object.entries(EN).map(([es, en]) => [normalizeI18nKey(
 
 function spanishSource(value: string): string {
   const key = normalizeI18nKey(value)
-  if (key in EN) return key
-  return EN_TO_ES.get(key) ?? value
+  const es = key in EN ? key : EN_TO_ES.get(key)
+  if (es === undefined) return value
+  const lead = /^\s*/.exec(value)?.[0] ?? ''
+  const trail = /\s*$/.exec(value)?.[0] ?? ''
+  return lead + es + trail
 }
 
 const STORAGE_KEY = 'inapi-locale'

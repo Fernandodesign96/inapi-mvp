@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import { PortalShell } from '@/components/layout/PortalShell'
-import { HeroSection } from '@/components/home/HeroSection'
+import { HomeHero } from '@/components/home/HomeHero'
+import { HomeEssentials } from '@/components/home/HomeEssentials'
 import { WhatToProtect } from '@/components/home/WhatToProtect'
-import { QuickAccess } from '@/components/home/QuickAccess'
-import { StatsSection } from '@/components/home/StatsSection'
-import { NewsSection } from '@/components/home/NewsSection'
-import { HomePromoBanners } from '@/components/home/HomePromoBanners'
+import { HomeStats } from '@/components/home/HomeStats'
+import { HomeTools } from '@/components/home/HomeTools'
+import { HomeNews } from '@/components/home/HomeNews'
 import { HomeObservanciaCarousel } from '@/components/portal/HomeObservanciaCarousel'
+import { VideoShowcase } from '@/components/story/VideoSpotlight'
 
 export const metadata: Metadata = {
   title: 'INAPI — Impulsa el valor de tus ideas con el registro oficial',
@@ -16,16 +17,21 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <PortalShell active="home" variant="home">
-      <HeroSection />
-      <div className="relative z-[1] bg-background">
-        <WhatToProtect />
-        <QuickAccess />
+    <PortalShell active="home" variant="home" hero={<HomeHero />}>
+      <HomeEssentials />
+      <WhatToProtect />
+      <HomeTools />
+      <VideoShowcase
+        video="patenteVsMarca"
+        title="¿Marca o patente? Descubre la diferencia"
+        lead="Muchas personas confunden ambos derechos. Este video explica qué protege cada uno y cuándo te conviene pedir los dos."
+        tone="paper"
+      />
+      <HomeStats />
+      <HomeNews />
+      <div className="story-night">
+        <HomeObservanciaCarousel />
       </div>
-      <StatsSection />
-      <NewsSection />
-      <HomePromoBanners />
-      <HomeObservanciaCarousel />
     </PortalShell>
   )
 }

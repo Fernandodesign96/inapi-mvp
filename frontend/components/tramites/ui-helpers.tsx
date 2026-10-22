@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
+import { LastUpdated } from '@/components/shared/LastUpdated'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { LoaderCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -8,11 +9,35 @@ export function TramitesMain({ children }: { children: React.ReactNode }) {
   return (
     <ContainerGRI size="portal" className="py-gob-6 space-y-gob-6">
       {children}
+      <LastUpdated />
     </ContainerGRI>
   )
 }
 
-export function EmptyState({ children }: { children: React.ReactNode }) {
+export function EmptyState({
+  children,
+  title,
+  description,
+  cta,
+}: {
+  children?: React.ReactNode
+  title?: string
+  description?: string
+  cta?: { label: string; href: string }
+}) {
+  if (title) {
+    return (
+      <div className="space-y-gob-3 rounded-gob-md border border-gob-info/30 bg-gob-info-bg px-gob-4 py-gob-4 text-gob-text">
+        <p className="font-heading text-gri-body font-medium">{title}</p>
+        {description ? <p className="text-gri-body-sm leading-relaxed">{description}</p> : null}
+        {cta ? (
+          <Link href={cta.href} className="inline-flex min-h-11 items-center font-medium text-gob-link underline underline-offset-4">
+            {cta.label}
+          </Link>
+        ) : null}
+      </div>
+    )
+  }
   return (
     <p className="flex items-start gap-gob-3 text-gri-body text-gob-text border border-gob-info/30 rounded-gob-md px-gob-4 py-gob-4 bg-gob-info-bg">
       <span className="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-gob-info text-white text-gri-body-xs font-bold" aria-hidden>

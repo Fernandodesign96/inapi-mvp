@@ -8,20 +8,26 @@ import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { useTramitesSession } from '@/lib/tramites/use-session'
 import { cn } from '@/lib/utils'
 
-const iconBtn =
+const iconBtnInverse =
   'inline-flex size-11 min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full text-white hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus [&_svg]:text-white'
+
+export const iconBtnLight =
+  'inline-flex size-11 min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full text-gob-text hover:bg-gob-surface-elevated hover:text-gob-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus [&_svg]:text-gob-text'
 
 type HeaderUtilitiesProps = {
   className?: string
   onNavigate?: () => void
   third?: 'tramites-site' | 'profile'
+  tone?: 'inverse' | 'light'
 }
 
 export function HeaderUtilities({
   className,
   onNavigate,
   third = 'tramites-site',
+  tone = 'inverse',
 }: HeaderUtilitiesProps) {
+  const iconBtn = tone === 'light' ? iconBtnLight : iconBtnInverse
   const { locale, setLocale, tx } = useI18n()
   const { session, ready } = useTramitesSession()
   const nextLocale = locale === 'es' ? 'en' : 'es'
@@ -46,7 +52,10 @@ export function HeaderUtilities({
       >
         <Languages className="size-5" strokeWidth={2.25} aria-hidden />
         <span
-          className="absolute -bottom-0.5 -right-0.5 min-w-[1.125rem] rounded-gob-sm bg-white px-0.5 text-[0.625rem] font-bold leading-4 text-[#061526]"
+          className={cn(
+            'absolute -bottom-0.5 -right-0.5 min-w-[1.125rem] rounded-gob-sm px-0.5 text-[0.625rem] font-bold leading-4',
+            tone === 'light' ? 'bg-[var(--story-night)] text-white' : 'bg-white text-[#061526]',
+          )}
           aria-hidden
           data-i18n-skip
         >
@@ -59,7 +68,7 @@ export function HeaderUtilities({
       {!ready ? (
         <span className={cn(iconBtn, 'pointer-events-none opacity-0')} aria-hidden />
       ) : loggedIn ? (
-        <UserMenu onNavigate={onNavigate} />
+        <UserMenu onNavigate={onNavigate} buttonClassName={tone === 'light' ? iconBtnLight : undefined} />
       ) : third === 'profile' ? (
         <Link
           href="/tramites/ingresar"

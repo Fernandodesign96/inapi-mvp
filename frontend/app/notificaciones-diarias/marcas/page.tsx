@@ -4,7 +4,7 @@ import { EstadosDiariosMarcasScreen } from '@/components/tramites/inventory-scre
 import { portalShellProps } from '@/lib/portal-page-props'
 
 export const metadata: Metadata = {
-  title: 'Notificaciones diarias de marcas — INAPI',
+  title: 'Estado público de marcas — INAPI',
   description: 'Consulta los estados diarios de marcas publicados por INAPI, sin iniciar sesión.',
 }
 

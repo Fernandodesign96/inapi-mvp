@@ -2,9 +2,9 @@
 
 import { Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { resolveTramitesHeading } from '@/lib/tramites/nav'
+import { cn } from '@/lib/utils'
 
 const HIDE_TITLE = new Set(['/tramites', '/tramites/auth', '/tramites/ingresar'])
 
@@ -18,19 +18,21 @@ function TramitesSubheaderInner() {
   if (HIDE_TITLE.has(pathname)) return null
 
   return (
-    <div className="relative z-0 border-b border-white/10">
-      <div className="mx-auto max-w-[1600px] space-y-gob-4 px-gob-4 pt-gob-7 pb-gob-8 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
-        <Breadcrumbs
-          tone="inverse"
-          homeHref="/tramites"
-          items={[{ label: meta.title }]}
+    <div className="mx-auto w-full max-w-[1600px] px-gob-4 pt-gob-6 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
+      <div className="flex items-start gap-gob-4">
+        <span
+          aria-hidden
+          className={cn(
+            'mt-2 hidden h-10 w-1.5 shrink-0 rounded-full min-[600px]:block',
+            meta.domain === 'marcas' ? 'bg-gob-accent' : meta.domain === 'patentes' ? 'bg-gob-primary' : 'bg-[var(--story-night)]',
+          )}
         />
-        <h1 key={`${pathname}?${search}`} className="portal-h1 text-gob-text-inverse">
-          {tx(meta.title)}
-        </h1>
-        {meta.subtitle ? (
-          <p className="portal-lead max-w-none text-gob-text-inverse">{tx(meta.subtitle)}</p>
-        ) : null}
+        <div className="min-w-0 space-y-gob-2">
+          <h1 key={`${pathname}?${search}`} className="portal-h1 text-gob-text">
+            {tx(meta.title)}
+          </h1>
+          {meta.subtitle ? <p className="portal-lead max-w-3xl text-muted-foreground">{tx(meta.subtitle)}</p> : null}
+        </div>
       </div>
     </div>
   )
