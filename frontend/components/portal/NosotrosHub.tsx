@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Eye, Flag } from 'lucide-react'
 import { SectionPills, SectionSubnav } from '@/components/portal/SectionPills'
 import { PortalBulletList, PortalProse, PortalSectionTitle } from '@/components/portal/content'
+import { IconList } from '@/components/story/IconList'
 import { PortalPdfLink } from '@/components/portal/PortalPdfLink'
 
 const PILLS = [
@@ -149,7 +150,7 @@ function FuncionesPanel() {
         a la propiedad industrial: registros, anotaciones, transferencias, títulos, certificados y la publicidad de la
         documentación cuando corresponde.
       </PortalProse>
-      <PortalBulletList
+      <IconList
         items={[
           'Asesorar al Presidente de la República en materias de propiedad industrial e informar proyectos de ley, tratados y reglamentos cuando lo pidan las autoridades competentes.',
           'Promover la protección, el uso estratégico y la difusión de la información tecnológica disponible.',

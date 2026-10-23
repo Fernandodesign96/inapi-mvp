@@ -436,7 +436,7 @@
   --secondary-foreground: var(--gob-text);
 
   --muted: var(--gob-surface-elevated);
-  --muted-foreground: #D1D5DB;
+  --muted-foreground: #E5E7EB;
 
   --accent: var(--gob-accent);
   --accent-foreground: var(--gob-text-inverse);
@@ -815,8 +815,10 @@
 }
 
 .dark {
-  --story-mist: color-mix(in srgb, var(--gob-primary) 10%, var(--background));
+  --story-mist: color-mix(in srgb, var(--gob-primary) 14%, var(--background));
   --story-paper: var(--background);
+  --story-glass: color-mix(in srgb, var(--gob-text-inverse) 14%, transparent);
+  --story-glass-border: color-mix(in srgb, var(--gob-text-inverse) 32%, transparent);
   --inapi-marcas-surface: #2A241C;
   --inapi-patentes-surface: #15222B;
   --inapi-tint: #1A2838;
@@ -843,6 +845,105 @@
   background: var(--story-glass);
   border: 1px solid var(--story-glass-border);
   backdrop-filter: blur(14px);
+}
+
+.story-glass-interactive {
+  cursor: default;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.story-glass-interactive:hover,
+.story-glass-interactive:focus-visible {
+  background: #061526;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.2);
+}
+
+.story-card-hover-paper {
+  cursor: default;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.story-card-hover-paper:hover,
+.story-card-hover-paper:focus-visible {
+  background-color: #1d70b8 !important;
+  color: #fff;
+  border-color: transparent;
+}
+.story-card-hover-paper:hover,
+.story-card-hover-paper:hover *,
+.story-card-hover-paper:focus-visible,
+.story-card-hover-paper:focus-visible * {
+  color: #fff !important;
+}
+.story-card-hover-paper[data-open='true'],
+.story-card-hover-paper[data-open='true']:hover,
+.story-card-hover-paper[data-open='true']:focus-visible {
+  background-color: #092039 !important;
+  color: #fff;
+  border-color: transparent;
+}
+.story-card-hover-paper[data-open='true'] * {
+  color: #fff !important;
+}
+
+.dark .text-gob-primary-dark {
+  color: #8ec8ff;
+}
+
+.dark .text-muted-foreground {
+  color: #e5e7eb;
+}
+
+.dark .text-gob-link {
+  color: #8ec8ff;
+}
+
+.dark .story-card-hover-paper:hover .text-gob-link,
+.dark .story-card-hover-paper:hover .text-gob-primary-dark,
+.dark .story-card-hover-paper:hover .text-muted-foreground {
+  color: #fff;
+}
+
+.story-card-hover-night {
+  cursor: default;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.story-card-hover-night:hover,
+.story-card-hover-night:focus-visible {
+  background-color: #092039 !important;
+  color: #fff;
+  border-color: transparent;
+}
+.story-card-hover-night:hover *,
+.story-card-hover-night:focus-visible * {
+  color: #fff !important;
+}
+
+.story-card-hover-mist {
+  cursor: default;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.story-card-hover-mist:hover,
+.story-card-hover-mist:focus-visible {
+  background-color: #d7ecf8;
+  border-color: transparent;
+}
+.story-card-hover-mist[data-open='true'],
+.story-card-hover-mist[data-open='true']:hover,
+.story-card-hover-mist[data-open='true']:focus-visible {
+  background-color: #092039;
+  color: #fff;
+  border-color: transparent;
+}
+.story-card-hover-mist[data-open='true'] * {
+  color: #fff;
+}
+.dark .story-card-hover-mist:hover,
+.dark .story-card-hover-mist:focus-visible {
+  background-color: #0b3a5c;
+  color: #fff;
+}
+.dark .story-card-hover-mist[data-open='true'],
+.dark .story-card-hover-mist[data-open='true']:hover {
+  background-color: #061526;
 }
 
 /* Trama fina tipo título/certificado */
@@ -877,4 +978,41 @@
   .story-lift:hover {
     transform: none;
   }
+}
+
+/* Clickeable = mano; solo hover o estático = flecha. */
+a[href],
+area[href],
+button:not(:disabled):not([aria-disabled='true']),
+summary,
+label[for],
+select:not(:disabled),
+input[type='button']:not(:disabled),
+input[type='submit']:not(:disabled),
+input[type='reset']:not(:disabled),
+input[type='checkbox']:not(:disabled),
+input[type='radio']:not(:disabled),
+input[type='file']:not(:disabled),
+input[type='image']:not(:disabled),
+input[type='color']:not(:disabled),
+input[type='range']:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+[role='tab']:not([aria-disabled='true']),
+[role='menuitem']:not([aria-disabled='true']),
+[role='menuitemcheckbox']:not([aria-disabled='true']),
+[role='menuitemradio']:not([aria-disabled='true']),
+[role='option']:not([aria-disabled='true']),
+[role='link'],
+[role='switch']:not([aria-disabled='true']),
+[role='checkbox']:not([aria-disabled='true']),
+[role='radio']:not([aria-disabled='true']),
+[role='treeitem']:not([aria-disabled='true']),
+[data-clickable] {
+  cursor: pointer;
+}
+
+button:disabled,
+[disabled]:not([disabled='false']),
+[aria-disabled='true'] {
+  cursor: not-allowed;
 }

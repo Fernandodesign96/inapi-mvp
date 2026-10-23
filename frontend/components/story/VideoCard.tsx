@@ -28,6 +28,11 @@ export function VideoCard({
   const v = INAPI_VIDEOS[video]
   const night = tone === 'night'
   const title = tx(v.title)
+  const [hqFallback, setHqFallback] = useState<string | null>(null)
+  const thumb =
+    hqFallback === v.id
+      ? `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`
+      : `https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`
 
   return (
     <figure className={cn('flex min-w-0 flex-col gap-gob-4', className)}>
@@ -55,13 +60,14 @@ export function VideoCard({
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+              src={thumb}
               alt=""
-              width={480}
-              height={360}
+              width={1280}
+              height={720}
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              onError={() => setHqFallback(v.id)}
+              className="absolute inset-0 size-full object-cover"
             />
             <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#061526]/85 via-[#061526]/25 to-transparent" />
             <span

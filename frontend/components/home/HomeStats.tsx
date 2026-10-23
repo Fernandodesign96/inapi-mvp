@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Lightbulb, Stamp } from 'lucide-react'
+import { FileText, Landmark, Lightbulb, Stamp, Users, Wallet } from 'lucide-react'
 import { ChartCard, type ChartView } from '@/components/story/ChartCard'
 import { SectionTabs } from '@/components/story/SectionTabs'
 import { StorySection } from '@/components/story/StorySection'
@@ -86,6 +86,8 @@ export function HomeStats() {
   return (
     <StorySection
       tone="night"
+      align="left"
+      leadSingleLine
       eyebrow="Datos abiertos"
       dot="focus"
       title="Así crece la propiedad industrial en Chile"
@@ -128,10 +130,30 @@ export function HomeStats() {
                   description="Vía nacional frente a Protocolo de Madrid, conteo uniclase."
                   views={marcasMadridViews}
                 />
-                <div className="story-glass flex flex-col justify-between gap-gob-4 rounded-gob-xl p-gob-6 text-white">
-                  <p className="font-heading text-[1.25rem] font-medium leading-[1.35]">
-                    También puedes ver cómo INAPI ejecuta su presupuesto, con cifras y documentos oficiales.
-                  </p>
+                <div className="story-glass story-glass-interactive flex flex-col justify-between gap-gob-4 rounded-gob-xl p-gob-6 text-white">
+                  <div className="space-y-gob-4">
+                    <p className="font-heading text-[1.25rem] font-medium leading-[1.35]">
+                      Cómo INAPI ejecuta su presupuesto
+                    </p>
+                    <ul className="space-y-gob-3 text-gri-body-sm text-white/85">
+                      <li className="flex gap-gob-3">
+                        <Wallet className="mt-0.5 size-4 shrink-0 text-[#A1D1FF]" aria-hidden />
+                        <span>Ejecución del gasto por subtítulo, con cifras oficiales del año.</span>
+                      </li>
+                      <li className="flex gap-gob-3">
+                        <Users className="mt-0.5 size-4 shrink-0 text-[#A1D1FF]" aria-hidden />
+                        <span>Dotación de personas y cargos que sostienen el servicio.</span>
+                      </li>
+                      <li className="flex gap-gob-3">
+                        <Landmark className="mt-0.5 size-4 shrink-0 text-[#A1D1FF]" aria-hidden />
+                        <span>Estados financieros y compras públicas de la institución.</span>
+                      </li>
+                      <li className="flex gap-gob-3">
+                        <FileText className="mt-0.5 size-4 shrink-0 text-[#A1D1FF]" aria-hidden />
+                        <span>Documentos de transparencia para revisar y descargar.</span>
+                      </li>
+                    </ul>
+                  </div>
                   <Link
                     href="/transparencia/gasto-presupuestario"
                     className="inline-flex min-h-11 items-center font-medium text-white underline underline-offset-4 hover:text-[#A1D1FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
@@ -173,10 +195,30 @@ export function HomeStats() {
                   description="Residentes en Chile frente a no residentes."
                   views={patentesOrigenViews}
                 />
-                <div className="story-glass flex flex-col justify-between gap-gob-4 rounded-gob-xl p-gob-6 text-white">
-                  <p className="font-heading text-[1.25rem] font-medium leading-[1.35]">
-                    También puedes ver cómo se solicita una patente en Chile, con plazos, tasas y requisitos.
-                  </p>
+                <div className="story-glass story-glass-interactive flex flex-col justify-between gap-gob-4 rounded-gob-xl p-gob-6 text-white">
+                  <div className="space-y-gob-4">
+                    <p className="font-heading text-[1.25rem] font-medium leading-[1.35]">
+                      Cómo se solicita una patente en Chile
+                    </p>
+                    <ul className="space-y-gob-3 text-gri-body-sm text-white/85">
+                      <li className="flex gap-gob-3">
+                        <FileText className="mt-0.5 size-4 shrink-0 text-[#A1D1FF]" aria-hidden />
+                        <span>Requisitos de la solicitud: descripción, reivindicaciones y dibujos.</span>
+                      </li>
+                      <li className="flex gap-gob-3">
+                        <Landmark className="mt-0.5 size-4 shrink-0 text-[#A1D1FF]" aria-hidden />
+                        <span>Tasas oficiales y etapas de pago durante el trámite.</span>
+                      </li>
+                      <li className="flex gap-gob-3">
+                        <Lightbulb className="mt-0.5 size-4 shrink-0 text-[#A1D1FF]" aria-hidden />
+                        <span>Plazos de examen y duración de la protección una vez concedida.</span>
+                      </li>
+                      <li className="flex gap-gob-3">
+                        <Stamp className="mt-0.5 size-4 shrink-0 text-[#A1D1FF]" aria-hidden />
+                        <span>Diferencia con una marca: la patente cubre la invención, no el nombre.</span>
+                      </li>
+                    </ul>
+                  </div>
                   <Link
                     href="/patentes"
                     className="inline-flex min-h-11 items-center font-medium text-white underline underline-offset-4 hover:text-[#A1D1FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"

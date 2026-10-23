@@ -121,6 +121,8 @@ export function BentoCard({
   const base = cn(
     'group relative flex h-full flex-col overflow-hidden rounded-gob-xl p-gob-5 min-[905px]:p-gob-6',
     VARIANT[variant],
+    variant === 'plain' && 'story-card-hover-paper',
+    (variant === 'glass' || variant === 'night') && 'story-glass-interactive',
     href && 'story-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus focus-visible:ring-offset-2',
   )
 

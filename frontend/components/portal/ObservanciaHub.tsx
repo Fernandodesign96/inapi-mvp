@@ -40,7 +40,7 @@ function CrimeTable({
 function Accordion({ title, children }: { title: string; children: ReactNode }) {
   return (
     <details className="group overflow-hidden rounded-gob-lg border border-gob-border bg-card shadow-elevation-01 transition-shadow open:border-gob-primary/35 open:shadow-elevation-03">
-      <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-gob-3 px-gob-5 py-gob-3 font-heading text-gri-h2 font-medium text-gob-text hover:bg-gob-surface-elevated/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus [&::-webkit-details-marker]:hidden">
+      <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-gob-3 px-gob-5 py-gob-3 font-heading text-gri-h2 font-medium text-gob-text hover:bg-[#1D70B8] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus [&::-webkit-details-marker]:hidden">
         {title}
         <span
           aria-hidden
@@ -49,7 +49,7 @@ function Accordion({ title, children }: { title: string; children: ReactNode }) 
           <ChevronDown className="size-4" />
         </span>
       </summary>
-      <div className="space-y-gob-4 px-gob-5 pb-gob-5 text-gri-body leading-[1.5] text-gob-text">{children}</div>
+      <div className="space-y-gob-4 px-gob-5 pb-gob-6 pt-gob-5 text-gri-body leading-[1.6] text-gob-text">{children}</div>
     </details>
   )
 }

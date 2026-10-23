@@ -20,8 +20,6 @@ export default function PreguntasFrecuentesPage() {
       hero={{
         eyebrow: 'Ayuda',
         dot: 'primary',
-        primary: { href: '#preguntas', label: 'Buscar una pregunta' },
-        secondary: { href: 'https://www.inapi.cl/preguntas-frecuentes/propiedad-industrial', label: 'Más preguntas en inapi.cl' },
         seal: { center: '?', caption: 'PREGUNTAS' },
       }}
     >
@@ -48,9 +46,9 @@ export default function PreguntasFrecuentesPage() {
 
       <CtaBand
         eyebrow="¿No encontraste tu respuesta?"
-        title="Ver más preguntas sobre marcas, patentes, PCT y Sello de Origen en inapi.cl"
-        primary={{ href: 'https://www.inapi.cl/preguntas-frecuentes/propiedad-industrial', label: 'Ir a inapi.cl' }}
-        secondary={{ href: '/contacto', label: 'Consultar con INAPI' }}
+        title="Consulta con INAPI"
+        body="Teléfono, correo, formulario SIAC o atención en la sede de Santiago."
+        primary={{ href: '/contacto', label: 'Ver canales de contacto' }}
         seal={{ center: '?', caption: 'AYUDA' }}
       />
     </StoryPage>

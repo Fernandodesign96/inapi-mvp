@@ -14,7 +14,7 @@ export function FactTiles({ items, tone = 'glass' }: { items: FactTile[]; tone?:
           delay={i * 0.06}
           className={cn(
             'flex flex-col gap-gob-2 rounded-gob-xl p-gob-5',
-            glass ? 'story-glass' : 'border border-gob-border bg-card shadow-elevation-02',
+            glass ? 'story-glass story-glass-interactive' : 'border border-gob-border bg-card shadow-elevation-02 story-card-hover-paper',
           )}
         >
           <dt className={cn('flex items-center justify-between gap-gob-3 text-gri-body-sm font-medium', glass ? 'text-white/80' : 'text-muted-foreground')}>

@@ -5,6 +5,7 @@ import {
   FileSignature,
   FileText,
   Headset,
+  IdCard,
   Lightbulb,
   Stamp,
   Users,
@@ -12,11 +13,13 @@ import {
 import { CatalogDetails, tramitesPrincipales, tramitesSecundarios } from '@/components/portal/ProcedureCatalog'
 import { BentoCard, BentoGrid } from '@/components/story/Bento'
 import { CtaBand } from '@/components/story/CtaBand'
-import { SectionAccordion } from '@/components/story/SectionAccordion'
+import { IconList } from '@/components/story/IconList'
 import { SectionTabs } from '@/components/story/SectionTabs'
+import { SplitAccordion } from '@/components/story/SplitAccordion'
 import { StoryPage } from '@/components/story/StoryPage'
 import { StorySection } from '@/components/story/StorySection'
 import { VideoGallery } from '@/components/story/VideoSpotlight'
+import { ALL_INAPI_VIDEO_KEYS } from '@/lib/inapi-videos'
 import { getPageMeta } from '@/lib/portal-routes'
 
 const meta = getPageMeta('/tramites-digitales')
@@ -131,7 +134,7 @@ function TramitesBento({ grupo }: { grupo: Grupo | 'todos' }) {
           eyebrow={t.footnote}
           href={t.href}
           cta={t.cta}
-          variant={i === 0 ? 'night' : 'plain'}
+          variant="plain"
           delay={Math.min(i, 5) * 0.05}
         />
       ))}
@@ -140,6 +143,7 @@ function TramitesBento({ grupo }: { grupo: Grupo | 'todos' }) {
 }
 
 export default function TramitesDigitalesPage() {
+  const detalle = [...tramitesPrincipales, ...tramitesSecundarios]
   return (
     <StoryPage
       path="/tramites-digitales"
@@ -148,30 +152,26 @@ export default function TramitesDigitalesPage() {
         dot: 'primary',
         lead: 'Esta lista sigue el Registro Nacional de Trámites del Estado. Todos están en nivel 4: los inicias y terminas por internet.',
         primary: { href: '/tramites', label: 'Ir al Portal de Trámites' },
-        secondary: { href: '#catalogo', label: 'Ver el catálogo' },
-        panel: (
-          <div className="grid gap-gob-4 min-[905px]:grid-cols-2">
-            <div className="story-glass rounded-gob-xl p-gob-5">
-              <p className="flex items-center gap-gob-2 font-heading text-gri-h2 font-medium text-white">
-                <Users className="size-5 text-[#A1D1FF]" aria-hidden />
-                Quién puede usarlos
-              </p>
-              <p className="mt-gob-2 text-gri-body-sm leading-[1.6] text-white/82">Personas y empresas. Casi todos piden ClaveÚnica.</p>
-            </div>
-            <div className="story-glass rounded-gob-xl p-gob-5">
-              <p className="flex items-center gap-gob-2 font-heading text-gri-h2 font-medium text-white">
-                <FileText className="size-5 text-[#A1D1FF]" aria-hidden />
-                Qué pasa después
-              </p>
-              <p className="mt-gob-2 text-gri-body-sm leading-[1.6] text-white/82">
-                El expediente queda en el Sitio de Trámites. Allí ves plazos, pagos y el estado.
-              </p>
-            </div>
-          </div>
-        ),
+        seal: { center: '4', caption: 'NIVEL 4' },
       }}
     >
-      <StorySection tone="paper" id="catalogo" eyebrow="Catálogo" title="Elige tu trámite" lead="Filtra por tipo de gestión.">
+      <StorySection tone="paper" eyebrow="Antes de empezar" title="Quién usa el portal y qué pasa después">
+        <BentoGrid cols={2}>
+          <BentoCard
+            icon={<Users />}
+            title="Quién puede usarlos"
+            body="Personas naturales y empresas. Casi todos los trámites piden ClaveÚnica. Una vez que entras al Portal de trámites, puedes abrir cualquiera de ellos sin volver a identificarte."
+          />
+          <BentoCard
+            icon={<FileText />}
+            title="Qué pasa después"
+            body="El expediente queda en el Sitio de Trámites. Allí ves plazos, pagos, oficios y el estado. Conserva el número de solicitud para seguir el caso."
+            delay={0.06}
+          />
+        </BentoGrid>
+      </StorySection>
+
+      <StorySection tone="mist" id="catalogo" eyebrow="Catálogo" title="Elige tu trámite" lead="Filtra por tipo de gestión. Todas las fichas tienen el mismo fondo; al pasar el cursor se marcan en azul.">
         <SectionTabs
           label="Filtrar trámites por tipo"
           tabs={GRUPOS.map(g => ({ id: g.id, label: g.label, content: <TramitesBento grupo={g.id} /> }))}
@@ -179,16 +179,15 @@ export default function TramitesDigitalesPage() {
       </StorySection>
 
       <VideoGallery
-        videos={['solicitarMarca', 'tramitarPatente']}
+        videos={ALL_INAPI_VIDEO_KEYS}
         tone="night"
         title="Aprende a tramitar en línea"
-        lead="Dos guías en video del canal oficial de INAPI."
+        lead="Todos los videos del canal oficial de INAPI que están en este portal."
       />
 
-      <StorySection tone="mist" eyebrow="En detalle" title="Qué es cada trámite">
-        <SectionAccordion
-          className="mx-auto max-w-5xl"
-          items={[...tramitesPrincipales, ...tramitesSecundarios].map(item => {
+      <StorySection tone="paper" eyebrow="En detalle" title="Qué es cada trámite">
+        <SplitAccordion
+          items={detalle.map(item => {
             const Icon = item.icon
             return {
               id: `tramite-${item.title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
@@ -196,22 +195,26 @@ export default function TramitesDigitalesPage() {
               summary: item.what,
               icon: <Icon />,
               content: <CatalogDetails item={item} />,
+              href: item.href,
+              cta: item.cta,
             }
           })}
         />
       </StorySection>
 
-      <StorySection tone="paper" eyebrow="Otros trámites del Estado" title="Transparencia y lobby">
+      <StorySection tone="mist" eyebrow="Otros trámites del Estado" title="Transparencia y lobby">
         <BentoGrid cols={2}>
           <BentoCard
             icon={<FileText />}
             title="Solicitud de acceso a la información pública (Ley N.° 20.285)"
+            body="Pide documentos o datos que INAPI debe entregar por la Ley de Transparencia. El formulario vive en el Portal de Transparencia del Estado, no en el Sitio de Trámites de marcas y patentes."
             href="https://www.portaltransparencia.cl/PortalPdT/ingreso-sai-v2/?idOrg=source=institucion&idOrganismo=AY001"
             cta="Abrir en Portal Transparencia"
           />
           <BentoCard
             icon={<Users />}
             title="Solicitud de audiencia (Ley del Lobby N.° 20.730)"
+            body="Agenda una audiencia con autoridades o funcionarios de INAPI cuando quieres influir en una decisión pública. El registro y la solicitud se hacen en leylobby.gob.cl."
             href="https://www.leylobby.gob.cl/instituciones"
             cta="Abrir en leylobby.gob.cl"
             delay={0.06}
@@ -221,11 +224,45 @@ export default function TramitesDigitalesPage() {
 
       <CtaBand
         eyebrow="Portal de trámites"
-        title="Inicia y termina tu trámite por internet"
-        body="Personas y empresas. Casi todos piden ClaveÚnica."
+        title="Ingresa e inicia tus trámites"
+        body={
+          <>
+            El ingreso al Portal de trámites se hace con <strong className="text-white">ClaveÚnica</strong>.
+          </>
+        }
         primary={{ href: '/tramites', label: 'Ir al Portal de Trámites' }}
-        secondary={{ href: '/tramites/clave-unica', label: 'Qué es ClaveÚnica' }}
+        seal={{ center: 'CU', caption: 'CLAVEÚNICA' }}
       />
+      <StorySection tone="paper" eyebrow="Identificación" title="Qué es ClaveÚnica">
+        <IconList
+          items={[
+            {
+              icon: IdCard,
+              text: (
+                <>
+                  <strong>ClaveÚnica</strong> es la identificación digital del Estado de Chile. La emite el Servicio de Registro Civil e Identificación.
+                </>
+              ),
+            },
+            {
+              icon: Stamp,
+              text: (
+                <>
+                  Con ella entras al <strong>Portal de trámites de INAPI</strong> y, en la misma sesión, puedes abrir marcas, patentes, anotaciones o certificados.
+                </>
+              ),
+            },
+            {
+              icon: Users,
+              text: (
+                <>
+                  Si todavía no la tienes, solicítala en <strong>claveunica.gob.cl</strong>. INAPI no emite ni recupera esa clave.
+                </>
+              ),
+            },
+          ]}
+        />
+      </StorySection>
     </StoryPage>
   )
 }

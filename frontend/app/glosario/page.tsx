@@ -39,11 +39,11 @@ export default function GlosarioPage() {
             <a
               key={t.term}
               href={`#${glossarySlug(t.term)}`}
-              className="story-glass story-lift flex h-full flex-col gap-gob-3 rounded-gob-xl p-gob-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+              className="story-card-hover-paper story-lift flex h-full flex-col gap-gob-3 rounded-gob-xl border border-white/20 bg-white p-gob-6 text-gob-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
             >
-              <BookMarked className="size-6 text-[#A1D1FF]" aria-hidden />
-              <span className="font-heading text-[1.5rem] font-medium leading-tight text-white">{t.term}</span>
-              <span className="line-clamp-4 text-gri-body-sm leading-[1.6] text-white/80">{t.definition}</span>
+              <BookMarked className="size-6 text-gob-primary-dark" aria-hidden />
+              <span className="font-heading text-[1.5rem] font-medium leading-tight">{t.term}</span>
+              <span className="line-clamp-4 text-gri-body-sm leading-[1.6] text-muted-foreground">{t.definition}</span>
             </a>
           ))}
         </StoryCarousel>

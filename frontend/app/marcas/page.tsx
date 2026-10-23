@@ -34,6 +34,7 @@ import { StoryCarousel } from '@/components/story/StoryCarousel'
 import { StoryHero } from '@/components/story/StoryHero'
 import { StorySection } from '@/components/story/StorySection'
 import { VideoSpotlight } from '@/components/story/VideoSpotlight'
+import { ProcessTimeline } from '@/components/story/ProcessTimeline'
 import { marcasMadridViews, marcasOrigenViews, marcasPorAnio } from '@/components/home/HomeStats'
 import { FUENTE_REPORTE_ANUAL_2025 } from '@/lib/inapi-official-stats'
 
@@ -146,6 +147,15 @@ export default function MarcasPage() {
             },
           ]}
         />
+      </StorySection>
+
+      <StorySection
+        tone="mist"
+        eyebrow="Etapas oficiales"
+        title="Línea de tiempo del registro de marca"
+        lead="Presentación, forma, publicación y examen de fondo, con los estados que ves en el expediente."
+      >
+        <ProcessTimeline kind="marcas" />
       </StorySection>
 
       <VideoSpotlight

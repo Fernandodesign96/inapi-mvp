@@ -3,7 +3,9 @@
 import Link from 'next/link'
 import { TramitesLink } from '@/components/tramites/TramitesLink'
 import { GuillocheBg } from '@/components/story/PiSeal'
+import { ProcessTimeline } from '@/components/story/ProcessTimeline'
 import { SectionAccordion } from '@/components/story/SectionAccordion'
+import type { ProcessKind } from '@/lib/inapi-process-timelines'
 import { SectionTabs } from '@/components/story/SectionTabs'
 import { StoryCta } from '@/components/story/StoryCta'
 import { StorySection } from '@/components/story/StorySection'
@@ -15,10 +17,16 @@ import {
   Download,
   FileCheck,
   Globe,
+  KeyRound,
+  LayoutGrid,
   Lightbulb,
   ListOrdered,
+  Newspaper,
   Palette,
+  Search,
   Stamp,
+  Type,
+  User,
   Wrench,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -39,11 +47,47 @@ type Tab = {
   label: string
   icon: LucideIcon
   intro: string
+  example?: string
+  types?: { title: string; text: string }[]
   href: string
   cta: string
   guide?: { href: string; label: string }
   notifications?: { href: string; label: string }
   cards: SubCard[]
+}
+
+const ACCORDION_ICONS: Record<string, LucideIcon[]> = {
+  Requisitos: [Stamp, LayoutGrid, User, KeyRound],
+  Proceso: [Search, FileCheck, Banknote, ClipboardList],
+  Etapas: [FileCheck, Newspaper, ListOrdered],
+  Pagos: [Banknote, Banknote, AlertTriangle, Newspaper],
+  Avisos: [AlertTriangle, ListOrdered, Banknote, Search],
+  Herramientas: [Search, Bell, FileCheck],
+}
+
+function RichLine({ text }: { text: string }) {
+  const parts = text.split(/(\*\*.+?\*\*|«.+?»)/g)
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return (
+            <strong key={i} className="font-semibold">
+              {part.slice(2, -2)}
+            </strong>
+          )
+        }
+        if (part.startsWith('«') && part.endsWith('»')) {
+          return (
+            <q key={i} className="font-medium">
+              {part.slice(1, -1)}
+            </q>
+          )
+        }
+        return <span key={i}>{part}</span>
+      })}
+    </>
+  )
 }
 
 const CARD_ORDER = ['Requisitos', 'Proceso', 'Etapas', 'Pagos', 'Avisos', 'Herramientas'] as const
@@ -60,7 +104,15 @@ const tabs: Tab[] = [
     label: 'Marcas',
     icon: Stamp,
     intro:
-      'Una marca es el nombre, el logo o la combinación de ambos que sirve para que las personas reconozcan tu negocio y no lo confundan con la competencia. En palabras simples, es la identidad de tu producto o servicio, lo que hace que un cliente diga: "Quiero comprar este producto específico y no el de otra tienda".',
+      'Una marca es el **nombre**, el **logo** o ambos. Sirve para que las personas reconozcan tu negocio y no lo confundan con la competencia.',
+    example:
+      'Ejemplo: un cliente dice «quiero este producto y no el de otra tienda». Esa es la función de la marca.',
+    types: [
+      { title: 'Denominativa', text: 'Solo la palabra, como «Andes Café».' },
+      { title: 'Figurativa', text: 'Solo el dibujo o el logo, sin texto.' },
+      { title: 'Mixta', text: 'Palabra y logo juntos.' },
+      { title: 'Tridimensional', text: 'La forma del producto o del envase.' },
+    ],
     href: '/marcas',
     cta: 'Ir a la ficha de marcas',
     guide: {
@@ -92,10 +144,10 @@ const tabs: Tab[] = [
         description:
           'El camino es digital. Primero buscas si existe un signo parecido, luego presentas con ClaveÚnica y sigues el expediente en línea.',
         bullets: [
-          'Compara tu signo en el buscador de similitud.',
-          'Completa el formulario y adjunta el logo, si aplica.',
-          'Paga la tasa de presentación para que INAPI reciba la solicitud.',
-          'Revisa oficios, plazos y estado en el mismo expediente.',
+          'Compara tu signo en el **buscador de similitud**.',
+          'Completa el formulario y adjunta el **logo**, si aplica.',
+          '**Paga** la tasa de presentación para que INAPI reciba la solicitud.',
+          'Revisa oficios, plazos y estado en el mismo **expediente**.',
         ],
         href: '/marcas/como-registrar',
         cta: 'Leer cómo registrar una marca',
@@ -146,10 +198,10 @@ const tabs: Tab[] = [
         description:
           'Para que el registro siga adelante, tu solicitud debe identificar el signo, al titular y las clases que cubre.',
         bullets: [
-          'El signo que quieres proteger: palabra, logo o ambos, y que distinga tu oferta.',
-          'Las clases de Niza de tus productos o servicios.',
-          'Identificación del titular: una persona o una empresa, con o sin representante.',
-          'ClaveÚnica o clave INAPI, y el pago de la tasa de presentación por cada clase.',
+          'El **signo** que quieres proteger: palabra, logo o ambos, y que distinga tu oferta.',
+          'Las **clases de Niza** de tus productos o servicios.',
+          'Identificación del **titular**: una persona o una empresa, con o sin representante.',
+          '**ClaveÚnica** o clave INAPI, y el pago de la tasa de presentación por cada clase.',
         ],
         href: '/marcas',
         cta: 'Leer qué necesitas para una marca',
@@ -161,8 +213,15 @@ const tabs: Tab[] = [
     label: 'Patentes',
     icon: Lightbulb,
     intro:
-      'Una patente es un derecho exclusivo que otorga el Estado a un inventor para proteger una invención (un producto o un procedimiento nuevo), impidiendo que terceros la fabriquen, vendan o utilicen sin su consentimiento.',
-    href: '/patentes',
+      'Una **patente** es un derecho exclusivo sobre una invención: un producto o un procedimiento **nuevo**.',
+    example:
+      'Ejemplo: un filtro de agua con un mecanismo nuevo. La patente cubre cómo funciona; el nombre comercial se pide como marca.',
+    types: [
+      { title: 'Invención', text: 'Un producto o un proceso técnico nuevo.' },
+      { title: 'Modelo de utilidad', text: 'Una mejora útil de un objeto ya conocido.' },
+      { title: 'Diseño industrial', text: 'Cómo se ve el producto, no cómo funciona.' },
+    ],
+    href: '/tipos-de-patentes',
     cta: 'Ir a la ficha de patentes',
     guide: {
       href: '/inapi-mvp/home/guia-patentes.pdf',
@@ -184,7 +243,7 @@ const tabs: Tab[] = [
           'Luego pagas derechos de vigencia por periodos.',
           'Confirma el valor vigente en el Sitio de Trámites antes de pagar.',
         ],
-        href: '/patentes',
+        href: '/tipos-de-patentes',
         cta: 'Revisar tarifas de patentes',
       },
       {
@@ -262,7 +321,13 @@ const tabs: Tab[] = [
     label: 'Diseños industriales',
     icon: Palette,
     intro:
-      'Un diseño industrial es toda forma tridimensional, artículo industrial o artesanal que sirve como patrón para fabricar otras unidades y que posee una apariencia visual especial y nueva.',
+      'Un **diseño industrial** protege cómo se ve un producto: su forma o su apariencia visual **nueva**.',
+    example:
+      'Ejemplo: la silueta de una botella o el patrón de una tela. No cubre el mecanismo interno.',
+    types: [
+      { title: 'Forma', text: 'La silueta o el volumen del producto.' },
+      { title: 'Ornamento', text: 'El dibujo o el patrón de la superficie.' },
+    ],
     href: '/tramites/patentes/solicitar-diseno',
     cta: 'Ir a solicitar un diseño',
     cards: [
@@ -351,7 +416,14 @@ const tabs: Tab[] = [
     label: 'Indicaciones geográficas',
     icon: Globe,
     intro:
-      'El Sello de Origen identifica un producto por su origen y tradición. Cubre indicación geográfica, denominación de origen y marcas colectivas o de certificación.',
+      'El **Sello de Origen** identifica un producto por su territorio y su tradición, no por el logo de una sola empresa.',
+    example:
+      'Ejemplo: un queso o un vino ligado a una zona de Chile. El sello dice de dónde viene y cómo se produce.',
+    types: [
+      { title: 'Indicación geográfica', text: 'El producto se asocia a un lugar.' },
+      { title: 'Denominación de origen', text: 'El lugar y el saber hacer definen el producto.' },
+      { title: 'Marca colectiva', text: 'Un grupo de productores comparte el signo.' },
+    ],
     href: '/sello-de-origen',
     cta: 'Ir al Sello de Origen',
     cards: [
@@ -441,37 +513,65 @@ const tabs: Tab[] = [
 function TabPanel({ tab }: { tab: Tab }) {
   const { tx } = useI18n()
   const Icon = tab.icon
+  const typeIcons = [Type, Palette, Stamp, LayoutGrid]
   const linkClass =
     'inline-flex min-h-11 items-center gap-gob-2 text-gri-body-sm font-medium text-white underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus'
   return (
     <div className="grid items-start gap-gob-5 min-[1100px]:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-      <article className="story-night relative overflow-hidden rounded-gob-xl p-gob-6 shadow-elevation-04 min-[1100px]:sticky min-[1100px]:top-32">
+      <article className="story-night relative overflow-hidden rounded-gob-xl p-gob-6 shadow-elevation-04">
         <GuillocheBg className="text-white opacity-50" />
         <div className="relative flex flex-col gap-gob-4">
           <span aria-hidden className="inline-flex size-12 items-center justify-center rounded-gob-md bg-white/12 text-white">
             <Icon className="size-6" />
           </span>
-          <h3 className="font-heading text-[1.5rem] font-medium leading-[1.3] text-white">{tx(tab.label)}</h3>
-          <p className="text-gri-body leading-[1.6] text-white/85">{tx(tab.intro)}</p>
-          <div className="mt-gob-2 flex flex-col items-start gap-gob-1">
+          <h3 className="font-heading text-[1.5rem] font-semibold leading-[1.3] text-white">{tx(tab.label)}</h3>
+          <p className="text-gri-body leading-[1.6] text-white">
+            <RichLine text={tx(tab.intro)} />
+          </p>
+          {tab.example ? (
+            <p className="rounded-gob-md bg-white/10 px-gob-3 py-gob-2 text-gri-body-sm leading-[1.55] text-white">
+              <RichLine text={tx(tab.example)} />
+            </p>
+          ) : null}
+          {tab.types?.length ? (
+            <ul className="grid grid-cols-2 gap-gob-2">
+              {tab.types.map((kind, i) => {
+                const KindIcon = typeIcons[i] ?? Stamp
+                return (
+                  <li key={kind.title} className="flex flex-col gap-1 rounded-gob-md bg-white/10 p-gob-3">
+                    <span className="inline-flex items-center gap-gob-2 font-heading text-gri-body-sm font-semibold text-white">
+                      <KindIcon className="size-4 shrink-0" aria-hidden />
+                      {tx(kind.title)}
+                    </span>
+                    <span className="text-gri-body-xs leading-[1.45] text-white/92">
+                      <RichLine text={tx(kind.text)} />
+                    </span>
+                  </li>
+                )
+              })}
+            </ul>
+          ) : null}
+          <div className="mt-gob-4 flex flex-col items-start">
             <StoryCta href={tab.href} label={tx(tab.cta)} tone="night" />
-            {tab.guide ? (
-              <a
-                href={tab.guide.href}
-                download
-                className={linkClass}
-                onClick={() => notifyDownload(tab.guide?.label ?? 'guía')}
-              >
-                <Download className="size-4" aria-hidden />
-                {tx(tab.guide.label)}
-              </a>
-            ) : null}
-            {tab.notifications ? (
-              <TramitesLink href={tab.notifications.href} className={linkClass}>
-                <Bell className="size-4" aria-hidden />
-                {tx(tab.notifications.label)}
-              </TramitesLink>
-            ) : null}
+            <div className="mt-gob-5 flex flex-col items-start gap-gob-1">
+              {tab.guide ? (
+                <a
+                  href={tab.guide.href}
+                  download
+                  className={linkClass}
+                  onClick={() => notifyDownload(tab.guide?.label ?? 'guía')}
+                >
+                  <Download className="size-4" aria-hidden />
+                  {tx(tab.guide.label)}
+                </a>
+              ) : null}
+              {tab.notifications ? (
+                <TramitesLink href={tab.notifications.href} className={linkClass}>
+                  <Bell className="size-4" aria-hidden />
+                  {tx(tab.notifications.label)}
+                </TramitesLink>
+              ) : null}
+            </div>
           </div>
         </div>
       </article>
@@ -479,6 +579,7 @@ function TabPanel({ tab }: { tab: Tab }) {
         defaultOpen={[]}
         items={orderedCards(tab.cards).map(card => {
           const CardIcon = card.icon
+          const icons = ACCORDION_ICONS[card.title] ?? []
           return {
             id: `${tab.id}-${card.title}`,
             title: tx(card.title),
@@ -487,10 +588,23 @@ function TabPanel({ tab }: { tab: Tab }) {
             content: (
               <>
                 <ul>
-                  {card.bullets.map(bullet => (
-                    <li key={bullet}>{tx(bullet)}</li>
-                  ))}
+                  {card.bullets.map((bullet, i) => {
+                    const BulletIcon = icons[i] ?? FileCheck
+                    return (
+                      <li key={bullet} className="flex items-start gap-gob-2">
+                        <span aria-hidden className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-gob-md bg-gob-primary/10 text-gob-primary-dark dark:bg-white/15 dark:text-white [&_svg]:size-4">
+                          <BulletIcon />
+                        </span>
+                        <span>
+                          <RichLine text={tx(bullet)} />
+                        </span>
+                      </li>
+                    )
+                  })}
                 </ul>
+                {card.title === 'Etapas' ? (
+                  <ProcessTimeline kind={tab.id as ProcessKind} variant="compact" className="mt-gob-5" />
+                ) : null}
                 <p className="mt-gob-3">
                   <TramitesLink href={card.href}>{tx(card.cta)}</TramitesLink>
                 </p>
@@ -509,6 +623,8 @@ export function WhatToProtect() {
     <StorySection
       id="que-proteger"
       tone="mist"
+      align="left"
+      leadSingleLine
       eyebrow="Qué proteger"
       dot="primary"
       title={tx('¿Qué tipo de propiedad industrial te interesa?')}

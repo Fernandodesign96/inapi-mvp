@@ -186,7 +186,7 @@ export function ChartCard({
       </details>
 
       {source ? (
-        <p className={cn('text-gri-body-xs', night ? 'text-white/65' : 'text-muted-foreground')}>
+        <p className={cn('text-gri-body-xs', night ? 'text-white/88' : 'text-muted-foreground')}>
           {tx('Fuente:')}{' '}
           {source.href ? (
             <a

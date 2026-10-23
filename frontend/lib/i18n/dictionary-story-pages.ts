@@ -73,6 +73,50 @@ export const EN_STORY_PAGES: Record<string, string> = {
   "Si alguien tramita en tu nombre, adjunta el poder notarial.": "If someone files on your behalf, attach the notarised power of attorney.",
   "El titular puede ser una persona o una empresa, con o sin representante.":
     "The owner can be a person or a company, with or without a representative.",
+  "INAPI registra y resuelve las solicitudes de propiedad industrial en Chile.":
+    "INAPI registers and decides industrial property applications in Chile.",
+  "Elige el derecho según lo que quieres impedir que otros usen.":
+    "Choose the right according to what you want to stop others from using.",
+  "Ejemplo: si vendes un filtro de agua, la marca cubre el nombre comercial; la patente cubre el mecanismo nuevo. Empieza por lo que quieres impedir que otros usen.":
+    "Example: if you sell a water filter, the trademark covers the trade name; the patent covers the new mechanism. Start with what you want to stop others from using.",
+  "Ejemplo: en el Portal de trámites ingresas con ClaveÚnica, pagas la tasa y adjuntas los documentos, sin ir a una oficina.":
+    "Example: on the Procedures Portal you log in with ClaveÚnica, pay the fee and attach the documents, without going to an office.",
+  "Ejemplo: lees aquí cómo registrar una marca y, cuando tienes los datos, presentas la solicitud en el Portal de trámites con ClaveÚnica.":
+    "Example: you read here how to register a trademark and, when you have the details, you file on the Procedures Portal with ClaveÚnica.",
+  "Ejemplo: el plazo corre desde que INAPI recibe la solicitud completa y el pago de la tasa. Una oposición o un examen de fondo alarga ese tiempo.":
+    "Example: the deadline runs from when INAPI receives the complete application and the fee. An opposition or a substantive examination lengthens that time.",
+  "Ejemplo: si un abogado o un agente tramita en tu nombre, adjunta el poder notarial. El titular de la marca o la patente sigue siendo la persona o la empresa que indicaste.":
+    "Example: if a lawyer or an agent files on your behalf, attach the notarised power of attorney. The owner of the trademark or patent remains the person or company you named.",
+  Circuito: 'Circuit',
+  Infórmate: 'Find out',
+  Busca: 'Search',
+  Presenta: 'File',
+  Paga: 'Pay',
+  Informarte: 'Learn',
+  Portal: 'Portal',
+  Expediente: 'File',
+  Presentas: 'You file',
+  Examen: 'Examination',
+  Registro: 'Registration',
+  Renuevas: 'You renew',
+  'Persona natural': 'Natural person',
+  Empresa: 'Company',
+  'Inventor o creador': 'Inventor or creator',
+  Representante: 'Representative',
+  'Cómo INAPI ejecuta su presupuesto': 'How INAPI spends its budget',
+  'Ejecución del gasto por subtítulo, con cifras oficiales del año.':
+    'Budget execution by heading, with official figures for the year.',
+  'Dotación de personas y cargos que sostienen el servicio.': 'Staffing and posts that sustain the service.',
+  'Estados financieros y compras públicas de la institución.': 'Financial statements and public procurement of the institution.',
+  'Documentos de transparencia para revisar y descargar.': 'Transparency documents to review and download.',
+  'Cómo se solicita una patente en Chile': 'How to apply for a patent in Chile',
+  'Requisitos de la solicitud: descripción, reivindicaciones y dibujos.':
+    'Application requirements: description, claims and drawings.',
+  'Tasas oficiales y etapas de pago durante el trámite.': 'Official fees and payment stages during the procedure.',
+  'Plazos de examen y duración de la protección una vez concedida.':
+    'Examination timeframes and how long protection lasts once granted.',
+  'Diferencia con una marca: la patente cubre la invención, no el nombre.':
+    'Difference from a trademark: the patent covers the invention, not the name.',
   "Plataforma de Datos": "Data Platform",
   "Programa de asistencia a inventores": "Inventor assistance programme",
   "Sistema de Madrid: protege tu marca en otros países con una sola solicitud":

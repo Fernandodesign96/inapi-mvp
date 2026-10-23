@@ -2,6 +2,7 @@
 
 import { Accordion as AccordionPrimitive } from 'radix-ui'
 import { ChevronDown } from 'lucide-react'
+import { TramitesLink } from '@/components/tramites/TramitesLink'
 import { cn } from '@/lib/utils'
 
 export type SectionAccordionItem = {
@@ -10,6 +11,8 @@ export type SectionAccordionItem = {
   summary?: string
   icon?: React.ReactNode
   content: React.ReactNode
+  href?: string
+  cta?: string
 }
 
 /** Secciones desplegables en tarjetas; operables con teclado (Radix). */
@@ -66,7 +69,7 @@ export function SectionAccordion({
                     <span
                       className={cn(
                         'text-gri-body-sm',
-                        night ? 'text-white/72' : 'text-muted-foreground group-hover:text-white/80 group-data-[state=open]:text-white/75',
+                        night ? 'text-white/90' : 'text-muted-foreground group-hover:text-white group-data-[state=open]:text-white/90',
                       )}
                     >
                       {item.summary}
@@ -90,13 +93,30 @@ export function SectionAccordion({
           <AccordionPrimitive.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
             <div
               className={cn(
-                'px-gob-5 pb-gob-5 text-gri-body leading-[1.6] min-[905px]:pl-[4.75rem]',
-                night ? 'text-white/85' : 'text-muted-foreground',
-                !item.icon && 'min-[905px]:pl-gob-5',
-                '[&_a]:font-medium [&_a]:text-gob-link [&_a]:underline-offset-4 hover:[&_a]:underline [&_strong]:text-gob-text [&_ul]:mt-gob-2 [&_ul]:list-disc [&_ul]:space-y-gob-1 [&_ul]:pl-gob-5',
+                'px-gob-5 pb-gob-6 pt-gob-5 text-gri-body leading-[1.65] min-[905px]:px-gob-6 min-[905px]:pb-gob-7 min-[905px]:pt-gob-6 min-[905px]:pl-[4.75rem]',
+                night ? 'text-white/92' : 'text-muted-foreground',
+                !item.icon && 'min-[905px]:pl-gob-6',
+                '[&_a]:font-medium [&_a]:text-gob-link [&_a]:underline-offset-4 hover:[&_a]:underline [&_em]:italic [&_strong]:font-semibold dark:[&_strong]:text-white [&_ul]:mt-gob-3 [&_ul]:list-none [&_ul]:space-y-gob-3 [&_ul]:pl-0',
               )}
             >
               {item.content}
+              {item.href && item.cta ? (
+                <p className="mt-gob-5">
+                  {item.href.startsWith('http') || item.href.startsWith('mailto:') ? (
+                    <a
+                      href={item.href}
+                      className="font-medium text-gob-link underline-offset-4 hover:underline"
+                      {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    >
+                      {item.cta}
+                    </a>
+                  ) : (
+                    <TramitesLink href={item.href} className="font-medium text-gob-link underline-offset-4 hover:underline">
+                      {item.cta}
+                    </TramitesLink>
+                  )}
+                </p>
+              ) : null}
             </div>
           </AccordionPrimitive.Content>
         </AccordionPrimitive.Item>

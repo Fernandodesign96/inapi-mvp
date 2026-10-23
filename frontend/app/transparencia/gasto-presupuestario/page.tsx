@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { FileText, Landmark, Scale } from 'lucide-react'
 import { GastoDashboard } from '@/components/portal/GastoDashboard'
+import { BentoCard, BentoGrid } from '@/components/story/Bento'
 import { CtaBand } from '@/components/story/CtaBand'
 import { StoryPage } from '@/components/story/StoryPage'
 import { StorySection } from '@/components/story/StorySection'
@@ -25,6 +27,14 @@ export default function GastoPresupuestarioPage() {
         seal: { center: '$', caption: 'PRESUPUESTO' },
       }}
     >
+      <StorySection tone="mist" eyebrow="Qué encontrarás" title="Cómo INAPI rinde sus recursos">
+        <BentoGrid cols={3}>
+          <BentoCard icon={<Landmark />} title="Presupuesto asignado" body="Montos que la Ley de Presupuestos destina a INAPI cada año." />
+          <BentoCard icon={<Scale />} title="Ejecución" body="Cuánto se gastó efectivamente. Compara lo asignado con lo ejecutado en el tablero." delay={0.05} />
+          <BentoCard icon={<FileText />} title="Estados financieros" body="Los estados oficiales se publican por año en el sitio institucional y en el Portal de Transparencia." delay={0.1} />
+        </BentoGrid>
+      </StorySection>
+
       <StorySection tone="paper" id="tablero" eyebrow="Ejecución" title="Presupuesto asignado y ejecutado" align="left">
         <GastoDashboard />
       </StorySection>

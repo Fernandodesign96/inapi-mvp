@@ -54,7 +54,7 @@ export function StatTile({
       className={cn(
         'group/stat relative flex min-w-0 cursor-default flex-col gap-gob-2 rounded-gob-lg p-gob-5 text-left transition-colors duration-300',
         tone === 'paper' && 'border border-gob-border bg-card shadow-elevation-02',
-        tone === 'glass' && 'story-glass hover:bg-[#061526] hover:ring-1 hover:ring-white/20',
+        tone === 'glass' && 'story-glass story-glass-interactive',
         tone === 'night' && 'story-night shadow-elevation-03',
         className,
       )}
@@ -105,7 +105,7 @@ export function StatTile({
               <span className="sr-only">{delta.label}</span>
             </span>
           ) : null}
-          {caption ? <span className={dark ? 'text-white/70' : 'text-muted-foreground'}>{caption}</span> : null}
+          {caption ? <span className={dark ? 'text-white/90' : 'text-muted-foreground'}>{caption}</span> : null}
           {detail ? <span className={dark ? 'text-white/80' : 'text-muted-foreground'}>{detail}</span> : null}
         </div>
       ) : null}

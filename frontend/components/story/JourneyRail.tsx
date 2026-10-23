@@ -67,7 +67,7 @@ export function JourneyRail({
             <div
               className={cn(
                 'flex flex-1 flex-col gap-gob-2 rounded-gob-lg p-gob-5',
-                night ? 'story-glass' : 'border border-gob-border bg-card shadow-elevation-01',
+                night ? 'story-glass story-glass-interactive' : 'border border-gob-border bg-card shadow-elevation-01 story-card-hover-paper',
                 current && !night && 'ring-2 ring-inapi-header/30',
               )}
             >

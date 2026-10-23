@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { HeaderUtilities } from '@/components/layout/HeaderUtilities'
 import { SiteSearchForm } from '@/components/layout/SiteSearchForm'
-import { PlatformBadge } from '@/components/shared/PlatformBadge'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { CrossPlatformLink } from '@/components/shared/CrossPlatformLink'
 import {
@@ -170,7 +169,7 @@ export function SiteHeader({
 
   return (
     <>
-    <header className="sticky top-0 z-50 w-full bg-transparent px-gob-4 pt-gob-3 pb-gob-3 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
+    <header className="sticky top-0 z-50 w-full bg-[var(--story-night)] px-gob-4 pt-gob-3 pb-gob-3 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
       <div className="home-chrome-bar relative z-20 overflow-visible text-gob-text-inverse" ref={navRef}>
         <div className="mx-auto flex max-w-[1600px] items-center gap-gob-3 px-gob-4 py-gob-3 min-[600px]:gap-gob-5 min-[600px]:px-gob-5">
           <div className="flex min-w-0 shrink-0 items-center sm:min-w-[8.5rem] lg:min-w-[12rem]">
@@ -183,11 +182,8 @@ export function SiteHeader({
                 className="h-11 w-auto object-contain"
                 priority
               />
-              <span className="hidden flex-col gap-1 sm:flex">
-                <span className="hidden max-w-[180px] text-gri-body-sm font-medium leading-[1.5] text-gob-text-inverse/90 min-[1600px]:block">
-                  Instituto Nacional de Propiedad Industrial
-                </span>
-                <PlatformBadge platform="informativo" />
+              <span className="hidden max-w-[180px] text-gri-body-sm font-medium leading-[1.5] text-gob-text-inverse/90 min-[1600px]:block">
+                Instituto Nacional de Propiedad Industrial
               </span>
             </Link>
           </div>
@@ -331,7 +327,7 @@ export function SiteHeader({
       )}
     </header>
     {variant === 'page' && pageTitle ? (
-      <div className="relative z-[1] border-b border-white/10">
+      <div className="relative z-[1] border-b border-white/10 bg-[var(--story-night)]">
         <div className="mx-auto max-w-[1600px] space-y-gob-4 px-gob-4 pt-gob-7 pb-gob-8 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
           {breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} tone="inverse" />}
           <h1

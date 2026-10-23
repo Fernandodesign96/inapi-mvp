@@ -33,7 +33,7 @@ export default function PctPage() {
       pageTitle="PCT"
       pageSubtitle="El Tratado de Cooperación en materia de Patentes (PCT) es un sistema de presentación de solicitudes, no de concesión."
       active="patentes"
-      breadcrumbs={[{ label: 'Patentes', href: '/patentes' }, { label: 'PCT' }]}
+      breadcrumbs={[{ label: 'Patentes', href: '/tipos-de-patentes' }, { label: 'PCT' }]}
     >
       <ContainerGRI size="portal">
         <PortalMain>

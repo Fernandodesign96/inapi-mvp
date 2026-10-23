@@ -50,8 +50,7 @@ export default function ConoceMasPage() {
         eyebrow: 'Conceptos básicos',
         dot: 'primary',
         lead: 'Información sobre propiedad intelectual e industrial, conceptos fundamentales y patrimonio histórico de INAPI.',
-        primary: { href: '#para-informarse', label: 'Leer los artículos' },
-        secondary: { href: '/conoce-mas/historia-propiedad-industrial', label: 'Ver la historia' },
+        primary: { href: '/conoce-mas/historia-propiedad-industrial', label: 'Ver la historia de la Propiedad Industrial' },
         seal: { center: 'PI', caption: 'PROPIEDAD INDUSTRIAL' },
       }}
     >
@@ -65,7 +64,7 @@ export default function ConoceMasPage() {
               body={a.body}
               href={a.href}
               cta="Leer el artículo"
-              variant={i === 0 ? 'night' : 'plain'}
+              variant="plain"
               delay={i * 0.06}
             />
           ))}

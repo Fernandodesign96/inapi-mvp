@@ -24,7 +24,7 @@ export default function HomePage() {
       <VideoShowcase
         video="patenteVsMarca"
         title="¿Marca o patente? Descubre la diferencia"
-        lead="Muchas personas confunden ambos derechos. Este video explica qué protege cada uno y cuándo te conviene pedir los dos."
+        lead="Este video explica qué protege cada derecho y cuándo te conviene pedir los dos."
         tone="paper"
       />
       <HomeStats />

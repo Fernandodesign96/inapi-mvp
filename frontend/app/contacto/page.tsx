@@ -1,13 +1,9 @@
 import type { Metadata } from 'next'
-import { PortalShell } from '@/components/layout/PortalShell'
-import { ContainerGRI } from '@/components/layout/ContainerGRI'
-import {
-  PortalCardGrid,
-  PortalInfoGrid,
-  PortalMain,
-  PortalSectionTitle,
-} from '@/components/portal/content'
-import { portalShellProps } from '@/lib/portal-page-props'
+import { Building2, FileText, Mail, MapPin, Phone, Scale } from 'lucide-react'
+import { BentoCard, BentoGrid } from '@/components/story/Bento'
+import { IconList } from '@/components/story/IconList'
+import { StoryPage } from '@/components/story/StoryPage'
+import { StorySection } from '@/components/story/StorySection'
 import { getPageMeta } from '@/lib/portal-routes'
 
 const meta = getPageMeta('/contacto')
@@ -22,77 +18,120 @@ const MAP_SRC =
 
 export default function ContactoPage() {
   return (
-    <PortalShell
-      {...portalShellProps('/contacto', {
-        pageSubtitle: 'Elige el canal: formulario, teléfono, correo o atención en la sede de Santiago.',
-      })}
+    <StoryPage
+      path="/contacto"
+      hero={{
+        eyebrow: 'Contacto',
+        lead: 'Revisa todos los canales oficiales de INAPI y resuelve todas tus consultas.',
+        primary: { href: '/contacto/siac', label: 'Ir al formulario SIAC' },
+        seal: { center: '@', caption: 'CONTACTO' },
+      }}
     >
-      <ContainerGRI size="portal">
-        <PortalMain>
-          <PortalCardGrid
-            items={[
-              {
-                title: 'Vía web',
-                body: 'Consultas, opiniones, sugerencias, felicitaciones o reclamos por el Sistema Integrado de Atención a la Ciudadanía (SIAC).',
-                href: '/contacto/siac',
-                cta: 'Ir al formulario (SIAC)',
-              },
-              {
-                title: 'Ley de Transparencia',
-                body: 'Pide información pública según la Ley N.° 20.285 de acceso a la información de la Administración del Estado.',
-                href: 'https://www.portaltransparencia.cl/PortalPdT/ingreso-sai-v2/?idOrg=source=institucion&idOrganismo=AY001',
-                cta: 'Ingresar una solicitud de información',
-              },
-              {
-                title: 'Teléfono',
-                body: 'Mesa central (56 2) 2 887 0400. Lunes a jueves de 09:00 a 18:00. Viernes de 09:00 a 17:00.',
-              },
-              {
-                title: 'Correo electrónico',
-                body: 'inapi@inapi.cl. Un especialista de atención ciudadana responde tu consulta.',
-                href: 'mailto:inapi@inapi.cl',
-                cta: 'Escribir a inapi@inapi.cl',
-              },
-            ]}
-          />
-
-          <section>
-            <PortalSectionTitle>Oficinas presenciales</PortalSectionTitle>
-            <PortalInfoGrid
-              items={[
-                {
-                  title: 'Atención de público, marcas y patentes',
-                  body: "Av. Libertador Bernardo O'Higgins 194, Santiago. Lunes a viernes de 09:00 a 14:00.",
-                },
-                {
-                  title: 'Unidad de Archivo',
-                  body: "Av. Libertador Bernardo O'Higgins 194, Santiago. Lunes a viernes de 09:00 a 14:00.",
-                },
-                {
-                  title: 'Oficina de Partes',
-                  body: "Misma dirección. Mañana: lunes a viernes de 09:00 a 14:00. Tarde: lunes a jueves de 15:00 a 16:30; viernes de 15:00 a 15:30.",
-                },
-              ]}
-            />
-          </section>
-
-          <section>
-            <PortalSectionTitle>Cómo llegar</PortalSectionTitle>
-            <div className="overflow-hidden rounded-gob-lg border border-gob-border bg-card">
-              <iframe
-                title="Mapa de la sede de INAPI en Santiago"
-                src={MAP_SRC}
-                className="h-80 w-full border-0"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
+      <StorySection tone="paper" eyebrow="Atención" title="Canales oficiales INAPI">
+        <BentoGrid cols={2}>
+          <BentoCard
+            icon={<Phone />}
+            title="Teléfono de mesa central"
+            body={
+              <IconList
+                items={[
+                  { text: <>Llama al <strong>(56 2) 2 887 0400</strong>.</> },
+                  { text: <>Lunes a jueves de <strong>09:00 a 18:00</strong>.</> },
+                  { text: <>Viernes de <strong>09:00 a 17:00</strong>.</> },
+                ]}
               />
-            </div>
-            <p className="mt-gob-3 text-gri-body-sm text-muted-foreground">
-              Sede institucional en Av. Libertador Bernardo O&apos;Higgins 194, Santiago. RUT 65.999.669-3.
-            </p>
-          </section>
-        </PortalMain>
-      </ContainerGRI>
-    </PortalShell>
+            }
+          />
+          <BentoCard
+            icon={<Mail />}
+            title="Correo electrónico"
+            body={
+              <IconList
+                items={[
+                  { text: <>Escribe a <strong>inapi@inapi.cl</strong>.</> },
+                  { text: 'Un especialista de atención ciudadana responde tu consulta.' },
+                ]}
+              />
+            }
+            href="mailto:inapi@inapi.cl"
+            cta="Escribir a inapi@inapi.cl"
+            delay={0.05}
+          />
+          <BentoCard
+            icon={<FileText />}
+            title="Formulario web (SIAC)"
+            body={
+              <>
+                Consultas, opiniones, sugerencias, <strong>felicitaciones</strong> o <strong>reclamos</strong> por el
+                Sistema Integrado de Atención a la Ciudadanía.
+              </>
+            }
+            href="/contacto/siac"
+            cta="Ir al formulario (SIAC)"
+            delay={0.08}
+          />
+          <BentoCard
+            icon={<Scale />}
+            title="Ley de Transparencia"
+            body={
+              <>
+                Pide información pública según la <strong>Ley N.° 20.285</strong> de acceso a la información de la
+                Administración del Estado.
+              </>
+            }
+            href="https://www.portaltransparencia.cl/PortalPdT/ingreso-sai-v2/?idOrg=source=institucion&idOrganismo=AY001"
+            cta="Ingresar una solicitud de información"
+            delay={0.1}
+          />
+        </BentoGrid>
+      </StorySection>
+
+      <StorySection tone="mist" eyebrow="Sede Santiago" title="Atención presencial">
+        <BentoGrid cols={2}>
+          <BentoCard
+            icon={<Building2 />}
+            title="Atención de público, marcas, patentes y Unidad de Archivo"
+            body={
+              <IconList
+                items={[
+                  { icon: MapPin, text: <>Av. Libertador Bernardo O&apos;Higgins <strong>194</strong>, Santiago.</> },
+                  { text: <>Atención de público, marcas y patentes: lunes a viernes de <strong>09:00 a 14:00</strong>.</> },
+                  { text: <>Unidad de Archivo: misma dirección y el mismo horario de la mañana.</> },
+                ]}
+              />
+            }
+          />
+          <BentoCard
+            icon={<FileText />}
+            title="Oficina de Partes"
+            body={
+              <IconList
+                items={[
+                  { text: <>Misma dirección: Av. Libertador Bernardo O&apos;Higgins <strong>194</strong>.</> },
+                  { text: <>Mañana: lunes a viernes de <strong>09:00 a 14:00</strong>.</> },
+                  { text: <>Tarde: lunes a jueves de <strong>15:00 a 16:30</strong>; viernes de <strong>15:00 a 15:30</strong>.</> },
+                ]}
+              />
+            }
+            delay={0.06}
+          />
+        </BentoGrid>
+      </StorySection>
+
+      <StorySection tone="paper" eyebrow="Mapa" title="Cómo llegar">
+        <div className="overflow-hidden rounded-gob-lg border border-gob-border bg-card">
+          <iframe
+            title="Mapa de la sede de INAPI en Santiago"
+            src={MAP_SRC}
+            className="h-80 w-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+        <p className="mt-gob-3 text-gri-body-sm text-muted-foreground">
+          Sede institucional en Av. Libertador Bernardo O&apos;Higgins 194, Santiago. RUT 65.999.669-3.
+        </p>
+      </StorySection>
+    </StoryPage>
   )
 }

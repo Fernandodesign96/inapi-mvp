@@ -1,9 +1,8 @@
 'use client'
 
-import { useCallback, useRef } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { HomeRuleHeading } from '@/components/home/HomeRuleHeading'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
 
 type InstitutionalLink = {
@@ -94,17 +93,10 @@ const items: InstitutionalLink[] = [
   },
 ]
 
+const arrowClass =
+  'border-2 border-white/55 bg-white/15 text-white shadow-elevation-03 hover:border-white hover:bg-white hover:text-[#092039] dark:border-white/55 dark:bg-white/15 dark:text-white dark:hover:bg-white dark:hover:text-[#092039]'
+
 export function HomeObservanciaCarousel() {
-  const scrollerRef = useRef<HTMLDivElement>(null)
-
-  const scrollByCards = useCallback((direction: -1 | 1) => {
-    const node = scrollerRef.current
-    if (!node) return
-    const card = node.querySelector<HTMLElement>('[data-inst-card]')
-    const step = (card?.offsetWidth ?? 180) + 16
-    node.scrollBy({ left: direction * step * 2, behavior: 'smooth' })
-  }, [])
-
   return (
     <section
       aria-labelledby="transparencia-title"
@@ -114,53 +106,41 @@ export function HomeObservanciaCarousel() {
         Transparencia, ética y participación ciudadana
       </HomeRuleHeading>
       <ContainerGRI size="wide" className="mt-gob-8">
-        <div className="flex items-center justify-center gap-gob-3">
-          <button
-            type="button"
-            onClick={() => scrollByCards(-1)}
-            className="flex size-9 shrink-0 items-center justify-center rounded-gob-md border-2 border-white/25 bg-white/10 text-white shadow-elevation-01 transition-colors hover:border-[#A1D1FF] hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-            aria-label="Ver accesos anteriores"
-          >
-            <ChevronLeft className="size-4" aria-hidden />
-          </button>
-
-          <div
-            ref={scrollerRef}
-            className="flex min-w-0 max-w-[1180px] flex-1 justify-start gap-gob-3 overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
+        <Carousel
+          opts={{ align: 'start', loop: true, dragFree: true }}
+          className="relative px-16 min-[905px]:px-20"
+        >
+          <CarouselContent className="-ml-gob-3">
             {items.map(item => (
-              <a
-                data-inst-card
-                data-i18n-skip
+              <CarouselItem
                 key={item.href}
-                href={item.href}
-                aria-label={item.title}
-                title={item.title}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
-                className={cn(
-                  'inline-flex w-[168px] shrink-0 snap-start items-center justify-center rounded-gob-lg border-2 border-white/25 bg-white/10 px-gob-3 py-gob-3 min-h-14 text-center text-gri-body-sm font-semibold leading-[1.3] text-white transition-colors',
-                  'hover:border-[#A1D1FF] hover:bg-white/20 hover:text-white',
-                  'active:border-[#A1D1FF] active:bg-white/24 active:text-white',
-                  'visited:text-white visited:hover:text-white',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-                  'min-[905px]:w-[176px]',
-                )}
+                className="basis-[168px] pl-gob-3 min-[905px]:basis-[176px]"
               >
-                <span className="line-clamp-2 text-gri-body-sm font-semibold leading-[1.3] text-white">{item.label}</span>
-              </a>
+                <a
+                  data-i18n-skip
+                  href={item.href}
+                  aria-label={item.title}
+                  title={item.title}
+                  draggable={false}
+                  onDragStart={event => event.preventDefault()}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  className={cn(
+                    'inline-flex min-h-14 w-full select-none items-center justify-center rounded-gob-lg border-2 border-white/25 bg-white/10 px-gob-3 py-gob-3 text-center text-gri-body-sm font-semibold leading-[1.3] text-white transition-colors',
+                    'hover:border-[#A1D1FF] hover:bg-white/20 hover:text-white',
+                    'active:border-[#A1D1FF] active:bg-white/24 active:text-white',
+                    'visited:text-white visited:hover:text-white',
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+                  )}
+                >
+                  <span className="line-clamp-2 text-gri-body-sm font-semibold leading-[1.3] text-white">{item.label}</span>
+                </a>
+              </CarouselItem>
             ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => scrollByCards(1)}
-            className="flex size-9 shrink-0 items-center justify-center rounded-gob-md border-2 border-white/25 bg-white/10 text-white shadow-elevation-01 transition-colors hover:border-[#A1D1FF] hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-            aria-label="Ver más accesos"
-          >
-            <ChevronRight className="size-4" aria-hidden />
-          </button>
-        </div>
+          </CarouselContent>
+          <CarouselPrevious aria-label="Ver accesos anteriores" className={arrowClass} />
+          <CarouselNext aria-label="Ver más accesos" className={arrowClass} />
+        </Carousel>
       </ContainerGRI>
     </section>
   )

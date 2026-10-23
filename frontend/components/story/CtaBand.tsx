@@ -12,6 +12,7 @@ export function CtaBand({
   body,
   primary,
   secondary,
+  extras,
   seal = { center: 'R', caption: 'REGISTRO' },
 }: {
   eyebrow?: string
@@ -19,6 +20,7 @@ export function CtaBand({
   body?: React.ReactNode
   primary: Cta
   secondary?: Cta
+  extras?: Cta[]
   seal?: { center: string; caption?: string }
 }) {
   return (
@@ -34,6 +36,9 @@ export function CtaBand({
               <div className="mt-gob-2 flex flex-wrap gap-gob-3">
                 <StoryCta {...primary} tone="night" />
                 {secondary ? <StoryCta {...secondary} tone="night" variant="secondary" /> : null}
+                {extras?.map(extra => (
+                  <StoryCta key={extra.href} {...extra} tone="night" variant="secondary" />
+                ))}
               </div>
             </div>
             <PiSeal center={seal.center} caption={seal.caption} size={168} className="hidden text-white/55 min-[905px]:block" />

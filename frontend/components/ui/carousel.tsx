@@ -176,7 +176,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
 function CarouselPrevious({
   className,
   variant = "outline",
-  size = "icon-sm",
+  size = "icon",
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
@@ -187,9 +187,9 @@ function CarouselPrevious({
       variant={variant}
       size={size}
       className={cn(
-        "absolute touch-manipulation rounded-full",
+        "absolute z-10 size-12 touch-manipulation rounded-full border-2 border-gob-border-strong bg-card text-gob-text shadow-elevation-03 hover:bg-gob-primary hover:text-white dark:border-white/40 dark:bg-[#1E2228] dark:text-white [&_svg]:size-7",
         orientation === "horizontal"
-          ? "inset-y-0 -left-12 my-auto"
+          ? "inset-y-0 left-0 my-auto"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
@@ -206,7 +206,7 @@ function CarouselPrevious({
 function CarouselNext({
   className,
   variant = "outline",
-  size = "icon-sm",
+  size = "icon",
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
@@ -217,9 +217,9 @@ function CarouselNext({
       variant={variant}
       size={size}
       className={cn(
-        "absolute touch-manipulation rounded-full",
+        "absolute z-10 size-12 touch-manipulation rounded-full border-2 border-gob-border-strong bg-card text-gob-text shadow-elevation-03 hover:bg-gob-primary hover:text-white dark:border-white/40 dark:bg-[#1E2228] dark:text-white [&_svg]:size-7",
         orientation === "horizontal"
-          ? "inset-y-0 -right-12 my-auto"
+          ? "inset-y-0 right-0 my-auto"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}

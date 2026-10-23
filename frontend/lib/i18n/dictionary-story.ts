@@ -11,14 +11,21 @@ export const EN_STORY: Record<string, string> = {
   'Defender tus derechos': 'Defend your rights',
   'Observancia: acciones frente a copias o uso no autorizado': 'Enforcement: action against copies or unauthorised use',
   'Productos de origen': 'Origin products',
+  'Sello de origen': 'Seal of origin',
   'Sello de Origen: certifica productos típicos de una zona de Chile':
     'Seal of Origin: certifies typical products from a region of Chile',
+  'Certifica productos típicos de una zona de Chile': 'Certifies typical products from a region of Chile',
   'Leyes y documentos': 'Laws and documents',
   'Centro de documentación: leyes, reglamentos y estadísticas': 'Documentation centre: laws, regulations and statistics',
   'Conexión de sistemas': 'Systems connection',
+  Conecta: 'Conecta',
   'Conecta: servicio API para agentes de PI y empresas': 'Connect: API service for IP agents and companies',
+  'Servicio para que agentes y empresas conecten sus sistemas con INAPI':
+    'Service for agents and companies to connect their systems with INAPI',
   Presupuesto: 'Budget',
+  'Gasto presupuestario': 'Budget spending',
   'Gasto presupuestario: cómo INAPI usa sus recursos': 'Budget spending: how INAPI uses its resources',
+  'Cómo INAPI usa y rinde sus recursos públicos': 'How INAPI uses and accounts for public resources',
 
   // Subheader trámites
   'Presenta una nueva solicitud de registro de marca en línea': 'File a new trademark application online',
