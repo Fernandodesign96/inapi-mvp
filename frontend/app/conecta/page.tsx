@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { BookOpenCheck, FileCheck2, Handshake, Info } from 'lucide-react'
+import { IconList } from '@/components/story/IconList'
+import { SplitAccordion } from '@/components/story/SplitAccordion'
 import { BentoCard, BentoGrid } from '@/components/story/Bento'
 import { CtaBand } from '@/components/story/CtaBand'
 import { StoryPage } from '@/components/story/StoryPage'
@@ -69,11 +71,42 @@ export default function ConectaPage() {
               body={r.body}
               href="https://www.inapi.cl/conecta"
               cta={r.cta}
-              variant={i === 0 ? 'night' : 'plain'}
+              variant="plain"
               delay={i * 0.06}
             />
           ))}
         </BentoGrid>
+      </StorySection>
+
+      <StorySection tone="mist" eyebrow="Detalle" title="Qué hace y qué no hace INAPI">
+        <SplitAccordion
+          items={[
+            {
+              id: 'que-es',
+              title: '¿Qué es Conecta?',
+              content: (
+                <IconList
+                  items={[
+                    { text: 'Espacio público y gratuito para mostrar innovaciones con derechos de propiedad industrial.' },
+                    { text: 'Cualquier titular puede publicar información de su tecnología.' },
+                    { text: 'INAPI lo desarrolló para apoyar la divulgación de tecnologías nacionales que buscan transferirse.' },
+                    { text: 'Lo administra la Subdirección de Transferencia de Conocimiento.' },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'no-asesora',
+              title: 'INAPI no asesora la negociación',
+              content: (
+                <p>
+                  INAPI <strong>no ofrece asesoramiento</strong> para la transferencia y comercialización. El portal incluye
+                  guías de orientación para facilitar ese proceso.
+                </p>
+              ),
+            },
+          ]}
+        />
       </StorySection>
 
       <CtaBand

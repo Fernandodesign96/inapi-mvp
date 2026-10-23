@@ -96,7 +96,7 @@ const patentesTopics: TopicCardData[] = [
     icon: Lightbulb,
     titulo: '¿Qué es una patente?',
     texto: 'Es el derecho exclusivo que el Estado otorga sobre un invento para fabricarlo, usarlo o venderlo en Chile.',
-    href: '/patentes',
+    href: '/tipos-de-patentes',
     cta: 'Leer qué es una patente',
   },
   {
@@ -110,7 +110,7 @@ const patentesTopics: TopicCardData[] = [
     icon: Clock,
     titulo: 'Vigencia de 20 años',
     texto: 'La protección dura hasta 20 años desde la fecha de presentación, solo en el país donde se otorgó.',
-    href: '/patentes',
+    href: '/tipos-de-patentes',
     cta: 'Revisar vigencia de una patente',
   },
   {

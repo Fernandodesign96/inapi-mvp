@@ -16,7 +16,7 @@ interface Mensaje {
 const focusRing =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background'
 
-export function ChatFAB({ title = 'Asistente GRI' }: { title?: string }) {
+export function ChatFAB({ title = 'Chatbot INAPI' }: { title?: string }) {
   const [panel, setPanel] = useState<PanelState>('closed')
   const [mensajes, setMensajes] = useState<Mensaje[]>([])
   const [input, setInput] = useState('')
@@ -98,31 +98,31 @@ export function ChatFAB({ title = 'Asistente GRI' }: { title?: string }) {
           className="flex w-[min(23.75rem,calc(100%-2rem))] flex-col overflow-hidden rounded-gob-lg border border-gob-border bg-card shadow-elevation-05"
           style={{ maxHeight: 'calc(100vh - 6rem)' }}
         >
-          <header className="flex items-center gap-gob-3 bg-gob-primary p-gob-4 text-gob-text-inverse">
+          <header className="flex items-center gap-gob-3 bg-[var(--story-night)] p-gob-4 text-white">
             {panel !== 'menu' ? (
               <button
                 type="button"
                 onClick={() => setPanel('menu')}
-                className={cn('inline-flex size-11 shrink-0 items-center justify-center rounded-full hover:bg-white/15', focusRing)}
+                className={cn('inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-white/12 hover:bg-white/20', focusRing)}
                 aria-label="Volver al menú"
               >
                 <ArrowLeft className="size-5" aria-hidden />
               </button>
             ) : (
-              <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-gob-md bg-white/15" aria-hidden>
+              <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-[#1D70B8] text-white" aria-hidden>
                 <BotMessageSquare className="size-5" />
               </span>
             )}
             <div className="min-w-0 flex-1">
-              <p id="asistente-titulo" className="text-gri-body-sm font-medium">
+              <p id="asistente-titulo" className="font-heading text-gri-body font-semibold text-white">
                 {panel === 'ia' ? 'Chat con IA' : panel === 'ejecutivo' ? 'Atención ciudadana' : title}
               </p>
-              <p className="text-gri-label font-medium uppercase tracking-wider text-gob-text-inverse/90">
+              <p className="text-gri-label font-medium uppercase tracking-wider text-white">
                 {panel === 'ia'
                   ? 'Respuestas automáticas'
                   : panel === 'ejecutivo'
                     ? 'Horario de atención'
-                    : 'Portal INAPI · Marcas'}
+                    : 'Orientación sobre INAPI'}
               </p>
             </div>
             <button
@@ -148,23 +148,23 @@ export function ChatFAB({ title = 'Asistente GRI' }: { title?: string }) {
                       {
                         rol: 'assistant',
                         contenido:
-                          'Hola. Soy el asistente virtual de INAPI. Puedo orientarte sobre marcas, plazos, tasas y el clasificador de Niza. Esta orientación no reemplaza una resolución oficial. ¿En qué te ayudo?',
+                          'Hola. Soy el chatbot de INAPI. Puedo orientarte sobre marcas, patentes, plazos y tasas. Esta orientación no reemplaza una resolución oficial. ¿En qué te ayudo?',
                       },
                     ])
                   }
                 }}
                 className={cn(
-                  'group flex min-h-11 w-full items-center gap-gob-4 rounded-gob-md border border-gob-border bg-gob-surface-elevated p-gob-4 text-left transition-colors duration-150 hover:border-gob-primary hover:bg-gob-info-bg',
+                  'group flex min-h-11 w-full items-center gap-gob-4 rounded-gob-lg border-2 border-[#1D70B8]/30 bg-[#E8F4FC] p-gob-4 text-left transition-colors duration-150 hover:border-[#1D70B8] hover:bg-[#1D70B8] hover:text-white dark:border-white/20 dark:bg-[#0B3A5C] dark:hover:bg-[#1D70B8]',
                   focusRing,
                 )}
               >
-                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-gob-md bg-gob-primary/10 text-gob-primary">
+                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-[#1D70B8] text-white group-hover:bg-white group-hover:text-[#1D70B8]">
                   <BotMessageSquare className="size-5" aria-hidden />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-gri-body-sm font-medium text-gob-text">Chatear con IA</span>
-                  <span className="mt-0.5 block text-gri-body-xs leading-snug text-muted-foreground">
-                    Respuestas automáticas sobre el proceso de registro de marcas
+                  <span className="block text-gri-body-sm font-semibold text-gob-text group-hover:text-white">Chatear con IA</span>
+                  <span className="mt-0.5 block text-gri-body-xs leading-snug text-gob-text group-hover:text-white">
+                    Respuestas automáticas sobre marcas, patentes y trámites
                   </span>
                 </span>
               </button>
@@ -173,24 +173,20 @@ export function ChatFAB({ title = 'Asistente GRI' }: { title?: string }) {
                 type="button"
                 onClick={() => setPanel('ejecutivo')}
                 className={cn(
-                  'group flex min-h-11 w-full items-center gap-gob-4 rounded-gob-md border border-gob-border bg-gob-surface-elevated p-gob-4 text-left transition-colors duration-150 hover:border-gob-primary hover:bg-gob-info-bg',
+                  'group flex min-h-11 w-full items-center gap-gob-4 rounded-gob-lg border-2 border-[#2E7D32]/30 bg-[#E8F5E9] p-gob-4 text-left transition-colors duration-150 hover:border-[#2E7D32] hover:bg-[#2E7D32] hover:text-white dark:border-white/20 dark:bg-[#1B3320] dark:hover:bg-[#2E7D32]',
                   focusRing,
                 )}
               >
-                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-gob-md bg-[#E8F5E9] text-gob-success">
+                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-[#2E7D32] text-white group-hover:bg-white group-hover:text-[#2E7D32]">
                   <User className="size-5" aria-hidden />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-gri-body-sm font-medium text-gob-text">Hablar con un ejecutivo</span>
-                  <span className="mt-0.5 block text-gri-body-xs leading-snug text-muted-foreground">
+                  <span className="block text-gri-body-sm font-semibold text-gob-text group-hover:text-white">Hablar con un ejecutivo</span>
+                  <span className="mt-0.5 block text-gri-body-xs leading-snug text-gob-text group-hover:text-white">
                     Atención personalizada de INAPI · Lun–Vie, 9:00–18:00
                   </span>
                 </span>
               </button>
-
-              <p className="pt-gob-2 text-gri-label font-medium uppercase tracking-wider text-muted-foreground">
-                Portal de marcas
-              </p>
             </div>
           ) : null}
 

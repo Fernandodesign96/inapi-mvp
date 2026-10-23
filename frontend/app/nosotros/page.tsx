@@ -33,11 +33,20 @@ export default function NosotrosPage() {
         eyebrow: 'Nosotros',
         dot: 'primary',
         lead: 'INAPI administra los derechos de propiedad industrial en Chile. Registra y resguarda marcas, patentes, diseños y otros derechos, y entrega los servicios asociados a cada trámite.',
-        primary: { href: '#conoce-inapi', label: 'Conocer el Instituto' },
-        secondary: { href: '/transparencia/gasto-presupuestario', label: 'Ver el presupuesto' },
-        aside: <VideoCard video="cuentaPublica" tone="night" size="lg" />,
+        seal: { center: 'IN', caption: 'INAPI' },
       }}
     >
+      <StorySection
+        tone="night"
+        eyebrow="Cuenta pública"
+        title="Cuenta pública de INAPI"
+        lead="Resultados del año, metas cumplidas y desafíos del Instituto."
+      >
+        <div className="mx-auto max-w-4xl">
+          <VideoCard video="cuentaPublica" tone="night" size="lg" />
+        </div>
+      </StorySection>
+
       <StorySection
         tone="paper"
         eyebrow="INAPI en cifras"

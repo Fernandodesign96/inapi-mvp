@@ -9,7 +9,7 @@ import {
   RiesgosPanel,
 } from '@/components/portal/ObservanciaHub'
 import { CtaBand } from '@/components/story/CtaBand'
-import { SectionAccordion } from '@/components/story/SectionAccordion'
+import { SplitAccordion } from '@/components/story/SplitAccordion'
 import { SectionTabs } from '@/components/story/SectionTabs'
 import { StoryCarousel } from '@/components/story/StoryCarousel'
 import { StoryPage } from '@/components/story/StoryPage'
@@ -76,9 +76,9 @@ export default function ObservanciaPage() {
         title="Lo que retiene Aduanas"
         lead="Los derechos de propiedad intelectual se pueden defender a través de acciones civiles y penales. La ley también establece medios para impedir que productos infractores entren al mercado o para sacarlos de él."
       >
-        <StoryCarousel label="Casos de mercancía retenida en aduanas, 2009-2016" tone="night">
+        <StoryCarousel label="Casos de mercancía retenida en aduanas, 2009-2016" tone="night" arrows="sides">
           {CASOS.map(caso => (
-            <article key={caso.year + caso.title} className="story-glass flex h-full flex-col gap-gob-3 rounded-gob-xl p-gob-6">
+            <article key={caso.year + caso.title} className="story-glass story-glass-interactive flex h-full flex-col gap-gob-3 rounded-gob-xl p-gob-6">
               <ShieldAlert className="size-6 text-[#A1D1FF]" aria-hidden />
               <p className="story-tabular font-heading text-[2.5rem] font-medium leading-none text-white">{caso.year}</p>
               <h3 className="font-heading text-gri-h2 font-medium text-white">{caso.title}</h3>
@@ -124,8 +124,7 @@ export default function ObservanciaPage() {
         title="Defienda sus derechos"
         lead="Acciones civiles y penales, delitos tipificados en la ley y dónde denunciar."
       >
-        <SectionAccordion
-          className="mx-auto max-w-5xl"
+        <SplitAccordion
           items={[
             { id: 'derechos', title: 'Tus derechos', summary: 'Acciones civiles, penales, medidas en frontera e incautaciones', icon: <Scale />, content: <DerechosPanel /> },
             { id: 'delitos', title: 'Delitos', summary: 'Conductas, artículos y sanciones por tipo de derecho', icon: <Gavel />, content: <DelitosPanel /> },

@@ -10,6 +10,7 @@ import {
   Scale,
   Stamp,
 } from 'lucide-react'
+import { IconList } from '@/components/story/IconList'
 import { TramitesLink } from '@/components/tramites/TramitesLink'
 
 export type CatalogItem = {
@@ -37,6 +38,8 @@ export const tramitesPrincipales: CatalogItem[] = [
     ],
     needs: ['ClaveÚnica o clave INAPI.', 'El signo (palabra, logo o ambos).', 'Dinero para pagar 1 UTM por clase.'],
     example: 'Ejemplo: solicitas “Andes Café” en la clase de servicios de cafetería.',
+    href: '/tramites/marcas/solicitar',
+    cta: 'Iniciar solicitud de marca',
   },
   {
     icon: FileText,
@@ -54,6 +57,8 @@ export const tramitesPrincipales: CatalogItem[] = [
       'Dinero para pagar la tasa de presentación.',
     ],
     example: 'Ejemplo: presentas una patente de un filtro de agua y adjuntas dibujos y reivindicaciones.',
+    href: '/tramites/patentes/solicitar',
+    cta: 'Iniciar solicitud de patente',
   },
   {
     icon: Globe,
@@ -67,6 +72,8 @@ export const tramitesPrincipales: CatalogItem[] = [
     ],
     needs: ['Marca solicitada o registrada en Chile.', 'ClaveÚnica.', 'Pago de las tasas internacionales que correspondan.'],
     example: 'Ejemplo: tu marca chilena “Andes Café” se extiende a Perú y Colombia por Madrid.',
+    href: '/marcas/sistema-de-madrid',
+    cta: 'Ver Sistema de Madrid',
   },
 ]
 
@@ -87,6 +94,8 @@ export const tramitesSecundarios: CatalogItem[] = [
       'Medio de pago habilitado (TGR, banco u otro que indique el sistema).',
     ],
     example: 'Ejemplo: tu marca fue aceptada y pagas 2 UTM por clase para obtener el certificado.',
+    href: '/tramites',
+    cta: 'Ir al Portal de trámites',
   },
   {
     icon: FilePenLine,
@@ -100,6 +109,8 @@ export const tramitesSecundarios: CatalogItem[] = [
     ],
     needs: ['ClaveÚnica.', 'Número de solicitud, anotación o juicio.', 'El archivo del escrito y los anexos, si corresponden.'],
     example: 'Ejemplo: INAPI pidió aclarar las reivindicaciones y subes la respuesta en el expediente de la patente.',
+    href: '/tramites',
+    cta: 'Presentar un escrito',
   },
   {
     icon: RefreshCw,
@@ -113,6 +124,8 @@ export const tramitesSecundarios: CatalogItem[] = [
     ],
     needs: ['Marca vigente o en plazo de gracia.', 'ClaveÚnica.', 'Pago de la tasa de renovación.'],
     example: 'Ejemplo: tu marca vence en 2027 y la renuevas para el periodo 2027-2037.',
+    href: '/marcas/renovacion',
+    cta: 'Ver cómo renovar una marca',
   },
   {
     icon: PencilLine,
@@ -126,6 +139,8 @@ export const tramitesSecundarios: CatalogItem[] = [
     ],
     needs: ['ClaveÚnica.', 'Número de registro o de solicitud.', 'Documento que acredita el cambio (contrato, poder u otro).'],
     example: 'Ejemplo: vendes “Andes Café” y anotas la transferencia al nuevo dueño.',
+    href: '/tramites/marcas/tramites',
+    cta: 'Presentar una anotación de marca',
   },
   {
     icon: Scale,
@@ -139,6 +154,8 @@ export const tramitesSecundarios: CatalogItem[] = [
     ],
     needs: ['ClaveÚnica.', 'Número de la solicitud impugnada.', 'Fundamentos y, si corresponde, tu marca anterior.'],
     example: 'Ejemplo: publican “Andes Koffee” en tu misma clase y presentas oposición dentro del plazo.',
+    href: '/tramites',
+    cta: 'Ir al Portal de trámites',
   },
   {
     icon: FilePenLine,
@@ -152,6 +169,8 @@ export const tramitesSecundarios: CatalogItem[] = [
     ],
     needs: ['ClaveÚnica.', 'Número de solicitud, anotación o juicio de marcas.', 'El archivo del escrito.'],
     example: 'Ejemplo: te notifican un oficio de forma y subes la respuesta con el signo corregido.',
+    href: '/tramites',
+    cta: 'Presentar un escrito de marca',
   },
   {
     icon: Landmark,
@@ -165,6 +184,8 @@ export const tramitesSecundarios: CatalogItem[] = [
     ],
     needs: ['ClaveÚnica.', 'Poder o personería vigente.', 'Datos del mandante y del representante.'],
     example: 'Ejemplo: un estudio de abogados registra el poder de tu empresa y lo reutiliza en cada marca nueva.',
+    href: '/tramites/custodia-poderes',
+    cta: 'Registrar un poder',
   },
   {
     icon: PencilLine,
@@ -178,6 +199,8 @@ export const tramitesSecundarios: CatalogItem[] = [
     ],
     needs: ['ClaveÚnica.', 'Número de solicitud o de registro de patente.', 'Documento que acredita el cambio.'],
     example: 'Ejemplo: cedes tu patente a una sociedad y anotas la transferencia en el expediente.',
+    href: '/tramites/patentes/anotaciones',
+    cta: 'Presentar una anotación de patente',
   },
 ]
 
@@ -185,34 +208,28 @@ export const tramitesSecundarios: CatalogItem[] = [
 export function CatalogDetails({ item }: { item: CatalogItem }) {
   return (
     <div className="grid gap-gob-5 text-gri-body-sm leading-[1.55] text-gob-text min-[905px]:grid-cols-2">
-      <div className="space-y-gob-2">
-        <p>
-          <strong className="font-medium">Qué es.</strong> {item.what}
-        </p>
-        <p>
-          <strong className="font-medium">Para qué sirve.</strong> {item.why}
-        </p>
-        <p className="text-muted-foreground">{item.example}</p>
-      </div>
       <div className="space-y-gob-3">
+        <p>
+          <strong>Qué es.</strong> {item.what}
+        </p>
+        <p>
+          <strong>Para qué sirve.</strong> {item.why}
+        </p>
+        <p>
+          <strong>Ejemplo.</strong> {item.example}
+        </p>
+      </div>
+      <div className="space-y-gob-4">
         <div>
-          <p className="font-medium text-gob-primary-dark">Cómo se hace</p>
-          <ul>
-            {item.how.map(step => (
-              <li key={step}>{step}</li>
-            ))}
-          </ul>
+          <p className="mb-gob-2 font-medium text-gob-primary-dark">Cómo se hace</p>
+          <IconList items={item.how} />
         </div>
         <div>
-          <p className="font-medium text-gob-primary-dark">Qué necesitas</p>
-          <ul>
-            {item.needs.map(need => (
-              <li key={need}>{need}</li>
-            ))}
-          </ul>
+          <p className="mb-gob-2 font-medium text-gob-primary-dark">Qué necesitas</p>
+          <IconList items={item.needs} />
         </div>
         {item.href && item.cta ? (
-          <TramitesLink href={item.href} className="inline-flex min-h-11 items-center font-medium">
+          <TramitesLink href={item.href} className="inline-flex min-h-11 items-center font-medium text-gob-link underline-offset-4 hover:underline">
             {item.cta}
           </TramitesLink>
         ) : null}

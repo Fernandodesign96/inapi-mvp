@@ -34,7 +34,7 @@ export function TramitesFrame({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         <DownloadToast />
-        <ChatFAB title="Chat INAPI" />
+        <ChatFAB title="Chatbot INAPI" />
       </div>
     </TooltipProvider>
   )

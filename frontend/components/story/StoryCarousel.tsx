@@ -13,6 +13,7 @@ export function StoryCarousel({
   tone = 'paper',
   footer,
   className,
+  arrows = 'bottom',
 }: {
   label: string
   children: React.ReactNode
@@ -20,13 +21,14 @@ export function StoryCarousel({
   tone?: 'night' | 'paper' | 'mist'
   footer?: React.ReactNode
   className?: string
+  arrows?: 'bottom' | 'sides'
 }) {
   const { tx } = useI18n()
   const [api, setApi] = useState<CarouselApi>()
   const [selected, setSelected] = useState(0)
   const [snaps, setSnaps] = useState<number[]>([])
   const [canPrev, setCanPrev] = useState(false)
-  const [canNext, setCanNext] = useState(false)
+  const [canNext, setCanNext] = useState(() => Children.count(children) > 1)
   const night = tone === 'night'
   const items = Children.toArray(children)
 
@@ -54,45 +56,82 @@ export function StoryCarousel({
     night ? 'border-white/25 text-white hover:bg-white/10' : 'border-gob-border-strong bg-card text-gob-text hover:border-gob-primary',
   )
 
+  const dots = (
+    <div className="flex items-center gap-gob-2" role="group" aria-label={tx('Ir a la diapositiva')}>
+      {snaps.map((_, i) => (
+        <button
+          key={i}
+          type="button"
+          onClick={() => api?.scrollTo(i)}
+          aria-label={`${tx('Ir a la diapositiva')} ${i + 1}`}
+          aria-current={i === selected ? 'true' : undefined}
+          className={cn(
+            'h-2.5 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+            i === selected ? 'w-8 bg-inapi-header' : night ? 'w-2.5 bg-white/30 hover:bg-white/60' : 'w-2.5 bg-gob-border-strong hover:bg-gob-primary/50',
+          )}
+        />
+      ))}
+    </div>
+  )
+
+  const prevBtn = (
+    <button type="button" className={navBtn} onClick={() => api?.scrollPrev()} disabled={!canPrev} aria-label={tx('Anterior')}>
+      <ChevronLeft className="size-5" aria-hidden />
+    </button>
+  )
+  const nextBtn = (
+    <button type="button" className={navBtn} onClick={() => api?.scrollNext()} disabled={!canNext} aria-label={tx('Siguiente')}>
+      <ChevronRight className="size-5" aria-hidden />
+    </button>
+  )
+
   return (
     <div className={cn('flex flex-col gap-gob-5', className)}>
-      <Carousel setApi={setApi} opts={{ align: 'start' }} aria-label={tx(label)}>
-        <CarouselContent className="-ml-gob-4 min-[905px]:-ml-gob-5">
-          {items.map((child, i) => (
-            <CarouselItem
-              key={i}
-              aria-label={`${i + 1} ${tx('de')} ${items.length}`}
-              className={cn('pl-gob-4 min-[905px]:pl-gob-5', itemClassName)}
-            >
-              {child}
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
-      <div className="flex flex-wrap items-center justify-between gap-gob-4">
-        <div className="flex items-center gap-gob-2" role="group" aria-label={tx('Ir a la diapositiva')}>
-          {snaps.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => api?.scrollTo(i)}
-              aria-label={`${tx('Ir a la diapositiva')} ${i + 1}`}
-              aria-current={i === selected ? 'true' : undefined}
-              className={cn(
-                'h-2.5 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-                i === selected ? 'w-8 bg-inapi-header' : night ? 'w-2.5 bg-white/30 hover:bg-white/60' : 'w-2.5 bg-gob-border-strong hover:bg-gob-primary/50',
-              )}
-            />
-          ))}
+      {arrows === 'sides' ? (
+        <div className="flex items-center gap-gob-3 min-[905px]:gap-gob-4">
+          {prevBtn}
+          <div className="min-w-0 flex-1">
+            <Carousel setApi={setApi} opts={{ align: 'start' }} aria-label={tx(label)}>
+              <CarouselContent className="-ml-gob-4 min-[905px]:-ml-gob-5">
+                {items.map((child, i) => (
+                  <CarouselItem
+                    key={i}
+                    aria-label={`${i + 1} ${tx('de')} ${items.length}`}
+                    className={cn('pl-gob-4 min-[905px]:pl-gob-5', itemClassName)}
+                  >
+                    {child}
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
+          {nextBtn}
         </div>
+      ) : (
+        <Carousel setApi={setApi} opts={{ align: 'start' }} aria-label={tx(label)}>
+          <CarouselContent className="-ml-gob-4 min-[905px]:-ml-gob-5">
+            {items.map((child, i) => (
+              <CarouselItem
+                key={i}
+                aria-label={`${i + 1} ${tx('de')} ${items.length}`}
+                className={cn('pl-gob-4 min-[905px]:pl-gob-5', itemClassName)}
+              >
+                {child}
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      )}
+      <div className="flex flex-wrap items-center justify-between gap-gob-4">
+        {dots}
         <div className="flex items-center gap-gob-3">
           {footer}
-          <button type="button" className={navBtn} onClick={() => api?.scrollPrev()} disabled={!canPrev} aria-label={tx('Anterior')}>
-            <ChevronLeft className="size-5" aria-hidden />
-          </button>
-          <button type="button" className={navBtn} onClick={() => api?.scrollNext()} disabled={!canNext} aria-label={tx('Siguiente')}>
-            <ChevronRight className="size-5" aria-hidden />
-          </button>
+          {arrows === 'bottom' ? (
+            <>
+              {prevBtn}
+              {nextBtn}
+            </>
+          ) : null}
         </div>
       </div>
     </div>

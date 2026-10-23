@@ -317,7 +317,7 @@ export function TramitesSidebar() {
   return (
     <aside
       className={cn(
-        'sticky top-0 hidden h-dvh shrink-0 flex-col gap-gob-5 border-r border-gob-border bg-card px-gob-3 py-gob-4 transition-[width] duration-200 lg:flex',
+        'hidden min-h-full shrink-0 flex-col gap-gob-5 border-r border-gob-border bg-card px-gob-3 py-gob-4 transition-[width] duration-200 lg:flex',
         collapsed ? 'w-[4.75rem]' : 'w-[18.5rem]',
       )}
       aria-label={tx('Barra lateral de trámites')}

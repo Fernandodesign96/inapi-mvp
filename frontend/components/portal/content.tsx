@@ -52,7 +52,7 @@ export function PortalQuickAccessGrid({ items }: { items: QuickAccess[] }) {
               'rounded-gob-md p-gob-5 flex flex-col gap-gob-3 transition-colors',
               primary
                 ? 'bg-inapi-cta text-gob-text-inverse hover:bg-gob-primary-dark'
-                : 'bg-card text-gob-text border border-gob-border hover:border-gob-primary/40',
+                : 'story-card-hover-paper bg-card text-gob-text border border-gob-border',
             )}
           >
             <Icon className={cn('w-8 h-8', primary ? 'text-gob-text-inverse' : 'text-gob-primary')} aria-hidden />
@@ -212,7 +212,7 @@ export function PortalSidebarLayout({
 }) {
   return (
     <div className="grid min-[905px]:grid-cols-[260px_1fr] gap-gob-7 items-start">
-      <nav aria-label="Secciones" className="sticky top-24 bg-gob-surface-elevated rounded-gob-md p-gob-2 hidden min-[905px]:block">
+      <nav aria-label="Secciones" className="bg-gob-surface-elevated rounded-gob-md p-gob-2 hidden min-[905px]:block">
         <ul className="list-none space-y-0.5">
           {sidebar.map(item => (
             <li key={item.label}>

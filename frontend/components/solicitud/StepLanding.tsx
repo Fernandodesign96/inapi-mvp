@@ -30,7 +30,7 @@ export function StepLanding({ onStart }: Props) {
 
       {/* Info Cards Gubernamentales */}
       <div className="grid md:grid-cols-3 gap-6">
-        <Card className="p-8 border-slate-200 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 space-y-4 bg-white rounded-3xl group">
+        <Card className="cursor-default p-8 border-slate-200 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 space-y-4 bg-white rounded-3xl group">
           <div className="w-14 h-14 bg-slate-50 text-slate-400 group-hover:bg-primary group-hover:text-white rounded-2xl flex items-center justify-center transition-colors">
             <Info className="w-7 h-7" />
           </div>
@@ -40,7 +40,7 @@ export function StepLanding({ onStart }: Props) {
           </div>
         </Card>
 
-        <Card className="p-8 border-slate-200 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 space-y-4 bg-white rounded-3xl group">
+        <Card className="cursor-default p-8 border-slate-200 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 space-y-4 bg-white rounded-3xl group">
           <div className="w-14 h-14 bg-slate-50 text-slate-400 group-hover:bg-primary group-hover:text-white rounded-2xl flex items-center justify-center transition-colors">
             <CheckCircle2 className="w-7 h-7" />
           </div>
@@ -50,7 +50,7 @@ export function StepLanding({ onStart }: Props) {
           </div>
         </Card>
 
-        <Card className="p-8 border-primary/10 shadow-xl shadow-primary/5 space-y-4 bg-primary/[0.02] rounded-3xl ring-1 ring-primary/10">
+        <Card className="cursor-default p-8 border-primary/10 shadow-xl shadow-primary/5 space-y-4 bg-primary/[0.02] rounded-3xl ring-1 ring-primary/10">
           <div className="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
             <CreditCard className="w-7 h-7" />
           </div>

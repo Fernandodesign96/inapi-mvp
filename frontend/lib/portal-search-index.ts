@@ -16,7 +16,7 @@ export const PORTAL_SEARCH_INDEX: PortalSearchResult[] = [
     title: 'Patentes',
     category: 'Trámites',
     summary: 'Protege una invención mediante una patente de tu titularidad.',
-    href: '/patentes',
+    href: '/tipos-de-patentes',
   },
   {
     title: 'Ingresar una solicitud nueva de marca',

@@ -20,8 +20,7 @@ export default function DocumentacionPage() {
         eyebrow: 'Leyes y documentos',
         dot: 'primary',
         lead: 'Aquí encuentras las normas que rigen el registro en Chile y los informes que INAPI publica: directrices, reportes, legislación, balances, estudios, datos abiertos y estadísticas. Los textos legales se abren en Ley Chile (Biblioteca del Congreso Nacional) y los PDF en inapi.cl.',
-        primary: { href: '#documentos', label: 'Explorar documentos' },
-        secondary: { href: '/glosario', label: 'Abrir el glosario' },
+        primary: { href: '/glosario', label: 'Abrir el glosario' },
         seal: { center: '§', caption: 'DOCUMENTACIÓN' },
       }}
     >

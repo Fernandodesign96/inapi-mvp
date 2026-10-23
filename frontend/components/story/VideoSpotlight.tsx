@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import { Layers, Lightbulb, MonitorPlay, Stamp } from 'lucide-react'
 import { StorySection } from '@/components/story/StorySection'
 import { StoryCarousel } from '@/components/story/StoryCarousel'
@@ -90,6 +93,7 @@ export function VideoGallery({
       <StoryCarousel
         label={title}
         tone={tone}
+        arrows="sides"
         footer={
           <a
             href={INAPI_YOUTUBE_CHANNEL}
@@ -130,8 +134,9 @@ const SHOWCASE_POINTS = [
     summary: 'Protege el nombre, el logo o el signo con el que te reconocen tus clientes.',
     icon: <Stamp />,
     bullets: [
-      'El nombre, logo o eslogan de mi negocio o producto.',
-      'Protege el nombre, el logo o el signo con el que te reconocen tus clientes.',
+      { icon: <Stamp />, text: 'Cubre el **nombre**, el **logo** o el eslogan de tu negocio.' },
+      { icon: <Layers />, text: 'Sirve para que un cliente pida «este producto» y no el de otra tienda.' },
+      { icon: <Lightbulb />, text: 'No protege cómo funciona el producto, solo cómo se reconoce.' },
     ],
   },
   {
@@ -140,8 +145,9 @@ const SHOWCASE_POINTS = [
     summary: 'Cubre un producto o un procedimiento nuevo que resuelve un problema técnico.',
     icon: <Lightbulb />,
     bullets: [
-      'Una invención, mecanismo, fórmula o proceso técnico.',
-      'Cubre un producto o un procedimiento nuevo que resuelve un problema técnico.',
+      { icon: <Lightbulb />, text: 'Cubre un **producto** o un **procedimiento** nuevo.' },
+      { icon: <Layers />, text: 'Resuelve un problema técnico, no el nombre comercial.' },
+      { icon: <Stamp />, text: 'Si también quieres el nombre, pide además una **marca**.' },
     ],
   },
   {
@@ -150,11 +156,109 @@ const SHOWCASE_POINTS = [
     summary: 'Un producto innovador puede tener una patente por cómo funciona y una marca por su nombre.',
     icon: <Layers />,
     bullets: [
-      'Cuando necesitas una marca, cuándo una patente y cuándo ambas.',
-      'Un producto innovador puede tener una patente por cómo funciona y una marca por su nombre.',
+      { icon: <Lightbulb />, text: 'La **patente** cubre cómo funciona o se fabrica.' },
+      { icon: <Stamp />, text: 'La **marca** cubre cómo lo reconocen tus clientes.' },
+      { icon: <Layers />, text: 'Un mismo producto puede pedir **ambos** derechos.' },
     ],
   },
 ]
+
+function RichLine({ text }: { text: string }) {
+  const parts = text.split(/(\*\*.+?\*\*)/g)
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.startsWith('**') && part.endsWith('**') ? (
+          <strong key={i} className="font-semibold">
+            {part.slice(2, -2)}
+          </strong>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </>
+  )
+}
+
+function VideoFaqRow({
+  night,
+}: {
+  night: boolean
+}) {
+  const [open, setOpen] = useState<ReadonlySet<string>>(() => new Set())
+  const toggle = (id: string) => {
+    setOpen(current => {
+      const next = new Set(current)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+  return (
+    <div className="grid h-full grid-cols-3 items-start gap-gob-3">
+      {SHOWCASE_POINTS.map(point => {
+        const selected = open.has(point.id)
+        return (
+          <article
+            key={point.id}
+            className={cn(
+              'flex min-h-0 w-full cursor-pointer flex-col overflow-hidden rounded-gob-lg border transition-[height,background-color,color,border-color] duration-300 ease-out',
+              selected ? 'h-full aspect-auto' : 'aspect-square',
+              night
+                ? selected
+                  ? 'border-transparent bg-white/14 text-white'
+                  : 'story-glass story-glass-interactive text-white'
+                : 'story-card-hover-paper border-gob-border bg-card text-gob-text shadow-elevation-01',
+            )}
+            data-clickable=""
+            data-open={selected ? 'true' : undefined}
+          >
+            <button
+              type="button"
+              onClick={() => toggle(point.id)}
+              aria-expanded={selected}
+              className="flex min-h-0 flex-1 cursor-pointer flex-col gap-2 px-gob-4 py-gob-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus"
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  'inline-flex size-9 shrink-0 items-center justify-center rounded-gob-md [&_svg]:size-4',
+                  night || selected ? 'bg-white/15 text-white' : 'bg-gob-primary/10 text-gob-primary-dark',
+                )}
+              >
+                {point.icon}
+              </span>
+              <span className="font-heading text-gri-body-sm font-semibold leading-[1.35]">{point.title}</span>
+              <span className={cn('text-gri-body-xs leading-[1.45]', night || selected ? 'text-white/90' : 'text-muted-foreground')}>
+                {point.summary}
+              </span>
+              <div
+                className={cn(
+                  'grid min-h-0 flex-1 transition-[grid-template-rows] duration-300 ease-out',
+                  selected ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+                )}
+                aria-hidden={!selected}
+              >
+                <ul className="min-h-0 space-y-gob-3 overflow-hidden pt-gob-3">
+                  {point.bullets.map(bullet => (
+                    <li key={bullet.text} className="flex items-start gap-gob-2 text-gri-body-xs leading-[1.45]">
+                      <span aria-hidden className="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-gob-md bg-white/15 text-white [&_svg]:size-3.5">
+                        {bullet.icon}
+                      </span>
+                      <span>
+                        <RichLine text={bullet.text} />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </button>
+          </article>
+        )
+      })}
+    </div>
+  )
+}
 
 /** Home: video principal, tres cards a la derecha y seis barras debajo. */
 export function VideoShowcase({
@@ -173,36 +277,20 @@ export function VideoShowcase({
   const leftVideos = SHOWCASE_VIDEOS.slice(0, 3)
   const rightVideos = SHOWCASE_VIDEOS.slice(3)
   return (
-    <StorySection tone={tone} eyebrow="En video" title={title} lead={lead} align="left">
-      <div className="grid items-stretch gap-gob-5 min-[1100px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <Reveal className="flex h-full flex-col gap-gob-4">
+    <StorySection tone={tone} eyebrow="En video" title={title} lead={lead} align="left" leadSingleLine>
+      <div className="grid items-stretch gap-gob-5 min-[1100px]:grid-cols-2">
+        <Reveal className="min-w-0 min-[1100px]:col-span-2">
+          <h3 className={cn('font-heading text-[1.5rem] font-bold leading-[1.3] min-[905px]:text-[1.75rem]', night ? 'text-white' : 'text-gob-text')}>{v.title}</h3>
+          <p className={cn('mt-gob-1 text-gri-body-sm leading-[1.55]', night ? 'text-white/90' : 'text-muted-foreground')}>{v.description}</p>
+        </Reveal>
+        <Reveal className="min-w-0">
           <VideoCard video={video} tone={night ? 'night' : 'paper'} showText={false} size="lg" />
-          <div>
-            <h3 className={cn('font-heading text-gri-h2 font-medium', night ? 'text-white' : 'text-gob-text')}>{v.title}</h3>
-            <p className={cn('mt-gob-1 text-gri-body-sm leading-[1.55]', night ? 'text-white/78' : 'text-muted-foreground')}>{v.description}</p>
+        </Reveal>
+        <Reveal delay={0.08} className="relative min-h-[18rem] min-w-0 min-[1100px]:min-h-0">
+          <div className="h-full min-[1100px]:absolute min-[1100px]:inset-0">
+            <VideoFaqRow night={night} />
           </div>
         </Reveal>
-        <Reveal delay={0.08} className="flex h-full min-h-0">
-          <SectionAccordion
-            className="flex h-full flex-1 flex-col [&>*]:flex-1"
-            tone={night ? 'night' : 'paper'}
-            items={SHOWCASE_POINTS.map(point => ({
-              id: point.id,
-              title: point.title,
-              summary: point.summary,
-              icon: point.icon,
-              content: (
-                <ul>
-                  {point.bullets.map(bullet => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-              ),
-            }))}
-          />
-        </Reveal>
-      </div>
-      <div className="mt-gob-6 grid gap-gob-4 min-[905px]:grid-cols-2">
         {[leftVideos, rightVideos].map((column, i) => (
           <SectionAccordion
             key={i}
@@ -214,7 +302,11 @@ export function VideoShowcase({
                 title: item.title,
                 summary: item.description,
                 icon: <MonitorPlay />,
-                content: <VideoCard video={key} tone={night ? 'night' : 'paper'} showText={false} />,
+                content: (
+                  <div className="mx-auto w-full max-w-xl">
+                    <VideoCard video={key} tone={night ? 'night' : 'paper'} showText={false} />
+                  </div>
+                ),
               }
             })}
           />

@@ -142,7 +142,7 @@ function TramitesHeaderInner() {
   }
 
   return (
-    <header className="sticky top-0 z-[80] w-full overflow-visible bg-transparent px-gob-4 pt-gob-3 pb-gob-3 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
+    <header className="sticky top-0 z-[80] w-full overflow-visible bg-[var(--story-night)] px-gob-4 pt-gob-3 pb-gob-3 min-[600px]:px-gob-5 min-[905px]:px-gob-8">
       <div className="relative z-[80]" ref={wrapRef}>
       <div className="home-chrome-bar text-gob-text-inverse">
         <div className="mx-auto flex max-w-[1600px] items-center gap-gob-3 px-gob-4 py-gob-3 min-[600px]:gap-gob-5 min-[600px]:px-gob-5">

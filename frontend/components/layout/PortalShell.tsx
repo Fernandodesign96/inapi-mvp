@@ -31,6 +31,10 @@ export function PortalShell({
 }: PortalShellProps) {
   const isHome = headerProps.variant === 'home' && !hero
 
+  const chrome = (
+    <SiteHeader {...headerProps} pageTitle={hero ? undefined : headerProps.pageTitle} variant={hero ? 'home' : headerProps.variant} />
+  )
+
   if (hero) {
     return (
       <TooltipProvider delayDuration={200}>
@@ -38,8 +42,8 @@ export function PortalShell({
         <div className="flex min-h-screen min-w-0 max-w-full flex-col bg-background">
           <SkipLink />
           <FocusOnHeading />
+          {chrome}
           <div className="home-atmosphere">
-            <SiteHeader {...headerProps} pageTitle={undefined} variant="home" />
             <div id="contenido-principal" tabIndex={-1} data-skip-focus-ring className="relative z-[1] outline-none">
               {hero}
             </div>
@@ -64,9 +68,9 @@ export function PortalShell({
       <div className="flex min-h-screen min-w-0 max-w-full flex-col bg-background">
         <SkipLink />
         <FocusOnHeading />
+        {chrome}
         {isHome ? (
-          <div className="home-atmosphere flex min-h-screen min-w-0 flex-col">
-            <SiteHeader {...headerProps} />
+          <div className="home-atmosphere flex min-h-0 min-w-0 flex-1 flex-col">
             <div id="contenido-principal" tabIndex={-1} data-skip-focus-ring className="relative z-[1] flex-1 outline-none">
               <PlatformContextBanner platform="informativo" />
               {children}
@@ -75,9 +79,6 @@ export function PortalShell({
           </div>
         ) : (
           <>
-            <div className="home-atmosphere">
-              <SiteHeader {...headerProps} />
-            </div>
             <div id="contenido-principal" tabIndex={-1} data-skip-focus-ring className="relative z-[1] flex-1 outline-none">
               <PlatformContextBanner platform="informativo" />
               {children}

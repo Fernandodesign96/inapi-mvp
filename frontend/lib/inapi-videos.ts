@@ -54,3 +54,5 @@ export const INAPI_VIDEOS = {
 } as const satisfies Record<string, InapiVideo>
 
 export type InapiVideoKey = keyof typeof INAPI_VIDEOS
+
+export const ALL_INAPI_VIDEO_KEYS = Object.keys(INAPI_VIDEOS) as InapiVideoKey[]

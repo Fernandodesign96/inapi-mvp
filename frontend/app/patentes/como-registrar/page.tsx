@@ -1,17 +1,15 @@
 import type { Metadata } from 'next'
-import { PortalShell } from '@/components/layout/PortalShell'
-import { ContainerGRI } from '@/components/layout/ContainerGRI'
-import {
-  PortalAccordion,
-  PortalBulletList,
-  PortalCtaBanner,
-  PortalMain,
-  PortalProse,
-  PortalSectionTitle,
-  PortalStepList,
-} from '@/components/portal/content'
+import { ClipboardCheck, FileSearch, Gavel, Lightbulb, Newspaper, PenLine, Scale, Wallet } from 'lucide-react'
+import { PROCESS_FLOWS } from '@/lib/inapi-process-timelines'
 import { PATENTES_FAQ_ITEMS } from '@/lib/portal-news'
-import { portalShellProps } from '@/lib/portal-page-props'
+import { BentoCard, BentoGrid } from '@/components/story/Bento'
+import { IconList } from '@/components/story/IconList'
+import { ProgressMiniCards } from '@/components/story/ProgressMiniCards'
+import { ShortcutBand } from '@/components/story/ShortcutBand'
+import { SplitAccordion } from '@/components/story/SplitAccordion'
+import { StoryCarousel } from '@/components/story/StoryCarousel'
+import { StoryPage } from '@/components/story/StoryPage'
+import { StorySection } from '@/components/story/StorySection'
 
 export const metadata: Metadata = {
   title: 'Cómo registrar una patente — INAPI',
@@ -21,132 +19,128 @@ export const metadata: Metadata = {
 
 export default function ComoRegistrarPatentePage() {
   return (
-    <PortalShell {...portalShellProps('/patentes/como-registrar')}>
-      <ContainerGRI size="portal">
-        <PortalMain>
-          <section>
-            <PortalSectionTitle>¿Qué es una patente?</PortalSectionTitle>
-            <PortalProse className="mb-gob-3">
-              Una patente es el <strong className="text-gob-text">derecho exclusivo</strong> que el Estado concede para
-              proteger una invención. Le da a su titular el derecho de vender la invención, ceder sus derechos a otra
-              persona o impedir que terceros la exploten comercialmente, a cambio de revelar la invención al público.
-            </PortalProse>
-            <PortalProse>
-              La protección dura hasta <strong className="text-gob-text">20 años</strong> desde la fecha de presentación de
-              la solicitud, y solo aplica en el país donde se otorgó (principio de territorialidad).
-            </PortalProse>
-          </section>
+    <StoryPage
+      path="/patentes/como-registrar"
+      hero={{
+        eyebrow: 'Patentes',
+        dot: 'primary',
+        lead: 'Requisitos, etapas, tasas y preguntas frecuentes para patentar una invención en Chile.',
+        seal: { center: 'P', caption: 'PATENTE' },
+      }}
+    >
+      <StorySection tone="paper" eyebrow="Definición" title="¿Qué es una patente?">
+        <p className="max-w-3xl text-gri-body leading-[1.65] text-gob-text">
+          Una patente es el <strong>derecho exclusivo</strong> que el Estado concede para proteger una invención. Le da a su
+          titular el derecho de vender la invención, ceder sus derechos o impedir que terceros la exploten comercialmente, a
+          cambio de revelar la invención al público. Dura hasta <strong>20 años</strong> desde la presentación y solo aplica
+          en el país donde se otorgó.
+        </p>
+      </StorySection>
 
-          <section>
-            <PortalSectionTitle>Ventajas de obtener una patente</PortalSectionTitle>
-            <PortalProse className="mb-gob-3">
-              Patentar tu invento no es obligatorio: es una estrategia para mantener una ventaja competitiva. La patente te
-              da exclusividad para explotar tu invento, excluyendo a terceros de fabricarlo, usarlo, venderlo o importarlo.
-            </PortalProse>
-            <PortalProse>
-              Puedes patentar cualquier ámbito de la tecnología, desde mejoras pequeñas hasta grandes adelantos: mecánica,
-              electricidad, biotecnología, farmacia o química.
-            </PortalProse>
-          </section>
+      <StorySection tone="mist" eyebrow="Estrategia" title="Ventajas de obtener una patente">
+        <BentoGrid cols={2}>
+          <BentoCard
+            icon={<Lightbulb />}
+            title="No es obligatorio"
+            body="Patentar es una estrategia para mantener una ventaja competitiva: exclusividad para fabricar, usar, vender o importar."
+          />
+          <BentoCard
+            icon={<Scale />}
+            title="Cubre toda la tecnología"
+            body="Mecánica, electricidad, biotecnología, farmacia o química: desde mejoras pequeñas hasta grandes adelantos."
+            delay={0.06}
+          />
+        </BentoGrid>
+      </StorySection>
 
-          <section>
-            <PortalSectionTitle>Requisitos para obtener una patente</PortalSectionTitle>
-            <PortalBulletList
-              items={[
-                <>
-                  <strong className="text-gob-text">Ser novedosa:</strong> no debe existir antes en el estado de la técnica,
-                  en ningún lugar del mundo.
-                </>,
-                <>
-                  <strong className="text-gob-text">Tener nivel inventivo:</strong> no debe resultar obvia para alguien
-                  experto en la materia.
-                </>,
-                <>
-                  <strong className="text-gob-text">Ser aplicable industrialmente:</strong> debe poder producirse o usarse en
-                  cualquier industria.
-                </>,
-              ]}
+      <StorySection tone="paper" eyebrow="Requisitos" title="Requisitos para obtener una patente">
+        <IconList
+          items={[
+            { text: <><strong>Ser novedosa:</strong> no debe existir antes en el estado de la técnica, en ningún lugar del mundo.</> },
+            { text: <><strong>Tener nivel inventivo:</strong> no debe resultar obvia para alguien experto en la materia.</> },
+            { text: <><strong>Ser aplicable industrialmente:</strong> debe poder producirse o usarse en cualquier industria.</> },
+          ]}
+        />
+      </StorySection>
+
+      <StorySection tone="mist" eyebrow="Presentación" title="Cómo presentar tu solicitud">
+        <IconList
+          items={[
+            { icon: PenLine, text: <>Presenta en línea, adjunta la documentación técnica y paga <strong>1 UTM</strong>.</> },
+            { text: <>Necesitas <strong>ClaveÚnica</strong> del Registro Civil para firmar electrónicamente.</> },
+            { text: <>Excepcionalmente, si no tienes acceso electrónico, puedes presentar en papel en O&apos;Higgins 194, Santiago.</> },
+          ]}
+        />
+      </StorySection>
+
+      <StorySection tone="paper" eyebrow="Etapas" title="Línea de tiempo del trámite">
+        <StoryCarousel label={PROCESS_FLOWS.patentes.title} arrows="sides" itemClassName="basis-[92%] min-[905px]:basis-[48%]">
+          {PROCESS_FLOWS.patentes.stages.map((stage, i) => (
+            <BentoCard
+              key={stage.title}
+              eyebrow={`Etapa ${i + 1}`}
+              title={stage.title}
+              body={
+                <div className="space-y-gob-3">
+                  <p>{stage.summary}</p>
+                  <IconList items={stage.states.map(s => ({ text: <><strong>{s.label}.</strong> {s.detail}</> }))} />
+                </div>
+              }
             />
-          </section>
+          ))}
+        </StoryCarousel>
+      </StorySection>
 
-          <section>
-            <PortalSectionTitle>Cómo presentar tu solicitud</PortalSectionTitle>
-            <PortalProse className="mb-gob-3">
-              Presenta tu solicitud en línea en el sitio de INAPI, adjuntando la documentación técnica y pagando 1 UTM.
-              Necesitas <strong className="text-gob-text">ClaveÚnica</strong> del Registro Civil para firmar la solicitud
-              electrónicamente.
-            </PortalProse>
-            <PortalProse>
-              Excepcionalmente, si no tienes acceso a medios electrónicos, puedes presentar tu solicitud en papel en Av.
-              Libertador Bernardo O&apos;Higgins 194, Santiago.
-            </PortalProse>
-          </section>
-
-          <section>
-            <PortalSectionTitle>Etapas de tramitación</PortalSectionTitle>
-            <PortalStepList
-              steps={[
-                {
-                  num: 1,
-                  title: 'Presentación de la solicitud',
-                  body: 'Adjuntas la documentación técnica y pagas la tasa inicial de 1 UTM.',
-                },
-                {
-                  num: 2,
-                  title: 'Examen de forma',
-                  body: 'INAPI revisa que la solicitud cumpla los requisitos formales mínimos.',
-                },
-                {
-                  num: 3,
-                  title: 'Publicación en el Diario Oficial',
-                  body: 'Requieres la publicación dentro de 60 días de aceptada a trámite.',
-                },
-                {
-                  num: 4,
-                  title: 'Período de oposición',
-                  body: 'Cualquier interesado puede oponerse dentro de 45 días desde la publicación.',
-                },
-                {
-                  num: 5,
-                  title: 'Pago del arancel pericial',
-                  body: 'Acreditas el pago dentro de 60 días hábiles.',
-                },
-                {
-                  num: 6,
-                  title: 'Nombramiento del perito',
-                  body: 'INAPI designa un perito según el área técnica de tu solicitud.',
-                },
-                {
-                  num: 7,
-                  title: 'Etapa pericial',
-                  body: 'El perito evalúa si cumples los requisitos de patentabilidad, en un plazo de 60 días.',
-                },
-                {
-                  num: 8,
-                  title: 'Etapa resolutiva',
-                  body: 'INAPI dicta la resolución que acepta o rechaza tu solicitud.',
-                },
-                {
-                  num: 9,
-                  title: 'Otorgamiento del registro',
-                  body: 'Pagas 2 UTM por cada 5 años de vigencia del derecho.',
-                },
-              ]}
+      <StorySection tone="mist" eyebrow="Diseños" title="Dibujos y diseños industriales">
+        <StoryCarousel label={PROCESS_FLOWS.disenos.title} arrows="sides" itemClassName="basis-[92%] min-[905px]:basis-[48%]">
+          {PROCESS_FLOWS.disenos.stages.map((stage, i) => (
+            <BentoCard
+              key={stage.title}
+              eyebrow={`Etapa ${i + 1}`}
+              title={stage.title}
+              body={
+                <div className="space-y-gob-3">
+                  <p>{stage.summary}</p>
+                  <IconList items={stage.states.map(s => ({ text: <><strong>{s.label}.</strong> {s.detail}</> }))} />
+                </div>
+              }
             />
-            <PortalProse className="mt-gob-5">
-              Si tu solicitud es rechazada, puedes apelar ante el Tribunal de Propiedad Industrial dentro de 15 días desde
-              la notificación.
-            </PortalProse>
-          </section>
+          ))}
+        </StoryCarousel>
+      </StorySection>
 
-          <section>
-            <PortalSectionTitle>Otras preguntas frecuentes</PortalSectionTitle>
-            <PortalAccordion items={PATENTES_FAQ_ITEMS} />
-          </section>
+      <StorySection tone="paper" eyebrow="Nueve hitos" title="Etapas de tramitación">
+        <ProgressMiniCards
+          items={[
+            { title: '1. Presentación', body: 'Adjuntas la memoria y pagas 1 UTM.', icon: <PenLine /> },
+            { title: '2. Examen de forma', body: 'INAPI revisa requisitos formales mínimos.', icon: <ClipboardCheck /> },
+            { title: '3. Diario Oficial', body: 'Publicas dentro de 60 días de aceptada a trámite.', icon: <Newspaper /> },
+            { title: '4. Oposición', body: '45 días desde la publicación para oponerse.', icon: <Scale /> },
+          ]}
+        />
+        <div className="mt-gob-5">
+          <IconList
+            items={[
+              { icon: Wallet, text: <><strong>5. Arancel pericial:</strong> acreditas el pago dentro de 60 días hábiles.</> },
+              { icon: FileSearch, text: <><strong>6–7. Perito:</strong> INAPI nombra un perito; evalúa patentabilidad en 60 días.</> },
+              { icon: Gavel, text: <><strong>8–9. Resolución y registro:</strong> se acepta o rechaza; pagas 2 UTM por cada 5 años de vigencia.</> },
+              { icon: Scale, text: <>Si te rechazan, apelación ante el TDPI dentro de <strong>15 días</strong> desde la notificación.</> },
+            ]}
+          />
+        </div>
+      </StorySection>
 
-          <PortalCtaBanner title="¿Listo para patentar tu invención?" href="/patentes" cta="Ingresa tu solicitud" />
-        </PortalMain>
-      </ContainerGRI>
-    </PortalShell>
+      <StorySection tone="mist" eyebrow="Más detalle" title="Otras preguntas frecuentes">
+        <SplitAccordion
+          items={PATENTES_FAQ_ITEMS.map((item, i) => ({
+            id: `pat-faq-${i}`,
+            title: item.title,
+            content: <p>{item.content}</p>,
+          }))}
+        />
+      </StorySection>
+
+      <ShortcutBand kind="patentes" title="¿Listo para patentar tu invención?" />
+    </StoryPage>
   )
 }

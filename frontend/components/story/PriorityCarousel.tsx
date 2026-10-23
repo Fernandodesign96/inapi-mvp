@@ -2,7 +2,7 @@
 
 import { useId, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { LayoutGroup, motion, useReducedMotion } from 'framer-motion'
-import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { GuillocheBg } from '@/components/story/PiSeal'
 import { TramitesLink } from '@/components/tramites/TramitesLink'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
@@ -19,6 +19,8 @@ export type PriorityItem = {
   icon?: ReactNode
   example?: string
   fact?: string
+  itemIcons?: ReactNode[]
+  steps?: { label: string; icon?: ReactNode }[]
 }
 
 type Density = 'featured' | 'medium' | 'compact'
@@ -84,18 +86,41 @@ function CardFace({
         >
           {tx(item.title)}
         </h3>
-        {density !== 'compact' ? (
+        {density === 'featured' ? (
+          <p className={cn('text-gri-body-sm font-normal leading-[1.55]', dark ? 'text-white/88' : 'text-gob-text/85')}>
+            {item.fact ? (
+              <>
+                <strong className="font-semibold">{tx(item.fact)}</strong>
+                {item.lead ? <span className="font-normal"> {tx(item.lead)}</span> : null}
+              </>
+            ) : (
+              tx(item.lead)
+            )}
+          </p>
+        ) : density === 'medium' ? (
           <p className={cn('text-gri-body-sm leading-[1.55]', dark ? 'text-white/82' : 'text-muted-foreground dark:text-white/80')}>{tx(item.lead)}</p>
         ) : (
           <p className="line-clamp-2 text-gri-body-sm leading-[1.55] text-muted-foreground dark:text-white/80">{tx(item.lead)}</p>
         )}
         {bullets.length ? (
           <ul className="mt-gob-1 space-y-gob-2">
-            {bullets.map(bullet => (
+            {bullets.map((bullet, i) => (
               <li key={bullet} className="flex gap-gob-2 text-gri-body-sm">
-                <span aria-hidden className="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-current opacity-60" />
+                {density === 'featured' && item.itemIcons?.[i] ? (
+                  <span
+                    aria-hidden
+                    className={cn(
+                      'mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-gob-md [&_svg]:size-4',
+                      dark ? 'bg-white/12 text-white' : 'bg-gob-primary/10 text-gob-primary-dark',
+                    )}
+                  >
+                    {item.itemIcons[i]}
+                  </span>
+                ) : (
+                  <span aria-hidden className="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-current opacity-60" />
+                )}
                 <span className={dark ? 'text-white/82' : 'text-gob-text/85 dark:text-white/85'}>
-                  {density === 'featured' ? <RichLine text={tx(bullet)} /> : tx(bullet)}
+                  <RichLine text={tx(bullet)} />
                 </span>
               </li>
             ))}
@@ -106,8 +131,25 @@ function CardFace({
             {tx(item.example)}
           </p>
         ) : null}
-        {density === 'featured' && item.fact ? (
-          <p className={cn('text-gri-body-sm font-medium', dark ? 'text-white' : 'text-gob-text')}>{tx(item.fact)}</p>
+        {density === 'featured' && item.steps?.length ? (
+          <ol className="mt-gob-3 flex flex-wrap items-stretch gap-gob-2">
+            {item.steps.map((step, i) => (
+              <li key={step.label} className="flex min-w-0 flex-1 items-stretch gap-gob-2">
+                <span
+                  className={cn(
+                    'flex min-h-[4.5rem] w-full flex-col items-center justify-center gap-1 rounded-gob-md px-gob-2 py-gob-2 text-center',
+                    dark ? 'bg-white/10 text-white' : 'bg-white/80 text-gob-text',
+                  )}
+                >
+                  {step.icon ? <span aria-hidden className="[&_svg]:size-4">{step.icon}</span> : null}
+                  <span className="text-[0.6875rem] font-medium leading-[1.3]">{tx(step.label)}</span>
+                </span>
+                {i < item.steps!.length - 1 ? (
+                  <ArrowRight aria-hidden className={cn('mt-6 size-4 shrink-0', dark ? 'text-white/70' : 'text-gob-primary')} />
+                ) : null}
+              </li>
+            ))}
+          </ol>
         ) : null}
         {density !== 'compact' ? (
           <span className={cn('mt-auto inline-flex items-center gap-gob-1 pt-gob-3 text-gri-body-sm font-medium', dark ? 'text-white' : 'text-gob-link')}>
@@ -143,7 +185,7 @@ function CardFace({
   }
 
   return (
-    <button type="button" onClick={onSelect} className={cn(shell, 'w-full cursor-pointer hover:bg-[#D7ECF8] hover:text-[#092039] dark:hover:bg-[#0B3A5C] dark:hover:text-white')}>
+    <button type="button" onClick={onSelect} className={cn(shell, 'story-card-hover-paper w-full cursor-pointer')}>
       {body}
     </button>
   )

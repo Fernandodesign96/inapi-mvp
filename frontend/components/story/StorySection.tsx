@@ -16,6 +16,7 @@ export type StorySectionProps = {
   /** Acciones a la derecha del título (solo align="left"). */
   actions?: React.ReactNode
   dot?: React.ComponentProps<typeof EyebrowPill>['dot']
+  leadSingleLine?: boolean
 }
 
 export function StorySection({
@@ -29,6 +30,7 @@ export function StorySection({
   className,
   actions,
   dot,
+  leadSingleLine = false,
 }: StorySectionProps) {
   const autoId = useId()
   const headingId = `${id ?? autoId.replace(/:/g, '')}-title`
@@ -55,7 +57,7 @@ export function StorySection({
               center ? 'mx-auto max-w-3xl items-center text-center' : 'min-[905px]:flex-row min-[905px]:items-end min-[905px]:justify-between',
             )}
           >
-            <div className={cn('flex flex-col gap-gob-4', center ? 'items-center' : 'max-w-3xl items-start')}>
+            <div className={cn('flex flex-col gap-gob-4', center ? 'items-center' : 'w-full items-start')}>
               {eyebrow ? (
                 <EyebrowPill tone={tone} dot={dot}>
                   {eyebrow}
@@ -72,9 +74,10 @@ export function StorySection({
               {lead ? (
                 <p
                   className={cn(
-                    'max-w-2xl text-gri-body leading-[1.6] min-[600px]:text-[1.125rem]',
+                    'max-w-none text-gri-body leading-[1.6] min-[600px]:text-[1.125rem]',
                     center && 'text-center',
-                    night ? 'text-white/82' : 'text-muted-foreground',
+                    leadSingleLine && 'min-[1100px]:whitespace-nowrap',
+                    night ? 'text-white/92' : 'text-muted-foreground',
                   )}
                 >
                   {lead}

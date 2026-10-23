@@ -15,8 +15,8 @@ const NEWS = [
     resumen:
       'El programa gratuito y en línea, busca acercar los conceptos fundamentales de la propiedad intelectual y destacar su rol estratégico en el emprendimiento y la innovación.',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-gii.jpg',
-    alt: 'Academia INAPI abre postulaciones a un curso gratuito sobre propiedad industrial.',
+    image: '/inapi-mvp/home/noticia-01-academia.jpg',
+    alt: 'Persona trabajando en un computador portátil durante un curso de Academia INAPI.',
   },
   {
     fecha: 'Miércoles 14 octubre de 2026',
@@ -24,8 +24,8 @@ const NEWS = [
     resumen:
       'La iniciativa permitirá conocer el estado actual del ecosistema nacional, identificar oportunidades y barreras, y generar recomendaciones para avanzar en el uso de la propiedad industrial como respaldo para acceder a financiamiento.',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-pai.jpg',
-    alt: 'INAPI y OMPI inician un estudio sobre financiamiento respaldado en propiedad industrial.',
+    image: '/inapi-mvp/home/noticia-02-ompi.png',
+    alt: 'Personas revisan notas adhesivas sobre una mesa de trabajo, en el estudio INAPI-OMPI.',
   },
   {
     fecha: 'Martes 29 septiembre de 2026',
@@ -33,7 +33,7 @@ const NEWS = [
     resumen:
       'El país sube del lugar 43 al 41 en insumos de innovación, pero baja del 63 al 70 en resultados, según el ranking de la OMPI.',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-gii.jpg',
+    image: '/inapi-mvp/home/noticia-03-gii.png',
     alt: 'Vista de Santiago de Chile, con el Costanera Center y la cordillera de los Andes.',
   },
   {
@@ -43,7 +43,7 @@ const NEWS = [
     resumen:
       'Tras cuatro años de implementación, la iniciativa de la OMPI e INAPI fortalece su gestión operativa mediante una nueva normativa de administración e inscripción, sumada al lanzamiento de su portal oficial.',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-pai.jpg',
+    image: '/inapi-mvp/home/noticia-04-pai.png',
     alt: 'Personas trabajando en un computador con la plataforma del Programa de Asistencia a Inventores.',
   },
   {
@@ -52,7 +52,7 @@ const NEWS = [
     resumen:
       'La iniciativa busca promover el rol de la mujer en el ecosistema emprendedor y otorgarle capacidades para impulsar sus negocios, facilitando sus procesos de tramitación en marcas, dibujos y diseños industriales.',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-mujeres.jpg',
+    image: '/inapi-mvp/home/noticia-05-mujeres.jpeg',
     alt: 'Mujer trabajando en un computador portátil durante un taller de propiedad industrial.',
   },
   {
@@ -61,7 +61,7 @@ const NEWS = [
     resumen:
       'A través de talleres, reuniones en terreno y una nueva plataforma pública, el organismo busca que empresas aprovechen la información de patentes para tomar mejores decisiones de inversión e innovación.',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-gii.jpg',
+    image: '/inapi-mvp/home/noticia-06-vigilancia.jpg',
     alt: 'INAPI conecta la vigilancia tecnológica de patentes con la industria.',
   },
   {
@@ -70,7 +70,7 @@ const NEWS = [
     resumen:
       'El Director Nacional de INAPI, Esteban Figueroa, presentó la Plataforma de Información Tecnológica de Patentes para el Desarrollo Productivo Sostenible (DPS).',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-pai.jpg',
+    image: '/inapi-mvp/home/noticia-07-litio.jpg',
     alt: 'INAPI presenta la plataforma de información tecnológica de patentes en un foro del litio.',
   },
   {
@@ -79,7 +79,7 @@ const NEWS = [
     resumen:
       'El ingreso acumulado de marcas multiclase suma 29.787 presentaciones en los primeros siete meses del año, con alzas lideradas por las categorías de aparatos tecnológicos, equipamiento médico y productos farmacéuticos.',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-mujeres.jpg',
+    image: '/inapi-mvp/home/noticia-08-marcas.png',
     alt: 'Solicitudes de marcas en Chile aumentan en 2026.',
   },
   {
@@ -88,7 +88,7 @@ const NEWS = [
     resumen:
       'La iniciativa, dirigida a beneficiarios y beneficiarias del programa StartUp Ciencia 2026, contempla un Bootcamp intensivo de cinco días para fortalecer las estrategias de propiedad intelectual.',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-gii.jpg',
+    image: '/inapi-mvp/home/noticia-09-running.png',
     alt: 'INAPI Running 2026, programa conjunto con ANID.',
   },
   {
@@ -97,8 +97,8 @@ const NEWS = [
     resumen:
       'La medida, formalizada mediante la Resolución Exenta N.° 388, fortalece las acciones institucionales en el marco de la Ley Karin para garantizar espacios laborales seguros.',
     href: '/sala-de-prensa',
-    image: '/inapi-mvp/home/noticia-pai.jpg',
-    alt: 'INAPI actualiza su protocolo de prevención de violencia, acoso sexual y laboral.',
+    image: '/inapi-mvp/home/noticia-10-vals.png',
+    alt: 'Edificio institucional de INAPI, sede del protocolo de prevención de violencia y acoso laboral.',
   },
 ]
 
@@ -121,18 +121,19 @@ const PROGRAMS = [
 ]
 
 const cardClass =
-  'story-lift group relative flex h-full flex-col overflow-hidden rounded-gob-xl border border-gob-border bg-card shadow-elevation-02 focus-within:ring-2 focus-within:ring-gob-focus'
+  'story-lift group relative flex h-full min-h-[32rem] flex-col overflow-hidden rounded-gob-xl border border-gob-border bg-card shadow-elevation-02 focus-within:ring-2 focus-within:ring-gob-focus'
 
 function ProgramBanners() {
   const { tx } = useI18n()
   return (
     <StorySection tone="paper" eyebrow="Programas">
-      <Carousel opts={{ align: 'center', loop: true }} className="px-12">
+      <Carousel opts={{ align: 'center', loop: true }} className="px-16 min-[905px]:px-20">
         <CarouselContent>
           {PROGRAMS.map(p => {
             const external = p.href.startsWith('http')
             const inner = (
               <figure className="flex flex-col items-center gap-gob-4 text-center">
+                <figcaption className="portal-h2 text-gob-text">{tx(p.title)}</figcaption>
                 <Image
                   src={p.src}
                   alt={tx(p.title)}
@@ -140,7 +141,6 @@ function ProgramBanners() {
                   height={320}
                   className="mx-auto h-auto max-h-52 w-full rounded-gob-lg object-contain min-[905px]:max-h-64"
                 />
-                <figcaption className="font-heading text-gri-h2 font-medium text-gob-text">{tx(p.title)}</figcaption>
               </figure>
             )
             return (
@@ -159,8 +159,8 @@ function ProgramBanners() {
             )
           })}
         </CarouselContent>
-        <CarouselPrevious className="left-0" />
-        <CarouselNext className="right-0" />
+        <CarouselPrevious />
+        <CarouselNext />
       </Carousel>
     </StorySection>
   )
@@ -173,16 +173,19 @@ export function HomeNews() {
         tone="mist"
         align="left"
         eyebrow="Sala de prensa"
-        title="Novedades y programas de INAPI"
+        leadSingleLine
+        title="Novedades de INAPI"
         lead="Comunicados, hitos y actividades recientes del Instituto Nacional de Propiedad Industrial."
         actions={<StoryCta href="/sala-de-prensa" label="Ver todas las noticias" variant="secondary" />}
       >
-        <Carousel opts={{ align: 'start', loop: false }} className="relative px-12">
+        <Carousel opts={{ align: 'start', loop: false }} className="relative px-16 min-[905px]:px-20">
           <CarouselContent>
             {NEWS.map(n => (
               <CarouselItem key={n.titulo} className="basis-full min-[905px]:basis-1/2 min-[1240px]:basis-1/3">
                 <article className={cardClass}>
-                  <Image src={n.image} alt={n.alt} width={1024} height={769} className="h-44 w-full object-cover" />
+                  <div className="relative h-64 w-full overflow-hidden min-[905px]:h-72">
+                    <Image src={n.image} alt={n.alt} width={1024} height={769} className="size-full object-cover" />
+                  </div>
                   <div className="flex flex-1 flex-col gap-gob-2 p-gob-5">
                     <p className="inline-flex items-center gap-gob-2 text-gri-body-xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
                       <Newspaper className="size-3.5 text-inapi-header" aria-hidden />
@@ -199,8 +202,8 @@ export function HomeNews() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-2" />
-          <CarouselNext className="right-2" />
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       </StorySection>
       <ProgramBanners />

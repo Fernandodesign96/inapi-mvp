@@ -568,7 +568,7 @@ export default function SolicitudPage() {
       <div className="home-atmosphere">
         <FooterINAPI />
       </div>
-      <ChatFAB title="Chat INAPI" />
+      <ChatFAB title="Chatbot INAPI" />
     </div>
   )
 }

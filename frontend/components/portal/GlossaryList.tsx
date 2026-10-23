@@ -31,7 +31,7 @@ function GlossaryCard({ term, definition }: { term: string; definition: string }
   return (
     <div
       id={glossarySlug(term)}
-      className="scroll-mt-28 rounded-gob-lg border border-gob-border bg-card p-gob-5 shadow-elevation-01 transition-shadow hover:shadow-elevation-03 target:ring-2 target:ring-gob-focus"
+      className="story-card-hover-paper scroll-mt-28 rounded-gob-lg border border-gob-border bg-card p-gob-5 shadow-elevation-01 target:ring-2 target:ring-gob-focus"
     >
       <dt>
         {long && !open ? (
