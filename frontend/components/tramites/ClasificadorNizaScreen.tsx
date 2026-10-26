@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { DataTable, Td } from '@/components/tramites/DataTable'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
+import { ControlChip, ControlChipRow } from '@/components/tramites/TramitesExperience'
 import { ServicePanel, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import coberturas from '@/data/coberturas.json'
 import { LEGAL_CLASIFICADOR } from '@/lib/tramites/legal'
@@ -95,6 +96,21 @@ export function ClasificadorNizaScreen() {
                   placeholder="Ejemplo: software para gestión de certificados digitales"
                   className="h-11"
                 />
+                <ControlChipRow>
+                  {['café', 'software', 'ropa deportiva', 'restaurante'].map(term => (
+                    <ControlChip
+                      key={term}
+                      pressed={palabra === term}
+                      onClick={() => {
+                        setPalabra(term)
+                        setBuscado(true)
+                        setPage(1)
+                      }}
+                    >
+                      {term}
+                    </ControlChip>
+                  ))}
+                </ControlChipRow>
               </div>
               <div className="space-y-gob-2">
                 <label htmlFor="clase" className="flex items-center text-gri-body font-medium">

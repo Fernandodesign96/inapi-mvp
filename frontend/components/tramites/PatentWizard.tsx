@@ -18,6 +18,7 @@ import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { LegalNotice } from '@/components/tramites/LegalNotice'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
 import { StatusTabs, type TabStatus } from '@/components/tramites/StatusTabs'
+import { BulletList, Checklist, HelperCard, WorkSplit } from '@/components/tramites/TramitesExperience'
 import { FileField, RequiredMark, StepSection, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import {
   LEGAL_WIZARD_PATENTE,
@@ -137,6 +138,9 @@ export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
   return (
     <RequireAuth>
       <TramitesMain>
+        <WorkSplit
+          main={
+            <>
         <StatusTabs tabs={tabs} current={step} onSelect={go} accent="patentes" />
 
         {step === 'datos' && (
@@ -499,6 +503,32 @@ export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
         </div>
         {saved ? <p className="text-gri-body-sm text-gob-success">{saved}</p> : null}
         <LegalNotice>{LEGAL_WIZARD_PATENTE}</LegalNotice>
+            </>
+          }
+          aside={
+            <>
+              <HelperCard title="Tu avance">
+                <Checklist
+                  current={step}
+                  items={steps.map(s => ({
+                    id: s.id,
+                    label: s.label,
+                    done: completeness[s.id] === 'ok',
+                  }))}
+                />
+              </HelperCard>
+              <HelperCard title="Control de este paso" tone="night">
+                <BulletList
+                  items={[
+                    'Completa este bloque antes de pasar al siguiente.',
+                    'Puedes guardar el borrador y retomarlo en 60 días.',
+                    'El título no puede superar 15 palabras.',
+                  ]}
+                />
+              </HelperCard>
+            </>
+          }
+        />
 
         <Dialog open={cipOpen} onOpenChange={setCipOpen}>
           <DialogContent>

@@ -20,6 +20,7 @@ import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { LegalNotice } from '@/components/tramites/LegalNotice'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
 import { StatusTabs, type TabStatus } from '@/components/tramites/StatusTabs'
+import { BulletList, Checklist, HelperCard, WorkSplit } from '@/components/tramites/TramitesExperience'
 import { RequiredMark, StepSection, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import { LEGAL_DENOMINATIVA, LEGAL_WIZARD_MARCA } from '@/lib/tramites/legal'
 import { NIZA_CLASES, UTM_CLP } from '@/lib/tramites/mock-data'
@@ -88,9 +89,54 @@ export function MarcaWizard() {
   const total = clases.length * UTM_CLP
   const toggleBlock = (id: string) => setOpenBlocks(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]))
 
+  const helpers: Record<string, { title: string; items: string[] }> = {
+    datos: {
+      title: 'Antes de escribir el nombre',
+      items: [
+        'La denominativa protege la palabra, no el logo.',
+        'Compara el nombre en el buscador de marcas si aún no lo hiciste.',
+        'Escríbelo tal como quieres verlo en el certificado.',
+      ],
+    },
+    clases: {
+      title: 'Cómo elegir clases',
+      items: [
+        'Pagas 1 UTM por cada clase de Niza.',
+        'Elige solo las que cubren lo que vendes u ofreces.',
+        'Puedes buscar por palabras en el clasificador.',
+      ],
+    },
+    prioridad: {
+      title: 'Prioridad extranjera',
+      items: [
+        'Vale si pediste la misma marca en otro país hace menos de 6 meses.',
+        'No es un trámite urgente: puedes seguir sin prioridad.',
+      ],
+    },
+    solicitante: {
+      title: 'Quién pide el registro',
+      items: ['Puede ser una persona o una empresa.', 'Los datos deben coincidir con el RUN o RUT.'],
+    },
+    representante: {
+      title: 'Representante',
+      items: ['Es opcional si presentas el trámite a tu nombre.', 'Si designas a otra persona, necesitas un poder.'],
+    },
+    tasas: {
+      title: 'Cómo se calcula',
+      items: ['El total es 1 UTM por cada clase elegida.', 'El valor UTM es de referencia al día de hoy.'],
+    },
+    revision: {
+      title: 'Antes de pagar',
+      items: ['Abre cada bloque y corrige lo incompleto.', 'Después del pago no podrás cambiar el signo ni las clases con facilidad.'],
+    },
+  }
+
   return (
     <RequireAuth>
       <TramitesMain>
+        <WorkSplit
+          main={
+            <>
         <StatusTabs tabs={tabs} current={step} onSelect={go} accent="marcas" />
 
         {step === 'datos' && (
@@ -280,6 +326,26 @@ export function MarcaWizard() {
         </div>
         {saved ? <p className="text-gri-body-sm text-gob-success">{saved}</p> : null}
         <LegalNotice>{LEGAL_WIZARD_MARCA}</LegalNotice>
+            </>
+          }
+          aside={
+            <>
+              <HelperCard title="Tu avance">
+                <Checklist
+                  current={step}
+                  items={STEPS.map(s => ({
+                    id: s.id,
+                    label: s.label,
+                    done: completeness[s.id] === 'ok',
+                  }))}
+                />
+              </HelperCard>
+              <HelperCard title={helpers[step]?.title ?? 'Ayuda de este paso'} tone="night">
+                <BulletList items={helpers[step]?.items ?? []} />
+              </HelperCard>
+            </>
+          }
+        />
 
         <Dialog open={denominativaOpen} onOpenChange={setDenominativaOpen}>
           <DialogContent className="sm:max-w-lg">

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowUpRight, ExternalLink, Zap } from 'lucide-react'
+import { ExternalLink, Zap } from 'lucide-react'
 import {
   Command,
   CommandDialog,
@@ -13,9 +13,7 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import { CATEGORY_ICONS } from '@/components/tramites/TramitesSidebar'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
-import { TRAMITES_CATEGORIES, categoryHref } from '@/lib/tramites/dashboard'
 import { MARCAS_MEGA, PATENTES_MEGA, TRAMITES_SECONDARY_NAV, type MegaColumn } from '@/lib/tramites/nav'
 
 export function useCommandShortcut(onToggle: () => void) {
@@ -99,21 +97,6 @@ export function TramitesCommandPalette({
                   <span className="text-gri-body-sm font-medium text-gob-text">{tx(item.label)}</span>
                   <span className="text-gri-body-xs text-muted-foreground">{tx(item.hint)}</span>
                 </span>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-          <CommandGroup heading={tx('Categorías')}>
-            {TRAMITES_CATEGORIES.map(cat => (
-              <CommandItem
-                key={cat.id}
-                value={`categoria ${cat.id} ${cat.label}`}
-                keywords={[tx(cat.label), tx(cat.description)]}
-                onSelect={() => go(categoryHref(cat.id))}
-                className="min-h-11 [&_svg]:size-4"
-              >
-                <span className="text-gob-text/70">{CATEGORY_ICONS[cat.id]}</span>
-                <span className="flex-1 text-gri-body-sm font-medium text-gob-text">{tx(cat.label)}</span>
-                <ArrowUpRight className="size-3.5 text-muted-foreground" aria-hidden />
               </CommandItem>
             ))}
           </CommandGroup>

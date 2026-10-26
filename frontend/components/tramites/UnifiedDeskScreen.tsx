@@ -10,6 +10,7 @@ import { Field, FilterPanel } from '@/components/tramites/FilterPanel'
 import { AlertBanner, ServicePanel, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { DEMO_NUMEROS } from '@/lib/tramites/catalogs'
+import { ControlChip, ControlChipRow } from '@/components/tramites/TramitesExperience'
 import { cn } from '@/lib/utils'
 
 export type DeskKind = 'marca' | 'patente' | 'diseño' | 'modelo'
@@ -450,11 +451,20 @@ export function UnifiedDeskScreen({ config }: { config: DeskConfig }) {
       <TramitesMain>
         <ServicePanel title={tx(config.title)} domain={config.domain}>
           <p className="text-gri-body leading-relaxed text-gob-text">{tx(config.description)}</p>
-          <ul className="list-disc space-y-gob-1 pl-gob-5 text-gri-body-sm text-gob-text">
+          <ControlChipRow label={tx('Trámites de este escritorio')}>
             {config.types.map(type => (
-              <li key={type}>{tx(type)}</li>
+              <ControlChip
+                key={type}
+                pressed={procedure === type}
+                onClick={() => {
+                  setProcedure(type)
+                  setSearched(true)
+                }}
+              >
+                {tx(type)}
+              </ControlChip>
             ))}
-          </ul>
+          </ControlChipRow>
           <form
             className="grid gap-gob-4 min-[600px]:grid-cols-2 min-[905px]:grid-cols-3"
             onSubmit={e => {

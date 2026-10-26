@@ -375,26 +375,6 @@ export const PAGE_TITLES: Record<string, PageHeading> = {
     subtitle: 'Sube el poder notarial de quien tramita en tu nombre.',
     domain: 'general',
   },
-  '/tramites/categoria/tramitacion': {
-    title: 'Tramitación',
-    subtitle: 'Solicita, busca antes de presentar y retoma tus borradores.',
-    domain: 'general',
-  },
-  '/tramites/categoria/cambios': {
-    title: 'Cambios y documentos',
-    subtitle: 'Adjunta escritos, revisa cambios guardados y sube poderes.',
-    domain: 'general',
-  },
-  '/tramites/categoria/pagos': {
-    title: 'Pagos',
-    subtitle: 'Paga tasas, publicaciones y descarga tus comprobantes.',
-    domain: 'general',
-  },
-  '/tramites/categoria/documentos': {
-    title: 'Mis documentos',
-    subtitle: 'Expedientes, certificados, estados diarios y formularios.',
-    domain: 'general',
-  },
   '/tramites/auth': { title: 'Iniciar sesión', domain: 'general' },
   '/tramites/ingresar': { title: 'Ingresar con Clave INAPI', domain: 'general' },
   '/tramites/solicitudmarca': { title: 'Solicitud de marca', domain: 'marcas' },
