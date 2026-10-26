@@ -2,8 +2,8 @@
 
 import { usePathname } from 'next/navigation'
 import { ChatFAB } from '@/components/layout/ChatFAB'
-import { FooterINAPI } from '@/components/layout/FooterINAPI'
 import { SkipLink } from '@/components/layout/SkipLink'
+import { TramitesContextRail } from '@/components/tramites/TramitesContextRail'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { DownloadToast } from '@/components/tramites/DownloadToast'
 import { FocusOnHeading } from '@/components/shared/FocusOnHeading'
@@ -27,10 +27,8 @@ export function TramitesFrame({ children }: { children: React.ReactNode }) {
           <div id="contenido-principal" tabIndex={-1} data-skip-focus-ring className="relative z-0 flex-1 outline-none">
             <PlatformContextBanner platform="tramites" />
             <TramitesSubheader />
+            <TramitesContextRail />
             {children}
-          </div>
-          <div className="home-atmosphere">
-            <FooterINAPI />
           </div>
         </div>
         <DownloadToast />

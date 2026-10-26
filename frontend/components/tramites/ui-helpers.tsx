@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 
 export function TramitesMain({ children }: { children: React.ReactNode }) {
   return (
-    <ContainerGRI size="portal" className="py-gob-6 space-y-gob-6">
+    <ContainerGRI size="portal" className="space-y-gob-6 py-gob-6 min-[905px]:space-y-gob-7">
       {children}
       <LastUpdated />
     </ContainerGRI>
@@ -27,9 +27,9 @@ export function EmptyState({
 }) {
   if (title) {
     return (
-      <div className="space-y-gob-3 rounded-gob-md border border-gob-info/30 bg-gob-info-bg px-gob-4 py-gob-4 text-gob-text">
-        <p className="font-heading text-gri-body font-medium">{title}</p>
-        {description ? <p className="text-gri-body-sm leading-relaxed">{description}</p> : null}
+      <div className="space-y-gob-3 rounded-gob-lg border border-gob-border bg-card px-gob-5 py-gob-5 text-gob-text shadow-elevation-01">
+        <p className="font-heading text-gri-h2 font-medium">{title}</p>
+        {description ? <p className="text-gri-body-sm leading-relaxed text-muted-foreground">{description}</p> : null}
         {cta ? (
           <Link href={cta.href} className="inline-flex min-h-11 items-center font-medium text-gob-link underline underline-offset-4">
             {cta.label}
@@ -75,16 +75,21 @@ export function ServicePanel({
   children: React.ReactNode
 }) {
   return (
-    <section className="overflow-hidden rounded-gob-lg border border-gob-border bg-card shadow-elevation-02">
+    <section
+      className={cn(
+        'overflow-hidden rounded-gob-xl border border-gob-border border-l-4 bg-card shadow-elevation-02',
+        domain === 'marcas' ? 'border-l-gob-accent' : 'border-l-gob-primary',
+      )}
+    >
       <h2
         className={cn(
-          'px-gob-5 py-gob-3 font-heading text-gri-body font-medium text-white',
-          domain === 'marcas' ? 'bg-[#3d5a80]' : 'bg-gob-accent',
+          'px-gob-5 py-gob-4 font-heading text-gri-body font-medium text-white',
+          domain === 'marcas' ? 'story-night' : 'bg-[var(--story-night)] dark:bg-[#0F69C4]',
         )}
       >
         {title}
       </h2>
-      <div className="space-y-gob-5 p-gob-5">{children}</div>
+      <div className="space-y-gob-5 p-gob-5 min-[905px]:p-gob-6">{children}</div>
     </section>
   )
 }
@@ -126,8 +131,8 @@ export function ScopeTabs({
       className={cn(
         'rounded-t-md px-gob-4 py-gob-2 text-gri-body-sm font-medium transition-colors duration-150',
         current === id
-          ? 'bg-[#3d5a80] text-white'
-          : 'bg-white text-gob-text hover:bg-gob-surface-elevated',
+          ? 'bg-[var(--story-night)] text-white dark:bg-[#0F69C4]'
+          : 'bg-gob-surface-elevated text-gob-text hover:bg-gob-border',
       )}
     >
       {label}
@@ -151,10 +156,10 @@ export function StepSection({
   children: React.ReactNode
 }) {
   return (
-    <section className="space-y-gob-4 rounded-gob-lg border border-gob-border bg-card p-gob-5 shadow-elevation-01">
-      <header className="space-y-gob-2 border-b border-gob-border pb-gob-3">
-        <h2 className="font-heading text-xl font-medium text-gob-text">{title}</h2>
-        {description ? <p className="text-gri-body-sm leading-relaxed text-gob-text">{description}</p> : null}
+    <section className="space-y-gob-5 rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01 min-[905px]:p-gob-6">
+      <header className="space-y-gob-2 border-b border-gob-border pb-gob-4">
+        <h2 className="font-heading text-gri-h2 font-medium text-gob-text">{title}</h2>
+        {description ? <p className="max-w-3xl text-gri-body-sm leading-[1.55] text-muted-foreground">{description}</p> : null}
       </header>
       {children}
     </section>

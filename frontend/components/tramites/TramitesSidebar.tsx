@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -11,63 +11,90 @@ import {
   ExternalLink,
   FilePen,
   FolderOpen,
-  LayoutDashboard,
+  Home,
   PanelLeftClose,
   PanelLeftOpen,
   PenLine,
+  Search,
   Wallet,
 } from 'lucide-react'
-import { PlatformBadge } from '@/components/shared/PlatformBadge'
 import { useDashboardPrefs } from '@/hooks/useDashboardPrefs'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
 import {
   TRAMITES_CATEGORIES,
-  categoryHref,
+  categoryForPath,
   categoryItems,
+  pathOf,
+  scopeFromPath,
   type TramitesCategoryId,
 } from '@/lib/tramites/dashboard'
 import { NOTIFICACIONES } from '@/lib/tramites/mock-data'
-import { TRAMITES_SECONDARY_NAV, type TramitesDomain } from '@/lib/tramites/nav'
+import type { TramitesDomain } from '@/lib/tramites/nav'
 import { cn } from '@/lib/utils'
 
 export const CATEGORY_ICONS: Record<TramitesCategoryId, React.ReactNode> = {
+  herramientas: <Search />,
   tramitacion: <PenLine />,
   cambios: <FilePen />,
   pagos: <Wallet />,
   documentos: <FolderOpen />,
 }
 
+const navFill =
+  'bg-[var(--story-night)] text-white [&_svg]:text-white dark:bg-[#0F69C4] dark:text-white dark:[&_svg]:text-white'
+
+const navIdle =
+  'text-gob-text hover:bg-[var(--story-night)] hover:text-white hover:[&_svg]:text-white dark:text-[#E8EAED] dark:hover:bg-[#0F69C4] dark:hover:text-white [&_svg]:text-current'
+
 const rowBase =
   'group/row flex min-h-11 w-full items-center gap-gob-3 rounded-gob-md px-gob-3 text-gri-body-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus [&_svg]:size-[1.125rem] [&_svg]:shrink-0'
 
 function rowClass(active: boolean) {
-  return cn(
-    rowBase,
-    active
-      ? 'bg-[var(--story-night)] text-white shadow-elevation-02 [&_svg]:text-white'
-      : 'text-gob-text hover:bg-gob-surface-elevated [&_svg]:text-gob-text/75',
-  )
+  return cn(rowBase, active ? navFill : navIdle)
 }
 
-function pathOf(href: string) {
-  return href.split('?')[0]
+function groupRowClass(on: boolean) {
+  return cn(
+    'group/row flex min-h-11 w-full items-center gap-gob-3 rounded-gob-md text-gri-body-sm font-medium transition-colors [&_svg]:size-[1.125rem] [&_svg]:shrink-0',
+    on ? navFill : navIdle,
+  )
 }
 
 export function ScopeSwitch({
   scope,
   onChange,
   className,
+  collapsed = false,
 }: {
   scope: TramitesDomain
   onChange: (scope: TramitesDomain) => void
   className?: string
+  collapsed?: boolean
 }) {
   const { tx } = useI18n()
+  if (collapsed) {
+    return (
+      <button
+        type="button"
+        onClick={() => onChange(scope === 'marcas' ? 'patentes' : 'marcas')}
+        className={cn(
+          'flex min-h-11 w-full items-center justify-center gap-gob-2 border-b border-gob-border text-gri-body-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus',
+          'bg-[var(--story-night)] text-white dark:bg-[#0F69C4] dark:text-white',
+          className,
+        )}
+        aria-label={tx(scope === 'marcas' ? 'Ámbito: Marcas. Cambiar a Patentes' : 'Ámbito: Patentes. Cambiar a Marcas')}
+        title={tx(scope === 'marcas' ? 'Ámbito: Marcas. Cambiar a Patentes' : 'Ámbito: Patentes. Cambiar a Marcas')}
+      >
+        <span aria-hidden className={cn('size-2 rounded-full', scope === 'marcas' ? 'bg-gob-accent' : 'bg-gob-primary')} />
+        {scope === 'marcas' ? 'M' : 'P'}
+      </button>
+    )
+  }
   return (
     <div
       role="group"
       aria-label={tx('Ámbito de trámites')}
-      className={cn('grid grid-cols-2 rounded-full border border-gob-border bg-gob-surface-elevated p-0.5', className)}
+      className={cn('grid grid-cols-2 border-b border-gob-border bg-gob-surface-elevated dark:bg-[#121418]', className)}
     >
       {(['marcas', 'patentes'] as const).map(id => (
         <button
@@ -76,11 +103,19 @@ export function ScopeSwitch({
           aria-pressed={scope === id}
           onClick={() => onChange(id)}
           className={cn(
-            'inline-flex min-h-9 items-center justify-center gap-gob-2 rounded-full px-gob-3 text-gri-body-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-            scope === id ? 'bg-card text-gob-text shadow-elevation-01' : 'text-muted-foreground hover:text-gob-text',
+            'inline-flex min-h-11 items-center justify-center gap-gob-2 px-gob-3 text-gri-body-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus',
+            scope === id
+              ? 'bg-[var(--story-night)] text-white dark:bg-[#0F69C4] dark:text-white'
+              : 'text-gob-text/55 hover:text-gob-text dark:text-white/45 dark:hover:bg-white/10 dark:hover:text-white',
           )}
         >
-          <span aria-hidden className={cn('size-2 rounded-full', id === 'marcas' ? 'bg-gob-accent' : 'bg-gob-primary')} />
+          <span
+            aria-hidden
+            className={cn(
+              'size-2 rounded-full',
+              id === 'marcas' ? 'bg-gob-accent' : scope === id ? 'bg-white' : 'bg-gob-primary',
+            )}
+          />
           {tx(id === 'marcas' ? 'Marcas' : 'Patentes')}
         </button>
       ))}
@@ -98,37 +133,22 @@ export function TramitesSidebarNav({
   const { tx } = useI18n()
   const pathname = usePathname()
   const { scope, setPrefs } = useDashboardPrefs()
-  const activeCategory = TRAMITES_CATEGORIES.find(cat => {
-    if (pathname === categoryHref(cat.id)) return true
-    return (['marcas', 'patentes'] as const).some(s =>
-      categoryItems(cat.id, s).some(item => !item.external && pathOf(item.href) === pathname),
-    )
-  })?.id
+  const activeCategory = categoryForPath(pathname)?.id
   const [groupOverrides, setGroupOverrides] = useState<Partial<Record<TramitesCategoryId, boolean>>>({})
   const pending = NOTIFICACIONES.filter(n => n.dominio === scope).length
   const isGroupOpen = (id: TramitesCategoryId) => groupOverrides[id] ?? activeCategory === id
+
+  useEffect(() => {
+    const fromPath = scopeFromPath(pathname, scope)
+    if (fromPath !== scope) setPrefs({ scope: fromPath })
+  }, [pathname, scope, setPrefs])
 
   const toggleGroup = (id: TramitesCategoryId) =>
     setGroupOverrides(prev => ({ ...prev, [id]: !(prev[id] ?? activeCategory === id) }))
 
   return (
     <nav aria-label={tx('Menú del Portal de trámites')} className="flex flex-col gap-gob-5">
-      {collapsed ? (
-        <button
-          type="button"
-          onClick={() => setPrefs({ scope: scope === 'marcas' ? 'patentes' : 'marcas' })}
-          className="mx-auto inline-flex size-11 items-center justify-center rounded-full border border-gob-border bg-gob-surface-elevated text-gri-body-xs font-bold text-gob-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-          aria-label={tx(scope === 'marcas' ? 'Ámbito: Marcas. Cambiar a Patentes' : 'Ámbito: Patentes. Cambiar a Marcas')}
-          title={tx(scope === 'marcas' ? 'Ámbito: Marcas. Cambiar a Patentes' : 'Ámbito: Patentes. Cambiar a Marcas')}
-        >
-          <span aria-hidden className={cn('mr-1 size-2 rounded-full', scope === 'marcas' ? 'bg-gob-accent' : 'bg-gob-primary')} />
-          {scope === 'marcas' ? 'M' : 'P'}
-        </button>
-      ) : (
-        <ScopeSwitch scope={scope} onChange={next => setPrefs({ scope: next })} />
-      )}
-
-      <ul className="flex flex-col gap-1">
+      <ul className="flex flex-col gap-1 border-b border-gob-border pb-gob-4">
         <li>
           <Link
             href="/tramites"
@@ -138,7 +158,7 @@ export function TramitesSidebarNav({
             title={collapsed ? tx('Inicio') : undefined}
             className={cn(rowClass(pathname === '/tramites'), collapsed && 'justify-center px-0')}
           >
-            <LayoutDashboard aria-hidden />
+            <Home aria-hidden />
             {collapsed ? null : <span>{tx('Inicio')}</span>}
           </Link>
         </li>
@@ -147,137 +167,105 @@ export function TramitesSidebarNav({
             href={`/tramites/notificaciones?ambito=${scope}`}
             onClick={onNavigate}
             aria-current={pathname === '/tramites/notificaciones' ? 'page' : undefined}
-            aria-label={collapsed ? `${tx('Estado de solicitudes')} (${pending})` : undefined}
-            title={collapsed ? `${tx('Estado de solicitudes')} (${pending})` : undefined}
+            aria-label={collapsed ? `${tx('Mis Notificaciones')} (${pending})` : undefined}
+            title={collapsed ? `${tx('Mis Notificaciones')} (${pending})` : undefined}
             className={cn(rowClass(pathname === '/tramites/notificaciones'), collapsed && 'relative justify-center px-0')}
           >
-              <Bell aria-hidden />
-              {collapsed ? (
-                <span aria-hidden className="absolute right-2 top-1.5 size-2 rounded-full bg-gob-accent" />
-              ) : (
-                <>
-                  <span className="flex-1">{tx('Estado de solicitudes')}</span>
-                  <span
-                    className={cn(
-                      'story-tabular inline-flex min-w-6 items-center justify-center rounded-full px-1.5 text-[0.6875rem] font-bold leading-5',
-                      pathname === '/tramites/notificaciones' ? 'bg-white text-[var(--story-night)]' : 'bg-gob-accent text-white',
-                    )}
-                  >
-                    {pending}
-                    <span className="sr-only"> {tx('avisos')}</span>
-                  </span>
-                </>
-              )}
-            </Link>
+            <Bell aria-hidden />
+            {collapsed ? (
+              <span aria-hidden className="absolute right-2 top-1.5 size-2 rounded-full bg-gob-accent" />
+            ) : (
+              <>
+                <span className="flex-1">{tx('Mis Notificaciones')}</span>
+                <span
+                  className={cn(
+                    'story-tabular inline-flex min-w-6 items-center justify-center rounded-full px-1.5 text-[0.6875rem] font-bold leading-5',
+                    pathname === '/tramites/notificaciones' ? 'bg-white text-[var(--story-night)]' : 'bg-gob-accent text-white',
+                  )}
+                >
+                  {pending}
+                  <span className="sr-only"> {tx('avisos')}</span>
+                </span>
+              </>
+            )}
+          </Link>
         </li>
       </ul>
 
-      <div className="flex flex-col gap-1">
-        {collapsed ? null : (
-          <p className="px-gob-3 pb-1 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
-            {tx('Trámites')}
-          </p>
-        )}
-        <ul className="flex flex-col gap-1">
-          {TRAMITES_CATEGORIES.map(cat => {
-            const href = categoryHref(cat.id)
-            const active = activeCategory === cat.id
-            const items = categoryItems(cat.id, scope)
-            const open = isGroupOpen(cat.id) && !collapsed
-            const groupId = `sidebar-group-${cat.id}`
-            return (
-              <li key={cat.id}>
-                <div className="flex items-center gap-1">
-                  <Link
-                    href={href}
-                    onClick={onNavigate}
-                    aria-current={pathname === href ? 'page' : undefined}
-                    aria-label={collapsed ? tx(cat.label) : undefined}
-                    title={collapsed ? `${tx(cat.label)}: ${tx(cat.description)}` : undefined}
-                    className={cn(rowClass(active), 'min-w-0 flex-1', collapsed && 'justify-center px-0')}
-                  >
-                    {CATEGORY_ICONS[cat.id]}
-                    {collapsed ? null : <span className="flex-1 truncate">{tx(cat.label)}</span>}
-                  </Link>
-                  {collapsed ? null : (
-                    <button
-                      type="button"
-                      aria-expanded={open}
-                      aria-controls={groupId}
-                      aria-label={`${tx(open ? 'Ocultar trámites de' : 'Mostrar trámites de')} ${tx(cat.label)}`}
-                      onClick={() => toggleGroup(cat.id)}
-                      className="inline-flex h-11 w-8 shrink-0 items-center justify-center rounded-gob-md text-gob-text/70 hover:bg-gob-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-                    >
-                      <ChevronDown className={cn('size-4 transition-transform', open && 'rotate-180')} aria-hidden />
-                    </button>
-                  )}
-                </div>
-                {open ? (
-                  <ul id={groupId} className="ml-[1.375rem] mt-1 flex flex-col border-l border-gob-border pl-gob-2">
-                    {items.map(item => {
-                      const itemActive = !item.external && pathOf(item.href) === pathname
-                      const cls = cn(
-                        'flex min-h-10 items-center gap-gob-2 rounded-gob-sm px-gob-2 py-1.5 text-gri-body-xs leading-snug focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-                        itemActive ? 'bg-[var(--story-night)]/8 font-semibold text-[var(--story-night)] dark:text-white' : 'text-gob-text/85 hover:bg-gob-surface-elevated hover:text-gob-text',
-                      )
-                      return (
-                        <li key={item.href + item.label}>
-                          {item.external ? (
-                            <a
-                              href={item.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={cls}
-                              onClick={onNavigate}
-                              title={tx(item.tooltip)}
-                            >
-                              <span className="line-clamp-2 flex-1">{tx(item.label)}</span>
-                              <ExternalLink className="size-3.5 shrink-0" aria-label={tx('Se abre en otra pestaña')} />
-                            </a>
-                          ) : (
-                            <Link
-                              href={item.href}
-                              className={cls}
-                              onClick={onNavigate}
-                              aria-current={itemActive ? 'page' : undefined}
-                              title={tx(item.tooltip)}
-                            >
-                              <span className="line-clamp-2 flex-1">{tx(item.label)}</span>
-                            </Link>
-                          )}
-                        </li>
-                      )
-                    })}
-                  </ul>
-                ) : null}
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-
-      {collapsed ? null : (
-        <div className="flex flex-col gap-1">
-          <p className="px-gob-3 pb-1 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
-            {tx('Atajos')}
-          </p>
-          <ul className="flex flex-col">
-            {TRAMITES_SECONDARY_NAV.map(item => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={onNavigate}
-                  title={tx(item.hint)}
-                  aria-description={tx(item.hint)}
-                  className="flex min-h-10 items-center rounded-gob-sm px-gob-3 text-gri-body-xs font-medium text-gob-link hover:bg-gob-surface-elevated hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-                >
-                  {tx(item.label)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <ul className="flex flex-col gap-1">
+        {TRAMITES_CATEGORIES.map(cat => {
+          const items = categoryItems(cat.id, scope)
+          const open = isGroupOpen(cat.id) && !collapsed
+          const groupId = `sidebar-group-${cat.id}`
+          return (
+            <li key={cat.id}>
+              <button
+                type="button"
+                aria-expanded={open}
+                aria-controls={collapsed ? undefined : groupId}
+                aria-label={collapsed ? tx(cat.label) : `${tx(open ? 'Ocultar trámites de' : 'Mostrar trámites de')} ${tx(cat.label)}`}
+                title={collapsed ? `${tx(cat.label)}: ${tx(cat.description)}` : undefined}
+                onClick={() => {
+                  if (collapsed) {
+                    setPrefs({ collapsed: false })
+                    setGroupOverrides(prev => ({ ...prev, [cat.id]: true }))
+                    return
+                  }
+                  toggleGroup(cat.id)
+                }}
+                className={cn(groupRowClass(open), 'w-full px-gob-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus', collapsed && 'justify-center px-0')}
+              >
+                {CATEGORY_ICONS[cat.id]}
+                {collapsed ? null : <span className="min-w-0 flex-1 truncate">{tx(cat.label)}</span>}
+                {collapsed ? null : (
+                  <ChevronDown className={cn('size-4 shrink-0 transition-transform', open && 'rotate-180')} aria-hidden />
+                )}
+              </button>
+              {open ? (
+                <ul id={groupId} className="ml-[1.375rem] mt-1 flex flex-col border-l border-gob-border pl-gob-2">
+                  {items.map(item => {
+                    const itemPath = pathOf(item.href)
+                    const itemActive = !item.external && itemPath === pathname && itemPath !== '/tramites/notificaciones'
+                    const cls = cn(
+                      'flex min-h-10 items-center gap-gob-2 rounded-gob-sm px-gob-2 py-1.5 text-gri-body-xs leading-snug focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+                      itemActive
+                        ? 'bg-gob-surface-elevated font-semibold text-gob-text dark:bg-white/10 dark:text-white'
+                        : 'text-gob-text/85 hover:bg-gob-surface-elevated hover:text-gob-text dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white',
+                    )
+                    return (
+                      <li key={item.href + item.label}>
+                        {item.external ? (
+                          <a
+                            href={item.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cls}
+                            onClick={onNavigate}
+                            title={tx(item.tooltip)}
+                          >
+                            <span className="line-clamp-2 flex-1">{tx(item.label)}</span>
+                            <ExternalLink className="size-3.5 shrink-0" aria-label={tx('Se abre en otra pestaña')} />
+                          </a>
+                        ) : (
+                          <Link
+                            href={item.href}
+                            className={cls}
+                            onClick={onNavigate}
+                            aria-current={itemActive ? 'page' : undefined}
+                            title={tx(item.tooltip)}
+                          >
+                            <span className="line-clamp-2 flex-1">{tx(item.label)}</span>
+                          </Link>
+                        )}
+                      </li>
+                    )
+                  })}
+                </ul>
+              ) : null}
+            </li>
+          )
+        })}
+      </ul>
     </nav>
   )
 }
@@ -289,8 +277,8 @@ export function SidebarBrand({ collapsed = false }: { collapsed?: boolean }) {
       href="/tramites"
       aria-label={tx('Ir a la pantalla principal de trámites')}
       className={cn(
-        'story-night guilloche relative flex items-center gap-gob-3 overflow-hidden rounded-gob-lg text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-        collapsed ? 'justify-center p-gob-2' : 'p-gob-3',
+        'relative flex min-h-12 min-w-0 items-center overflow-hidden text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus',
+        collapsed ? 'justify-center px-gob-2 py-gob-3' : 'min-w-0 flex-1 gap-gob-3 px-gob-3 py-gob-3',
       )}
     >
       <Image
@@ -298,56 +286,68 @@ export function SidebarBrand({ collapsed = false }: { collapsed?: boolean }) {
         alt=""
         width={96}
         height={38}
-        className={cn('relative w-auto rounded-sm object-contain', collapsed ? 'h-8' : 'h-9')}
+        className={cn('relative rounded-sm object-contain', collapsed ? 'h-7 w-auto max-w-10' : 'h-9 w-auto')}
         priority
       />
       {collapsed ? null : (
-        <span className="relative flex min-w-0 flex-col gap-1">
-          <span className="text-gri-body-sm font-semibold leading-tight">INAPI · {tx('Trámites')}</span>
-          <PlatformBadge platform="tramites" />
-        </span>
+        <span className="relative truncate text-gri-body-sm font-semibold leading-none">{tx('Mis trámites')}</span>
       )}
     </Link>
   )
 }
 
+function SidebarHeader({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
+  const { tx } = useI18n()
+  return (
+    <div
+      className={cn(
+        'story-night guilloche relative flex w-full overflow-hidden text-white',
+        collapsed ? 'flex-col' : 'items-stretch',
+      )}
+    >
+      <SidebarBrand collapsed={collapsed} />
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-label={collapsed ? tx('Expandir menú') : tx('Contraer menú')}
+        title={collapsed ? tx('Expandir menú') : tx('Contraer menú')}
+        aria-expanded={!collapsed}
+        className={cn(
+          'inline-flex shrink-0 items-center justify-center text-white/90 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus [&_svg]:size-[1.125rem]',
+          collapsed ? 'min-h-11 w-full border-t border-white/15' : 'w-11',
+        )}
+      >
+        {collapsed ? <PanelLeftOpen aria-hidden /> : <PanelLeftClose aria-hidden />}
+      </button>
+    </div>
+  )
+}
+
 export function TramitesSidebar() {
   const { tx } = useI18n()
-  const { collapsed, setPrefs } = useDashboardPrefs()
+  const { collapsed, scope, setPrefs } = useDashboardPrefs()
   return (
     <aside
       className={cn(
-        'hidden min-h-full shrink-0 flex-col gap-gob-5 border-r border-gob-border bg-card px-gob-3 py-gob-4 transition-[width] duration-200 lg:flex',
-        collapsed ? 'w-[4.75rem]' : 'w-[18.5rem]',
+        'sticky top-0 z-30 hidden h-svh shrink-0 flex-col self-start overflow-hidden border-r border-gob-border bg-card transition-[width] duration-200 lg:flex',
+        collapsed ? 'w-[4.75rem] min-w-[4.75rem]' : 'w-[18.5rem]',
       )}
       aria-label={tx('Barra lateral de trámites')}
     >
-      <SidebarBrand collapsed={collapsed} />
-      <div className="-mx-gob-3 min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-gob-3 [scrollbar-width:thin]">
+      <SidebarHeader collapsed={collapsed} onToggle={() => setPrefs({ collapsed: !collapsed })} />
+      <ScopeSwitch collapsed={collapsed} scope={scope} onChange={next => setPrefs({ scope: next })} />
+      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-gob-3 py-gob-4 [scrollbar-width:thin]">
         <TramitesSidebarNav collapsed={collapsed} />
       </div>
-      <div className="flex flex-col gap-1 border-t border-gob-border pt-gob-3">
-        <Link
-          href="/"
-          aria-label={collapsed ? tx('Volver al sitio informativo') : undefined}
-          title={collapsed ? tx('Volver al sitio informativo') : undefined}
-          className={cn(rowClass(false), collapsed && 'justify-center px-0')}
-        >
-          <ArrowLeft aria-hidden />
-          {collapsed ? null : <span>{tx('Volver al sitio informativo')}</span>}
-        </Link>
-        <button
-          type="button"
-          onClick={() => setPrefs({ collapsed: !collapsed })}
-          aria-label={collapsed ? tx('Expandir menú') : tx('Contraer menú')}
-          title={collapsed ? tx('Expandir menú') : tx('Contraer menú')}
-          aria-expanded={!collapsed}
-          className={cn(rowClass(false), collapsed && 'justify-center px-0')}
-        >
-          {collapsed ? <PanelLeftOpen aria-hidden /> : <PanelLeftClose aria-hidden />}
-          {collapsed ? null : <span>{tx('Contraer menú')}</span>}
-        </button>
-      </div>
+      <Link
+        href="/"
+        aria-label={collapsed ? tx('Volver al sitio informativo') : undefined}
+        title={collapsed ? tx('Volver al sitio informativo') : undefined}
+        className={cn(rowClass(false), 'mx-gob-3 mb-gob-4 mt-gob-8 shrink-0', collapsed && 'justify-center px-0')}
+      >
+        <ArrowLeft aria-hidden />
+        {collapsed ? null : <span>{tx('Volver al sitio informativo')}</span>}
+      </Link>
     </aside>
   )
 }

@@ -7,7 +7,7 @@ import { Bell, Menu, Search } from 'lucide-react'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { HeaderUtilities, iconBtnLight } from '@/components/layout/HeaderUtilities'
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet'
-import { SidebarBrand, TramitesSidebarNav } from '@/components/tramites/TramitesSidebar'
+import { ScopeSwitch, SidebarBrand, TramitesSidebarNav } from '@/components/tramites/TramitesSidebar'
 import { TramitesCommandPalette, useCommandShortcut } from '@/components/tramites/TramitesCommandPalette'
 import { useDashboardPrefs } from '@/hooks/useDashboardPrefs'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
@@ -19,9 +19,7 @@ function TopbarCrumbs() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const meta = resolveTramitesHeading(pathname, searchParams.toString())
-  if (pathname === '/tramites') {
-    return <p className="truncate text-gri-body-sm font-medium text-gob-text">Panel de trámites</p>
-  }
+  if (pathname === '/tramites') return null
   return (
     <Breadcrumbs
       homeHref="/tramites"
@@ -34,7 +32,7 @@ function TopbarCrumbs() {
 
 export function TramitesTopbar() {
   const { tx } = useI18n()
-  const { scope } = useDashboardPrefs()
+  const { scope, setPrefs } = useDashboardPrefs()
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const togglePalette = useCallback(() => setPaletteOpen(open => !open), [])
@@ -80,7 +78,7 @@ export function TramitesTopbar() {
           <Link
             href={`/tramites/notificaciones?ambito=${scope}`}
             className={cn(iconBtnLight, 'relative')}
-            aria-label={`${tx('Estado de mis solicitudes')}: ${count} ${tx('avisos')}`}
+            aria-label={`${tx('Mis Notificaciones')}: ${count} ${tx('avisos')}`}
           >
             <Bell className="size-5" strokeWidth={2.25} aria-hidden />
             <span
@@ -97,18 +95,23 @@ export function TramitesTopbar() {
       <TramitesCommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
 
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-        <SheetContent side="left" className="w-[19rem] gap-gob-4 overflow-y-auto bg-card p-gob-4 pt-gob-6">
+        <SheetContent side="left" className="flex w-[19rem] flex-col gap-0 overflow-y-auto bg-card p-0">
           <SheetTitle className="sr-only">{tx('Menú de trámites')}</SheetTitle>
           <SheetDescription className="sr-only">{tx('Navega por las categorías del Portal de trámites.')}</SheetDescription>
-          <SidebarBrand />
-          <TramitesSidebarNav onNavigate={() => setMenuOpen(false)} />
-          <Link
-            href="/"
-            className="flex min-h-11 items-center rounded-gob-md px-gob-3 text-gri-body-sm font-medium text-gob-link hover:bg-gob-surface-elevated"
-            onClick={() => setMenuOpen(false)}
-          >
-            {tx('Volver al sitio informativo')}
-          </Link>
+          <div className="story-night guilloche">
+            <SidebarBrand />
+          </div>
+          <ScopeSwitch scope={scope} onChange={next => setPrefs({ scope: next })} />
+          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-gob-3 py-gob-4">
+            <TramitesSidebarNav onNavigate={() => setMenuOpen(false)} />
+            <Link
+              href="/"
+              className="mt-auto flex min-h-11 items-center rounded-gob-md px-gob-3 text-gri-body-sm font-medium text-gob-link hover:bg-gob-surface-elevated"
+              onClick={() => setMenuOpen(false)}
+            >
+              {tx('Volver al sitio informativo')}
+            </Link>
+          </div>
         </SheetContent>
       </Sheet>
     </header>

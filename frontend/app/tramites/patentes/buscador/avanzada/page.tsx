@@ -20,7 +20,7 @@ function Block({
   children: React.ReactNode
 }) {
   return (
-    <section className="rounded-gob-md border border-gob-border bg-card p-gob-4 space-y-gob-3">
+    <section className="space-y-gob-3 rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01">
       <div>
         <h2 className="font-heading text-lg font-medium text-gob-text">{title}</h2>
         <p className="text-gri-body-sm text-muted-foreground">{hint}</p>

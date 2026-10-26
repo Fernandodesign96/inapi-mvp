@@ -3,20 +3,25 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ClaveUnicaButton } from '@/components/auth/ClaveUnicaButton'
 import { DataTable, Td } from '@/components/tramites/DataTable'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { EmptyState, TramitesMain } from '@/components/tramites/ui-helpers'
+import { CardCarousel, ControlChip, ControlChipRow, HelperCard, RecordCard, WorkSplit } from '@/components/tramites/TramitesExperience'
 import { RESULTADOS_PATENTES } from '@/lib/tramites/mock-data'
 import { useTramitesSession } from '@/lib/tramites/use-session'
+
+const SUGGESTIONS = ['danza', '202101234', 'OMNIdanz', 'tarima']
 
 export default function BuscadorPatentesPage() {
   const router = useRouter()
   const { session } = useTramitesSession()
   const [q, setQ] = useState('')
   const [ran, setRan] = useState(false)
+  const [vista, setVista] = useState<'cards' | 'tabla'>('cards')
   const results = ran
     ? RESULTADOS_PATENTES.filter(
         r =>
@@ -27,59 +32,122 @@ export default function BuscadorPatentesPage() {
       )
     : []
 
+  const run = (term?: string) => {
+    if (term !== undefined) setQ(term)
+    setRan(true)
+  }
+
   return (
     <TramitesMain>
-      <p className="text-gri-body text-gob-text max-w-3xl">
-        Busca patentes, modelos de utilidad y diseños. Escribe un número, un título o un nombre.
-      </p>
-      <form
-        className="flex flex-col min-[600px]:flex-row gap-gob-3 min-[600px]:items-end"
-        onSubmit={e => {
-          e.preventDefault()
-          setRan(true)
-        }}
-      >
-        <div className="flex-1 space-y-gob-2">
-          <label htmlFor="q" className="flex items-center text-gri-body-sm font-medium">
-            Palabra o número
-            <HelpTooltip text="Prueba con danza, 202101234 o OMNIdanz." />
-          </label>
-          <Input id="q" value={q} onChange={e => setQ(e.target.value)} />
-        </div>
-        <Button type="submit" size="form">
-          Buscar
-        </Button>
-      </form>
-      <p>
-        <Link href="/tramites/patentes/buscador/avanzada" className="text-gob-link underline underline-offset-4">
-          Ir a búsqueda avanzada
-        </Link>
-      </p>
-      {session.authenticated ? null : (
-      <div className="flex flex-wrap items-center gap-gob-3 rounded-gob-md border border-gob-border p-gob-4">
-        <p className="text-gri-body-sm text-gob-text flex-1">
-          Si ingresas con ClaveÚnica, esta consulta no pide captcha.
-        </p>
-        <ClaveUnicaButton
-          className="max-w-xs"
-          onClick={() => router.push('/tramites/clave-unica?next=/tramites/patentes/buscador')}
-        />
-      </div>
-      )}
-      {ran && results.length === 0 && <EmptyState>No hay resultados con estos filtros</EmptyState>}
-      {results.length > 0 && (
-        <DataTable headers={['Número', 'Tipo', 'Título', 'Solicitante', 'Fecha']} caption="Resultados">
-          {results.map(r => (
-            <tr key={r.numero}>
-              <Td>{r.numero}</Td>
-              <Td>{r.tipo}</Td>
-              <Td>{r.titulo}</Td>
-              <Td>{r.solicitante}</Td>
-              <Td>{r.fecha}</Td>
-            </tr>
-          ))}
-        </DataTable>
-      )}
+      <WorkSplit
+        main={
+          <div className="space-y-gob-5">
+            <form
+              className="rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01"
+              onSubmit={e => {
+                e.preventDefault()
+                run()
+              }}
+            >
+              <div className="flex items-center gap-gob-2">
+                <span className="inline-flex size-10 items-center justify-center rounded-gob-md bg-gob-primary/10 text-gob-primary-dark">
+                  <Search className="size-5" aria-hidden />
+                </span>
+                <div>
+                  <p className="font-heading text-gri-body font-medium text-gob-text">Busca en el acervo</p>
+                  <p className="text-gri-body-xs text-muted-foreground">Número, título o nombre del solicitante.</p>
+                </div>
+              </div>
+              <div className="mt-gob-4 flex flex-col gap-gob-3 min-[600px]:flex-row min-[600px]:items-end">
+                <div className="flex-1 space-y-gob-2">
+                  <label htmlFor="q" className="flex items-center text-gri-body-sm font-medium">
+                    Palabra o número
+                    <HelpTooltip text="Prueba con danza, 202101234 o OMNIdanz." />
+                  </label>
+                  <Input id="q" value={q} onChange={e => setQ(e.target.value)} />
+                </div>
+                <Button type="submit" size="form">
+                  Buscar
+                </Button>
+              </div>
+              <div className="mt-gob-4">
+                <ControlChipRow label="Prueba con">
+                  {SUGGESTIONS.map(term => (
+                    <ControlChip key={term} pressed={q === term && ran} onClick={() => run(term)}>
+                      {term}
+                    </ControlChip>
+                  ))}
+                </ControlChipRow>
+              </div>
+            </form>
+
+            {ran && results.length === 0 ? <EmptyState>No hay resultados con estos filtros</EmptyState> : null}
+
+            {results.length > 0 ? (
+              <div className="space-y-gob-4">
+                <ControlChipRow label="Vista">
+                  <ControlChip pressed={vista === 'cards'} onClick={() => setVista('cards')}>
+                    Tarjetas
+                  </ControlChip>
+                  <ControlChip pressed={vista === 'tabla'} onClick={() => setVista('tabla')}>
+                    Tabla
+                  </ControlChip>
+                </ControlChipRow>
+                {vista === 'cards' ? (
+                  results.length > 2 ? (
+                  <CardCarousel label="Resultados de patentes">
+                    {results.map(r => (
+                      <RecordCard key={r.numero} kicker={r.tipo} title={r.titulo} body={`${r.numero} · ${r.solicitante}`} meta={<p className="text-gri-body-xs text-muted-foreground">{r.fecha}</p>} />
+                    ))}
+                  </CardCarousel>
+                  ) : (
+                    <ul className="grid gap-gob-3 min-[600px]:grid-cols-2">
+                      {results.map(r => (
+                        <li key={r.numero}>
+                          <RecordCard kicker={r.tipo} title={r.titulo} body={`${r.numero} · ${r.solicitante}`} meta={<p className="text-gri-body-xs text-muted-foreground">{r.fecha}</p>} />
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                ) : (
+                  <DataTable headers={['Número', 'Tipo', 'Título', 'Solicitante', 'Fecha']} caption="Resultados">
+                    {results.map(r => (
+                      <tr key={r.numero}>
+                        <Td>{r.numero}</Td>
+                        <Td>{r.tipo}</Td>
+                        <Td>{r.titulo}</Td>
+                        <Td>{r.solicitante}</Td>
+                        <Td>{r.fecha}</Td>
+                      </tr>
+                    ))}
+                  </DataTable>
+                )}
+              </div>
+            ) : null}
+          </div>
+        }
+        aside={
+          <>
+            <HelperCard title="Afinar la búsqueda" tone="night">
+              <p>Si el listado es amplio, usa la búsqueda avanzada por fechas, titular o clasificación.</p>
+              <Link href="/tramites/patentes/buscador/avanzada" className="mt-gob-3 inline-flex min-h-11 items-center font-medium text-white underline underline-offset-4">
+                Ir a búsqueda avanzada
+              </Link>
+            </HelperCard>
+            {session.authenticated ? null : (
+              <HelperCard title="Consulta sin captcha">
+                <p className="text-gri-body-sm text-muted-foreground">Si ingresas con ClaveÚnica, esta consulta no pide captcha.</p>
+                <div className="mt-gob-3">
+                  <ClaveUnicaButton
+                    className="max-w-xs"
+                    onClick={() => router.push('/tramites/clave-unica?next=/tramites/patentes/buscador')}
+                  />
+                </div>
+              </HelperCard>
+            )}
+          </>
+        }
+      />
     </TramitesMain>
   )
 }

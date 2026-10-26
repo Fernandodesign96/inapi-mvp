@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { FileSearch, Lightbulb, PencilRuler } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -12,9 +13,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { ProgressMiniCards } from '@/components/story/ProgressMiniCards'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { PatentWizard } from '@/components/tramites/PatentWizard'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
+import { ChoiceCard } from '@/components/tramites/TramitesExperience'
 import { AlertBanner, ServicePanel, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import {
   AnnotationCreateScreen,
@@ -340,24 +343,40 @@ export function PatentLanding({ variant }: { variant: 'patente' | 'diseno' }) {
           </Link>
           .
         </AlertBanner>
+        <ProgressMiniCards
+          items={[
+            { title: 'Elige el derecho', body: 'Patente, modelo de utilidad o diseño, según lo que inventaste.' },
+            { title: 'Describe el objeto', body: 'Un título de hasta 15 palabras y, después, la memoria.' },
+            { title: 'Revisa y paga', body: 'Guardas un borrador y pagas la tasa de presentación.' },
+          ]}
+        />
         <ServicePanel title={variant === 'patente' ? 'Solicitar patente' : 'Solicitar diseño'} domain="patentes">
-          <p className="text-gri-body font-medium">Indique el tipo y título de la solicitud</p>
+          <p className="text-gri-body font-medium">Indica el tipo y el título de la solicitud</p>
+          <div className="grid gap-gob-3 min-[600px]:grid-cols-2">
+            {tipos.map(t => (
+              <ChoiceCard
+                key={t}
+                title={t}
+                body={
+                  t.includes('Modelo')
+                    ? 'Una mejora útil de un objeto ya conocido.'
+                    : t.includes('invención')
+                      ? 'Una solución técnica nueva, con actividad inventiva.'
+                      : t.includes('Dibujo')
+                        ? 'La ornamentación bidimensional de un producto.'
+                        : 'La apariencia tridimensional de un producto.'
+                }
+                selected={tipo === t}
+                onSelect={() => setTipo(t)}
+                icon={t.includes('Modelo') || t.includes('invención') ? <Lightbulb /> : t.includes('Dibujo') ? <PencilRuler /> : <FileSearch />}
+              />
+            ))}
+          </div>
           <div className="max-w-xl space-y-gob-4">
-            <div className="space-y-gob-2">
-              <label htmlFor="tipo-sol" className="flex items-center text-gri-body-sm font-medium">
-                Tipo de solicitud
-                <HelpTooltip text="Elige el derecho que quieres pedir." />
-              </label>
-              <select id="tipo-sol" className={selectClass()} value={tipo} onChange={e => setTipo(e.target.value)}>
-                <option value="">Seleccione...</option>
-                {tipos.map(t => (
-                  <option key={t}>{t}</option>
-                ))}
-              </select>
-            </div>
             <div className="space-y-gob-2">
               <label htmlFor="tit" className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
                 Título de la solicitud
+                <HelpTooltip text="Máximo 15 palabras. Describe el objeto, no el beneficio comercial." />
                 <span className="text-gob-danger">(*) Extensión máxima, 15 palabras</span>
               </label>
               <Input
