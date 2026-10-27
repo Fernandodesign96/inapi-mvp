@@ -223,11 +223,11 @@
   --gob-primary-dark: #0F69C4;
   --gob-primary-foreground: #FFFFFF;
 
-  /* Botón ClaveÚnica — UI Kit Gobierno Digital */
+  /* Botón ClaveÚnica — Guía ClaveÚnica 2025 */
   --claveunica-bg: #0F69C4;
-  --claveunica-bg-hover: #0A4F96;
-  --claveunica-bg-active: #0F69C4;
-  --claveunica-bg-focus: #0B1F33;
+  --claveunica-bg-hover: color-mix(in srgb, black 26%, #0F69C4);
+  --claveunica-bg-active: color-mix(in srgb, black 54%, #0F69C4);
+  --claveunica-bg-focus: color-mix(in srgb, black 26%, #0F69C4);
   --claveunica-bg-disabled: #A8C5E8;
   --claveunica-border-active: #FFBE5C;
   --claveunica-fg: #FFFFFF;

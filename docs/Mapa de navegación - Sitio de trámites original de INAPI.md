@@ -332,3 +332,54 @@ flowchart TB
   avanzada --> g4["Clasificaciones IPC y Locarno"]
   avanzada --> g5["Inventores y agentes"]
 ```
+
+## 9. Alias del MVP (rediseño 1:1, ya retirados)
+
+En las primeras versiones del MVP esas pantallas se copiaron casi una a una desde `tramites.inapi.cl`, solo con URL y UI nuevas. El dashboard unifica esos destinos. Las rutas de esta sección **ya no existen** en el código: se dejan aquí como registro del puente entre el sitio original y el flujo actual (`basePath` `/inapi-mvp`).
+
+### Acceso y alta
+
+| Sitio original | Alias MVP (retirado) | Destino actual |
+|---|---|---|
+| `/Account/Login` | `/tramites/ingresar` | `/tramites` (login) y `/tramites/auth` (Clave INAPI) |
+| `/Account/ClaveUnicaRedirect` (registro) | `/tramites/registrarse` | `/tramites` + `/tramites/clave-unica` |
+| Portada y modal ClaveÚnica | — | `/tramites` y `/tramites/clave-unica` |
+
+### Marcas
+
+| Sitio original | Alias MVP (retirado) | Destino actual |
+|---|---|---|
+| `/Trademark/TrademarkApplication/IndexTrademark` | `/tramites/solicitar-marca`, `/tramites/solicitudmarca` | `/tramites/marcas/solicitar` |
+| `/Trademark/TrademarkSavedApplications` | `/tramites/borradores-marcas` | `/tramites/marcas/solicitudes-guardadas` |
+| `/Trademark/TrademarkNizaClassifier` | `/tramites/clasificador-niza` | `/tramites/marcas/clasificador` |
+| `/Notificaciones` | `/tramites/estado-solicitudes-marcas` | `/tramites/notificaciones?ambito=marcas` |
+| `/PowerOfAttorney` | `/tramites/documentos-representacion` | `/tramites/custodia-poderes` |
+| `/Trademark/TrademarkAnnotation/FindAnnotation` | `/tramites/cambios-en-solicitud`, `/tramites/marcas/anotaciones` | `/tramites/marcas/tramites` |
+| `/Trademark/TrademarkUserDocument` | `/tramites/adjuntar-documentos`, `/tramites/marcas/presentar-escritos` | `/tramites/marcas/tramites` |
+| `/Home/RedirectToMadridWebsite` | `/tramites/marcas/madrid` | `/tramites/marcas/tramites` |
+| `/Trademark/TrademarkRenewalApplication` | `/tramites/marcas/renovaciones` | `/tramites/marcas/tramites` |
+| `/Trademark/TrademarkOpposition` | `/tramites/marcas/oposicion` | `/tramites/marcas/tramites` |
+| `/Trademark/TrademarkSecondPayment` | `/tramites/marcas/pago-concesion` | `/tramites/marcas/pagos` |
+| `/Trademark/TrademarkPaymentCoupon` | `/tramites/marcas/otros-pagos` | `/tramites/marcas/pagos` |
+| `/TgrPaymentCoupon/TrademarkTgrCoupon` | `/tramites/marcas/comprobante-pago` | `/tramites/marcas/pagos` |
+
+### Patentes
+
+| Sitio original | Alias MVP (retirado) | Destino actual |
+|---|---|---|
+| `/NotificacionesPatentes` | `/tramites/estado-solicitudes-patentes` | `/tramites/notificaciones?ambito=patentes` |
+| `/Patent/PatentFeePayment` | `/tramites/patentes/pago-presentacion` | `/tramites/patentes/pagos` |
+| `/Patent/PatentPaymentExternalExaminer` | `/tramites/patentes/pago-arancel-pericial` | `/tramites/patentes/pagos` |
+| `/Patent/PatentPaymentFinalRights` | `/tramites/patentes/pago-derechos-finales` | `/tramites/patentes/pagos` |
+| `/Patent/PatentPaymentPCT` | `/tramites/patentes/pago-pct` | `/tramites/patentes/pagos` |
+| `/Patent/PatentPaymentCoupon` | `/tramites/patentes/otros-pagos` | `/tramites/patentes/pagos` |
+| `/TgrPaymentCoupon/PatentTgrCoupon` | `/tramites/patentes/comprobante-pago` | `/tramites/patentes/pagos` |
+
+### Huérfanas del MVP (no correspondían a un menú vivo)
+
+| Alias MVP (retirado) | Función que tuvo | Destino actual |
+|---|---|---|
+| `/tramites/proximamente` | Placeholder de servicios aún no cableados | No aplica; el menú solo enlaza pantallas reales |
+| `/tramites/categoria/[id]` | Índice por categoría del dashboard | El sidebar abre cada trámite directo |
+
+`/tramites/solicitudmarca` y `/tramites/registrarse` también eran huérfanas respecto del menú del dashboard: el wizard GRI y el alta por ClaveÚnica quedaron absorbidos por `/tramites/marcas/solicitar` y por el login de `/tramites`.

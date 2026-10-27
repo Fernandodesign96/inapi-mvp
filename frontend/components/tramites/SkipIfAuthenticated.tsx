@@ -15,16 +15,8 @@ export function SkipIfAuthenticated({ children }: { children: React.ReactNode })
     goTramites(nextAfterAuth(params.toString()))
   }, [ready, session.authenticated, params])
 
-  if (!ready) {
-    return <p className="p-gob-6 text-gri-body text-muted-foreground">Cargando sesión…</p>
-  }
-
-  if (session.authenticated) {
-    return (
-      <p className="p-gob-6 text-gri-body text-muted-foreground">
-        Ya tienes sesión iniciada. Te llevamos a tu trámite…
-      </p>
-    )
+  if (!ready || session.authenticated) {
+    return <div className="min-h-svh bg-[var(--story-mist)]" aria-busy={!ready} />
   }
 
   return <>{children}</>

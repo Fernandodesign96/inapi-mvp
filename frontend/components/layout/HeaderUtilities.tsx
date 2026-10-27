@@ -71,7 +71,7 @@ export function HeaderUtilities({
         <UserMenu onNavigate={onNavigate} buttonClassName={tone === 'light' ? iconBtnLight : undefined} />
       ) : third === 'profile' ? (
         <Link
-          href="/tramites/ingresar"
+          href="/tramites"
           className={iconBtn}
           aria-label={tx('Ingresar para ver tu perfil')}
           onClick={() => onNavigate?.()}

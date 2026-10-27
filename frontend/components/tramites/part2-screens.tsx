@@ -68,7 +68,7 @@ export function AnotacionesGuardadasScreen({ domain }: { domain: 'marcas' | 'pat
         <SavedListScreen
           domain={domain}
           panelTitle={domain === 'marcas' ? 'Anotaciones guardadas de marcas' : 'Anotaciones guardadas de patentes'}
-          createHref={domain === 'marcas' ? '/tramites/marcas/anotaciones' : '/tramites/patentes/anotaciones'}
+          createHref={domain === 'marcas' ? '/tramites/marcas/tramites' : '/tramites/patentes/anotaciones'}
           createLabel="Crear nueva anotación"
           emptyText="No hay anotaciones guardadas aún."
           rows={[]}

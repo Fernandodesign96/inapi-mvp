@@ -4,9 +4,7 @@ export const INAPI_CHROME_KEY = 'inapi-chrome'
 
 const TRAMITES_HUBS = new Set([
   '/tramites',
-  '/tramites/ingresar',
   '/tramites/auth',
-  '/tramites/registrarse',
   '/tramites/clave-unica',
 ])
 
