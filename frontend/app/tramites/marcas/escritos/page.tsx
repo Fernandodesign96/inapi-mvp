@@ -11,7 +11,7 @@ export default function Page() {
         <SavedListScreen
           domain="marcas"
           panelTitle="Escritos guardados de marcas"
-          createHref="/tramites/marcas/presentar-escritos"
+          createHref="/tramites/marcas/tramites"
           createLabel="Presentar nuevo escrito de marca"
           emptyText="No hay registros para mostrar"
           rows={[]}

@@ -1,8 +1,9 @@
 'use client'
 
 import { useId, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   AlarmClock,
   ArrowRight,
@@ -12,7 +13,6 @@ import {
   ExternalLink,
   FileClock,
   FolderKanban,
-  Lock,
   PenLine,
   ShieldCheck,
   Wallet,
@@ -26,6 +26,7 @@ import { CATEGORY_ICONS } from '@/components/tramites/TramitesSidebar'
 import { Button } from '@/components/ui/button'
 import { useDashboardPrefs } from '@/hooks/useDashboardPrefs'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
+import { nextAfterAuth } from '@/lib/tramites/entry'
 import {
   TRAMITES_CATEGORIES,
   categoryItems,
@@ -526,91 +527,68 @@ export function TramitesDashboardHome({ session }: { session: TramitesSession })
   )
 }
 
-function PreviewSkeleton() {
-  return (
-    <div className="flex flex-col gap-gob-5">
-      <div className="h-24 rounded-gob-xl border border-gob-border bg-card" />
-      <div className="grid gap-gob-4 min-[600px]:grid-cols-2 min-[1240px]:grid-cols-4">
-        {['Solicitudes activas', 'Por responder', 'Borradores guardados', 'Pagos pendientes'].map((l, i) => (
-          <div key={l} className="space-y-gob-3 rounded-gob-lg border border-gob-border bg-card p-gob-5 shadow-elevation-02">
-            <p className="text-gri-body-sm text-muted-foreground">{l}</p>
-            <p className="font-heading text-[2rem] leading-none text-gob-text">{[3, 1, 3, 1][i]}</p>
-          </div>
-        ))}
-      </div>
-      <div className="grid gap-gob-4 min-[905px]:grid-cols-2">
-        {TRAMITES_CATEGORIES.map(cat => (
-          <div key={cat.id} className="h-40 rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01">
-            <p className="font-heading text-gri-h2 text-gob-text">{cat.label}</p>
-            <div className="mt-gob-4 space-y-gob-2">
-              <div className="h-3 w-3/4 rounded bg-gob-surface-elevated" />
-              <div className="h-3 w-2/3 rounded bg-gob-surface-elevated" />
-              <div className="h-3 w-1/2 rounded bg-gob-surface-elevated" />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export function TramitesLockedDashboard() {
   const { tx } = useI18n()
   const router = useRouter()
+  const params = useSearchParams()
+  const next = nextAfterAuth(params.toString())
+  const nextQuery = `?next=${encodeURIComponent(next)}`
   return (
-    <DashboardShell>
-      <div className="relative">
-        <div aria-hidden inert className="pointer-events-none select-none blur-[6px] saturate-50">
-          <PreviewSkeleton />
-        </div>
-        <div className="absolute inset-0 flex items-start justify-center bg-[var(--story-mist)]/40 px-gob-2 pt-gob-6 min-[905px]:pt-gob-10">
-          <section
-            aria-labelledby="tramites-login-title"
-            className="w-full max-w-xl space-y-gob-5 rounded-gob-xl border border-gob-border bg-card p-gob-6 shadow-elevation-04 min-[905px]:p-gob-8"
-          >
-            <div className="flex items-center gap-gob-3">
-              <span aria-hidden className="inline-flex size-11 items-center justify-center rounded-full bg-[var(--story-night)] text-white">
-                <Lock className="size-5" />
-              </span>
-              <EyebrowPill>{tx('Acceso con clave')}</EyebrowPill>
-            </div>
-            <div className="space-y-gob-2">
-              <h1 id="tramites-login-title" className="portal-h2 text-gob-text">
-                {tx('Portal de trámites de INAPI')}
-              </h1>
-              <p className="text-gri-body leading-relaxed text-gob-text">
-                {tx('Aquí presentas solicitudes, pagas y sigues el expediente.')}
-              </p>
-            </div>
-            <ul className="space-y-gob-2 text-gri-body-sm text-gob-text">
-              {[
-                { icon: <PenLine className="size-4" />, text: 'Presentar una solicitud nueva' },
-                { icon: <FolderKanban className="size-4" />, text: 'Seguir un expediente ya ingresado' },
-                { icon: <ShieldCheck className="size-4" />, text: 'Usar el Buscador de Marcas o el Buscador de Patentes' },
-              ].map(row => (
-                <li key={row.text} className="flex items-center gap-gob-3">
-                  <span aria-hidden className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-gob-primary/10 text-gob-primary-dark">
-                    {row.icon}
-                  </span>
-                  {tx(row.text)}
-                </li>
-              ))}
-            </ul>
-            <div className="space-y-gob-3 border-t border-gob-border pt-gob-5">
-              <h2 className="font-heading text-gri-h2 font-medium text-gob-text">{tx('Iniciar sesión con ClaveÚnica')}</h2>
-              <p className="text-gri-body-sm text-gob-text">
-                {tx('Si es tu primera vez, valida tu identidad con ClaveÚnica. Después puedes entrar con ClaveÚnica o con Clave INAPI.')}
-              </p>
-              <div className="flex flex-col gap-gob-3 min-[600px]:flex-row min-[600px]:items-center">
-                <ClaveUnicaButton onClick={() => router.push('/tramites/clave-unica?next=/tramites')} />
-                <Button asChild variant="outline" size="form">
-                  <Link href="/tramites/ingresar">{tx('Ingresar con Clave INAPI')}</Link>
-                </Button>
-              </div>
-            </div>
-          </section>
+    <div className="relative flex min-h-svh flex-col overflow-hidden bg-[var(--story-mist)]">
+      <div className="story-night guilloche relative px-gob-4 py-gob-5 text-white min-[600px]:px-gob-8">
+        <div className="mx-auto flex w-full max-w-xl items-center gap-gob-3">
+          <Image
+            src="/inapi-mvp/inapi-logo.jpg"
+            alt=""
+            width={96}
+            height={38}
+            className="h-9 w-auto rounded-sm object-contain"
+            priority
+          />
+          <p className="font-heading text-gri-body font-semibold">{tx('Mis trámites')}</p>
         </div>
       </div>
-    </DashboardShell>
+      <div className="flex flex-1 items-center justify-center px-gob-4 py-gob-8">
+        <section
+          aria-labelledby="tramites-login-title"
+          className="w-full max-w-xl space-y-gob-5 rounded-gob-xl border border-gob-border bg-card p-gob-6 shadow-elevation-04 min-[905px]:p-gob-8"
+        >
+          <div className="space-y-gob-2">
+            <h1 id="tramites-login-title" className="portal-h2 text-gob-text">
+              {tx('Portal de trámites de INAPI')}
+            </h1>
+            <p className="text-gri-body leading-relaxed text-gob-text">
+              {tx('Aquí presentas solicitudes, pagas y sigues el expediente.')}
+            </p>
+          </div>
+          <ul className="space-y-gob-2 text-gri-body-sm text-gob-text">
+            {[
+              { icon: <PenLine className="size-4" />, text: 'Presentar una solicitud nueva' },
+              { icon: <FolderKanban className="size-4" />, text: 'Seguir un expediente ya ingresado' },
+              { icon: <ShieldCheck className="size-4" />, text: 'Usar el Buscador de Marcas o el Buscador de Patentes' },
+            ].map(row => (
+              <li key={row.text} className="flex items-center gap-gob-3">
+                <span aria-hidden className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-gob-primary/10 text-gob-primary-dark">
+                  {row.icon}
+                </span>
+                {tx(row.text)}
+              </li>
+            ))}
+          </ul>
+          <div className="space-y-gob-3 border-t border-gob-border pt-gob-5">
+            <h2 className="font-heading text-gri-h2 font-medium text-gob-text">{tx('Iniciar sesión con ClaveÚnica')}</h2>
+            <p className="text-gri-body-sm text-gob-text">
+              {tx('Si es tu primera vez, valida tu identidad con ClaveÚnica. Después puedes entrar con ClaveÚnica o con Clave INAPI.')}
+            </p>
+            <div className="flex flex-col gap-gob-3 min-[600px]:flex-row min-[600px]:items-center">
+              <ClaveUnicaButton onClick={() => router.push(`/tramites/clave-unica${nextQuery}`)} />
+              <Button asChild variant="outline" size="form">
+                <Link href={`/tramites/auth${nextQuery}`}>{tx('Ingresar con Clave INAPI')}</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
   )
 }

@@ -21,15 +21,12 @@ export default function TramitesAuthPage() {
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
   const [cargandoInstitucional, setCargandoInstitucional] = useState(false)
-  const [cargandoClaveUnica, setCargandoClaveUnica] = useState(false)
 
-  const entrar = (metodo: 'clave-inapi' | 'clave-unica') => {
-    if (metodo === 'clave-inapi') setCargandoInstitucional(true)
-    else setCargandoClaveUnica(true)
-
+  const entrar = () => {
+    setCargandoInstitucional(true)
     signIn({
-      metodo,
-      run: metodo === 'clave-inapi' && run ? normalizarRun(run) : DEMO_USER.run,
+      metodo: 'clave-inapi',
+      run: run ? normalizarRun(run) : DEMO_USER.run,
     })
     window.setTimeout(() => goTramites(nextAfterAuth(window.location.search)), 800)
   }
@@ -37,12 +34,12 @@ export default function TramitesAuthPage() {
   const handleLoginForm = (e: React.FormEvent) => {
     e.preventDefault()
     if (!run.trim() || !password) return
-    entrar('clave-inapi')
+    entrar()
   }
 
   return (
     <SkipIfAuthenticated>
-    <div className="flex flex-1 items-center justify-center px-gob-4 py-gob-8">
+    <div className="flex min-h-svh items-center justify-center bg-[var(--story-mist)] px-gob-4 py-gob-8">
       <div className="w-full max-w-md">
         <Link
           href="/tramites"
@@ -120,7 +117,7 @@ export default function TramitesAuthPage() {
 
               <Button
                 type="submit"
-                disabled={!run.trim() || !password || cargandoInstitucional || cargandoClaveUnica}
+                disabled={!run.trim() || !password || cargandoInstitucional}
                 size="form"
                 className="mt-2 w-full gap-2 font-semibold"
               >
@@ -144,11 +141,12 @@ export default function TramitesAuthPage() {
                 <div className="h-px flex-1 bg-gob-border" />
               </div>
 
-              <ClaveUnicaButton
-                onClick={() => entrar('clave-unica')}
-                disabled={cargandoInstitucional}
-                loading={cargandoClaveUnica}
-              />
+              <div className="flex justify-center">
+                <ClaveUnicaButton
+                  onClick={() => goTramites(`/tramites/clave-unica${window.location.search}`)}
+                  disabled={cargandoInstitucional}
+                />
+              </div>
             </div>
           </div>
         </div>

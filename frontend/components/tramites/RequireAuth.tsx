@@ -19,11 +19,7 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
   }, [ready, session.authenticated, router, pathname, searchParams])
 
   if (!ready || !session.authenticated) {
-    return (
-      <div className="mx-auto max-w-[1140px] px-gob-4 py-gob-8 text-gri-body text-muted-foreground">
-        {ready ? 'Debes ingresar para continuar.' : 'Cargando sesión…'}
-      </div>
-    )
+    return <div className="min-h-svh bg-[var(--story-mist)]" aria-busy={!ready} aria-label={ready ? 'Redirigiendo al inicio de sesión' : 'Cargando sesión'} />
   }
 
   return <>{children}</>

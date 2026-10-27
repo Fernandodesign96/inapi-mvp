@@ -6,7 +6,7 @@ import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { resolveTramitesHeading } from '@/lib/tramites/nav'
 import { cn } from '@/lib/utils'
 
-const HIDE_TITLE = new Set(['/tramites', '/tramites/auth', '/tramites/ingresar'])
+const HIDE_TITLE = new Set(['/tramites', '/tramites/auth'])
 
 function TramitesSubheaderInner() {
   const { tx } = useI18n()

@@ -342,22 +342,6 @@ const MEGA_PAGE_TITLES = {
   ...titlesFromMega(PATENTES_MEGA, 'patentes'),
 }
 
-const MARCAS_TRAMITES_HEADING: PageHeading = MEGA_PAGE_TITLES['/tramites/marcas/tramites'] ?? {
-  title: 'Realiza otras solicitudes y presentaciones de marcas',
-  subtitle: 'Renovaciones, anotaciones, escritos, oposición, Madrid y custodia en un solo paso.',
-  domain: 'marcas',
-}
-const MARCAS_PAGOS_HEADING: PageHeading = MEGA_PAGE_TITLES['/tramites/marcas/pagos'] ?? {
-  title: 'Realiza todos tus pagos de marcas aquí',
-  subtitle: 'Concesión, otros pagos y comprobante Formulario 10 en un solo paso.',
-  domain: 'marcas',
-}
-const PATENTES_PAGOS_HEADING: PageHeading = MEGA_PAGE_TITLES['/tramites/patentes/pagos'] ?? {
-  title: 'Realiza todos tus pagos de patentes aquí',
-  subtitle: 'Presentación, peritaje, derechos, PCT, otros pagos y comprobante en un solo paso.',
-  domain: 'patentes',
-}
-
 export const PAGE_TITLES: Record<string, PageHeading> = {
   '/tramites': {
     title: 'Portal de trámites de INAPI',
@@ -376,31 +360,13 @@ export const PAGE_TITLES: Record<string, PageHeading> = {
     domain: 'general',
   },
   '/tramites/auth': { title: 'Iniciar sesión', domain: 'general' },
-  '/tramites/ingresar': { title: 'Ingresar con Clave INAPI', domain: 'general' },
-  '/tramites/solicitudmarca': { title: 'Solicitud de marca', domain: 'marcas' },
-  '/tramites/registrarse': { title: 'Regístrate en trámites INAPI', domain: 'general' },
-  '/tramites/clave-unica': { title: 'Validación con ClaveÚnica', domain: 'general' },
+  '/tramites/clave-unica': { title: 'Portal Ciudadano ClaveÚnica', domain: 'general' },
   '/tramites/perfil': { title: 'Mi perfil', domain: 'general' },
   '/tramites/patentes/buscador/avanzada': {
     title: 'Búsqueda avanzada de patentes',
     subtitle: 'Afina la búsqueda por número, titular, fechas o clasificación.',
     domain: 'patentes',
   },
-  '/tramites/marcas/presentar-escritos': MARCAS_TRAMITES_HEADING,
-  '/tramites/marcas/madrid': MARCAS_TRAMITES_HEADING,
-  '/tramites/marcas/renovaciones': MARCAS_TRAMITES_HEADING,
-  '/tramites/marcas/anotaciones': MARCAS_TRAMITES_HEADING,
-  '/tramites/marcas/oposicion': MARCAS_TRAMITES_HEADING,
-  '/tramites/marcas/pago-concesion': MARCAS_PAGOS_HEADING,
-  '/tramites/marcas/otros-pagos': MARCAS_PAGOS_HEADING,
-  '/tramites/marcas/comprobante-pago': MARCAS_PAGOS_HEADING,
-  '/tramites/patentes/pago-presentacion': PATENTES_PAGOS_HEADING,
-  '/tramites/patentes/pago-arancel-pericial': PATENTES_PAGOS_HEADING,
-  '/tramites/patentes/pago-derechos-finales': PATENTES_PAGOS_HEADING,
-  '/tramites/patentes/pago-pct': PATENTES_PAGOS_HEADING,
-  '/tramites/patentes/otros-pagos': PATENTES_PAGOS_HEADING,
-  '/tramites/patentes/comprobante-pago': PATENTES_PAGOS_HEADING,
   '/tramites/pago': { title: 'Pago en Tesorería', domain: 'general' },
   '/tramites/pago-tgr': { title: 'Pago de tasas INAPI', domain: 'general' },
-  '/tramites/proximamente': { title: 'Próxima entrega', domain: 'general' },
 }

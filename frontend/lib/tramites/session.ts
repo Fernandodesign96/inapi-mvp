@@ -63,7 +63,3 @@ export function signOut() {
   writeSession({ ...current, authenticated: false })
 }
 
-export function markRegistered() {
-  const current = readSession()
-  writeSession({ ...current, ...DEMO_USER, authenticated: true, metodo: 'clave-unica' })
-}

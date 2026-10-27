@@ -12,8 +12,15 @@ import { TramitesSidebar } from '@/components/tramites/TramitesSidebar'
 import { TramitesSubheader } from '@/components/tramites/TramitesSubheader'
 import { TramitesTopbar } from '@/components/tramites/TramitesTopbar'
 import { useInapiChrome } from '@/hooks/useInapiChrome'
+import { isAuthPath } from '@/lib/tramites/entry'
+import { useTramitesSession } from '@/lib/tramites/use-session'
 
-const BARE_ROUTES = new Set(['/tramites/solicitudmarca', '/tramites/pago-tgr', '/tramites/pago'])
+const BARE_ROUTES = new Set(['/tramites/pago-tgr', '/tramites/pago'])
+const PUBLIC_CHROME = new Set([
+  '/tramites/patentes/buscador',
+  '/tramites/patentes/buscador/avanzada',
+  '/tramites/marcas/clasificador',
+])
 
 export function TramitesFrame({ children }: { children: React.ReactNode }) {
   return (
@@ -40,9 +47,15 @@ export function TramitesFrame({ children }: { children: React.ReactNode }) {
 
 export function TramitesShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const { session } = useTramitesSession()
   useInapiChrome('tramites-layout')
 
-  if (BARE_ROUTES.has(pathname)) {
+  const hideChrome =
+    BARE_ROUTES.has(pathname) ||
+    (isAuthPath(pathname) && (pathname !== '/tramites' || !session.authenticated)) ||
+    (!session.authenticated && !PUBLIC_CHROME.has(pathname))
+
+  if (hideChrome) {
     return <>{children}</>
   }
 

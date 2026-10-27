@@ -1,7 +1,8 @@
-const AUTH_PREFIXES = ['/tramites/auth', '/tramites/ingresar', '/tramites/clave-unica', '/tramites/registrarse']
+const AUTH_PREFIXES = ['/tramites/auth', '/tramites/clave-unica']
 
 export function isAuthPath(href: string) {
   const path = href.split('?')[0]
+  if (path === '/tramites') return true
   return AUTH_PREFIXES.some(prefix => path === prefix || path.startsWith(`${prefix}/`))
 }
 
@@ -13,8 +14,9 @@ export function nextAfterAuth(search: string, fallback = '/tramites') {
 }
 
 export function loginHref(currentPath?: string) {
-  if (!currentPath || isAuthPath(currentPath)) return '/tramites/ingresar'
-  return `/tramites/ingresar?next=${encodeURIComponent(currentPath)}`
+  const path = currentPath?.split('?')[0]
+  if (!path || path === '/tramites' || isAuthPath(path)) return '/tramites'
+  return `/tramites?next=${encodeURIComponent(currentPath!)}`
 }
 
 export function resolveTramitesHref(href: string, authenticated: boolean) {

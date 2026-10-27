@@ -71,10 +71,6 @@ export function categoryById(id: string) {
   return TRAMITES_CATEGORIES.find(c => c.id === id)
 }
 
-export function categoryHref(id: TramitesCategoryId) {
-  return `/tramites/categoria/${id}`
-}
-
 export function pathOf(href: string) {
   return href.split('?')[0]
 }
@@ -98,7 +94,6 @@ export function scopeFromPath(pathname: string, fallback: TramitesDomain): Trami
 export function categoryForPath(pathname: string) {
   if (pathname === '/tramites/notificaciones') return undefined
   return TRAMITES_CATEGORIES.find(cat => {
-    if (pathname === categoryHref(cat.id)) return true
     return (['marcas', 'patentes'] as const).some(s =>
       categoryItems(cat.id, s).some(item => {
         const itemPath = pathOf(item.href)

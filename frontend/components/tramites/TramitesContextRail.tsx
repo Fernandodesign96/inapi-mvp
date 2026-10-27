@@ -8,7 +8,7 @@ import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { categoryForPath, categoryItems, pathOf, scopeFromPath } from '@/lib/tramites/dashboard'
 import { cn } from '@/lib/utils'
 
-const HIDE = new Set(['/tramites', '/tramites/auth', '/tramites/ingresar', '/tramites/clave-unica', '/tramites/registrarse'])
+const HIDE = new Set(['/tramites', '/tramites/auth', '/tramites/clave-unica'])
 
 export function TramitesContextRail() {
   const { tx } = useI18n()

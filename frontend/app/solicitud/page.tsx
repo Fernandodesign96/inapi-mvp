@@ -5,7 +5,7 @@ import { goTramites } from '@/lib/tramites/go'
 
 export default function SolicitudRedirectPage() {
   useEffect(() => {
-    goTramites('/tramites/solicitudmarca')
+    goTramites('/tramites/marcas/solicitar')
   }, [])
 
   return (
