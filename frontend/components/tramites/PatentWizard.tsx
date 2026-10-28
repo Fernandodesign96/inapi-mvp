@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { CheckCircle2, ChevronDown, FileText, Flag, Layers, UserRound } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -14,12 +14,12 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { FormPersona } from '@/components/solicitud/FormPersona'
-import { HelpTooltip } from '@/components/tramites/HelpTooltip'
+import { PlainTerm } from '@/components/GlosarioTerm'
+import { FieldLabel, HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { LegalNotice } from '@/components/tramites/LegalNotice'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
-import { StatusTabs, type TabStatus } from '@/components/tramites/StatusTabs'
-import { BulletList, Checklist, HelperCard, WorkSplit } from '@/components/tramites/TramitesExperience'
-import { FileField, RequiredMark, StepSection, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
+import { BulletList, Checklist, ControlChip, HelperCard, WorkSplit } from '@/components/tramites/TramitesExperience'
+import { AccordionBlock, FileField, RequiredMark, ReviewGrid, StepSection, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import {
   LEGAL_WIZARD_PATENTE,
   TOOLTIP_DIFERIR_PAGO,
@@ -32,15 +32,11 @@ import {
   TOOLTIP_RESTAURACION,
 } from '@/lib/tramites/legal'
 import { CIP_EJEMPLOS, UTM_CLP } from '@/lib/tramites/mock-data'
-import { cn } from '@/lib/utils'
 
 const BASE_STEPS = [
   { id: 'datos', label: 'Datos' },
   { id: 'cip', label: 'CIP' },
-  { id: 'prioridad', label: '¿Tienes registro previo en otro país?' },
-  { id: 'solicitante', label: 'Solicitante' },
-  { id: 'representante', label: 'Representante' },
-  { id: 'inventores', label: 'Inventores' },
+  { id: 'usuario', label: 'Datos de usuario' },
   { id: 'declaraciones', label: 'Declaraciones' },
   { id: 'documentos', label: 'Documentos' },
   { id: 'tasas', label: 'Cuánto pagarás' },
@@ -50,6 +46,8 @@ const BASE_STEPS = [
 type CipRow = { seccion: string; clase: string; subclase: string; grupo: string; subgrupo: string; codigo: string }
 type PrioridadRow = { pais: string; fecha: string; numero: string; adjunto: string; das: string }
 
+const OMPI_CIP = 'https://www.wipo.int/es/web/classification-ipc'
+
 export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
   const steps = variant === 'diseno' ? BASE_STEPS.filter(s => s.id !== 'cip') : BASE_STEPS
   const [step, setStep] = useState('datos')
@@ -58,7 +56,6 @@ export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
   )
   const [tipo, setTipo] = useState(variant === 'diseno' ? 'diseno' : 'patente')
   const [cip, setCip] = useState<CipRow[]>([{ seccion: 'A', clase: '63', subclase: 'B', grupo: '25', subgrupo: '00', codigo: 'A63B 25/00' }])
-  const [cipOpen, setCipOpen] = useState(false)
   const [cipDraft, setCipDraft] = useState<CipRow>({ seccion: 'A', clase: '', subclase: '', grupo: '', subgrupo: '', codigo: '' })
   const [inventor, setInventor] = useState('Fernando Ignacio Arriagada Castillo')
   const [solicitanteOk, setSolicitanteOk] = useState(false)
@@ -87,45 +84,42 @@ export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
   const [postergar, setPostergar] = useState(false)
   const [tgr, setTgr] = useState({ nacionalidad: 'Chilena', rut: '', razon: '', correo: '', correo2: '' })
   const [saved, setSaved] = useState('')
-  const [openBlocks, setOpenBlocks] = useState<string[]>([])
+  const router = useRouter()
 
   const go = (id: string) => setStep(id)
+  const stepIndex = steps.findIndex(s => s.id === step)
+  const prev = () => {
+    if (stepIndex > 0) go(steps[stepIndex - 1].id)
+  }
   const next = () => {
-    if (step === 'prioridad' && prioMode === 'declara' && priorities.length === 0) {
+    if (step === 'usuario' && prioMode === 'declara' && priorities.length === 0) {
       setNeedPrio(true)
       return
     }
-    const i = steps.findIndex(s => s.id === step)
-    if (i < steps.length - 1) go(steps[i + 1].id)
+    if (step === 'revision') {
+      router.push('/tramites/pago-tgr')
+      return
+    }
+    if (stepIndex < steps.length - 1) go(steps[stepIndex + 1].id)
   }
 
-  const completeness: Record<string, TabStatus> = useMemo(() => {
+  const completeness: Record<string, 'ok' | 'error' | 'idle'> = useMemo(() => {
     const datos = titulo.trim() ? 'ok' : 'idle'
     const cipSt = cip.length ? 'ok' : 'idle'
-    const prioSt =
-      prioMode === 'sin' ? 'ok' : priorities.length ? 'ok' : 'error'
-    const sol = solicitanteOk ? 'ok' : 'idle'
-    const rep = representanteOk ? 'ok' : 'idle'
-    const inv = inventor.trim() ? 'ok' : 'idle'
+    const prioSt = prioMode === 'sin' ? 'ok' : priorities.length ? 'ok' : 'error'
+    const usuario = prioSt === 'ok' && solicitanteOk && inventor.trim() ? 'ok' : prioSt === 'error' ? 'error' : 'idle'
     const declaraciones = 'ok'
     const documentos = docs.memoria || docs.figura || docs.paginas ? 'ok' : 'idle'
     const tasas = tgr.rut.trim() && tgr.correo.trim() ? 'ok' : tgr.rut || tgr.correo ? 'error' : 'idle'
     const revision = datos === 'ok' && (variant === 'diseno' || cipSt === 'ok') && prioSt === 'ok' ? 'ok' : 'error'
-    return { datos, cip: cipSt, prioridad: prioSt, solicitante: sol, representante: rep, inventores: inv, declaraciones, documentos, tasas, revision }
-  }, [titulo, cip, prioMode, priorities, solicitanteOk, representanteOk, inventor, docs, tgr, variant])
-
-  const tabs = steps.map(s => ({
-    id: s.id,
-    label: s.label,
-    status: (step === s.id ? 'active' : completeness[s.id] ?? 'idle') as TabStatus,
-  }))
-
-  const toggleBlock = (id: string) => setOpenBlocks(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]))
+    return { datos, cip: cipSt, usuario, declaraciones, documentos, tasas, revision }
+  }, [titulo, cip, prioMode, priorities, solicitanteOk, inventor, docs, tgr, variant])
 
   const addCip = () => {
+    if (!cipDraft.seccion || !cipDraft.clase) return
     const codigo = `${cipDraft.seccion}${cipDraft.clase}${cipDraft.subclase} ${cipDraft.grupo}/${cipDraft.subgrupo}`
     setCip(prev => [...prev, { ...cipDraft, codigo }])
-    setCipOpen(false)
+    setCipDraft({ seccion: 'A', clase: '', subclase: '', grupo: '', subgrupo: '', codigo: '' })
   }
 
   const addPrio = () => {
@@ -135,374 +129,375 @@ export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
     setPrioOpen(false)
   }
 
+  const helpers: Record<string, { title: string; items: string[] }> = {
+    datos: { title: 'Título', items: ['Describe el objeto, no el beneficio comercial.', 'El título no puede superar 15 palabras.'] },
+    cip: { title: 'CIP', items: ['Agrega al menos un código.', 'Sección, clase y subclase identifican el campo técnico.'] },
+    usuario: { title: 'Datos de usuario', items: ['Prioridad, solicitante, representante e inventores van juntos.', 'El representante es opcional.'] },
+    declaraciones: { title: 'Declaraciones', items: ['Puedes marcar más de una.', 'Cada opción pide el adjunto que la acredita.'] },
+    documentos: { title: 'Documentos', items: ['Usa PDF cuando sea posible.', 'Declara el total de páginas del expediente.'] },
+    tasas: { title: 'Pago', items: ['Puedes postergar 30 días si corresponde.', 'Los datos TGR deben coincidir con el pagador.'] },
+    revision: { title: 'Antes de enviar', items: ['Revisa cada card.', 'Puedes guardar el borrador 60 días.'] },
+  }
+
   return (
     <RequireAuth>
       <TramitesMain>
         <WorkSplit
           main={
             <>
-        <StatusTabs tabs={tabs} current={step} onSelect={go} accent="patentes" />
+              {step === 'datos' ? (
+                <LegalNotice>{LEGAL_WIZARD_PATENTE}</LegalNotice>
+              ) : (
+                <p className="rounded-full border border-gob-border bg-card px-gob-4 py-gob-2 text-gri-body-sm text-muted-foreground">
+                  {helpers[step]?.items[0]}
+                </p>
+              )}
 
-        {step === 'datos' && (
-          <StepSection title="Datos de la solicitud" description="Indica el tipo y un título claro del objeto que quieres proteger.">
-            {variant === 'patente' && (
-              <div className="max-w-xl space-y-gob-2">
-                <label htmlFor="tipo" className="flex items-center text-gri-body-sm font-medium">
-                  Tipo de solicitud <RequiredMark />
-                  <HelpTooltip text="Patente de invención o modelo de utilidad." />
-                </label>
-                <select id="tipo" className={selectClass()} value={tipo} onChange={e => setTipo(e.target.value)}>
-                  <option value="patente">Patente de invención</option>
-                  <option value="mu">Modelo de utilidad</option>
-                </select>
-              </div>
-            )}
-            {variant === 'diseno' && (
-              <div className="max-w-xl space-y-gob-2">
-                <label htmlFor="tipo" className="text-gri-body-sm font-medium">
-                  Tipo <RequiredMark />
-                </label>
-                <select id="tipo" className={selectClass()} value={tipo} onChange={e => setTipo(e.target.value)}>
-                  <option value="diseno">Diseño industrial</option>
-                  <option value="dibujo">Dibujo industrial</option>
-                </select>
-              </div>
-            )}
-            <div className="max-w-xl space-y-gob-2">
-              <label htmlFor="tit" className="flex items-center text-gri-body-sm font-medium">
-                Título <RequiredMark />
-              </label>
-              <Input id="tit" value={titulo} onChange={e => setTitulo(e.target.value)} placeholder="Ejemplo: Dispositivo de asistencia para danza" />
-            </div>
-            <div className="max-w-xl space-y-gob-2">
-              <label htmlFor="res" className="text-gri-body-sm font-medium">
-                Resumen
-              </label>
-              <Textarea id="res" rows={4} placeholder="Ejemplo: Prototipo que asiste el equilibrio en danza contemporánea." />
-            </div>
-          </StepSection>
-        )}
+              {step === 'datos' && (
+                <StepSection title="Datos de la solicitud" description="Indica el tipo y un título claro del objeto que quieres proteger.">
+                  {variant === 'patente' && (
+                    <div className="max-w-xl space-y-gob-2">
+                      <FieldLabel htmlFor="tipo" help={{ text: 'Patente de invención o modelo de utilidad.' }}>
+                        Tipo de solicitud <RequiredMark />
+                      </FieldLabel>
+                      <select id="tipo" className={selectClass()} value={tipo} onChange={e => setTipo(e.target.value)}>
+                        <option value="patente">Patente de invención</option>
+                        <option value="mu">Modelo de utilidad</option>
+                      </select>
+                    </div>
+                  )}
+                  {variant === 'diseno' && (
+                    <div className="max-w-xl space-y-gob-2">
+                      <label htmlFor="tipo" className="text-gri-body-sm font-medium">
+                        Tipo <RequiredMark />
+                      </label>
+                      <select id="tipo" className={selectClass()} value={tipo} onChange={e => setTipo(e.target.value)}>
+                        <option value="diseno">Diseño industrial</option>
+                        <option value="dibujo">Dibujo industrial</option>
+                      </select>
+                    </div>
+                  )}
+                  <div className="max-w-xl space-y-gob-2">
+                    <FieldLabel htmlFor="tit" help={{ text: 'Máximo 15 palabras. Describe el objeto, no el beneficio comercial.' }}>
+                      Título <RequiredMark />
+                    </FieldLabel>
+                    <Input id="tit" value={titulo} onChange={e => setTitulo(e.target.value)} placeholder="Ejemplo: Dispositivo de asistencia para danza" />
+                  </div>
+                  <div className="max-w-xl space-y-gob-2">
+                    <label htmlFor="res" className="text-gri-body-sm font-medium">
+                      Resumen
+                    </label>
+                    <Textarea id="res" rows={4} placeholder="Ejemplo: Prototipo que asiste el equilibrio en danza contemporánea." />
+                  </div>
+                </StepSection>
+              )}
 
-        {step === 'cip' && (
-          <StepSection
-            title="Clasificación Internacional de Patentes"
-            description="Agrega al menos un código CIP. Consulta la clasificación de la OMPI si lo necesitas."
-          >
-            <p className="text-gri-body-sm">
-              <a className="text-gob-link underline" href="https://www.wipo.int/es/web/classification-ipc" rel="noopener noreferrer">
-                Clasificación Internacional de Patentes (OMPI)
-              </a>
-            </p>
-            <div className="overflow-x-auto">
-              <table className="w-full text-gri-body-sm">
-                <caption className="sr-only">Códigos CIP</caption>
-                <thead>
-                  <tr className="border-b border-gob-border text-left">
-                    <th className="py-2">Código</th>
-                    <th>Sección</th>
-                    <th>Clase</th>
-                    <th>Subclase</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {cip.map((row, i) => (
-                    <tr key={row.codigo + i} className="border-b border-gob-border">
-                      <td className="py-2">{row.codigo}</td>
-                      <td>{row.seccion}</td>
-                      <td>{row.clase}</td>
-                      <td>{row.subclase}</td>
-                      <td>
-                        <Button variant="outline" size="sm" type="button" onClick={() => setCip(prev => prev.filter((_, idx) => idx !== i))}>
-                          Quitar
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="text-gri-body-sm text-muted-foreground">Ejemplos de códigos CIP: {CIP_EJEMPLOS.map(c => c.codigo).join(', ')}</p>
-            <Button type="button" size="form" onClick={() => setCipOpen(true)}>
-              Agregar CIP
-            </Button>
-          </StepSection>
-        )}
+              {step === 'cip' && (
+                <StepSection title="Clasificación Internacional de Patentes">
+                  <div className="flex items-start gap-gob-2">
+                    <p className="max-w-3xl text-gri-body-sm leading-[1.55] text-muted-foreground">
+                      Agrega al menos un código <PlainTerm term="CIP">CIP</PlainTerm>. Completa sección, clase y subclase.
+                    </p>
+                    <HelpTooltip title="CIP" text="La Clasificación Internacional de Patentes agrupa invenciones por campo técnico.">
+                      <a className="inline-flex text-gob-link underline" href={OMPI_CIP} rel="noopener noreferrer">
+                        Clasificación Internacional de Patentes (OMPI). Se abre en otro sitio.
+                      </a>
+                    </HelpTooltip>
+                  </div>
 
-        {step === 'prioridad' && (
-          <StepSection title="Prioridad" description="Elige si esta es la primera presentación o si declaras prioridades anteriores.">
-            <fieldset className="space-y-gob-3">
-              <legend className="sr-only">Tipo de prioridad</legend>
-              <label className="flex items-start gap-gob-3 min-h-11">
-                <input type="radio" name="prio" checked={prioMode === 'sin'} onChange={() => setPrioMode('sin')} />
-                <span>
-                  Sin prioridad
-                  <HelpTooltip text={TOOLTIP_PRIORIDAD_SIN} />
-                </span>
-              </label>
-              <label className="flex items-start gap-gob-3 min-h-11">
-                <input type="radio" name="prio" checked={prioMode === 'declara'} onChange={() => setPrioMode('declara')} />
-                <span>
-                  Declara prioridades
-                  <HelpTooltip text={TOOLTIP_PRIORIDAD_DECLARA} />
-                </span>
-              </label>
-            </fieldset>
+                  <div className="grid gap-gob-5 min-[800px]:grid-cols-2">
+                    {(['seccion', 'clase', 'subclase', 'grupo', 'subgrupo'] as const).map(k => (
+                      <div key={k} className="space-y-gob-2 rounded-gob-lg border-2 border-gob-border bg-transparent p-gob-4">
+                        <FieldLabel
+                          htmlFor={`cip-${k}`}
+                          help={{
+                            title: k,
+                            text:
+                              k === 'seccion'
+                                ? 'Letra de la sección CIP (A a H).'
+                                : k === 'clase'
+                                  ? 'Número de dos dígitos de la clase.'
+                                  : k === 'subclase'
+                                    ? 'Letra de la subclase.'
+                                    : k === 'grupo'
+                                      ? 'Número del grupo principal.'
+                                      : 'Número del subgrupo.',
+                            example: k === 'seccion' ? 'A' : k === 'clase' ? '63' : k === 'subclase' ? 'B' : k === 'grupo' ? '25' : '00',
+                          }}
+                        >
+                          {k === 'seccion' ? 'Sección' : k === 'clase' ? 'Clase' : k === 'subclase' ? 'Subclase' : k === 'grupo' ? 'Grupo' : 'Subgrupo'}
+                        </FieldLabel>
+                        <Input
+                          id={`cip-${k}`}
+                          value={cipDraft[k]}
+                          onChange={e => setCipDraft(d => ({ ...d, [k]: e.target.value }))}
+                          placeholder={k === 'seccion' ? 'Ejemplo: A' : k === 'clase' ? 'Ejemplo: 63' : k === 'subclase' ? 'Ejemplo: B' : k === 'grupo' ? 'Ejemplo: 25' : 'Ejemplo: 00'}
+                          className="h-12 border-2 border-gob-text/40 bg-card"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <Button type="button" size="form" onClick={addCip}>
+                    Agregar CIP
+                  </Button>
 
-            {prioMode === 'declara' ? (
-              <div className="space-y-gob-4">
-                <Button type="button" size="form" onClick={() => setPrioOpen(true)}>
-                  Agregar prioridad
-                </Button>
-                {priorities.length > 0 ? (
-                  <ul className="space-y-2 text-gri-body-sm">
-                    {priorities.map((p, i) => (
-                      <li key={p.numero + i} className="flex justify-between rounded-gob-md border border-gob-border px-gob-4 py-gob-3">
-                        <span>
-                          {p.pais} · {p.fecha} · {p.numero}
-                          {p.das ? ` · DAS ${p.das}` : ''}
+                  <ul className="grid gap-gob-3">
+                    {cip.map((row, i) => (
+                      <li key={row.codigo + i} className="flex flex-wrap items-center gap-gob-3 rounded-gob-lg border border-gob-border bg-card p-gob-5">
+                        <span className="inline-flex rounded-full bg-gob-primary px-gob-3 py-1 text-gri-body-sm font-semibold text-white">{row.codigo}</span>
+                        <span className="flex-1 text-gri-body-sm text-gob-text">
+                          Sección {row.seccion} · Clase {row.clase} · Subclase {row.subclase}
                         </span>
-                        <button type="button" className="text-gob-link underline" onClick={() => setPriorities(prev => prev.filter((_, idx) => idx !== i))}>
+                        <ControlChip className="min-w-[11.5rem]" onClick={() => setCip(prev => prev.filter((_, idx) => idx !== i))}>
                           Quitar
-                        </button>
+                        </ControlChip>
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  <p className="text-gri-body-sm text-muted-foreground">Aún no hay prioridades. Debes agregar al menos una.</p>
-                )}
-              </div>
-            ) : null}
+                  <p className="text-gri-body-sm text-muted-foreground">Ejemplos: {CIP_EJEMPLOS.map(c => c.codigo).join(', ')}</p>
+                </StepSection>
+              )}
 
-            <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
-              <div className="rounded-gob-md border border-gob-border p-gob-4 space-y-gob-3">
-                <label className="flex items-start gap-gob-3">
-                  <input
-                    type="checkbox"
-                    checked={provisional}
-                    onChange={e => {
-                      const on = e.target.checked
-                      setProvisional(on)
-                      if (on) setDivisional(false)
-                    }}
-                  />
-                  <span>
-                    Solicitud provisional
-                    <HelpTooltip text={TOOLTIP_PROVISIONAL} />
-                  </span>
-                </label>
-                {provisional ? (
-                  <Input value={provisionalNum} onChange={e => setProvisionalNum(e.target.value)} placeholder="Ejemplo: 202401234" className="h-11" />
-                ) : null}
-              </div>
-              <div className="rounded-gob-md border border-gob-border p-gob-4 space-y-gob-3">
-                <label className="flex items-start gap-gob-3">
-                  <input
-                    type="checkbox"
-                    checked={divisional}
-                    onChange={e => {
-                      const on = e.target.checked
-                      setDivisional(on)
-                      if (on) setProvisional(false)
-                    }}
-                  />
-                  <span>
-                    Solicitud divisional
-                    <HelpTooltip text={TOOLTIP_DIVISIONAL} />
-                  </span>
-                </label>
-                {divisional ? (
-                  <Input value={divisionalNum} onChange={e => setDivisionalNum(e.target.value)} placeholder="Ejemplo: 202201111" className="h-11" />
-                ) : null}
-              </div>
-            </div>
-          </StepSection>
-        )}
+              {step === 'usuario' && (
+                <StepSection title="Datos de usuario">
+                  <AccordionBlock title="Prioridad" defaultOpen>
+                    <div className="flex items-center gap-gob-2">
+                      <p className="font-heading text-gri-body font-medium">¿Esta es la primera presentación?</p>
+                      <HelpTooltip title="Prioridad" text={TOOLTIP_PRIORIDAD_DECLARA} />
+                    </div>
+                    <label className="flex items-center gap-gob-3 min-h-11">
+                      <input type="radio" name="prio" checked={prioMode === 'sin'} onChange={() => setPrioMode('sin')} />
+                      Sin prioridad
+                      <HelpTooltip text={TOOLTIP_PRIORIDAD_SIN} />
+                    </label>
+                    <label className="flex items-center gap-gob-3 min-h-11">
+                      <input type="radio" name="prio" checked={prioMode === 'declara'} onChange={() => setPrioMode('declara')} />
+                      Declara prioridades
+                      <HelpTooltip text={TOOLTIP_PRIORIDAD_DECLARA} />
+                    </label>
+                    {prioMode === 'declara' ? (
+                      <div className="space-y-gob-3">
+                        <Button type="button" size="form" onClick={() => setPrioOpen(true)}>
+                          Agregar prioridad
+                        </Button>
+                        {priorities.length > 0 ? (
+                          <ul className="space-y-2 text-gri-body-sm">
+                            {priorities.map((p, i) => (
+                              <li key={p.numero + i} className="flex justify-between rounded-gob-md border border-gob-border px-gob-4 py-gob-3">
+                                <span>
+                                  {p.pais} · {p.fecha} · {p.numero}
+                                </span>
+                                <button type="button" className="text-gob-link underline" onClick={() => setPriorities(prev => prev.filter((_, idx) => idx !== i))}>
+                                  Quitar
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-gri-body-sm text-muted-foreground">Aún no hay prioridades. Debes agregar al menos una.</p>
+                        )}
+                      </div>
+                    ) : null}
+                    <label className="flex items-center gap-gob-3 min-h-11">
+                      <input
+                        type="checkbox"
+                        checked={provisional}
+                        onChange={e => {
+                          const on = e.target.checked
+                          setProvisional(on)
+                          if (on) setDivisional(false)
+                        }}
+                      />
+                      Solicitud provisional
+                      <HelpTooltip text={TOOLTIP_PROVISIONAL} />
+                    </label>
+                    {provisional ? (
+                      <Input value={provisionalNum} onChange={e => setProvisionalNum(e.target.value)} placeholder="Ejemplo: 202401234" className="h-11" />
+                    ) : null}
+                    <label className="flex items-center gap-gob-3 min-h-11">
+                      <input
+                        type="checkbox"
+                        checked={divisional}
+                        onChange={e => {
+                          const on = e.target.checked
+                          setDivisional(on)
+                          if (on) setProvisional(false)
+                        }}
+                      />
+                      Solicitud divisional
+                      <HelpTooltip text={TOOLTIP_DIVISIONAL} />
+                    </label>
+                    {divisional ? (
+                      <Input value={divisionalNum} onChange={e => setDivisionalNum(e.target.value)} placeholder="Ejemplo: 202201111" className="h-11" />
+                    ) : null}
+                  </AccordionBlock>
+                  <AccordionBlock title="Solicitante" defaultOpen>
+                    <FormPersona title="Datos del solicitante" onChange={() => setSolicitanteOk(true)} />
+                  </AccordionBlock>
+                  <AccordionBlock title="Representante">
+                    <FormPersona title="Datos del representante (opcional)" onChange={() => setRepresentanteOk(true)} />
+                  </AccordionBlock>
+                  <AccordionBlock title="Inventores o creadores">
+                    <div className="max-w-xl space-y-gob-2">
+                      <label htmlFor="inv" className="text-gri-body-sm font-medium">
+                        Nombre <RequiredMark />
+                      </label>
+                      <Input id="inv" value={inventor} onChange={e => setInventor(e.target.value)} placeholder="Ejemplo: Ana Soto" />
+                    </div>
+                  </AccordionBlock>
+                </StepSection>
+              )}
 
-        {step === 'solicitante' && (
-          <StepSection title="Solicitante" description="Quién pide el derecho.">
-            <FormPersona title="Datos del solicitante" onChange={() => setSolicitanteOk(true)} />
-          </StepSection>
-        )}
-        {step === 'representante' && (
-          <StepSection title="Representante" description="Opcional si presentas el trámite por otra persona.">
-            <FormPersona title="Datos del representante (opcional)" onChange={() => setRepresentanteOk(true)} />
-          </StepSection>
-        )}
-        {step === 'inventores' && (
-          <StepSection title="Inventores o creadores" description="Quien concibió la invención o el diseño.">
-            <div className="max-w-xl space-y-gob-2">
-              <label htmlFor="inv" className="text-gri-body-sm font-medium">
-                Nombre <RequiredMark />
-              </label>
-              <Input id="inv" value={inventor} onChange={e => setInventor(e.target.value)} placeholder="Ejemplo: Ana Soto" />
-            </div>
-          </StepSection>
-        )}
+              {step === 'declaraciones' && (
+                <StepSection title="Declaraciones" description="Puedes marcar más de una. Cada opción abre el adjunto que acredita lo declarado.">
+                  <div className="grid gap-gob-4 min-[1100px]:grid-cols-4">
+                    {(
+                      [
+                        { id: 'divulgacion', label: 'Divulgación previa', tip: TOOLTIP_DIVULGACION, why: 'Adjunta el documento de los últimos 12 meses.' },
+                        { id: 'restauracion', label: 'Restauración de prioridad', tip: TOOLTIP_RESTAURACION, why: 'Si presentas dentro de los 2 meses posteriores al vencimiento.' },
+                        ...(variant === 'patente'
+                          ? [{ id: 'pct' as const, label: 'Entrada en fase nacional PCT', tip: TOOLTIP_PCT_NACIONAL, why: 'Adjunta el comprobante PCT.' }]
+                          : []),
+                        { id: 'diferir', label: 'Diferir el pago de tasas', tip: TOOLTIP_DIFERIR_PAGO, why: 'Adjunta la declaración de carencia de medios.' },
+                      ] as { id: keyof typeof decl; label: string; tip: string; why: string }[]
+                    ).map(item => (
+                      <div key={item.id} className="rounded-gob-lg border border-gob-border p-gob-4 space-y-gob-3">
+                        <label className="flex items-start gap-gob-2 font-heading text-gri-body-sm font-medium">
+                          <input
+                            type="checkbox"
+                            className="mt-1"
+                            checked={decl[item.id]}
+                            onChange={e => setDecl(d => ({ ...d, [item.id]: e.target.checked }))}
+                          />
+                          <span className="flex-1">{item.label}</span>
+                          <HelpTooltip text={item.tip} />
+                        </label>
+                        <p className="text-gri-body-xs text-gob-text">{item.why}</p>
+                        {decl[item.id] ? (
+                          <FileField
+                            label="Documento de respaldo"
+                            description="PDF de hasta 10 MB."
+                            tooltip="Ejemplo: declaracion.pdf"
+                            fileName={adjuntos[item.id]}
+                            onFile={name => setAdjuntos(a => ({ ...a, [item.id]: name }))}
+                          />
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                </StepSection>
+              )}
 
-        {step === 'declaraciones' && (
-          <StepSection title="Declaraciones" description="Puedes marcar más de una. Cada opción abre el adjunto que acredita lo declarado.">
-            {(
-              [
-                { id: 'divulgacion', label: 'Divulgación previa', tip: TOOLTIP_DIVULGACION, why: 'Adjunta el documento que describe la divulgación de los últimos 12 meses, para que no afecte novedad ni nivel inventivo.', tone: 'plain' as const },
-                { id: 'restauracion', label: 'Restauración de prioridad', tip: TOOLTIP_RESTAURACION, why: 'Adjunta el respaldo si presentas la solicitud dentro de los 2 meses posteriores al vencimiento del plazo de prioridad.', tone: 'soft' as const },
-                ...(variant === 'patente'
-                  ? [{ id: 'pct' as const, label: 'Entrada en fase nacional PCT', tip: TOOLTIP_PCT_NACIONAL, why: 'Adjunta el comprobante PCT si pides que la solicitud se tenga por presentada dentro de los 30 meses.', tone: 'strong' as const }]
-                  : []),
-                { id: 'diferir', label: 'Diferir el pago de tasas', tip: TOOLTIP_DIFERIR_PAGO, why: 'Adjunta la declaración de carencia de medios si pides postergar el pago de tasas.', tone: 'plain' as const },
-              ] as { id: keyof typeof decl; label: string; tip: string; why: string; tone: 'plain' | 'soft' | 'strong' }[]
-            ).map(item => (
-              <div key={item.id} className={cn('rounded-gob-lg border p-gob-5 space-y-gob-4', item.tone === 'soft' && 'border-gob-primary/25 bg-gob-primary/5', item.tone === 'strong' && 'border-gob-accent/30 bg-gob-accent/5')}>
-                <label className="flex items-center justify-center gap-gob-3 font-heading font-medium">
-                  <input
-                    type="checkbox"
-                    checked={decl[item.id]}
-                    onChange={e => setDecl(d => ({ ...d, [item.id]: e.target.checked }))}
-                  />
-                  {item.label}
-                  <HelpTooltip text={item.tip} />
-                </label>
-                <p className="text-center text-gri-body-sm text-gob-text">{item.why}</p>
-                {decl[item.id] ? (
-                  <FileField
-                    label="Documento de respaldo"
-                    description="Sube un PDF. El archivo acredita esta declaración ante INAPI."
-                    tooltip="Formatos habituales: PDF de hasta 10 MB."
-                    fileName={adjuntos[item.id]}
-                    onFile={name => setAdjuntos(a => ({ ...a, [item.id]: name }))}
-                    tone={item.tone}
-                  />
-                ) : null}
-              </div>
-            ))}
-          </StepSection>
-        )}
+              {step === 'documentos' && (
+                <StepSection title="Documentos" description="Adjunta los archivos técnicos. Usa PDF cuando sea posible.">
+                  {variant === 'patente' ? (
+                    <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
+                      <FileField label="Memoria descriptiva" description="Explica cómo funciona la invención." tooltip="Ejemplo: memoria_descriptiva.pdf" fileName={docs.memoria} onFile={n => setDocs(d => ({ ...d, memoria: n }))} />
+                      <FileField label="Reivindicaciones" description="Define qué se pide proteger." tooltip="Ejemplo: reivindicaciones.pdf" fileName={docs.reivindicaciones} onFile={n => setDocs(d => ({ ...d, reivindicaciones: n }))} />
+                      <FileField label="Resumen" description="Texto breve para la publicación." tooltip="Ejemplo: resumen.pdf" fileName={docs.resumen} onFile={n => setDocs(d => ({ ...d, resumen: n }))} />
+                      <FileField label="Dibujos" description="Figuras numeradas de la invención." tooltip="Ejemplo: dibujos.pdf" fileName={docs.dibujos} onFile={n => setDocs(d => ({ ...d, dibujos: n }))} />
+                      <div className="space-y-gob-2 min-[600px]:col-span-2 rounded-gob-md border-2 border-gob-border p-gob-4">
+                        <FieldLabel htmlFor="paginas" help={{ text: 'Suma las páginas de memoria, reivindicaciones, resumen y dibujos.', example: '24' }}>
+                          Total de páginas
+                        </FieldLabel>
+                        <Input id="paginas" value={docs.paginas} onChange={e => setDocs(d => ({ ...d, paginas: e.target.value }))} placeholder="Ejemplo: 24" className="h-11 max-w-xs" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
+                      <FileField label="Figura principal" description="La vista que mejor identifica el diseño." tooltip="Ejemplo: figura_principal.pdf" fileName={docs.figura} onFile={n => setDocs(d => ({ ...d, figura: n }))} />
+                      <FileField label="Memoria descriptiva" description="Describe las características ornamentales." tooltip="Ejemplo: memoria.pdf" fileName={docs.memoria} onFile={n => setDocs(d => ({ ...d, memoria: n }))} />
+                      <FileField label="Figuras adicionales" description="Otras vistas del objeto." tooltip="Ejemplo: figuras.pdf" fileName={docs.figuras} onFile={n => setDocs(d => ({ ...d, figuras: n }))} />
+                      <FileField label="Otros documentos" description="Poder, cesión u otros respaldos." tooltip="Ejemplo: poder.pdf" fileName={docs.otros} onFile={n => setDocs(d => ({ ...d, otros: n }))} />
+                      <div className="space-y-gob-2 min-[600px]:col-span-2 rounded-gob-md border-2 border-gob-border p-gob-4">
+                        <FieldLabel htmlFor="paginas-d" help={{ text: 'Suma todas las páginas del expediente.', example: '8' }}>
+                          Total de páginas
+                        </FieldLabel>
+                        <Input id="paginas-d" value={docs.paginas} onChange={e => setDocs(d => ({ ...d, paginas: e.target.value }))} placeholder="Ejemplo: 8" className="h-11 max-w-xs" />
+                      </div>
+                    </div>
+                  )}
+                </StepSection>
+              )}
 
-        {step === 'documentos' && (
-          <StepSection title="Documentos" description="Adjunta los archivos técnicos de la solicitud. Usa PDF cuando sea posible y declara el total de páginas.">
-            {variant === 'patente' ? (
-              <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
-                <FileField label="Memoria descriptiva" description="Explica cómo funciona la invención, con el detalle suficiente para que una persona experta pueda reproducirla." tooltip="Ejemplo: memoria_descriptiva.pdf" fileName={docs.memoria} onFile={n => setDocs(d => ({ ...d, memoria: n }))} tone="soft" />
-                <FileField label="Reivindicaciones" description="Define con precisión qué se pide proteger. Cada reivindicación delimita el derecho." tooltip="Ejemplo: reivindicaciones.pdf" fileName={docs.reivindicaciones} onFile={n => setDocs(d => ({ ...d, reivindicaciones: n }))} />
-                <FileField label="Resumen" description="Texto breve para la publicación. No reemplaza la memoria." tooltip="Ejemplo: resumen.pdf" fileName={docs.resumen} onFile={n => setDocs(d => ({ ...d, resumen: n }))} />
-                <FileField label="Dibujos" description="Figuras numeradas que ilustran la invención. Incluye vistas suficientes." tooltip="Ejemplo: dibujos.pdf" fileName={docs.dibujos} onFile={n => setDocs(d => ({ ...d, dibujos: n }))} tone="strong" />
-                <div className="space-y-gob-2 min-[600px]:col-span-2 rounded-gob-md border border-gob-border p-gob-4">
-                  <label className="flex items-center text-gri-body font-medium">
-                    Total de páginas
-                    <HelpTooltip text="Suma las páginas de memoria, reivindicaciones, resumen y dibujos. Ejemplo: 24." />
+              {step === 'tasas' && (
+                <StepSection title="Tasas de presentación" description="Valor UTM de referencia. Puedes postergar el pago 30 días si corresponde.">
+                  <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
+                    <article className="rounded-gob-md border border-gob-border p-gob-4">
+                      <p className="text-gri-body-sm text-muted-foreground">UTM de referencia</p>
+                      <p className="font-heading text-2xl font-semibold text-gob-text">${UTM_CLP.toLocaleString('es-CL')}</p>
+                      <p className="mt-1 text-gri-body-xs text-muted-foreground">Valor publicado para este cálculo.</p>
+                    </article>
+                    <article className="rounded-gob-md border-2 border-gob-text p-gob-4">
+                      <p className="text-gri-body-sm text-muted-foreground">Total estimado</p>
+                      <p className="font-heading text-2xl font-semibold text-gob-text">${(postergar ? 0 : UTM_CLP).toLocaleString('es-CL')}</p>
+                      <p className="mt-1 text-gri-body-xs text-muted-foreground">{postergar ? 'Pago postergado 30 días.' : 'Se paga al presentar.'}</p>
+                    </article>
+                  </div>
+                  <label className="flex items-center gap-gob-3 min-h-11">
+                    <input type="checkbox" checked={postergar} onChange={e => setPostergar(e.target.checked)} />
+                    Postergar el pago 30 días
+                    <HelpTooltip text={TOOLTIP_DIFERIR_PAGO} />
                   </label>
-                  <p className="text-gri-body-sm">Este número se usa para el control formal del expediente.</p>
-                  <Input value={docs.paginas} onChange={e => setDocs(d => ({ ...d, paginas: e.target.value }))} placeholder="Ejemplo: 24" className="h-11 max-w-xs" />
-                </div>
-              </div>
-            ) : (
-              <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
-                <FileField label="Figura principal" description="La vista que mejor identifica el diseño o dibujo." tooltip="Ejemplo: figura_principal.pdf" fileName={docs.figura} onFile={n => setDocs(d => ({ ...d, figura: n }))} tone="soft" />
-                <FileField label="Memoria descriptiva" description="Describe las características ornamentales o de forma que se protegen." tooltip="Ejemplo: memoria.pdf" fileName={docs.memoria} onFile={n => setDocs(d => ({ ...d, memoria: n }))} />
-                <FileField label="Figuras adicionales" description="Otras vistas (perfil, planta, perspectiva) para entender el objeto." tooltip="Ejemplo: figuras.pdf" fileName={docs.figuras} onFile={n => setDocs(d => ({ ...d, figuras: n }))} />
-                <FileField label="Otros documentos" description="Poder, cesión u otros respaldos si corresponden." tooltip="Ejemplo: poder.pdf" fileName={docs.otros} onFile={n => setDocs(d => ({ ...d, otros: n }))} tone="strong" />
-                <div className="space-y-gob-2 min-[600px]:col-span-2 rounded-gob-md border border-gob-border p-gob-4">
-                  <label className="flex items-center text-gri-body font-medium">
-                    Total de páginas
-                    <HelpTooltip text="Suma todas las páginas del expediente. Ejemplo: 8." />
-                  </label>
-                  <Input value={docs.paginas} onChange={e => setDocs(d => ({ ...d, paginas: e.target.value }))} placeholder="Ejemplo: 8" className="h-11 max-w-xs" />
-                </div>
-              </div>
-            )}
-          </StepSection>
-        )}
+                  <section className="space-y-gob-4 rounded-gob-md border-2 border-gob-border p-gob-4">
+                    <h3 className="font-heading text-lg font-medium">Datos para Tesorería (TGR)</h3>
+                    <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
+                      <div className="space-y-gob-2">
+                        <label className="text-gri-body-sm font-medium">Nacionalidad</label>
+                        <Input value={tgr.nacionalidad} onChange={e => setTgr(t => ({ ...t, nacionalidad: e.target.value }))} className="h-11" />
+                      </div>
+                      <div className="space-y-gob-2">
+                        <label className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
+                          RUT <RequiredMark />
+                        </label>
+                        <Input value={tgr.rut} onChange={e => setTgr(t => ({ ...t, rut: e.target.value }))} placeholder="Ejemplo: 11.123.123-K" className="h-11" />
+                      </div>
+                      <div className="space-y-gob-2 min-[600px]:col-span-2">
+                        <label className="text-gri-body-sm font-medium">Razón social o nombre</label>
+                        <Input value={tgr.razon} onChange={e => setTgr(t => ({ ...t, razon: e.target.value }))} placeholder="Ejemplo: Taller Paso Firme SpA" className="h-11" />
+                      </div>
+                      <div className="space-y-gob-2">
+                        <label className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
+                          Correo <RequiredMark />
+                        </label>
+                        <Input type="email" value={tgr.correo} onChange={e => setTgr(t => ({ ...t, correo: e.target.value }))} placeholder="Ejemplo: correo@dominio.cl" className="h-11" />
+                      </div>
+                      <div className="space-y-gob-2">
+                        <label className="text-gri-body-sm font-medium">Correo de copia</label>
+                        <Input type="email" value={tgr.correo2} onChange={e => setTgr(t => ({ ...t, correo2: e.target.value }))} placeholder="Ejemplo: copia@dominio.cl" className="h-11" />
+                      </div>
+                    </div>
+                  </section>
+                </StepSection>
+              )}
 
-        {step === 'tasas' && (
-          <StepSection title="Tasas de presentación" description="Valor UTM de referencia $72.151. Puedes postergar el pago 30 días si corresponde.">
-            <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
-              <article className="rounded-gob-md border border-gob-border p-gob-4">
-                <p className="text-gri-body-sm text-muted-foreground">UTM de referencia</p>
-                <p className="font-heading text-xl">${UTM_CLP.toLocaleString('es-CL')}</p>
-              </article>
-              <article className="rounded-gob-md border border-gob-primary/40 bg-gob-primary/5 p-gob-4">
-                <p className="text-gri-body-sm text-muted-foreground">Total estimado</p>
-                <p className="font-heading text-xl">${(postergar ? 0 : UTM_CLP).toLocaleString('es-CL')}</p>
-              </article>
-            </div>
-            <label className="flex items-start gap-gob-3">
-              <input type="checkbox" checked={postergar} onChange={e => setPostergar(e.target.checked)} />
-              <span>
-                Postergar el pago 30 días
-                <HelpTooltip text={TOOLTIP_DIFERIR_PAGO} />
-              </span>
-            </label>
-            <section className="space-y-gob-4 rounded-gob-md border border-gob-border p-gob-4">
-              <h3 className="font-heading text-lg font-medium">Datos para Tesorería (TGR)</h3>
-              <div className="grid gap-gob-4 min-[600px]:grid-cols-2">
-                <div className="space-y-gob-2">
-                  <label className="text-gri-body-sm font-medium">Nacionalidad</label>
-                  <Input value={tgr.nacionalidad} onChange={e => setTgr(t => ({ ...t, nacionalidad: e.target.value }))} className="h-11" />
-                </div>
-                <div className="space-y-gob-2">
-                  <label className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
-                    RUT <RequiredMark />
-                  </label>
-                  <Input value={tgr.rut} onChange={e => setTgr(t => ({ ...t, rut: e.target.value }))} placeholder="Ejemplo: 11.123.123-K" className="h-11" />
-                </div>
-                <div className="space-y-gob-2 min-[600px]:col-span-2">
-                  <label className="text-gri-body-sm font-medium">Razón social o nombre</label>
-                  <Input value={tgr.razon} onChange={e => setTgr(t => ({ ...t, razon: e.target.value }))} placeholder="Ejemplo: Taller Paso Firme SpA" className="h-11" />
-                </div>
-                <div className="space-y-gob-2">
-                  <label className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
-                    Correo <RequiredMark />
-                  </label>
-                  <Input type="email" value={tgr.correo} onChange={e => setTgr(t => ({ ...t, correo: e.target.value }))} placeholder="Ejemplo: correo@dominio.cl" className="h-11" />
-                </div>
-                <div className="space-y-gob-2">
-                  <label className="text-gri-body-sm font-medium">Correo de copia</label>
-                  <Input type="email" value={tgr.correo2} onChange={e => setTgr(t => ({ ...t, correo2: e.target.value }))} placeholder="Ejemplo: copia@dominio.cl" className="h-11" />
-                </div>
-              </div>
-            </section>
-          </StepSection>
-        )}
+              {step === 'revision' && (
+                <StepSection title="Revisión final" description="Comprueba cada bloque.">
+                  <ReviewGrid
+                    items={[
+                      { ok: !!titulo, label: 'Datos', detail: titulo },
+                      ...(variant === 'patente' ? [{ ok: cip.length > 0, label: 'CIP', detail: cip.map(c => c.codigo).join(', ') }] : []),
+                      { ok: prioMode === 'sin' || priorities.length > 0, label: 'Prioridad', detail: prioMode === 'sin' ? 'Sin prioridad' : `${priorities.length} prioridad(es)` },
+                      { ok: solicitanteOk, label: 'Solicitante', detail: solicitanteOk ? 'Completo' : 'Pendiente' },
+                      { ok: true, label: 'Representante', detail: representanteOk ? 'Datos ingresados' : 'Sin representante' },
+                      { ok: !!inventor, label: 'Inventores', detail: inventor },
+                    ]}
+                  />
+                </StepSection>
+              )}
 
-        {step === 'revision' && (
-          <StepSection title="Revisión final" description="Abre cada bloque para comprobar los datos.">
-            {[
-              { id: 'datos', ok: !!titulo, label: 'Datos', detail: titulo },
-              ...(variant === 'patente' ? [{ id: 'cip', ok: cip.length > 0, label: 'CIP', detail: cip.map(c => c.codigo).join(', ') }] : []),
-              { id: 'prioridad', ok: prioMode === 'sin' || priorities.length > 0, label: 'Prioridad', detail: prioMode === 'sin' ? 'Sin prioridad' : `${priorities.length} prioridad(es)` },
-              { id: 'inventores', ok: !!inventor, label: 'Inventores', detail: inventor },
-            ].map((item, i) => {
-              const Icon = item.id === 'cip' ? Layers : item.id === 'prioridad' ? Flag : item.id === 'inventores' ? UserRound : FileText
-              return (
-              <div key={item.id} className={cn('overflow-hidden rounded-gob-lg border shadow-elevation-01', item.ok ? 'border-gob-success/30' : 'border-gob-warning/40')}>
-                <button type="button" className="flex w-full items-center gap-gob-3 px-gob-4 py-gob-4 text-left hover:bg-gob-surface-elevated" onClick={() => toggleBlock(item.id)}>
-                  <span className={cn('inline-flex size-10 items-center justify-center rounded-gob-md text-white', item.ok ? 'bg-gob-success' : 'bg-gob-warning', i === 0 && 'bg-gob-primary')}>
-                    {item.ok ? <CheckCircle2 className="size-5" /> : <Icon className="size-5" />}
-                  </span>
-                  <span className="flex-1">
-                    <span className={cn('block font-heading font-medium', item.ok ? 'text-gob-text' : 'text-gob-warning')}>{item.label}</span>
-                    <span className="text-gri-body-xs text-muted-foreground">{item.ok ? 'Completo' : 'Requiere revisión'}</span>
-                  </span>
-                  <ChevronDown className={cn('size-5 transition-transform', openBlocks.includes(item.id) && 'rotate-180')} />
-                </button>
-                {openBlocks.includes(item.id) ? <p className="border-t border-gob-border bg-gob-surface-elevated/50 px-gob-4 py-gob-3 text-gri-body-sm">{item.detail}</p> : null}
+              <div className="flex flex-wrap gap-gob-3 pt-gob-4">
+                <Button variant="outline" size="form" disabled={stepIndex <= 0} onClick={prev}>
+                  Volver
+                </Button>
+                <Button variant="outline" size="form" onClick={() => setSaved('Borrador guardado. Tienes 60 días para pagarlo.')}>
+                  Guardar
+                </Button>
+                <Button size="form" onClick={next}>
+                  {step === 'revision' ? 'Ir a pagar' : 'Siguiente'}
+                </Button>
               </div>
-            )})}
-          </StepSection>
-        )}
-
-        <div className="flex flex-wrap gap-gob-3 pt-gob-4">
-          <Button variant="outline" size="form" onClick={() => setSaved('Borrador guardado. Tienes 60 días para pagarlo.')}>
-            Guardar
-          </Button>
-          {step !== 'revision' && (
-            <Button size="form" onClick={next}>
-              Siguiente
-            </Button>
-          )}
-        </div>
-        {saved ? <p className="text-gri-body-sm text-gob-success">{saved}</p> : null}
-        <LegalNotice>{LEGAL_WIZARD_PATENTE}</LegalNotice>
+              {saved ? <p className="text-gri-body-sm text-gob-success">{saved}</p> : null}
             </>
           }
           aside={
@@ -510,6 +505,7 @@ export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
               <HelperCard title="Tu avance">
                 <Checklist
                   current={step}
+                  onSelect={go}
                   items={steps.map(s => ({
                     id: s.id,
                     label: s.label,
@@ -517,46 +513,18 @@ export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
                   }))}
                 />
               </HelperCard>
-              <HelperCard title="Control de este paso" tone="night">
-                <BulletList
-                  items={[
-                    'Completa este bloque antes de pasar al siguiente.',
-                    'Puedes guardar el borrador y retomarlo en 60 días.',
-                    'El título no puede superar 15 palabras.',
-                  ]}
-                />
+              <HelperCard
+                title={helpers[step]?.title ?? 'Ayuda de este paso'}
+                tone="night"
+                collapsible
+                hint="Abrir ayuda"
+              >
+                <BulletList items={helpers[step]?.items ?? []} />
+                {step === 'tasas' ? <p className="pt-gob-2">Los datos TGR se usan solo para el pago de esta presentación.</p> : null}
               </HelperCard>
             </>
           }
         />
-
-        <Dialog open={cipOpen} onOpenChange={setCipOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Agregar código CIP</DialogTitle>
-              <DialogDescription>
-                Completa sección, clase, subclase, grupo y subgrupo.{' '}
-                <a className="text-gob-link underline" href="https://www.wipo.int/es/web/classification-ipc" rel="noopener noreferrer">
-                  Clasificación Internacional de Patentes (OMPI)
-                </a>
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-gob-3 min-[600px]:grid-cols-2">
-              {(['seccion', 'clase', 'subclase', 'grupo', 'subgrupo'] as const).map(k => (
-                <div key={k} className="space-y-1">
-                  <label className="text-gri-body-sm font-medium capitalize">{k}</label>
-                  <Input value={cipDraft[k]} onChange={e => setCipDraft(d => ({ ...d, [k]: e.target.value }))} className="h-11" />
-                </div>
-              ))}
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setCipOpen(false)}>
-                Cancelar
-              </Button>
-              <Button onClick={addCip}>Agregar</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
 
         <Dialog open={prioOpen} onOpenChange={setPrioOpen}>
           <DialogContent>

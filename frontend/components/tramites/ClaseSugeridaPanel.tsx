@@ -33,21 +33,22 @@ export function ClaseSugeridaPanel({
 
   return (
     <div className="space-y-gob-6">
-      <section className="space-y-gob-2 rounded-gob-md border border-gob-primary/20 bg-gob-primary/5 p-gob-4">
+      <section className="space-y-gob-2 rounded-gob-md border-2 border-gob-border bg-transparent p-gob-4">
         <label htmlFor="prod" className="flex items-center text-gri-body font-medium">
           Producto o servicio de tu marca
-          <HelpTooltip text="Escribe lo que vas a vender o prestar. Te sugerimos las clases de Niza más cercanas." />
+          <HelpTooltip
+            title="Producto o servicio"
+            text="Escribe lo que vas a vender o prestar. Te sugerimos las clases de Niza más cercanas."
+            example="software para gestionar certificados o ropa deportiva"
+          />
         </label>
-        <p className="text-gri-body-sm text-gob-text">
-          Describe con tus palabras lo que ofreces. Ejemplo: «software para gestionar certificados» o «ropa deportiva».
-        </p>
         <div className="flex flex-wrap gap-gob-3">
           <Input
             id="prod"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Ejemplo: software para gestión de certificados digitales"
-            className="h-11 flex-1 min-w-[16rem]"
+            className="h-12 flex-1 min-w-[16rem] border-2 border-gob-text/40 bg-card"
           />
           <Button type="button" size="form" disabled={query.trim().length < 2} onClick={() => setBuscado(true)}>
             <Search className="size-4" aria-hidden />
@@ -126,7 +127,7 @@ export function ClaseSugeridaPanel({
                   <span className="block font-heading font-medium">Clase {n}</span>
                   <span className="text-gri-body-sm">{NIZA_CLASES.find(c => c.n === n)?.titulo}</span>
                 </span>
-                <button type="button" className="rounded-full p-1 hover:bg-white" onClick={() => onToggleClass(n)} aria-label={`Quitar clase ${n}`}>
+                <button type="button" className="rounded-full p-1 hover:bg-gob-surface-elevated" onClick={() => onToggleClass(n)} aria-label={`Quitar clase ${n}`}>
                   <X className="size-4" />
                 </button>
               </li>

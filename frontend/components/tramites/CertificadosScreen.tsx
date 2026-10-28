@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { CalendarClock, Mail, Timer, Wallet } from 'lucide-react'
+import { CompactProcessTimeline } from '@/components/story/JourneyRail'
+import { FactList } from '@/components/tramites/TramitesExperience'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -39,24 +42,34 @@ export function CertificadosScreen({ domain }: { domain: TramitesDomain }) {
   return (
     <RequireAuth>
       <TramitesMain>
-        <ul className="grid gap-gob-3 min-[600px]:grid-cols-2">
-          <li className="rounded-gob-md border border-gob-border bg-card p-gob-4">
-            <p className="font-medium text-gob-text">Precio</p>
-            <p className="text-gri-body-sm text-muted-foreground">${CERT_PRICE_CLP} por certificado</p>
-          </li>
-          <li className="rounded-gob-md border border-gob-border bg-card p-gob-4">
-            <p className="font-medium text-gob-text">Plazo de emisión</p>
-            <p className="text-gri-body-sm text-muted-foreground">Hasta 10 días hábiles</p>
-          </li>
-          <li className="rounded-gob-md border border-gob-border bg-card p-gob-4">
-            <p className="font-medium text-gob-text">Vigencia</p>
-            <p className="text-gri-body-sm text-muted-foreground">60 días corridos desde la emisión</p>
-          </li>
-          <li className="rounded-gob-md border border-gob-border bg-card p-gob-4">
-            <p className="font-medium text-gob-text">CVE por correo</p>
-            <p className="text-gri-body-sm text-muted-foreground">El código de verificación llega al correo de tu cuenta</p>
-          </li>
-        </ul>
+        <article className="space-y-gob-5 rounded-gob-lg border-2 border-gob-border bg-card p-gob-5">
+          <div className="space-y-gob-2">
+            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-gob-primary-dark">
+              Cómo se pide
+            </p>
+            <h2 className="font-heading text-xl font-medium text-gob-text">Certificado de {domain === 'marcas' ? 'marca' : 'patente'}</h2>
+            <p className="text-gri-body-sm leading-[1.55] text-gob-text/80">
+              Ingresa el número, elige el tipo, paga en Tesorería y espera el código de verificación en tu correo.
+            </p>
+          </div>
+          <CompactProcessTimeline
+            label="Etapas del certificado"
+            steps={[
+              { title: 'Número', status: numero ? 'done' : 'current' },
+              { title: 'Tipo', status: tipo ? 'done' : numero ? 'current' : 'pending' },
+              { title: 'Pago TGR', status: canPay ? 'current' : 'pending' },
+              { title: 'CVE', status: 'pending' },
+            ]}
+          />
+          <FactList
+            items={[
+              { icon: <Wallet />, label: 'Precio', value: `$${CERT_PRICE_CLP} por certificado` },
+              { icon: <Timer />, label: 'Plazo de emisión', value: 'Hasta 10 días hábiles después del pago' },
+              { icon: <CalendarClock />, label: 'Vigencia', value: '60 días corridos desde la emisión' },
+              { icon: <Mail />, label: 'CVE por correo', value: 'El código de verificación llega al correo de tu cuenta' },
+            ]}
+          />
+        </article>
 
         {estado === 'espera' && (
           <div className="rounded-gob-md border border-gob-warning/40 bg-gob-warning-bg p-gob-5 space-y-gob-3">

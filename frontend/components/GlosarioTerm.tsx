@@ -25,7 +25,7 @@ export function GlosarioTerm({ termino, children }: Props) {
       <PopoverTrigger asChild>
         <button
           type="button"
-          className="inline border-b border-dashed border-gob-link cursor-help text-gob-link hover:text-gob-link/80 transition-colors bg-transparent p-0 font-inherit text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus rounded-sm"
+          className="inline cursor-help rounded-sm border-b border-dashed border-gob-link bg-transparent p-0 font-inherit text-inherit text-gob-link transition-colors hover:text-gob-link/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
           aria-label={`Definición de ${title}`}
         >
           {children}
@@ -37,9 +37,9 @@ export function GlosarioTerm({ termino, children }: Props) {
       <PopoverContent className="w-80 p-gob-4" side="top" role="tooltip">
         <div className="space-y-2">
           <p className="font-medium text-gri-body-sm text-gob-text">{title}</p>
-          <p className="text-gri-body-sm text-muted-foreground leading-relaxed">{definition}</p>
+          <p className="text-gri-body-sm leading-relaxed text-muted-foreground">{definition}</p>
           {example ? (
-            <div className="pt-1 border-t border-gob-border">
+            <div className="border-t border-gob-border pt-1">
               <p className="text-gri-body-xs text-muted-foreground">
                 <span className="font-medium">Ejemplo: </span>
                 {example}
@@ -52,5 +52,26 @@ export function GlosarioTerm({ termino, children }: Props) {
         </div>
       </PopoverContent>
     </Popover>
+  )
+}
+
+/** Término técnico con significado visible: “Acervo: conjunto de…”. */
+export function PlainTerm({
+  term,
+  children,
+  showMeaning = true,
+}: {
+  term: string
+  children?: React.ReactNode
+  showMeaning?: boolean
+}) {
+  const entry = resolveGlossaryEntry(term)
+  const label = children ?? term
+  if (!entry) return <>{label}</>
+  return (
+    <span className="inline">
+      <GlosarioTerm termino={term}>{label}</GlosarioTerm>
+      {showMeaning ? <span className="text-muted-foreground">: {entry.shortDef}</span> : null}
+    </span>
   )
 }

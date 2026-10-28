@@ -18,7 +18,7 @@ import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { PatentWizard } from '@/components/tramites/PatentWizard'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
 import { ChoiceCard } from '@/components/tramites/TramitesExperience'
-import { AlertBanner, ServicePanel, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
+import { AlertBanner, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import {
   AnnotationCreateScreen,
   LookupForm,
@@ -120,10 +120,10 @@ export function DatosAbiertosMarcasScreen() {
   return (
     <RequireAuth>
       <TramitesMain>
-        <ServicePanel title="Datos abiertos" domain="marcas">
+        <div className="space-y-gob-5">
           <div className="grid gap-gob-6 min-[905px]:grid-cols-2">
             <article className="space-y-gob-3">
-              <h3 className="font-heading text-xl text-gob-accent">Marcas presentadas año 2009 - actualidad</h3>
+              <h3 className="font-heading text-xl text-gob-text">Marcas presentadas año 2009 - actualidad</h3>
               <p className="text-gri-body-sm text-gob-text">
                 Contiene el listado de solicitudes de marcas presentadas en Chile desde el año 2009 a la actualidad
               </p>
@@ -134,7 +134,7 @@ export function DatosAbiertosMarcasScreen() {
               </Button>
             </article>
             <article className="space-y-gob-3">
-              <h3 className="font-heading text-xl text-gob-accent">Marcas registradas año 2009 - actualidad</h3>
+              <h3 className="font-heading text-xl text-gob-text">Marcas registradas año 2009 - actualidad</h3>
               <p className="text-gri-body-sm text-gob-text">
                 Contiene el listado de solicitudes de marcas registradas en Chile desde el año 2009 a la actualidad
               </p>
@@ -145,7 +145,7 @@ export function DatosAbiertosMarcasScreen() {
               </Button>
             </article>
           </div>
-        </ServicePanel>
+        </div>
       </TramitesMain>
     </RequireAuth>
   )
@@ -191,7 +191,7 @@ export function VerificarTitulosScreen() {
   return (
     <RequireAuth>
       <TramitesMain>
-        <ServicePanel title="Validar títulos y certificados marcas" domain="marcas">
+        <div className="space-y-gob-5">
           <p className="text-gri-body">Ingrese el Código de Verificación Electrónica (CVE), para validar el documento electrónico.</p>
           <Input value={cve} onChange={e => setCve(e.target.value)} className="h-11 max-w-xl" />
           <div className="flex flex-wrap gap-gob-3">
@@ -209,7 +209,7 @@ export function VerificarTitulosScreen() {
               Limpiar
             </Button>
           </div>
-        </ServicePanel>
+        </div>
         {ok && <AlertBanner>Documento válido. CVE {DEMO_NUMEROS.cve}.</AlertBanner>}
         <SiteMessage open={error} onClose={() => setError(false)}>
           El código CVE no es válido o el documento ya no está disponible.
@@ -246,7 +246,7 @@ export function PresentarEscritosPatentesScreen() {
   return (
     <RequireAuth>
       <TramitesMain>
-        <ServicePanel title="Presentar escritos de patentes" domain="patentes">
+        <div className="space-y-gob-5">
           <p className="text-gri-body">Ingrese el número de documento de la Patente a la que requiere presentar un escrito.</p>
           <div className="max-w-xl space-y-gob-2">
             <label htmlFor="dest" className="text-gri-body-sm font-medium">
@@ -289,7 +289,7 @@ export function PresentarEscritosPatentesScreen() {
             </Link>
             .
           </AlertBanner>
-        </ServicePanel>
+        </div>
         <SiteMessage open={msg} onClose={() => setMsg(false)}>
           El escrito quedó asociado al número {numero}.
         </SiteMessage>
@@ -350,7 +350,7 @@ export function PatentLanding({ variant }: { variant: 'patente' | 'diseno' }) {
             { title: 'Revisa y paga', body: 'Guardas un borrador y pagas la tasa de presentación.' },
           ]}
         />
-        <ServicePanel title={variant === 'patente' ? 'Solicitar patente' : 'Solicitar diseño'} domain="patentes">
+        <div className="space-y-gob-5">
           <p className="text-gri-body font-medium">Indica el tipo y el título de la solicitud</p>
           <div className="grid gap-gob-3 min-[600px]:grid-cols-2">
             {tipos.map(t => (
@@ -377,7 +377,6 @@ export function PatentLanding({ variant }: { variant: 'patente' | 'diseno' }) {
               <label htmlFor="tit" className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
                 Título de la solicitud
                 <HelpTooltip text="Máximo 15 palabras. Describe el objeto, no el beneficio comercial." />
-                <span className="text-gob-danger">(*) Extensión máxima, 15 palabras</span>
               </label>
               <Input
                 id="tit"
@@ -404,7 +403,7 @@ export function PatentLanding({ variant }: { variant: 'patente' | 'diseno' }) {
               </Button>
             </div>
           </div>
-        </ServicePanel>
+        </div>
       </TramitesMain>
     </RequireAuth>
   )
@@ -416,14 +415,14 @@ export function MadridRedirectScreen() {
   return (
     <RequireAuth>
       <TramitesMain>
-        <ServicePanel title="Solicitar marca Sistema de Madrid" domain="marcas">
+        <div className="space-y-gob-5">
           <p className="text-gri-body">
             El Sistema de Madrid se tramita en un sitio distinto a este portal. Confirma para abrir Madrid e-filing de INAPI.
           </p>
           <Button size="form" onClick={() => setOpen(true)}>
             Ir a Madrid e-filing
           </Button>
-        </ServicePanel>
+        </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent>
             <DialogHeader>

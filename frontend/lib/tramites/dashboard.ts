@@ -75,6 +75,10 @@ export function pathOf(href: string) {
   return href.split('?')[0]
 }
 
+export function tramitesPath(pathname: string) {
+  return pathname.replace(/^\/inapi-mvp(?=\/|$)/, '') || '/'
+}
+
 export function categoryItems(id: TramitesCategoryId, scope: TramitesDomain): MegaItem[] {
   if (id === 'herramientas') return HERRAMIENTAS[scope]
   const category = categoryById(id)
@@ -92,7 +96,7 @@ export function scopeFromPath(pathname: string, fallback: TramitesDomain): Trami
 }
 
 export function categoryForPath(pathname: string) {
-  if (pathname === '/tramites/notificaciones') return undefined
+  if (pathname === '/tramites/notificaciones') return TRAMITES_CATEGORIES.find(c => c.id === 'tramitacion')
   return TRAMITES_CATEGORIES.find(cat => {
     return (['marcas', 'patentes'] as const).some(s =>
       categoryItems(cat.id, s).some(item => {
@@ -102,6 +106,48 @@ export function categoryForPath(pathname: string) {
       }),
     )
   })
+}
+
+const TO_PATENTES: Record<string, string> = {
+  '/tramites/marcas/solicitar': '/tramites/patentes/solicitar',
+  '/tramites/marcas/clasificador': '/tramites/patentes/buscador',
+  '/tramites/marcas/solicitudes-guardadas': '/tramites/patentes/solicitudes-guardadas',
+  '/tramites/marcas/tramites': '/tramites/patentes/anotaciones',
+  '/tramites/marcas/pagos': '/tramites/patentes/pagos',
+  '/tramites/marcas/escritos': '/tramites/patentes/escritos',
+  '/tramites/marcas/anotaciones-guardadas': '/tramites/patentes/anotaciones-guardadas',
+  '/tramites/marcas/certificados': '/tramites/patentes/certificados',
+  '/tramites/marcas/verificar-titulos': '/tramites/patentes/verificar-titulos',
+  '/tramites/marcas/formularios': '/tramites/patentes/formularios',
+  '/tramites/marcas/estados-diarios': '/tramites/patentes/estados-diarios',
+  '/tramites/marcas/libro-registro': '/tramites/patentes/libro-registro',
+  '/tramites/marcas/datos-abiertos': '/tramites/patentes/datos-abiertos',
+  '/tramites/marcas/documentos': '/tramites/patentes/documentos',
+  '/marcas/buscador-similitud': '/tramites/patentes/buscador',
+  '/tramites/marcas/gaceta': '/tramites/patentes/estados-diarios',
+}
+
+const TO_MARCAS: Record<string, string> = {
+  ...Object.fromEntries(Object.entries(TO_PATENTES).map(([from, to]) => [to, from])),
+  '/tramites/patentes/solicitar-diseno': '/tramites/marcas/solicitar',
+  '/tramites/patentes/presentar-escritos': '/tramites/marcas/escritos',
+  '/tramites/patentes/documentacion-pct': '/tramites/marcas/datos-abiertos',
+  '/tramites/patentes/buscador/avanzada': '/tramites/marcas/clasificador',
+}
+
+export function counterpartHref(pathname: string, search: string, target: TramitesDomain): string {
+  const path = tramitesPath(pathname)
+  if (path === '/tramites' || path === '/') return '/tramites'
+  if (path === '/tramites/notificaciones') return `/tramites/notificaciones?ambito=${target}`
+  if (path === '/tramites/custodia-poderes') return path
+  const mapped = target === 'patentes' ? TO_PATENTES[path] : TO_MARCAS[path]
+  if (mapped) return mapped
+  const cat = categoryForPath(path)
+  if (cat) {
+    const items = categoryItems(cat.id, target).filter(item => !item.external)
+    if (items[0]) return items[0].href
+  }
+  return target === 'patentes' ? '/tramites/patentes/solicitar' : '/tramites/marcas/solicitar'
 }
 
 /* Preferencias del dashboard persistidas en localStorage. */

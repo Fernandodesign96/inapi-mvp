@@ -93,8 +93,8 @@ export const LEGAL_LIBRO_PATENTES = `Desde el 1 de enero de 2018, todos nuestros
 
 ${LEGAL_LIBRO_REGISTRO}`
 
-export const LEGAL_CLASIFICADOR = `El Clasificador de Productos y Servicios de INAPI le permite buscar las palabras o términos para clasificar los productos y servicios necesarios para la solicitud de marca.
-Adicionalmente, esta nueva versión del Clasificador ofrece la traducción al inglés de un gran número de descripciones de productos y servicios.`
+export const LEGAL_CLASIFICADOR = `Este buscador te ayuda a elegir los productos o servicios de tu marca y te sugiere la clase de Niza.
+Cada clase se cobra aparte. Describe lo que vendes u ofreces: no hace falta usar el término oficial.`
 
 export const LEGAL_CLASIFICADOR_PROCEDENCIA = `Se refiere al origen o fuente de la descripción o término. Actualmente las fuentes principales de categorización utilizadas por INAPI son:
 
@@ -106,9 +106,8 @@ ADP: Descripciones pertenecientes al listado armonizado de productos y servicios
 
 PROTOCOLO DE MADRID: Descripciones aceptadas por OMPI, a través de su Oficina Internacional.`
 
-export const LEGAL_CLASIFICADOR_CLASES = `Dato a incorporar solo en caso que usted conozca el catálogo del Clasificador Internacional de Niza o le interese una categoría perteneciente a un rubro en particular.
-
-Puede seleccionar el ícono del libro a la derecha de este campo para ver las clases para productos y servicios.`
+export const LEGAL_CLASIFICADOR_CLASES = `Usa este dato solo si ya conoces el número de clase de Niza o te interesa un rubro concreto.
+Cada clase se cobra aparte.`
 
 export const LEGAL_PCT = `En esta sección INAPI pone a disposición de la comunidad internacional la siguiente documentación para su consulta y revisión:
 

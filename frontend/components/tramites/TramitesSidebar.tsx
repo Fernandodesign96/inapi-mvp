@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import {
   ArrowLeft,
   Bell,
@@ -24,8 +24,10 @@ import {
   TRAMITES_CATEGORIES,
   categoryForPath,
   categoryItems,
+  counterpartHref,
   pathOf,
   scopeFromPath,
+  tramitesPath,
   type TramitesCategoryId,
 } from '@/lib/tramites/dashboard'
 import { NOTIFICACIONES } from '@/lib/tramites/mock-data'
@@ -72,11 +74,22 @@ export function ScopeSwitch({
   collapsed?: boolean
 }) {
   const { tx } = useI18n()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const go = (id: TramitesDomain) => {
+    onChange(id)
+    const search = typeof window !== 'undefined' ? window.location.search.replace(/^\?/, '') : ''
+    const href = counterpartHref(pathname, search, id)
+    const here = `${tramitesPath(pathname)}${search ? `?${search}` : ''}`
+    if (href !== here) router.push(href)
+  }
+
   if (collapsed) {
     return (
       <button
         type="button"
-        onClick={() => onChange(scope === 'marcas' ? 'patentes' : 'marcas')}
+        onClick={() => go(scope === 'marcas' ? 'patentes' : 'marcas')}
         className={cn(
           'flex min-h-11 w-full items-center justify-center gap-gob-2 border-b border-gob-border text-gri-body-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus',
           'bg-[var(--story-night)] text-white dark:bg-[#0F69C4] dark:text-white',
@@ -101,12 +114,12 @@ export function ScopeSwitch({
           key={id}
           type="button"
           aria-pressed={scope === id}
-          onClick={() => onChange(id)}
+          onClick={() => go(id)}
           className={cn(
             'inline-flex min-h-11 items-center justify-center gap-gob-2 px-gob-3 text-gri-body-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus',
             scope === id
               ? 'bg-[var(--story-night)] text-white dark:bg-[#0F69C4] dark:text-white'
-              : 'text-gob-text/55 hover:text-gob-text dark:text-white/45 dark:hover:bg-white/10 dark:hover:text-white',
+              : 'text-gob-text/80 hover:text-gob-text dark:text-white/80 dark:hover:bg-white/10 dark:hover:text-white',
           )}
         >
           <span
@@ -131,7 +144,7 @@ export function TramitesSidebarNav({
   onNavigate?: () => void
 }) {
   const { tx } = useI18n()
-  const pathname = usePathname()
+  const pathname = tramitesPath(usePathname())
   const { scope, setPrefs } = useDashboardPrefs()
   const activeCategory = categoryForPath(pathname)?.id
   const [groupOverrides, setGroupOverrides] = useState<Partial<Record<TramitesCategoryId, boolean>>>({})

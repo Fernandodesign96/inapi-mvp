@@ -14,8 +14,9 @@ import {
 } from '@/components/ui/dialog'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { DataTable, Td } from '@/components/tramites/DataTable'
-import { EmptyState, ServicePanel, selectClass, AlertBanner } from '@/components/tramites/ui-helpers'
+import { EmptyState, selectClass, AlertBanner } from '@/components/tramites/ui-helpers'
 import { Field, FilterPanel } from '@/components/tramites/FilterPanel'
+import { FilterActionBar, useTramitesChrome } from '@/components/tramites/TramitesScreenChrome'
 import type { BorradorGuardado } from '@/lib/tramites/catalogs'
 import { cn } from '@/lib/utils'
 
@@ -84,11 +85,11 @@ export function LookupForm({
   }
 
   return (
-    <ServicePanel title={title} domain={domain}>
+    <div className="space-y-gob-5">
       {description && <div className="text-gri-body text-gob-text leading-relaxed">{description}</div>}
       <div className="flex flex-col gap-gob-3 min-[600px]:flex-row min-[600px]:items-end">
         <div className="flex-1 space-y-gob-2">
-          <label htmlFor="lookup" className="flex items-center text-gri-body-sm font-medium text-gob-text">
+          <label htmlFor="lookup" className="inline-flex items-center gap-1.5 text-gri-body-sm font-medium text-gob-text">
             {label}
             {tooltip && <HelpTooltip text={tooltip} />}
           </label>
@@ -118,7 +119,7 @@ export function LookupForm({
       <SiteMessage open={error} onClose={() => setError(false)}>
         {errorMessage}
       </SiteMessage>
-    </ServicePanel>
+    </div>
   )
 }
 
@@ -142,15 +143,26 @@ export function SavedListScreen({
   showFilters?: 'anotacion' | 'solicitud' | 'escrito'
 }) {
   const [estado, setEstado] = useState('')
+  const [filterOpen, setFilterOpen] = useState(false)
 
   const filtered = estado && estado !== 'Todos' ? rows.filter(r => r.estado === estado) : rows
 
+  useTramitesChrome(
+    {
+      filterEnabled: Boolean(showFilters),
+      filterInline: true,
+      filterOpen,
+      onFilterToggle: () => setFilterOpen(v => !v),
+    },
+    [showFilters, filterOpen],
+  )
+
   return (
-    <ServicePanel title={panelTitle} domain={domain}>
+    <div className="space-y-gob-5">
       <div className="space-y-gob-5">
         <div className="space-y-gob-4">
-          {showFilters === 'anotacion' && (
-            <FilterPanel title="Filtros de búsqueda" defaultOpen>
+          {filterOpen && showFilters === 'anotacion' ? (
+            <FilterPanel title="Filtros de búsqueda" bare>
               <Field id="nat" label="N° de Atención">
                 <Input id="nat" className="h-11" />
               </Field>
@@ -169,9 +181,9 @@ export function SavedListScreen({
                 </select>
               </Field>
             </FilterPanel>
-          )}
-          {showFilters === 'solicitud' && (
-            <FilterPanel title="Filtros de búsqueda" defaultOpen>
+          ) : null}
+          {filterOpen && showFilters === 'solicitud' ? (
+            <FilterPanel title="Filtros de búsqueda" bare>
               <Field id="nat" label="N° de Atención">
                 <Input id="nat" className="h-11" />
               </Field>
@@ -190,9 +202,9 @@ export function SavedListScreen({
                 </select>
               </Field>
             </FilterPanel>
-          )}
-          {showFilters === 'escrito' && (
-            <FilterPanel title="Filtros de búsqueda" defaultOpen>
+          ) : null}
+          {filterOpen && showFilters === 'escrito' ? (
+            <FilterPanel title="Filtros de búsqueda" bare>
               <Field id="nat" label="N° de Atención">
                 <Input id="nat" className="h-11" />
               </Field>
@@ -210,13 +222,13 @@ export function SavedListScreen({
                 </select>
               </Field>
             </FilterPanel>
-          )}
-          <div className="flex flex-wrap gap-gob-3">
+          ) : null}
+          <FilterActionBar>
             <Button size="form">Buscar</Button>
             <Button size="form" variant="secondary" onClick={() => setEstado(showFilters === 'anotacion' ? '' : 'Todos')}>
               Limpiar
             </Button>
-          </div>
+          </FilterActionBar>
         </div>
         <div className="border-t border-gob-border pt-gob-5">
           <h3 className="mb-gob-3 text-gri-body font-medium">Nueva gestión</h3>
@@ -247,7 +259,7 @@ export function SavedListScreen({
           </DataTable>
         )}
       </div>
-    </ServicePanel>
+    </div>
   )
 }
 
@@ -294,7 +306,7 @@ export function AnnotationCreateScreen({
   const [msg, setMsg] = useState(false)
 
   return (
-    <ServicePanel title={domain === 'marcas' ? 'Anotación de marcas' : 'Anotación de patentes'} domain={domain}>
+    <div className="space-y-gob-5">
       <p className="text-gri-body text-gob-text">{hint}</p>
       <div className="max-w-xl space-y-gob-2">
         <label htmlFor="tipo-anot" className="flex items-center text-gri-body-sm font-medium">
@@ -328,13 +340,13 @@ export function AnnotationCreateScreen({
       <SiteMessage open={msg} onClose={() => setMsg(false)}>
         La anotación quedó guardada como borrador. Puedes retomarla desde Anotaciones guardadas.
       </SiteMessage>
-    </ServicePanel>
+    </div>
   )
 }
 
 export function ExternalRedirect({ href, label }: { href: string; label: string }) {
   return (
-    <ServicePanel title="Redirección" domain="marcas">
+    <div className="space-y-gob-5">
       <p className="text-gri-body text-gob-text">
         Este trámite se realiza en un sitio distinto. Te llevamos a {label}.
       </p>
@@ -344,7 +356,7 @@ export function ExternalRedirect({ href, label }: { href: string; label: string 
         </a>
       </Button>
       <p className="text-gri-body-xs text-muted-foreground break-all">{href}</p>
-    </ServicePanel>
+    </div>
   )
 }
 

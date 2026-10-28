@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import { ChatFAB } from '@/components/layout/ChatFAB'
 import { SkipLink } from '@/components/layout/SkipLink'
 import { TramitesContextRail } from '@/components/tramites/TramitesContextRail'
+import { TramitesChromeProvider } from '@/components/tramites/TramitesScreenChrome'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { DownloadToast } from '@/components/tramites/DownloadToast'
 import { FocusOnHeading } from '@/components/shared/FocusOnHeading'
@@ -25,6 +26,7 @@ const PUBLIC_CHROME = new Set([
 export function TramitesFrame({ children }: { children: React.ReactNode }) {
   return (
     <TooltipProvider delayDuration={200}>
+      <TramitesChromeProvider>
       <div className="tramites-dashboard flex min-h-screen min-w-0 max-w-full bg-[var(--story-mist)]">
         <SkipLink />
         <FocusOnHeading />
@@ -41,6 +43,7 @@ export function TramitesFrame({ children }: { children: React.ReactNode }) {
         <DownloadToast />
         <ChatFAB title="Chatbot INAPI" />
       </div>
+      </TramitesChromeProvider>
     </TooltipProvider>
   )
 }
