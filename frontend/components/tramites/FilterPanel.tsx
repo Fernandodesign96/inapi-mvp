@@ -8,12 +8,18 @@ export function FilterPanel({
   title = 'Filtros',
   children,
   defaultOpen = true,
+  bare = false,
 }: {
   title?: string
   children: React.ReactNode
   defaultOpen?: boolean
+  bare?: boolean
 }) {
   const [open, setOpen] = useState(defaultOpen)
+
+  if (bare) {
+    return <div className="grid gap-gob-4 rounded-gob-lg border border-gob-border bg-card p-gob-4 min-[600px]:grid-cols-2 min-[905px]:grid-cols-4">{children}</div>
+  }
 
   return (
     <section className="overflow-hidden rounded-gob-xl border border-gob-border bg-card shadow-elevation-01">

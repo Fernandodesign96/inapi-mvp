@@ -1,8 +1,8 @@
 import Link from 'next/link'
+import { ChevronDown, FileText, LoaderCircle } from 'lucide-react'
 import { ContainerGRI } from '@/components/layout/ContainerGRI'
 import { LastUpdated } from '@/components/shared/LastUpdated'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
-import { LoaderCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function TramitesMain({ children }: { children: React.ReactNode }) {
@@ -50,7 +50,7 @@ export function EmptyState({
 
 export function selectClass(disabled?: boolean) {
   return cn(
-    'w-full h-11 min-h-11 px-gob-3 border border-gob-border rounded-md bg-gob-surface text-gri-body-sm outline-none transition-colors duration-150',
+    'w-full h-11 min-h-11 px-gob-3 border border-gob-border rounded-md bg-card text-gri-body-sm outline-none transition-colors duration-150',
     'hover:border-gob-primary/50 focus-visible:ring-2 focus-visible:ring-gob-focus',
     disabled && 'opacity-50 cursor-not-allowed pointer-events-none bg-muted',
   )
@@ -174,6 +174,50 @@ export function RequiredMark() {
   )
 }
 
+export function AccordionBlock({
+  title,
+  children,
+  defaultOpen,
+}: {
+  title: string
+  children: React.ReactNode
+  defaultOpen?: boolean
+}) {
+  return (
+    <details className="rounded-gob-lg border border-gob-border bg-card" open={defaultOpen}>
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-gob-3 px-gob-4 py-gob-3 font-heading text-gri-body font-medium text-gob-text marker:content-none [&::-webkit-details-marker]:hidden">
+        {title}
+        <ChevronDown className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+      </summary>
+      <div className="space-y-gob-4 border-t border-gob-border px-gob-4 py-gob-4">{children}</div>
+    </details>
+  )
+}
+
+export function ReviewGrid({
+  items,
+}: {
+  items: { label: string; ok: boolean; detail: string }[]
+}) {
+  return (
+    <div className="grid gap-gob-4 min-[600px]:grid-cols-2 min-[1100px]:grid-cols-3">
+      {items.map(item => (
+        <article
+          key={item.label}
+          className={cn(
+            'rounded-gob-lg border bg-card p-gob-4 shadow-elevation-01',
+            item.ok ? 'border-gob-border' : 'border-gob-warning/50',
+          )}
+        >
+          <p className="font-heading text-gri-body font-medium text-gob-text">{item.label}</p>
+          <p className="mt-1 text-gri-body-xs text-muted-foreground">{item.ok ? 'Completo' : 'Requiere revisión'}</p>
+          <p className="mt-gob-2 text-gri-body-sm leading-[1.5] text-gob-text">{item.detail}</p>
+        </article>
+      ))}
+    </div>
+  )
+}
+
 export function FileField({
   label,
   description,
@@ -197,11 +241,12 @@ export function FileField({
   return (
     <div className={cn('space-y-gob-3 rounded-gob-md border p-gob-5 text-center', tones[tone])}>
       <div className="flex items-center justify-center gap-gob-2">
+        <FileText className="size-5 text-gob-primary-dark" aria-hidden />
         <p className="font-heading text-gri-body font-medium text-gob-text">{label}</p>
         {tooltip ? <HelpTooltip text={tooltip} /> : null}
       </div>
       <p className="text-gri-body-sm leading-relaxed text-gob-text">{description}</p>
-      <label className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-gob-md border border-gob-border bg-white px-gob-5 text-gri-body-sm font-medium hover:bg-gob-surface-elevated">
+      <label className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-gob-md border border-gob-border bg-card px-gob-5 text-gri-body-sm font-medium text-gob-text hover:bg-gob-surface-elevated">
         Seleccionar archivo
         <input
           type="file"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -9,36 +9,28 @@ import {
   ArrowRight,
   ArrowUpRight,
   Bell,
-  ChevronDown,
-  ExternalLink,
   FileClock,
   FolderKanban,
+  Lightbulb,
   PenLine,
   ShieldCheck,
+  Tag,
   Wallet,
 } from 'lucide-react'
 import { ClaveUnicaButton } from '@/components/auth/ClaveUnicaButton'
-import { ChartCard } from '@/components/story/ChartCard'
-import { EyebrowPill } from '@/components/story/EyebrowPill'
-import { JourneyRail } from '@/components/story/JourneyRail'
-import { StatTile } from '@/components/story/StatTile'
-import { CATEGORY_ICONS } from '@/components/tramites/TramitesSidebar'
+import { PlainTerm } from '@/components/GlosarioTerm'
+import { CompactProcessTimeline } from '@/components/story/JourneyRail'
 import { Button } from '@/components/ui/button'
 import { useDashboardPrefs } from '@/hooks/useDashboardPrefs'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { nextAfterAuth } from '@/lib/tramites/entry'
-import {
-  TRAMITES_CATEGORIES,
-  categoryItems,
-  type TramitesCategory,
-} from '@/lib/tramites/dashboard'
 import {
   BORRADORES_MARCA,
   BORRADORES_PATENTE,
   NOTIFICACIONES,
   PAGOS_PENDIENTES,
 } from '@/lib/tramites/mock-data'
-import type { MegaItem, TramitesDomain } from '@/lib/tramites/nav'
+import type { TramitesDomain } from '@/lib/tramites/nav'
 import type { TramitesSession } from '@/lib/tramites/session'
 import { cn } from '@/lib/utils'
 
@@ -87,78 +79,98 @@ function SectionHeading({
   )
 }
 
+type HomeTab = 'activas' | 'responder' | 'borradores' | 'pagos'
+
+function DomainTabs() {
+  const { tx } = useI18n()
+  const { scope, setPrefs } = useDashboardPrefs()
+  const tabClass = (pressed: boolean, accent: 'marcas' | 'patentes') =>
+    cn(
+      'inline-flex min-h-11 shrink-0 items-center gap-gob-2 border-b-2 px-gob-4 text-gri-body-sm font-medium whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+      pressed
+        ? accent === 'marcas'
+          ? 'border-inapi-marcas-accent text-gob-text'
+          : 'border-gob-primary text-gob-text'
+        : 'border-transparent text-muted-foreground hover:text-gob-text',
+    )
+  return (
+    <div role="tablist" aria-label={tx('Ámbito')} className="flex border-b border-gob-border">
+      <button type="button" role="tab" aria-selected={scope === 'marcas'} className={tabClass(scope === 'marcas', 'marcas')} onClick={() => setPrefs({ scope: 'marcas' })}>
+        <Tag className="size-4" aria-hidden />
+        {tx('Marcas')}
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected={scope === 'patentes'}
+        className={tabClass(scope === 'patentes', 'patentes')}
+        onClick={() => setPrefs({ scope: 'patentes' })}
+      >
+        <Lightbulb className="size-4" aria-hidden />
+        {tx('Patentes')}
+      </button>
+    </div>
+  )
+}
+
 function WelcomeBand({ session }: { session: TramitesSession }) {
   const { tx } = useI18n()
-  const { scope } = useDashboardPrefs()
   const first = session.nombre.split(' ')[0] || session.nombre
-  const avisos = byScope(NOTIFICACIONES, scope).length
   return (
-    <section aria-labelledby="dash-hello" className="flex flex-col gap-gob-4 min-[905px]:flex-row min-[905px]:items-end min-[905px]:justify-between">
-      <div className="space-y-gob-3">
-        <p className="text-gri-body-xs text-muted-foreground">
-          {tx('Ámbito')}: {tx(scope === 'marcas' ? 'Marcas' : 'Patentes')}
-          <span aria-hidden className="mx-gob-2 text-gob-border">
-            ·
-          </span>
-          <Link
-            href={`/tramites/notificaciones?ambito=${scope}`}
-            className="font-medium text-gob-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-          >
-            {avisos} {tx('avisos')}
-          </Link>
-        </p>
-        <h1 id="dash-hello" className="font-heading text-[1.75rem] font-medium leading-[1.15] text-gob-text min-[905px]:text-[2.125rem]">
-          {tx('Hola,')} {first}
-        </h1>
-        <p className="max-w-xl text-gri-body-sm leading-[1.55] text-muted-foreground">
-          {tx('Desde aquí presentas solicitudes, pagas tasas y sigues tu expediente. Empieza por el estado de tus solicitudes o un atajo frecuente.')}
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-gob-2">
-        <Link
-          href={scope === 'marcas' ? '/tramites/marcas/solicitar' : '/tramites/patentes/solicitar'}
-          className="inline-flex min-h-11 items-center gap-gob-2 rounded-full bg-[var(--story-night)] px-gob-5 text-gri-body-sm font-semibold text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-        >
-          {tx('Empezar un trámite')}
-          <ArrowRight className="size-4" aria-hidden />
-        </Link>
-        <Link
-          href={`/tramites/notificaciones?ambito=${scope}`}
-          className="inline-flex min-h-11 items-center gap-gob-2 rounded-full border border-gob-border bg-card px-gob-5 text-gri-body-sm font-semibold text-gob-text hover:border-gob-primary hover:text-gob-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-        >
-          {tx('Mis Notificaciones')}
-        </Link>
-        <Link
-          href={categoryItems('herramientas', scope)[0]?.href ?? '/tramites'}
-          className="inline-flex min-h-11 items-center gap-gob-2 rounded-full border border-gob-border bg-card px-gob-5 text-gri-body-sm font-semibold text-gob-text hover:border-gob-primary hover:text-gob-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-        >
-          {tx('Herramientas')}
-        </Link>
-      </div>
+    <section aria-labelledby="dash-hello" className="space-y-gob-4">
+      <h1 id="dash-hello" className="font-heading text-[1.75rem] font-medium leading-[1.15] text-gob-text min-[905px]:text-[2.125rem]">
+        {tx('Hola,')} {first}
+      </h1>
+      <p className="max-w-2xl text-gri-body-sm leading-[1.55] text-muted-foreground">
+        {tx('Desde aquí presentas solicitudes, pagas tasas y sigues tu')}{' '}
+        <PlainTerm term="expediente">expediente</PlainTerm>. {tx('Empieza por lo que vence primero.')}
+      </p>
+      <DomainTabs />
     </section>
   )
 }
 
-function KpiRow() {
+function KpiTabs({ tab, onTab }: { tab: HomeTab; onTab: (id: HomeTab) => void }) {
   const { tx } = useI18n()
   const { scope } = useDashboardPrefs()
   const avisos = byScope(NOTIFICACIONES, scope)
   const responder = avisos.filter(n => n.tipo === 'Requerimiento')
   const drafts = byScope(BORRADORES, scope)
   const pagos = byScope(PAGOS_PENDIENTES, scope)
+  const items: { id: HomeTab; value: number; label: string; icon: typeof FolderKanban }[] = [
+    { id: 'activas', value: avisos.length, label: 'Solicitudes activas', icon: FolderKanban },
+    { id: 'responder', value: responder.length, label: 'Por responder', icon: Bell },
+    { id: 'borradores', value: drafts.length, label: 'Borradores', icon: FileClock },
+    { id: 'pagos', value: pagos.length, label: 'Pagos pendientes', icon: Wallet },
+  ]
   return (
-    <section aria-label={tx('Resumen de tus trámites')} className="grid gap-gob-4 min-[600px]:grid-cols-2 min-[1240px]:grid-cols-4">
-      <StatTile value={avisos.length} label={tx('Solicitudes activas')} caption={tx(scope === 'marcas' ? 'Marcas' : 'Patentes')} icon={<FolderKanban />} />
-      <StatTile
-        value={responder.length}
-        label={tx('Por responder')}
-        caption={tx('Revisa el plazo en el aviso')}
-        icon={<Bell />}
-        tone="night"
-      />
-      <StatTile value={drafts.length} label={tx('Borradores guardados')} caption={tx('Se eliminan a los 60 días')} icon={<FileClock />} />
-      <StatTile value={pagos.length} label={tx('Pagos pendientes')} caption={tx(pagos[0]?.concepto ?? 'Sin pagos pendientes')} icon={<Wallet />} />
-    </section>
+    <div role="tablist" aria-label={tx('Resumen de tus trámites')} className="flex flex-nowrap overflow-x-auto border-b border-gob-border">
+      {items.map(item => {
+        const pressed = tab === item.id
+        const Icon = item.icon
+        return (
+          <button
+            key={item.id}
+            type="button"
+            role="tab"
+            aria-selected={pressed}
+            onClick={() => onTab(item.id)}
+            className={cn(
+              'inline-flex min-h-11 shrink-0 items-center gap-gob-2 border-b-2 px-gob-4 text-gri-body-sm font-medium whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
+              pressed
+                ? scope === 'marcas'
+                  ? 'border-inapi-marcas-accent text-gob-text'
+                  : 'border-gob-primary text-gob-text'
+                : 'border-transparent text-muted-foreground hover:text-gob-text',
+            )}
+          >
+            <Icon className="size-4" aria-hidden />
+            <span className="font-heading font-semibold tabular-nums">{item.value}</span>
+            {tx(item.label)}
+          </button>
+        )
+      })}
+    </div>
   )
 }
 
@@ -174,323 +186,189 @@ function StatusChip({ tipo }: { tipo: string }) {
   return <span className={cn('text-[0.6875rem] font-medium', tone)}>{tx(label)}</span>
 }
 
-function ActiveApplications() {
+function stepsFor(tipo: string, dominio: TramitesDomain) {
+  const marca = dominio === 'marcas'
+  const current =
+    tipo === 'Requerimiento' ? 'forma' : tipo === 'Publicación' ? 'publicacion' : tipo === 'Examen de fondo' ? 'fondo' : 'fondo'
+  const mark = (id: string): 'done' | 'current' | 'pending' => {
+    const order = ['ingreso', 'forma', 'publicacion', 'oposicion', 'fondo', 'resolucion']
+    const cur = order.indexOf(current)
+    const i = order.indexOf(id)
+    if (i < cur) return 'done'
+    if (i === cur) return 'current'
+    return 'pending'
+  }
+  if (marca) {
+    return [
+      { title: 'Ingreso y pago inicial', body: 'Recibimos tu solicitud y el pago de la tasa.', status: mark('ingreso'), meta: '03-11-2025' },
+      { title: 'Examen de forma', body: 'Revisamos que la solicitud esté completa.', status: mark('forma'), meta: '10-11-2025' },
+      { title: 'Publicación en el Diario Oficial', body: 'Terceros pueden presentar oposición dentro del plazo legal.', status: mark('publicacion'), meta: '12-04-2026' },
+      { title: 'Oposición', body: 'Si nadie se opone, el expediente sigue al examen de fondo.', status: mark('oposicion') },
+      { title: 'Examen de fondo', body: 'INAPI revisa si tu marca cumple la ley.', status: mark('fondo') },
+      { title: 'Resolución y certificado', body: 'Si se concede, pagas la tasa final y recibes el certificado.', status: mark('resolucion') },
+    ]
+  }
+  return [
+    { title: 'Ingreso y pago inicial', body: 'Recibimos tu solicitud y el pago de la tasa.', status: mark('ingreso'), meta: '18-05-2021' },
+    { title: 'Examen de forma', body: 'Revisamos que la solicitud esté completa.', status: mark('forma'), meta: '02-06-2021' },
+    { title: 'Publicación', body: 'La solicitud se publica para conocimiento de terceros.', status: mark('publicacion') },
+    { title: 'Examen de fondo', body: 'INAPI analiza si tu invención puede registrarse.', status: mark('fondo'), meta: '18-05-2026' },
+    { title: 'Resolución', body: 'INAPI concede o rechaza la solicitud.', status: mark('resolucion') },
+    { title: 'Concesión y mantención', body: 'Si se concede, pagas derechos y mantienes la vigencia.', status: 'pending' as const },
+  ]
+}
+
+function NextActionCard({ tab }: { tab: HomeTab }) {
   const { tx } = useI18n()
   const { scope } = useDashboardPrefs()
   const avisos = byScope(NOTIFICACIONES, scope)
-  const next = POR_RESPONDER.find(n => n.dominio === scope)
-  const tools = categoryItems('herramientas', scope)
-  const estados = Object.entries(
-    avisos.reduce<Record<string, number>>((acc, n) => {
-      const key = ESTADO_CORTO[n.tipo] ?? n.tipo
-      acc[key] = (acc[key] ?? 0) + 1
-      return acc
-    }, {}),
-  )
-  return (
-    <section aria-labelledby="dash-activas" className="grid gap-gob-5 min-[1240px]:grid-cols-[minmax(0,1.4fr)_minmax(18rem,1fr)]">
-      <div className="space-y-gob-4 rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01">
-        <SectionHeading
-          id="dash-activas"
-          title={tx('Mis solicitudes activas')}
-          description={tx('Lo último que pasó con cada expediente.')}
-          action={
-            <Link href={`/tramites/notificaciones?ambito=${scope}`} className="inline-flex min-h-11 items-center gap-1 text-gri-body-sm font-medium text-gob-link hover:underline">
-              {tx('Ver todas mis solicitudes')}
-              <ArrowUpRight className="size-4" aria-hidden />
-            </Link>
-          }
-        />
-        <ul className="divide-y divide-gob-border">
-          {avisos.map(n => (
-            <li key={n.id}>
-              <Link
-                href={`/tramites/notificaciones?ambito=${n.dominio}`}
-                className="flex min-h-14 flex-wrap items-center gap-gob-3 py-gob-3 text-gob-text hover:bg-gob-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-              >
-                <span className="min-w-0 flex-1">
-                  <span className="block font-heading text-gri-body-sm font-medium">{n.numero}</span>
-                  <span className="block text-gri-body-xs text-muted-foreground">{tx(n.resumen)}</span>
-                </span>
-                <StatusChip tipo={n.tipo} />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="flex flex-col gap-gob-4">
-        {next ? (
-          <div className="rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01">
-            <p className="flex items-center gap-gob-2 text-gri-body-xs font-semibold uppercase tracking-[0.08em] text-gob-primary">
-              <AlarmClock className="size-4" aria-hidden />
-              {tx('Próxima acción recomendada')}
-            </p>
-            <p className="mt-gob-3 font-heading text-gri-h2 font-medium leading-[1.35] text-gob-text">
-              {tx('Responde el requerimiento de tu solicitud')} {next.numero}
-            </p>
-            <p className="mt-gob-2 text-gri-body-sm leading-[1.55] text-muted-foreground">{tx(next.resumen)}</p>
-            <Link
-              href={next.dominio === 'marcas' ? '/tramites/marcas/escritos' : '/tramites/patentes/escritos'}
-              className="mt-gob-4 inline-flex min-h-11 items-center gap-gob-2 text-gri-body-sm font-semibold text-gob-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-            >
-              {tx(next.dominio === 'marcas' ? 'Adjuntar documentos a tu solicitud de marca' : 'Adjuntar documentos a tu solicitud de patente')}
-              <ArrowRight className="size-4" aria-hidden />
-            </Link>
-          </div>
-        ) : null}
-        <div className="rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01">
-          <p className="text-gri-body-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">{tx('Herramientas')}</p>
-          <div className="mt-gob-3 flex flex-wrap gap-gob-2">
-            {tools.map(item => (
-              <Link
-                key={item.href}
-                href={item.href}
-                title={tx(item.tooltip)}
-                className="text-gri-body-xs font-medium text-gob-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-              >
-                {tx(item.label)}
-              </Link>
-            ))}
-          </div>
-        </div>
-        {estados.length ? (
-          <ChartCard
-            kind="doughnut"
-            title="Tus solicitudes por estado"
-            description="Cuántas solicitudes tienes en cada etapa."
-            views={[
-              {
-                id: 'estado',
-                label: 'Hoy',
-                labels: estados.map(([k]) => k),
-                series: [{ label: 'Solicitudes', data: estados.map(([, v]) => v) }],
-                center: { value: String(avisos.length), caption: 'solicitudes activas' },
-              },
-            ]}
-          />
-        ) : null}
-      </div>
-    </section>
-  )
-}
-
-function TrackingRail() {
-  const { tx } = useI18n()
-  const { scope } = useDashboardPrefs()
-  const marca = scope === 'marcas'
-  return (
-    <section aria-labelledby="dash-seguimiento" className="space-y-gob-4 rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01 min-[905px]:p-gob-6">
-      <SectionHeading
-        id="dash-seguimiento"
-        title={`${tx('Seguimiento de')} ${marca ? 'OMNIdanz' : 'Dispositivo de asistencia para danza'}`}
-        description={
-          marca
-            ? `${tx('Solicitud de marca')} 1000000 · ${tx('Marca comercial')}`
-            : `${tx('Solicitud de patente')} 202101234 · ${tx('Examen de fondo')}`
-        }
-      />
-      <JourneyRail
-        label={tx('Etapas de la solicitud')}
-        steps={
-          marca
-            ? [
-                { title: tx('Ingreso y pago inicial'), body: tx('Recibimos tu solicitud y el pago de la tasa.'), status: 'done', meta: '03-11-2025' },
-                { title: tx('Examen de forma'), body: tx('Revisamos que la solicitud esté completa.'), status: 'done', meta: '10-11-2025' },
-                {
-                  title: tx('Publicación en el Diario Oficial'),
-                  body: tx('Tu solicitud se publicó. Terceros pueden presentar oposición dentro del plazo legal.'),
-                  status: 'current',
-                  meta: '12-04-2026',
-                  href: '/tramites/notificaciones?ambito=marcas',
-                  cta: tx('Ver el aviso'),
-                },
-                { title: tx('Examen de fondo y resolución'), body: tx('INAPI revisa si tu marca cumple la ley y resuelve.'), status: 'pending' },
-              ]
-            : [
-                { title: tx('Ingreso y pago inicial'), body: tx('Recibimos tu solicitud y el pago de la tasa.'), status: 'done', meta: '18-05-2021' },
-                { title: tx('Examen de forma'), body: tx('Revisamos que la solicitud esté completa.'), status: 'done', meta: '02-06-2021' },
-                {
-                  title: tx('Examen de fondo y resolución'),
-                  body: tx('INAPI está analizando si tu solicitud puede registrarse'),
-                  status: 'current',
-                  meta: '18-05-2026',
-                  href: '/tramites/notificaciones?ambito=patentes',
-                  cta: tx('Ver el aviso'),
-                },
-                { title: tx('Concesión y pagos de mantención'), body: tx('Si se concede, deberás pagar los derechos y mantenerla vigente.'), status: 'pending' },
-              ]
-        }
-      />
-    </section>
-  )
-}
-
-function ShortcutRow({ item, scope }: { item: MegaItem; scope: TramitesDomain }) {
-  const { tx } = useI18n()
-  const cls =
-    'group/item flex min-h-12 items-center gap-gob-3 rounded-gob-md px-gob-3 py-gob-2 text-gri-body-sm text-gob-text transition-colors hover:bg-gob-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus'
-  const dot = <span aria-hidden className={cn('size-1.5 shrink-0 rounded-full', scope === 'marcas' ? 'bg-gob-accent' : 'bg-gob-primary')} />
-  const content = (
-    <>
-      {dot}
-      <span className="flex-1 font-medium leading-snug">{tx(item.label)}</span>
-      {item.external ? (
-        <ExternalLink className="size-4 shrink-0 text-muted-foreground" aria-label={tx('Se abre en otra pestaña')} />
-      ) : (
-        <ArrowRight className="size-4 shrink-0 text-muted-foreground transition-transform group-hover/item:translate-x-0.5" aria-hidden />
-      )}
-    </>
-  )
-  return item.external ? (
-    <a href={item.href} target="_blank" rel="noopener noreferrer" className={cls} title={tx(item.tooltip)}>
-      {content}
-    </a>
-  ) : (
-    <Link href={item.href} className={cls} title={tx(item.tooltip)}>
-      {content}
-    </Link>
-  )
-}
-
-function CategoryCard({ category, scope, dark }: { category: TramitesCategory; scope: TramitesDomain; dark?: boolean }) {
-  const { tx } = useI18n()
-  const [expanded, setExpanded] = useState(false)
-  const listId = useId()
-  const items = categoryItems(category.id, scope)
-  const first = items.slice(0, 3)
-  const rest = items.slice(3)
-  return (
-    <article className="flex flex-col gap-gob-4 rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01">
-      <header className="flex items-start gap-gob-3">
-        <span
-          aria-hidden
-          className={cn(
-            'inline-flex size-11 shrink-0 items-center justify-center rounded-gob-md [&_svg]:size-5',
-            dark ? 'bg-[var(--story-night)] text-white' : 'bg-gob-primary/10 text-gob-primary-dark',
-          )}
-        >
-          {CATEGORY_ICONS[category.id]}
-        </span>
-        <div className="min-w-0 flex-1">
-          <h3 className="font-heading text-gri-h2 font-medium leading-[1.3] text-gob-text">{tx(category.label)}</h3>
-          <p className="text-gri-body-sm text-muted-foreground">{tx(category.description)}</p>
-        </div>
-      </header>
-      <ul className="-mx-gob-2 flex flex-col">
-        {first.map(item => (
-          <li key={item.href + item.label}>
-            <ShortcutRow item={item} scope={scope} />
-          </li>
-        ))}
-      </ul>
-      {rest.length ? (
-        <ul id={listId} className={cn('-mx-gob-2 -mt-gob-4 flex-col', expanded ? 'flex' : 'hidden')}>
-          {rest.map(item => (
-            <li key={item.href + item.label}>
-              <ShortcutRow item={item} scope={scope} />
-            </li>
-          ))}
-        </ul>
-      ) : null}
-      <div className="mt-auto flex flex-wrap items-center justify-between gap-gob-2 border-t border-gob-border pt-gob-3">
-        {rest.length ? (
-          <button
-            type="button"
-            aria-expanded={expanded}
-            aria-controls={listId}
-            onClick={() => setExpanded(v => !v)}
-            className="inline-flex min-h-11 items-center gap-gob-1 text-gri-body-sm font-medium text-gob-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-          >
-            {expanded
-              ? tx('Mostrar menos')
-              : `${tx('Ver los')} ${items.length} ${tx('trámites de')} ${tx(category.label)}`}
-            <ChevronDown className={cn('size-4 transition-transform', expanded && 'rotate-180')} aria-hidden />
-          </button>
-        ) : (
-          <span className="text-gri-body-xs text-muted-foreground">
-            {items.length} {tx(items.length === 1 ? 'trámite' : 'trámites')}
-          </span>
-        )}
-      </div>
-    </article>
-  )
-}
-
-function CategoriesPanel() {
-  const { tx } = useI18n()
-  const { scope } = useDashboardPrefs()
-  return (
-    <section aria-labelledby="dash-categorias" className="space-y-gob-4">
-      <SectionHeading
-        id="dash-categorias"
-        title={tx('Qué puedes hacer ahora')}
-        description={tx('Elige el ámbito y abre la categoría que necesitas.')}
-      />
-      <div className="grid gap-gob-4 min-[905px]:grid-cols-2 min-[1440px]:grid-cols-3">
-        {TRAMITES_CATEGORIES.map((cat, i) => (
-          <CategoryCard key={`${cat.id}-${scope}`} category={cat} scope={scope} dark={i === 0} />
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function PaymentsAndDrafts() {
-  const { tx } = useI18n()
-  const { scope } = useDashboardPrefs()
-  const pagos = byScope(PAGOS_PENDIENTES, scope)
+  const responder = byScope(POR_RESPONDER, scope)
   const drafts = byScope(BORRADORES, scope)
+  const pagos = byScope(PAGOS_PENDIENTES, scope)
+
+  const emptyCopy: Record<HomeTab, string> = {
+    activas: 'No tienes solicitudes activas en este ámbito.',
+    responder: 'No hay requerimientos por responder.',
+    borradores: 'No tienes borradores guardados.',
+    pagos: 'No tienes pagos pendientes.',
+  }
+
+  const content =
+    tab === 'responder' && responder[0]
+      ? {
+          title: `${tx('Responde el requerimiento de tu solicitud')} ${responder[0].numero}`,
+          body: responder[0].resumen,
+          href: responder[0].dominio === 'marcas' ? '/tramites/marcas/escritos' : '/tramites/patentes/escritos',
+          cta: responder[0].dominio === 'marcas' ? 'Adjuntar documentos a tu solicitud de marca' : 'Adjuntar documentos a tu solicitud de patente',
+        }
+      : tab === 'pagos' && pagos[0]
+        ? {
+            title: `${tx('Paga la tasa pendiente')} ${pagos[0].numero}`,
+            body: pagos[0].concepto,
+            href: pagos[0].href,
+            cta: 'Pagar ahora',
+          }
+        : tab === 'borradores' && drafts[0]
+          ? {
+              title: `${tx('Retoma el borrador')} ${drafts[0].signoOTitulo}`,
+              body: `${tx('Vence')} ${drafts[0].vence}`,
+              href: drafts[0].dominio === 'marcas' ? '/tramites/marcas/solicitudes-guardadas' : '/tramites/patentes/solicitudes-guardadas',
+              cta: 'Retomar',
+            }
+          : tab === 'activas' && avisos[0]
+            ? {
+                title: `${tx('Revisa el estado de tu solicitud')} ${avisos[0].numero}`,
+                body: avisos[0].resumen,
+                href: `/tramites/notificaciones?ambito=${scope}`,
+                cta:
+                  avisos[0].tipo === 'Requerimiento'
+                    ? scope === 'marcas'
+                      ? 'Adjuntar documentos a tu solicitud de marca'
+                      : 'Adjuntar documentos a tu solicitud de patente'
+                    : 'Ver solicitudes',
+              }
+            : null
+
+  if (!content) {
+    return (
+      <section aria-labelledby="dash-next" className="story-night rounded-gob-xl p-gob-6 text-white shadow-elevation-03">
+        <p className="flex items-center gap-gob-2 text-gri-body-xs font-semibold tracking-[0.08em] text-white/80 uppercase">
+          <AlarmClock className="size-4" aria-hidden />
+          {tx('Próxima acción recomendada')}
+        </p>
+        <h2 id="dash-next" className="mt-gob-3 font-heading text-[1.5rem] font-medium leading-[1.3]">
+          {tx(emptyCopy[tab])}
+        </h2>
+      </section>
+    )
+  }
+
   return (
-    <section className="grid gap-gob-4 min-[905px]:grid-cols-2">
-      <div className="rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01">
-        <SectionHeading
-          title={tx('Pagos pendientes')}
-          action={
-            <Link
-              href={scope === 'marcas' ? '/tramites/marcas/pagos' : '/tramites/patentes/pagos'}
-              className="text-gri-body-sm font-medium text-gob-link hover:underline"
-            >
-              {tx('Pagos')}
-            </Link>
+    <section aria-labelledby="dash-next" className="story-night rounded-gob-xl p-gob-6 text-white shadow-elevation-03">
+      <p className="flex items-center gap-gob-2 text-gri-body-xs font-semibold tracking-[0.08em] text-white/80 uppercase">
+        <AlarmClock className="size-4" aria-hidden />
+        {tx('Próxima acción recomendada')}
+      </p>
+      <h2 id="dash-next" className="mt-gob-3 font-heading text-[1.5rem] font-medium leading-[1.3]">
+        {content.title}
+      </h2>
+      <p className="mt-gob-2 max-w-3xl text-gri-body-sm leading-[1.55] text-white/80">{tx(content.body)}</p>
+      <Link
+        href={content.href}
+        className="mt-gob-4 inline-flex min-h-11 items-center gap-gob-2 rounded-full bg-white px-gob-5 text-gri-body-sm font-semibold text-[#092039] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+      >
+        {tx(content.cta)}
+        <ArrowRight className="size-4" aria-hidden />
+      </Link>
+    </section>
+  )
+}
+
+function TabResults({ tab }: { tab: HomeTab }) {
+  const { tx } = useI18n()
+  const { scope } = useDashboardPrefs()
+  const avisos = byScope(NOTIFICACIONES, scope)
+  const responder = byScope(POR_RESPONDER, scope)
+  const drafts = byScope(BORRADORES, scope)
+  const pagos = byScope(PAGOS_PENDIENTES, scope)
+  const list = tab === 'responder' ? responder : tab === 'borradores' ? drafts : tab === 'pagos' ? pagos : avisos
+
+  const heading =
+    tab === 'responder'
+      ? { title: 'Por responder', description: 'Estos trámites tienen un plazo abierto.', href: `/tramites/notificaciones?ambito=${scope}`, action: 'Ver todas' }
+      : tab === 'borradores'
+        ? {
+            title: 'Borradores',
+            description: 'Retoma un borrador. Se eliminan a los 60 días.',
+            href: scope === 'marcas' ? '/tramites/marcas/solicitudes-guardadas' : '/tramites/patentes/solicitudes-guardadas',
+            action: 'Empezar un trámite',
           }
-        />
-        {pagos.length ? (
-          <ul className="mt-gob-3 divide-y divide-gob-border">
-            {pagos.map(p => (
-              <li key={p.id} className="flex flex-wrap items-center justify-between gap-gob-3 py-gob-3">
-                <span className="min-w-0">
-                  <span className="block font-heading text-gri-body-sm font-medium text-gob-text">{p.numero}</span>
-                  <span className="block text-gri-body-xs text-muted-foreground">{tx(p.concepto)}</span>
-                </span>
-                <Link
-                  href={p.href}
-                  className="inline-flex min-h-9 items-center rounded-full bg-[var(--story-night)] px-gob-3 text-gri-body-xs font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
-                >
-                  {tx('Pagar ahora')}
-                </Link>
+        : tab === 'pagos'
+          ? {
+              title: 'Pagos pendientes',
+              description: 'Paga las tasas que tienes abiertas.',
+              href: scope === 'marcas' ? '/tramites/marcas/pagos' : '/tramites/patentes/pagos',
+              action: 'Pagos',
+            }
+          : {
+              title: 'Mis solicitudes activas',
+              description: 'Abre una solicitud para ver las etapas del expediente.',
+              href: `/tramites/notificaciones?ambito=${scope}`,
+              action: 'Ver todas mis solicitudes',
+            }
+
+  return (
+    <section aria-labelledby="dash-list" className="space-y-gob-4">
+      <SectionHeading
+        id="dash-list"
+        title={tx(heading.title)}
+        description={tx(heading.description)}
+        action={
+          <Link href={heading.href} className="inline-flex min-h-11 items-center gap-1 text-gri-body-sm font-medium text-gob-link hover:underline">
+            {tx(heading.action)}
+            <ArrowUpRight className="size-4" aria-hidden />
+          </Link>
+        }
+      />
+      {list.length === 0 ? <p className="text-gri-body-sm text-muted-foreground">{tx('No hay trámites en esta pestaña.')}</p> : null}
+      <ul className="space-y-gob-3">
+        {tab === 'activas' || tab === 'responder'
+          ? (list as typeof avisos).map(n => (
+              <li key={n.id} className="space-y-gob-4 rounded-gob-lg border-2 border-gob-border bg-card p-gob-5 shadow-elevation-01">
+                <div className="flex flex-wrap items-start justify-between gap-gob-3">
+                  <div className="min-w-0">
+                    <p className="font-heading text-gri-body font-medium text-gob-text">{n.numero}</p>
+                    <p className="text-gri-body-xs text-muted-foreground">{tx(n.resumen)}</p>
+                  </div>
+                  <StatusChip tipo={n.tipo} />
+                </div>
+                <CompactProcessTimeline label={tx('Etapas de la solicitud')} steps={stepsFor(n.tipo, n.dominio).map(s => ({ ...s, title: tx(s.title) }))} />
               </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-gob-3 text-gri-body-sm text-muted-foreground">{tx('Sin pagos pendientes')}</p>
-        )}
-      </div>
-      <div className="rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01">
-        <SectionHeading
-          title={tx('Borradores')}
-          action={
-            <Link
-              href={scope === 'marcas' ? '/tramites/marcas/solicitudes-guardadas' : '/tramites/patentes/solicitudes-guardadas'}
-              className="text-gri-body-sm font-medium text-gob-link hover:underline"
-            >
-              {tx('Empezar un trámite')}
-            </Link>
-          }
-        />
-        {drafts.length ? (
-          <ul className="mt-gob-3 divide-y divide-gob-border">
-            {drafts.map(d => (
-              <li key={d.id} className="flex flex-wrap items-center justify-between gap-gob-3 py-gob-3">
+            ))
+          : null}
+        {tab === 'borradores'
+          ? (list as typeof drafts).map(d => (
+              <li key={d.id} className="flex flex-wrap items-center justify-between gap-gob-3 rounded-gob-lg border-2 border-gob-border bg-card p-gob-5 shadow-elevation-01">
                 <span className="min-w-0">
                   <span className="block font-heading text-gri-body-sm font-medium text-gob-text">{d.signoOTitulo}</span>
                   <span className="block text-gri-body-xs text-muted-foreground">
@@ -504,25 +382,37 @@ function PaymentsAndDrafts() {
                   {tx('Retomar')}
                 </Link>
               </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-gob-3 text-gri-body-sm text-muted-foreground">{tx('Sin borradores')}</p>
-        )}
-      </div>
+            ))
+          : null}
+        {tab === 'pagos'
+          ? (list as typeof pagos).map(p => (
+              <li key={p.id} className="flex flex-wrap items-center justify-between gap-gob-3 rounded-gob-lg border-2 border-gob-border bg-card p-gob-5 shadow-elevation-01">
+                <span className="min-w-0">
+                  <span className="block font-heading text-gri-body-sm font-medium text-gob-text">{p.numero}</span>
+                  <span className="block text-gri-body-xs text-muted-foreground">{tx(p.concepto)}</span>
+                </span>
+                <Link
+                  href={p.href}
+                  className="inline-flex min-h-9 items-center rounded-full bg-[var(--story-night)] px-gob-3 text-gri-body-xs font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
+                >
+                  {tx('Pagar ahora')}
+                </Link>
+              </li>
+            ))
+          : null}
+      </ul>
     </section>
   )
 }
 
 export function TramitesDashboardHome({ session }: { session: TramitesSession }) {
+  const [tab, setTab] = useState<HomeTab>('activas')
   return (
     <DashboardShell>
       <WelcomeBand session={session} />
-      <KpiRow />
-      <ActiveApplications />
-      <TrackingRail />
-      <CategoriesPanel />
-      <PaymentsAndDrafts />
+      <KpiTabs tab={tab} onTab={setTab} />
+      <NextActionCard tab={tab} />
+      <TabResults tab={tab} />
     </DashboardShell>
   )
 }

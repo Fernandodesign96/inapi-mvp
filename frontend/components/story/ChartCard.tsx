@@ -57,7 +57,7 @@ export function ChartCard({
     <article
       className={cn(
         'flex h-full min-w-0 flex-col gap-gob-4 rounded-gob-xl p-gob-5 min-[905px]:p-gob-6',
-        night ? 'border border-white/12 bg-[#07182b]/85 text-white' : 'border border-gob-border bg-card text-gob-text shadow-elevation-02',
+        night ? 'border-2 border-white/20 bg-[#07182b]/85 text-white' : 'border-2 border-gob-border bg-card text-gob-text shadow-elevation-02',
         className,
       )}
     >

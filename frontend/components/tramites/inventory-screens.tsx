@@ -10,7 +10,7 @@ import { LegalNotice } from '@/components/tramites/LegalNotice'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
 import { DataTable, Td } from '@/components/tramites/DataTable'
 import { LookupForm, SiteMessage } from '@/components/tramites/part2-forms'
-import { AlertBanner, ScopeTabs, ServicePanel, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
+import { AlertBanner, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import {
   DEMO_NUMEROS,
   DESTINOS_ESCRITO_MARCA,
@@ -74,7 +74,7 @@ function Pager({
                 type="button"
                 className={cn(
                   'min-w-8 rounded px-2 py-1',
-                  n === page ? 'bg-[#3d5a80] text-white' : 'hover:bg-gob-surface-elevated',
+                  n === page ? 'bg-[var(--story-night)] text-white dark:bg-[#0F69C4]' : 'hover:bg-gob-surface-elevated',
                 )}
                 aria-current={n === page ? 'page' : undefined}
                 onClick={() => onPage(n)}
@@ -141,17 +141,17 @@ function FeaturedCard({
   onOpen: () => void
 }) {
   return (
-    <article className="min-w-[16rem] flex-1 overflow-hidden rounded-gob-md border border-[#E5E7EB] bg-white shadow-elevation-01 transition-shadow hover:shadow-elevation-02">
-      <h3 className="bg-[#3d5a80] px-gob-4 py-gob-2 text-center text-gri-body-sm font-medium text-white">{title}</h3>
+    <article className="min-w-[16rem] flex-1 overflow-hidden rounded-gob-md border border-gob-border bg-card shadow-elevation-01 transition-shadow hover:shadow-elevation-02">
+      <h3 className="bg-[var(--story-night)] px-gob-4 py-gob-2 text-center text-gri-body-sm font-medium text-white dark:bg-[#0F69C4]">{title}</h3>
       <button
         type="button"
         onClick={() => {
           notifyDownload(date)
           onOpen()
         }}
-        className="flex w-full items-center justify-center gap-gob-2 py-gob-8 text-[#1D70B8] underline underline-offset-4 hover:text-[#0051A8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFBE5C]"
+        className="flex w-full items-center justify-center gap-gob-2 py-gob-8 text-gob-link underline underline-offset-4 hover:text-gob-link-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
       >
-        <CalendarDays className="size-4 text-[#1D70B8]" aria-hidden />
+        <CalendarDays className="size-4 text-gob-link" aria-hidden />
         {date}
       </button>
     </article>
@@ -201,14 +201,16 @@ function DateArchiveScreen({
 
   const body = (
       <TramitesMain>
-        <ServicePanel title={featuredTitle} domain={domain}>
+        <section className="space-y-gob-4">
+          <h2 className="font-heading text-xl font-medium text-gob-text">{featuredTitle}</h2>
           <div className="flex flex-wrap justify-center gap-gob-4">
             {featured.map(f => (
               <FeaturedCard key={f.title} title={f.title} date={f.date} onOpen={() => undefined} />
             ))}
           </div>
-        </ServicePanel>
-        <ServicePanel title={archiveTitle} domain={domain}>
+        </section>
+        <section className="space-y-gob-4">
+          <h2 className="font-heading text-xl font-medium text-gob-text">{archiveTitle}</h2>
           <ArchiveToolbar
             pageSize={pageSize}
             onPageSize={n => {
@@ -252,7 +254,7 @@ function DateArchiveScreen({
             </DataTable>
           )}
           <Pager page={page} pageSize={pageSize} total={filtered.length} onPage={setPage} />
-        </ServicePanel>
+        </section>
       </TramitesMain>
   )
 
@@ -317,7 +319,7 @@ export function PresentarEscritosScreen({ domain }: { domain: 'marcas' | 'patent
   return (
     <RequireAuth>
       <TramitesMain>
-        <ServicePanel title={domain === 'marcas' ? 'Presentar escritos de marcas' : 'Presentar escritos de patentes'} domain={domain}>
+        <div className="space-y-gob-5">
           <p className="text-gri-body">
             Ingrese el número de documento de la {domain === 'marcas' ? 'Marca' : 'Patente'} a la que requiere presentar un
             escrito.
@@ -363,7 +365,7 @@ export function PresentarEscritosScreen({ domain }: { domain: 'marcas' | 'patent
             </Link>
             .
           </AlertBanner>
-        </ServicePanel>
+        </div>
         <SiteMessage open={msg} onClose={() => setMsg(false)} title="Escrito asociado">
           El escrito quedó asociado al número {numero} para {destino}.
         </SiteMessage>
@@ -402,26 +404,19 @@ export function DatosAbiertosScreen({ domain }: { domain: 'marcas' | 'patentes' 
   return (
     <RequireAuth>
       <TramitesMain>
-        <ScopeTabs
-          current={domain}
-          marcasHref="/tramites/marcas/datos-abiertos"
-          patentesHref="/tramites/patentes/datos-abiertos"
-        />
-        <ServicePanel title={domain === 'marcas' ? 'Datos abiertos de marcas' : 'Datos abiertos de patentes'} domain={domain}>
-          <div className="grid gap-gob-6 min-[905px]:grid-cols-2">
-            {cards.map(c => (
-              <article key={c.title} className="space-y-gob-3">
-                <h3 className="font-heading text-xl text-gob-accent">{c.title}</h3>
-                <p className="text-gri-body-sm text-gob-text">{c.text}</p>
-                <Button asChild size="form">
-                  <a href={c.href} rel="noopener noreferrer">
-                    Ver datos
-                  </a>
-                </Button>
-              </article>
-            ))}
-          </div>
-        </ServicePanel>
+        <div className="grid gap-gob-6 min-[905px]:grid-cols-2">
+          {cards.map(c => (
+            <article key={c.title} className="space-y-gob-3 rounded-gob-lg border-2 border-gob-border bg-card p-gob-5">
+              <h3 className="font-heading text-xl text-gob-text">{c.title}</h3>
+              <p className="text-gri-body-sm text-gob-text">{c.text}</p>
+              <Button asChild size="form">
+                <a href={c.href} rel="noopener noreferrer">
+                  Ver datos
+                </a>
+              </Button>
+            </article>
+          ))}
+        </div>
       </TramitesMain>
     </RequireAuth>
   )
@@ -490,15 +485,7 @@ export function VerificarTitulosScreen({ domain }: { domain: 'marcas' | 'patente
   return (
     <RequireAuth>
       <TramitesMain>
-        <ScopeTabs
-          current={domain}
-          marcasHref="/tramites/marcas/verificar-titulos"
-          patentesHref="/tramites/patentes/verificar-titulos"
-        />
-        <ServicePanel
-          title={domain === 'marcas' ? 'Verificar certificados de marcas' : 'Verificar certificados de patentes'}
-          domain={domain}
-        >
+        <div className="space-y-gob-5">
           {domain === 'patentes' ? (
             <AlertBanner tone="warning">
               PARA VERIFICAR CERTIFICADO DE DEVOLUCIÓN DE TGR POR FAVOR INGRESAR EN EL SIGUIENTE ENLACE:{' '}
@@ -533,7 +520,7 @@ export function VerificarTitulosScreen({ domain }: { domain: 'marcas' | 'patente
               Limpiar
             </Button>
           </div>
-        </ServicePanel>
+        </div>
         {ok ? <AlertBanner>Documento válido. CVE {DEMO_NUMEROS.cve}.</AlertBanner> : null}
         <SiteMessage open={error} onClose={() => setError(false)}>
           El código CVE no es válido o el documento ya no está disponible.
@@ -617,11 +604,9 @@ export function DocumentacionPctScreen() {
   return (
     <RequireAuth>
       <TramitesMain>
-        <ServicePanel title="Documentación mínima PCT" domain="patentes">
-          <p className="text-gri-body leading-relaxed text-gob-text">
-            Authority File y XML de la colección nacional de patentes. Consulta los XML de registros concedidos conforme al Tratado de Cooperación en Materia de Patentes (PCT).
-          </p>
-        </ServicePanel>
+        <p className="text-gri-body leading-relaxed text-gob-text">
+          Authority File y XML de la colección nacional de patentes. Consulta los XML de registros concedidos conforme al Tratado de Cooperación en Materia de Patentes (PCT).
+        </p>
         <AccordionBlock title="Authority File INAPI" open={open === 'af'} onToggle={() => setOpen(open === 'af' ? null : 'af')}>
           <p className="text-gri-body-sm">Registros de Patentes, desde el año 1991 (Actualizado al 31.03.2026)</p>
           <ArchiveToolbar pageSize={10} onPageSize={() => undefined} query="" onQuery={() => undefined} />

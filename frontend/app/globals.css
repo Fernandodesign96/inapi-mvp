@@ -1016,3 +1016,28 @@ button:disabled,
 [aria-disabled='true'] {
   cursor: not-allowed;
 }
+
+.tramites-dashboard input:not([type='checkbox']):not([type='radio']):not([type='hidden']):not([type='range']):not([type='file']):not([type='submit']):not([type='button']):not([type='reset']),
+.tramites-dashboard select,
+.tramites-dashboard textarea {
+  background-color: var(--card);
+}
+
+.dark .tramites-dashboard .bg-white {
+  background-color: var(--card);
+  color: var(--gob-text);
+}
+.dark .tramites-dashboard .story-night .bg-white,
+.dark .tramites-dashboard .story-night .bg-white * {
+  background-color: #ffffff;
+  color: #092039;
+}
+.dark .tramites-dashboard .text-\[\#092039\] {
+  color: var(--gob-text);
+}
+.dark .tramites-dashboard .story-night .text-\[\#092039\] {
+  color: #092039;
+}
+.dark .tramites-dashboard .hover\:bg-white:hover {
+  background-color: var(--gob-surface-elevated);
+}

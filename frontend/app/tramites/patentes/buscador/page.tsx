@@ -8,9 +8,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ClaveUnicaButton } from '@/components/auth/ClaveUnicaButton'
 import { DataTable, Td } from '@/components/tramites/DataTable'
+import { PlainTerm } from '@/components/GlosarioTerm'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { EmptyState, TramitesMain } from '@/components/tramites/ui-helpers'
 import { CardCarousel, ControlChip, ControlChipRow, HelperCard, RecordCard, WorkSplit } from '@/components/tramites/TramitesExperience'
+import { useTramitesChrome } from '@/components/tramites/TramitesScreenChrome'
 import { RESULTADOS_PATENTES } from '@/lib/tramites/mock-data'
 import { useTramitesSession } from '@/lib/tramites/use-session'
 
@@ -37,6 +39,16 @@ export default function BuscadorPatentesPage() {
     setRan(true)
   }
 
+  useTramitesChrome(
+    {
+      views: [
+        { id: 'cards', label: 'Tarjetas', icon: 'cards', pressed: vista === 'cards', onSelect: () => setVista('cards') },
+        { id: 'tabla', label: 'Tabla', icon: 'table', pressed: vista === 'tabla', onSelect: () => setVista('tabla') },
+      ],
+    },
+    [vista],
+  )
+
   return (
     <TramitesMain>
       <WorkSplit
@@ -54,8 +66,10 @@ export default function BuscadorPatentesPage() {
                   <Search className="size-5" aria-hidden />
                 </span>
                 <div>
-                  <p className="font-heading text-gri-body font-medium text-gob-text">Busca en el acervo</p>
-                  <p className="text-gri-body-xs text-muted-foreground">Número, título o nombre del solicitante.</p>
+                  <p className="font-heading text-gri-body font-medium text-gob-text">
+                    Busca en el <PlainTerm term="acervo">acervo</PlainTerm>
+                  </p>
+                  <p className="text-gri-body-xs text-muted-foreground">Escribe un número, un título o el nombre de quien solicita.</p>
                 </div>
               </div>
               <div className="mt-gob-4 flex flex-col gap-gob-3 min-[600px]:flex-row min-[600px]:items-end">
@@ -85,14 +99,6 @@ export default function BuscadorPatentesPage() {
 
             {results.length > 0 ? (
               <div className="space-y-gob-4">
-                <ControlChipRow label="Vista">
-                  <ControlChip pressed={vista === 'cards'} onClick={() => setVista('cards')}>
-                    Tarjetas
-                  </ControlChip>
-                  <ControlChip pressed={vista === 'tabla'} onClick={() => setVista('tabla')}>
-                    Tabla
-                  </ControlChip>
-                </ControlChipRow>
                 {vista === 'cards' ? (
                   results.length > 2 ? (
                   <CardCarousel label="Resultados de patentes">
@@ -129,7 +135,7 @@ export default function BuscadorPatentesPage() {
         aside={
           <>
             <HelperCard title="Afinar la búsqueda" tone="night">
-              <p>Si el listado es amplio, usa la búsqueda avanzada por fechas, titular o clasificación.</p>
+              <p>Si aparecen muchos resultados, filtra por fechas, titular o clasificación en la búsqueda avanzada.</p>
               <Link href="/tramites/patentes/buscador/avanzada" className="mt-gob-3 inline-flex min-h-11 items-center font-medium text-white underline underline-offset-4">
                 Ir a búsqueda avanzada
               </Link>

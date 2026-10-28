@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { CheckCircle2, ChevronDown, CreditCard, Flag, Info, Layers, UserRound, Users } from 'lucide-react'
+import { Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -13,28 +13,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { StepHelper } from '@/components/shared/StepHelper'
 import { FormPersona } from '@/components/solicitud/FormPersona'
 import { ClaseSugeridaPanel } from '@/components/tramites/ClaseSugeridaPanel'
+import { PlainTerm } from '@/components/GlosarioTerm'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { LegalNotice } from '@/components/tramites/LegalNotice'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
-import { StatusTabs, type TabStatus } from '@/components/tramites/StatusTabs'
 import { BulletList, Checklist, HelperCard, WorkSplit } from '@/components/tramites/TramitesExperience'
-import { RequiredMark, StepSection, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
+import { AccordionBlock, RequiredMark, ReviewGrid, StepSection, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import { LEGAL_DENOMINATIVA, LEGAL_WIZARD_MARCA } from '@/lib/tramites/legal'
 import { NIZA_CLASES, UTM_CLP } from '@/lib/tramites/mock-data'
 import { useTramitesSession } from '@/lib/tramites/use-session'
-import { cn } from '@/lib/utils'
 
 const STEPS = [
   { id: 'datos', label: 'Datos de tu marca' },
   { id: 'clases', label: 'Clases y cobertura' },
-  { id: 'prioridad', label: '¿Tienes registro previo en otro país?' },
-  { id: 'solicitante', label: 'Solicitante' },
-  { id: 'representante', label: 'Representante' },
+  { id: 'usuario', label: 'Datos de usuario' },
   { id: 'tasas', label: 'Cuánto pagarás' },
-  { id: 'revision', label: 'Revisión y pago' },
+  { id: 'revision', label: 'Revisión' },
 ]
 
 export function MarcaWizard() {
@@ -51,43 +47,36 @@ export function MarcaWizard() {
   const [solicitanteOk, setSolicitanteOk] = useState(false)
   const [representanteOk, setRepresentanteOk] = useState(false)
   const [denominativaOpen, setDenominativaOpen] = useState(false)
-  const [openBlocks, setOpenBlocks] = useState<string[]>([])
   const [saved, setSaved] = useState('')
 
   const toggleClase = (n: number) => {
     setClases(prev => (prev.includes(n) ? prev.filter(x => x !== n) : [...prev, n].sort((a, b) => a - b)))
   }
 
-  const completeness: Record<string, TabStatus> = useMemo(() => {
+  const completeness: Record<string, 'ok' | 'error' | 'idle'> = useMemo(() => {
     const datos = signo.trim() && tipo ? 'ok' : signo.trim() || tipo ? 'error' : 'idle'
     const clasesSt = clases.length ? 'ok' : 'idle'
-    const prioSt = !prio || priorities.length ? 'ok' : 'error'
-    const sol = solicitanteOk ? 'ok' : 'idle'
-    const rep = representanteOk ? 'ok' : 'idle'
+    const usuario = (!prio || priorities.length) && solicitanteOk ? 'ok' : prio && !priorities.length ? 'error' : 'idle'
     const tasas = clases.length ? 'ok' : 'idle'
     const rev = datos === 'ok' && clasesSt === 'ok' && solicitanteOk ? 'ok' : 'error'
-    return { datos, clases: clasesSt, prioridad: prioSt, solicitante: sol, representante: rep, tasas, revision: rev }
-  }, [signo, tipo, clases, prio, priorities, solicitanteOk, representanteOk])
-
-  const tabs = STEPS.map(s => ({
-    id: s.id,
-    label: s.label,
-    status: (step === s.id ? 'active' : completeness[s.id] ?? 'idle') as TabStatus,
-  }))
+    return { datos, clases: clasesSt, usuario, tasas, revision: rev }
+  }, [signo, tipo, clases, prio, priorities, solicitanteOk])
 
   const go = (id: string) => setStep(id)
+  const stepIndex = STEPS.findIndex(s => s.id === step)
+  const prev = () => {
+    if (stepIndex > 0) go(STEPS[stepIndex - 1].id)
+  }
   const next = () => {
     if (step === 'revision') {
       sessionStorage.setItem('inapi-pago-tgr', JSON.stringify({ signo, clases, email: session.email }))
       router.push('/tramites/pago-tgr')
       return
     }
-    const i = STEPS.findIndex(s => s.id === step)
-    if (i < STEPS.length - 1) go(STEPS[i + 1].id)
+    if (stepIndex < STEPS.length - 1) go(STEPS[stepIndex + 1].id)
   }
 
   const total = clases.length * UTM_CLP
-  const toggleBlock = (id: string) => setOpenBlocks(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]))
 
   const helpers: Record<string, { title: string; items: string[] }> = {
     datos: {
@@ -100,26 +89,15 @@ export function MarcaWizard() {
     },
     clases: {
       title: 'Cómo elegir clases',
+      items: ['Pagas 1 UTM por cada clase de Niza.', 'Elige solo las que cubren lo que vendes u ofreces.'],
+    },
+    usuario: {
+      title: 'Datos de quien presenta',
       items: [
-        'Pagas 1 UTM por cada clase de Niza.',
-        'Elige solo las que cubren lo que vendes u ofreces.',
-        'Puedes buscar por palabras en el clasificador.',
+        'La prioridad vale si pediste la misma marca en otro país hace menos de 6 meses.',
+        'El solicitante puede ser una persona o una empresa.',
+        'El representante es opcional si presentas el trámite a tu nombre.',
       ],
-    },
-    prioridad: {
-      title: 'Prioridad extranjera',
-      items: [
-        'Vale si pediste la misma marca en otro país hace menos de 6 meses.',
-        'No es un trámite urgente: puedes seguir sin prioridad.',
-      ],
-    },
-    solicitante: {
-      title: 'Quién pide el registro',
-      items: ['Puede ser una persona o una empresa.', 'Los datos deben coincidir con el RUN o RUT.'],
-    },
-    representante: {
-      title: 'Representante',
-      items: ['Es opcional si presentas el trámite a tu nombre.', 'Si designas a otra persona, necesitas un poder.'],
     },
     tasas: {
       title: 'Cómo se calcula',
@@ -127,7 +105,7 @@ export function MarcaWizard() {
     },
     revision: {
       title: 'Antes de pagar',
-      items: ['Abre cada bloque y corrige lo incompleto.', 'Después del pago no podrás cambiar el signo ni las clases con facilidad.'],
+      items: ['Revisa cada card y corrige lo incompleto.', 'Después del pago no podrás cambiar el signo ni las clases con facilidad.'],
     },
   }
 
@@ -137,195 +115,173 @@ export function MarcaWizard() {
         <WorkSplit
           main={
             <>
-        <StatusTabs tabs={tabs} current={step} onSelect={go} accent="marcas" />
+              {step === 'datos' ? <LegalNotice>{LEGAL_WIZARD_MARCA}</LegalNotice> : (
+                <p className="rounded-full border border-gob-border bg-card px-gob-4 py-gob-2 text-gri-body-sm text-muted-foreground">
+                  {helpers[step]?.items[0]}
+                </p>
+              )}
 
-        {step === 'datos' && (
-          <StepSection title="Datos de tu marca" description="Indica el nombre que quieres proteger y el tipo de signo.">
-            <div className="max-w-xl space-y-gob-4">
-              <div className="space-y-gob-2">
-                <label htmlFor="signo" className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
-                  Nombre de tu marca <RequiredMark />
-                  <HelpTooltip text="Escríbelo tal como quieres protegerlo." />
-                </label>
-                <Input id="signo" value={signo} onChange={e => setSigno(e.target.value)} placeholder="Ejemplo: Optima" className="h-11" />
-              </div>
-              <div className="space-y-gob-2">
-                <label htmlFor="tipo" className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
-                  Tipo de marca <RequiredMark />
-                  <HelpTooltip text="Denominativa protege la palabra. Mixta o figurativa incluyen diseño." />
-                </label>
-                <select
-                  id="tipo"
-                  className={selectClass()}
-                  value={tipo}
-                  onChange={e => {
-                    setTipo(e.target.value)
-                    if (e.target.value === 'denominativa') setDenominativaOpen(true)
-                  }}
+              {step === 'datos' && (
+                <StepSection title="Datos de tu marca" description="Indica el nombre que quieres proteger y el tipo de signo.">
+                  <div className="max-w-xl space-y-gob-4">
+                    <div className="space-y-gob-2">
+                      <label htmlFor="signo" className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
+                        Nombre de tu marca <RequiredMark />
+                        <HelpTooltip text="Escríbelo tal como quieres protegerlo." example="Optima" />
+                      </label>
+                      <Input id="signo" value={signo} onChange={e => setSigno(e.target.value)} placeholder="Ejemplo: Optima" className="h-11" />
+                    </div>
+                    <div className="space-y-gob-2">
+                      <label htmlFor="tipo" className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
+                        Tipo de marca <RequiredMark />
+                        <HelpTooltip text="Denominativa protege la palabra. Mixta o figurativa incluyen diseño." />
+                      </label>
+                      <select
+                        id="tipo"
+                        className={selectClass()}
+                        value={tipo}
+                        onChange={e => {
+                          setTipo(e.target.value)
+                          if (e.target.value === 'denominativa') setDenominativaOpen(true)
+                        }}
+                      >
+                        <option value="">Seleccione...</option>
+                        <option value="denominativa">Denominativa</option>
+                        <option value="mixta">Mixta</option>
+                        <option value="figurativa">Figurativa</option>
+                      </select>
+                    </div>
+                  </div>
+                </StepSection>
+              )}
+
+              {step === 'clases' && (
+                <StepSection
+                  title="Clases y cobertura"
+                  description="Indica qué productos o servicios distinguirá tu marca. Cada clase se cobra aparte (1 UTM) y define el alcance de la protección."
                 >
-                  <option value="">Seleccione...</option>
-                  <option value="denominativa">Denominativa</option>
-                  <option value="mixta">Mixta</option>
-                  <option value="figurativa">Figurativa</option>
-                </select>
-              </div>
-            </div>
-          </StepSection>
-        )}
+                  <ClaseSugeridaPanel selected={clases} onToggleClass={toggleClase} />
+                </StepSection>
+              )}
 
-        {step === 'clases' && (
-          <StepSection
-            title="Clases y cobertura"
-            description="Indica qué productos o servicios distinguirá tu marca. Puedes buscar por palabras clave o elegir la clase de Niza por su número. Cada clase se cobra aparte (1 UTM) y define el alcance de la protección."
-          >
-            <StepHelper
-              title="¿Qué son las clases de Niza?"
-              body="Las clases agrupan productos y servicios similares. Pagas 1 UTM por cada clase. Elige solo las que necesitas."
-              example="Si tienes una cafetería, probablemente necesitas la clase 30 (café, té) y quizás la clase 43 (servicios de restaurante)."
-              href="/glosario#clase-de-niza"
-            />
-            <ClaseSugeridaPanel selected={clases} onToggleClass={toggleClase} />
-          </StepSection>
-        )}
+              {step === 'usuario' && (
+                <StepSection title="Datos de usuario" description="Prioridad, solicitante y representante en un solo paso.">
+                  <AccordionBlock title="¿Tienes registro previo en otro país?" defaultOpen>
+                    <p className="text-gri-body-sm text-muted-foreground">
+                      Si pediste la misma marca en otro país hace menos de 6 meses, puedes usar esa fecha como prioridad en Chile.
+                    </p>
+                    <label className="flex items-center gap-gob-3 min-h-11">
+                      <input type="checkbox" checked={prio} onChange={e => setPrio(e.target.checked)} />
+                      Reclamo prioridad extranjera
+                      <HelpTooltip text="Vale si pediste la misma marca en otro país hace menos de 6 meses. No es un trámite urgente." />
+                    </label>
+                    {prio ? (
+                      <div className="space-y-gob-3">
+                        <Button type="button" size="form" onClick={() => setPrioOpen(true)}>
+                          Agregar prioridad
+                        </Button>
+                        {priorities.length === 0 ? (
+                          <p className="text-gri-body-sm text-muted-foreground">Aún no hay prioridades.</p>
+                        ) : (
+                          <ul className="space-y-2">
+                            {priorities.map((p, i) => (
+                              <li key={p.numero + i} className="rounded-gob-md border border-gob-border px-gob-4 py-gob-3 text-gri-body-sm">
+                                {p.pais} · {p.fecha} · {p.numero}
+                                {p.das ? ` · DAS ${p.dasCode}` : ''}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ) : null}
+                  </AccordionBlock>
+                  <AccordionBlock title="Solicitante" defaultOpen>
+                    <FormPersona title="Datos del solicitante" onChange={() => setSolicitanteOk(true)} />
+                  </AccordionBlock>
+                  <AccordionBlock title="Representante">
+                    <p className="text-gri-body-sm text-muted-foreground">Opcional si presentas el trámite a tu nombre. Si designas a otra persona, necesitas un poder.</p>
+                    <FormPersona title="Datos del representante (opcional)" onChange={() => setRepresentanteOk(true)} />
+                  </AccordionBlock>
+                </StepSection>
+              )}
 
-        {step === 'prioridad' && (
-          <StepSection title="¿Tienes registro previo en otro país?" description="Esto no es urgencia del trámite. Si pediste la misma marca en otro país hace menos de 6 meses, puedes usar esa fecha como prioridad en Chile.">
-            <StepHelper
-              title="¿Qué es la prioridad?"
-              body="Si registraste esta marca en otro país hace menos de 6 meses, puedes usar esa fecha como prioridad en Chile."
-              href="/glosario#prioridad"
-            />
-            <label className="flex items-center gap-gob-3 min-h-11">
-              <input type="checkbox" checked={prio} onChange={e => setPrio(e.target.checked)} />
-              Reclamo prioridad extranjera
-            </label>
-            {prio ? (
-              <div className="space-y-gob-3">
-                <Button type="button" size="form" onClick={() => setPrioOpen(true)}>
-                  Agregar prioridad
+              {step === 'tasas' && (
+                <StepSection title="Cuánto pagarás" description="El cobro se calcula por cada clase de Niza elegida.">
+                  <div className="grid gap-gob-4 min-[600px]:grid-cols-3">
+                    <article className="rounded-gob-md border border-gob-border p-gob-4">
+                      <p className="text-gri-body-sm text-muted-foreground">
+                        <PlainTerm term="UTM">UTM</PlainTerm> de referencia
+                      </p>
+                      <p className="font-heading text-2xl font-semibold text-gob-text">${UTM_CLP.toLocaleString('es-CL')}</p>
+                      <p className="mt-1 text-gri-body-xs text-muted-foreground">Valor publicado para este cálculo.</p>
+                    </article>
+                    <article className="rounded-gob-md border border-gob-border p-gob-4">
+                      <p className="text-gri-body-sm text-muted-foreground">Clases elegidas</p>
+                      <p className="font-heading text-2xl font-semibold text-gob-text">{clases.length || 0}</p>
+                      <p className="mt-1 text-gri-body-xs text-muted-foreground">Cada clase suma 1 UTM.</p>
+                    </article>
+                    <article className="rounded-gob-md border-2 border-gob-text p-gob-4">
+                      <p className="text-gri-body-sm text-muted-foreground">Total en pesos</p>
+                      <p className="font-heading text-2xl font-semibold text-gob-text">${total.toLocaleString('es-CL')}</p>
+                      <p className="mt-1 text-gri-body-xs text-muted-foreground">Se paga al presentar la solicitud.</p>
+                    </article>
+                  </div>
+                  {clases.length > 0 ? (
+                    <ul className="space-y-2 text-gri-body-sm">
+                      {clases.map(n => (
+                        <li key={n} className="flex justify-between border-b border-gob-border py-2">
+                          <span>
+                            Clase {n} · {NIZA_CLASES[n - 1]?.titulo}
+                          </span>
+                          <span>1 UTM</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gri-body-sm text-muted-foreground">Aún no hay clases. Vuelve al paso Clases para elegir cobertura.</p>
+                  )}
+                </StepSection>
+              )}
+
+              {step === 'revision' && (
+                <StepSection title="Revisión final" description="Comprueba cada bloque antes de ir a pagar.">
+                  <ReviewGrid
+                    items={[
+                      { ok: !!signo && !!tipo, label: 'Datos', detail: `${signo || 'Sin nombre'} · ${tipo || 'sin tipo'}` },
+                      {
+                        ok: clases.length > 0,
+                        label: 'Clases y cobertura',
+                        detail: clases.length ? clases.map(n => `Clase ${n}`).join(', ') : 'Sin clases',
+                      },
+                      {
+                        ok: !prio || priorities.length > 0,
+                        label: 'Registro previo',
+                        detail: prio ? `${priorities.length} prioridad(es)` : 'Sin prioridad',
+                      },
+                      { ok: solicitanteOk, label: 'Solicitante', detail: solicitanteOk ? session.nombre : 'Pendiente' },
+                      { ok: true, label: 'Representante', detail: representanteOk ? 'Datos ingresados' : 'Sin representante' },
+                      {
+                        ok: clases.length > 0,
+                        label: 'Cuánto pagarás',
+                        detail: clases.length ? `${clases.length} UTM · $${(clases.length * UTM_CLP).toLocaleString('es-CL')}` : 'Sin clases',
+                      },
+                    ]}
+                  />
+                </StepSection>
+              )}
+
+              <div className="flex flex-wrap gap-gob-3 pt-gob-2">
+                <Button variant="outline" size="form" disabled={stepIndex <= 0} onClick={prev}>
+                  Volver
                 </Button>
-                {priorities.length === 0 ? (
-                  <p className="text-gri-body-sm text-muted-foreground">Aún no hay prioridades.</p>
-                ) : (
-                  <ul className="space-y-2">
-                    {priorities.map((p, i) => (
-                      <li key={p.numero + i} className="rounded-gob-md border border-gob-border px-gob-4 py-gob-3 text-gri-body-sm">
-                        {p.pais} · {p.fecha} · {p.numero}
-                        {p.das ? ` · DAS ${p.dasCode}` : ''}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <Button variant="outline" size="form" onClick={() => setSaved('Borrador guardado. Tienes 60 días para pagarlo.')}>
+                  Guardar
+                </Button>
+                <Button size="form" onClick={next}>
+                  {step === 'revision' ? 'Ir a pagar' : 'Siguiente'}
+                </Button>
               </div>
-            ) : null}
-          </StepSection>
-        )}
-
-        {step === 'solicitante' && (
-          <StepSection title="Solicitante" description="Quién pide el registro. Completa los datos de la persona o empresa.">
-            <FormPersona title="Datos del solicitante" onChange={() => setSolicitanteOk(true)} />
-          </StepSection>
-        )}
-        {step === 'representante' && (
-          <StepSection title="Representante" description="Si alguien presenta el trámite por ti, completa sus datos. Si no, puedes seguir.">
-            <StepHelper
-              title="¿Quién puede ser representante?"
-              body="El representante es quien tramita en tu nombre. Si designas a otra persona, debes acreditar el poder notarial."
-              href="/glosario#representante"
-            />
-            <FormPersona title="Datos del representante (opcional)" onChange={() => setRepresentanteOk(true)} />
-          </StepSection>
-        )}
-
-        {step === 'tasas' && (
-          <StepSection title="Cuánto pagarás" description="El cobro se calcula por cada clase de Niza elegida. El valor UTM es de referencia.">
-            <div className="grid gap-gob-4 min-[600px]:grid-cols-3">
-              <article className="rounded-gob-md border border-gob-border p-gob-4">
-                <p className="text-gri-body-sm text-muted-foreground">UTM de referencia</p>
-                <p className="font-heading text-xl">${UTM_CLP.toLocaleString('es-CL')}</p>
-              </article>
-              <article className="rounded-gob-md border border-gob-border p-gob-4">
-                <p className="text-gri-body-sm text-muted-foreground">Clases elegidas</p>
-                <p className="font-heading text-xl">{clases.length || 0}</p>
-              </article>
-              <article className="rounded-gob-md border border-gob-primary/40 bg-gob-primary/5 p-gob-4">
-                <p className="text-gri-body-sm text-muted-foreground">Total en pesos</p>
-                <p className="font-heading text-xl">${total.toLocaleString('es-CL')}</p>
-              </article>
-            </div>
-            {clases.length > 0 ? (
-              <ul className="space-y-2 text-gri-body-sm">
-                {clases.map(n => (
-                  <li key={n} className="flex justify-between border-b border-gob-border py-2">
-                    <span>
-                      Clase {n} · {NIZA_CLASES[n - 1]?.titulo}
-                    </span>
-                    <span>1 UTM</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gri-body-sm text-muted-foreground">Aún no hay clases. Vuelve al paso Clases para elegir cobertura.</p>
-            )}
-          </StepSection>
-        )}
-
-        {step === 'revision' && (
-          <StepSection title="Revisión final" description="Abre cada bloque para comprobar los datos.">
-            {[
-              { id: 'datos', ok: !!signo && !!tipo, label: 'Datos', detail: `${signo || 'Sin nombre'} · ${tipo || 'sin tipo'}` },
-              {
-                id: 'clases',
-                ok: clases.length > 0,
-                label: 'Clases y cobertura',
-                detail: clases.length ? clases.map(n => `Clase ${n} · ${NIZA_CLASES.find(c => c.n === n)?.titulo ?? ''}`).join('; ') : 'Sin clases',
-              },
-              {
-                id: 'prioridad',
-                ok: !prio || priorities.length > 0,
-                label: 'Registro previo en otro país',
-                detail: prio ? `${priorities.length} prioridad(es)` : 'Sin prioridad',
-              },
-              { id: 'solicitante', ok: solicitanteOk, label: 'Solicitante', detail: solicitanteOk ? session.nombre : 'Pendiente' },
-              { id: 'representante', ok: representanteOk, label: 'Representante', detail: representanteOk ? 'Datos ingresados' : 'Sin representante' },
-              {
-                id: 'tasas',
-                ok: clases.length > 0,
-                label: 'Cuánto pagarás',
-                detail: clases.length ? `${clases.length} UTM · $${(clases.length * UTM_CLP).toLocaleString('es-CL')}` : 'Sin clases para calcular tasas',
-              },
-            ].map((item, i) => {
-              const Icon =
-                item.id === 'clases' ? Layers : item.id === 'prioridad' ? Flag : item.id === 'solicitante' ? UserRound : item.id === 'representante' ? Users : item.id === 'tasas' ? CreditCard : Info
-              return (
-                <div key={item.id} className={cn('overflow-hidden rounded-gob-lg border shadow-elevation-01', item.ok ? 'border-gob-success/30' : 'border-gob-warning/40')}>
-                  <button type="button" className="flex w-full items-center gap-gob-3 px-gob-4 py-gob-4 text-left hover:bg-gob-surface-elevated" onClick={() => toggleBlock(item.id)}>
-                    <span className={cn('inline-flex size-10 items-center justify-center rounded-gob-md text-white', item.ok ? 'bg-gob-success' : 'bg-gob-warning', i === 0 && 'bg-gob-primary')}>
-                      {item.ok ? <CheckCircle2 className="size-5" /> : <Icon className="size-5" />}
-                    </span>
-                    <span className="flex-1">
-                      <span className={cn('block font-heading font-medium', item.ok ? 'text-gob-text' : 'text-gob-warning')}>{item.label}</span>
-                      <span className="text-gri-body-xs text-muted-foreground">{item.ok ? 'Completo' : 'Requiere revisión'}</span>
-                    </span>
-                    <ChevronDown className={cn('size-5 transition-transform', openBlocks.includes(item.id) && 'rotate-180')} />
-                  </button>
-                  {openBlocks.includes(item.id) ? <p className="border-t border-gob-border bg-gob-surface-elevated/50 px-gob-4 py-gob-3 text-gri-body-sm">{item.detail}</p> : null}
-                </div>
-              )
-            })}
-          </StepSection>
-        )}
-
-        <div className="flex flex-wrap gap-gob-3 pt-gob-2">
-          <Button variant="outline" size="form" onClick={() => setSaved('Borrador guardado. Tienes 60 días para pagarlo.')}>
-            Guardar
-          </Button>
-          <Button size="form" onClick={next}>
-            {step === 'revision' ? 'Ir a pagar' : 'Siguiente'}
-          </Button>
-        </div>
-        {saved ? <p className="text-gri-body-sm text-gob-success">{saved}</p> : null}
-        <LegalNotice>{LEGAL_WIZARD_MARCA}</LegalNotice>
+              {saved ? <p className="text-gri-body-sm text-gob-success">{saved}</p> : null}
             </>
           }
           aside={
@@ -333,6 +289,7 @@ export function MarcaWizard() {
               <HelperCard title="Tu avance">
                 <Checklist
                   current={step}
+                  onSelect={go}
                   items={STEPS.map(s => ({
                     id: s.id,
                     label: s.label,
@@ -340,7 +297,7 @@ export function MarcaWizard() {
                   }))}
                 />
               </HelperCard>
-              <HelperCard title={helpers[step]?.title ?? 'Ayuda de este paso'} tone="night">
+              <HelperCard title={helpers[step]?.title ?? 'Ayuda de este paso'} tone="night" collapsible hint="Abrir ayuda">
                 <BulletList items={helpers[step]?.items ?? []} />
               </HelperCard>
             </>
@@ -358,7 +315,7 @@ export function MarcaWizard() {
               </DialogTitle>
               <DialogDescription asChild>
                 <div className="space-y-gob-3 pt-gob-2 text-left">
-                  <p className="rounded-gob-md border border-gob-primary/25 bg-gob-primary/5 px-gob-4 py-gob-3 font-heading text-gri-body font-medium text-gob-text">
+                  <p className="rounded-gob-md border border-gob-border px-gob-4 py-gob-3 font-heading text-gri-body font-medium text-gob-text">
                     Se protege la palabra, no el diseño.
                   </p>
                   <p className="text-gri-body leading-relaxed text-gob-text">{LEGAL_DENOMINATIVA}</p>
