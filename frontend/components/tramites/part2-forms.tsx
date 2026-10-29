@@ -142,104 +142,84 @@ export function SavedListScreen({
   headers: string[]
   showFilters?: 'anotacion' | 'solicitud' | 'escrito'
 }) {
-  const [estado, setEstado] = useState('')
-  const [filterOpen, setFilterOpen] = useState(false)
+  const [estado, setEstado] = useState(showFilters === 'anotacion' ? '' : 'Todos')
 
   const filtered = estado && estado !== 'Todos' ? rows.filter(r => r.estado === estado) : rows
 
-  useTramitesChrome(
-    {
-      filterEnabled: Boolean(showFilters),
-      filterInline: true,
-      filterOpen,
-      onFilterToggle: () => setFilterOpen(v => !v),
-    },
-    [showFilters, filterOpen],
-  )
+  useTramitesChrome({ filterEnabled: false }, [])
 
   return (
     <div className="space-y-gob-5">
-      <div className="space-y-gob-5">
-        <div className="space-y-gob-4">
-          {filterOpen && showFilters === 'anotacion' ? (
-            <FilterPanel title="Filtros de búsqueda" bare>
-              <Field id="nat" label="N° de Atención">
-                <Input id="nat" className="h-11" />
-              </Field>
-              <Field id="nreg" label={domain === 'marcas' ? 'N° de Registro de Marca' : 'N° de Registro de Patente'}>
-                <Input id="nreg" className="h-11" />
-              </Field>
-              <Field id="nano" label="N° de Anotación">
-                <Input id="nano" className="h-11" />
-              </Field>
-              <Field id="est" label="Estado">
-                <select id="est" className={selectClass()} value={estado} onChange={e => setEstado(e.target.value)}>
-                  <option value="">Seleccione...</option>
-                  <option>Borrador</option>
-                  <option>Confirmada con Pago</option>
-                  <option>Confirmada sin Pago</option>
-                </select>
-              </Field>
-            </FilterPanel>
-          ) : null}
-          {filterOpen && showFilters === 'solicitud' ? (
-            <FilterPanel title="Filtros de búsqueda" bare>
-              <Field id="nat" label="N° de Atención">
-                <Input id="nat" className="h-11" />
-              </Field>
-              <Field id="nsol" label="N° de Solicitud">
-                <Input id="nsol" className="h-11" />
-              </Field>
-              <Field id="tit" label="Titular/Solicitante">
-                <Input id="tit" className="h-11" />
-              </Field>
-              <Field id="est" label="Estado">
-                <select id="est" className={selectClass()} value={estado} onChange={e => setEstado(e.target.value)}>
-                  <option>Todos</option>
-                  <option>Borrador</option>
-                  <option>Confirmada con Pago</option>
-                  <option>Confirmada sin Pago</option>
-                </select>
-              </Field>
-            </FilterPanel>
-          ) : null}
-          {filterOpen && showFilters === 'escrito' ? (
-            <FilterPanel title="Filtros de búsqueda" bare>
-              <Field id="nat" label="N° de Atención">
-                <Input id="nat" className="h-11" />
-              </Field>
-              <Field id="nsol" label="N° de Solicitud">
-                <Input id="nsol" className="h-11" />
-              </Field>
-              <Field id="nesc" label="N° de Escrito">
-                <Input id="nesc" placeholder="Ej: C/1234/123456" className="h-11" />
-              </Field>
-              <Field id="est" label="Estado">
-                <select id="est" className={selectClass()} value={estado} onChange={e => setEstado(e.target.value)}>
-                  <option>Todos</option>
-                  <option>Borrador</option>
-                  <option>Confirmada con Pago</option>
-                </select>
-              </Field>
-            </FilterPanel>
-          ) : null}
-          <FilterActionBar>
-            <Button size="form">Buscar</Button>
-            <Button size="form" variant="secondary" onClick={() => setEstado(showFilters === 'anotacion' ? '' : 'Todos')}>
-              Limpiar
-            </Button>
-          </FilterActionBar>
-        </div>
-        <div className="border-t border-gob-border pt-gob-5">
-          <h3 className="mb-gob-3 text-gri-body font-medium">Nueva gestión</h3>
-          <Button asChild size="form" className="bg-gob-accent hover:bg-gob-accent/90">
-            <Link href={createHref}>{createLabel}</Link>
+      <div className="space-y-gob-4">
+        {showFilters === 'anotacion' ? (
+          <FilterPanel title="Filtros de búsqueda" bare>
+            <Field id="nat" label="N° de Atención">
+              <Input id="nat" className="h-11" />
+            </Field>
+            <Field id="nreg" label={domain === 'marcas' ? 'N° de Registro de Marca' : 'N° de Registro de Patente'}>
+              <Input id="nreg" className="h-11" />
+            </Field>
+            <Field id="nano" label="N° de Anotación">
+              <Input id="nano" className="h-11" />
+            </Field>
+            <Field id="est" label="Estado">
+              <select id="est" className={selectClass()} value={estado} onChange={e => setEstado(e.target.value)}>
+                <option value="">Seleccione...</option>
+                <option>Borrador</option>
+                <option>Confirmada con Pago</option>
+                <option>Confirmada sin Pago</option>
+              </select>
+            </Field>
+          </FilterPanel>
+        ) : null}
+        {showFilters === 'solicitud' ? (
+          <FilterPanel title="Filtros de búsqueda" bare>
+            <Field id="nat" label="N° de Atención">
+              <Input id="nat" className="h-11" />
+            </Field>
+            <Field id="nsol" label="N° de Solicitud">
+              <Input id="nsol" className="h-11" />
+            </Field>
+            <Field id="tit" label="Titular/Solicitante">
+              <Input id="tit" className="h-11" />
+            </Field>
+            <Field id="est" label="Estado">
+              <select id="est" className={selectClass()} value={estado} onChange={e => setEstado(e.target.value)}>
+                <option>Todos</option>
+                <option>Borrador</option>
+                <option>Confirmada con Pago</option>
+                <option>Confirmada sin Pago</option>
+              </select>
+            </Field>
+          </FilterPanel>
+        ) : null}
+        {showFilters === 'escrito' ? (
+          <FilterPanel title="Filtros de búsqueda" bare>
+            <Field id="nat" label="N° de Atención">
+              <Input id="nat" className="h-11" />
+            </Field>
+            <Field id="nsol" label="N° de Solicitud">
+              <Input id="nsol" className="h-11" />
+            </Field>
+            <Field id="nesc" label="N° de Escrito">
+              <Input id="nesc" placeholder="Ej: C/1234/123456" className="h-11" />
+            </Field>
+            <Field id="est" label="Estado">
+              <select id="est" className={selectClass()} value={estado} onChange={e => setEstado(e.target.value)}>
+                <option>Todos</option>
+                <option>Borrador</option>
+                <option>Confirmada con Pago</option>
+              </select>
+            </Field>
+          </FilterPanel>
+        ) : null}
+        <FilterActionBar>
+          <Button size="form">Buscar</Button>
+          <Button size="form" variant="secondary" onClick={() => setEstado(showFilters === 'anotacion' ? '' : 'Todos')}>
+            Limpiar
           </Button>
-        </div>
+        </FilterActionBar>
       </div>
-      <AlertBanner tone="warning">
-        Advertencia: Solicitudes en estado &quot;Borrador&quot; serán eliminadas automáticamente a los 60 días desde su última modificación.
-      </AlertBanner>
       <div className="space-y-gob-3">
         <h3 className="text-gri-body font-medium">Resultados</h3>
         {filtered.length === 0 ? (
@@ -258,6 +238,17 @@ export function SavedListScreen({
             ))}
           </DataTable>
         )}
+      </div>
+      <div className="space-y-gob-4 border-t border-gob-border pt-gob-5">
+        <div>
+          <h3 className="mb-gob-3 text-gri-body font-medium">Nueva gestión</h3>
+          <Button asChild size="form" className="bg-gob-accent hover:bg-gob-accent/90">
+            <Link href={createHref}>{createLabel}</Link>
+          </Button>
+        </div>
+        <AlertBanner tone="warning">
+          Advertencia: Solicitudes en estado &quot;Borrador&quot; serán eliminadas automáticamente a los 60 días desde su última modificación.
+        </AlertBanner>
       </div>
     </div>
   )

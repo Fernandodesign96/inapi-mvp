@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Search } from 'lucide-react'
+import { FileSearch, Search, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ClaveUnicaButton } from '@/components/auth/ClaveUnicaButton'
@@ -11,7 +11,7 @@ import { DataTable, Td } from '@/components/tramites/DataTable'
 import { PlainTerm } from '@/components/GlosarioTerm'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { EmptyState, TramitesMain } from '@/components/tramites/ui-helpers'
-import { CardCarousel, ControlChip, ControlChipRow, HelperCard, RecordCard, WorkSplit } from '@/components/tramites/TramitesExperience'
+import { CardCarousel, ControlChip, ControlChipRow, HelperCard, RecordCard, ScreenIntro, WorkSplit } from '@/components/tramites/TramitesExperience'
 import { useTramitesChrome } from '@/components/tramites/TramitesScreenChrome'
 import { RESULTADOS_PATENTES } from '@/lib/tramites/mock-data'
 import { useTramitesSession } from '@/lib/tramites/use-session'
@@ -54,6 +54,26 @@ export default function BuscadorPatentesPage() {
       <WorkSplit
         main={
           <div className="space-y-gob-5">
+            <ScreenIntro
+              lead={
+                <p>
+                  Busca en el <strong>acervo de patentes</strong> por número, título o nombre de quien solicita. Los resultados son una{' '}
+                  <em>orientación</em> y no reemplazan el examen de INAPI.
+                </p>
+              }
+              points={[
+                {
+                  icon: <FileSearch />,
+                  title: 'Qué puedes buscar',
+                  body: 'Un número de solicitud, una palabra del título o el nombre del solicitante.',
+                },
+                {
+                  icon: <Shield />,
+                  title: 'Consulta más simple si ingresas',
+                  body: 'Con ClaveÚnica esta consulta no pide captcha.',
+                },
+              ]}
+            />
             <form
               className="rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01"
               onSubmit={e => {

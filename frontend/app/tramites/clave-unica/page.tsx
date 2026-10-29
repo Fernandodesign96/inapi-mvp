@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Contrast, Eye, EyeOff } from 'lucide-react'
 import { SkipIfAuthenticated } from '@/components/tramites/SkipIfAuthenticated'
 import { nextAfterAuth } from '@/lib/tramites/entry'
-import { DEMO_USER, signIn } from '@/lib/tramites/session'
+import { findDemoAccount, STEREOTYPE_ACCOUNTS } from '@/lib/tramites/demo-accounts'
+import { signIn } from '@/lib/tramites/session'
 import { useQueryParams } from '@/lib/tramites/use-query'
 import { cn } from '@/lib/utils'
 
@@ -27,9 +28,16 @@ export default function ClaveUnicaSimPage() {
     e.preventDefault()
     if (sending) return
     setSending(true)
+    const found = findDemoAccount(run, clave) ?? (!run.trim() ? STEREOTYPE_ACCOUNTS[0] : undefined)
+    if (!found) {
+      setSending(false)
+      return
+    }
     signIn({
       metodo: 'clave-unica',
-      run: run.trim() || DEMO_USER.run,
+      run: found.runDigits,
+      nombre: found.nombre,
+      registered: found.persona !== 'nuevo',
     })
     router.push(nextAfterAuth(params.toString()))
   }

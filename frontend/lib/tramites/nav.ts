@@ -153,7 +153,7 @@ export const PATENTES_MEGA: MegaColumn[] = [
       },
       {
         label: 'Documentos de representación legal',
-        href: '/tramites/custodia-poderes',
+        href: '/tramites/patentes/tramites?tipo=poderes',
         tooltip: 'Sube el poder notarial de quien tramita en tu nombre',
       },
     ],
@@ -195,6 +195,11 @@ export const PATENTES_MEGA: MegaColumn[] = [
         label: 'Adjuntar documentos a tu solicitud de patente',
         href: '/tramites/patentes/presentar-escritos',
         tooltip: 'Adjunta documentos a una solicitud, un cambio o una nulidad',
+      },
+      {
+        label: 'Realiza otras solicitudes y presentaciones de patentes',
+        href: '/tramites/patentes/tramites',
+        tooltip: 'Anotaciones, escritos y custodia de poderes en un solo paso',
       },
     ],
   },

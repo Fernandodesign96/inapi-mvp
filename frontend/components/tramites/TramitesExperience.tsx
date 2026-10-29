@@ -1,11 +1,69 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import { Check, ChevronDown } from 'lucide-react'
 import { CompactProcessTimeline, type JourneyStep } from '@/components/story/JourneyRail'
 import { StoryCarousel } from '@/components/story/StoryCarousel'
 import { cn } from '@/lib/utils'
+
+export function PaperPanel({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <div className={cn('rounded-gob-lg border border-gob-border bg-card p-gob-5', className)}>{children}</div>
+  )
+}
+
+export function ScreenIntro({
+  lead,
+  points,
+  cards,
+}: {
+  lead: ReactNode
+  points?: { icon: ReactNode; title: string; body: ReactNode }[]
+  cards?: { icon: ReactNode; title: string; body: ReactNode }[]
+}) {
+  return (
+    <div className="w-full space-y-gob-4">
+      <div className="text-gri-body leading-[1.6] text-gob-text">{lead}</div>
+      {points && points.length > 0 ? (
+        <ul className="grid gap-gob-3 min-[800px]:grid-cols-2">
+          {points.map(item => (
+            <li key={item.title} className="flex gap-gob-3">
+              <span
+                aria-hidden
+                className="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-gob-md bg-gob-primary/10 text-gob-primary-dark [&_svg]:size-4"
+              >
+                {item.icon}
+              </span>
+              <div className="min-w-0">
+                <p className="font-heading text-gri-body-sm font-semibold text-gob-text">{item.title}</p>
+                <p className="mt-0.5 text-gri-body-sm leading-[1.5] text-gob-text/80">{item.body}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {cards && cards.length > 0 ? (
+        <ul className="grid gap-gob-3 min-[800px]:grid-cols-2">
+          {cards.map(item => (
+            <li key={item.title} className="flex gap-gob-3 rounded-gob-lg border-2 border-gob-border bg-card p-gob-4">
+              <span
+                aria-hidden
+                className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-gob-md bg-gob-primary/10 text-gob-primary-dark [&_svg]:size-4"
+              >
+                {item.icon}
+              </span>
+              <div className="min-w-0">
+                <p className="font-heading text-gri-body-sm font-semibold text-gob-text">{item.title}</p>
+                <p className="mt-1 text-gri-body-sm leading-[1.5] text-gob-text/80">{item.body}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  )
+}
 
 export function WorkSplit({
   main,
@@ -314,7 +372,8 @@ export function RecordCard({
       {children}
     </>
   )
-  const className = 'story-card-hover-paper flex h-full flex-col gap-gob-4 rounded-gob-lg border-2 border-gob-border bg-card p-gob-6'
+  const className =
+    'flex h-full flex-col gap-gob-4 rounded-gob-lg border-2 border-gob-border bg-card p-gob-6 transition-colors hover:border-gob-primary/50 hover:bg-gob-surface-elevated'
   if (href) {
     return (
       <Link href={href} className={className}>

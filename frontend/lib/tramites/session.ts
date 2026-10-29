@@ -54,7 +54,7 @@ export function signIn(partial: Partial<TramitesSession> & { metodo: MetodoIngre
     ...DEMO_USER,
     ...partial,
     authenticated: true,
-    registered: true,
+    registered: partial.registered ?? true,
   })
 }
 

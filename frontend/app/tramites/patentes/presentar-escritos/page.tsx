@@ -1,5 +1,12 @@
 'use client'
-import { PresentarEscritosScreen } from '@/components/tramites/inventory-screens'
+
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
 export default function Page() {
-  return <PresentarEscritosScreen domain="patentes" />
+  const router = useRouter()
+  useEffect(() => {
+    router.replace('/tramites/patentes/tramites?tipo=escritos')
+  }, [router])
+  return null
 }

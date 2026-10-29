@@ -90,6 +90,12 @@
   --color-gob-danger-bg: var(--gob-danger-bg);
   --color-gob-info: var(--gob-info);
   --color-gob-info-bg: var(--gob-info-bg);
+  --color-sev-review: var(--sev-review);
+  --color-sev-review-bg: var(--sev-review-bg);
+  --color-sev-watch: var(--sev-watch);
+  --color-sev-watch-bg: var(--sev-watch-bg);
+  --color-sev-closed: var(--sev-closed);
+  --color-sev-closed-bg: var(--sev-closed-bg);
 
   /* Enlaces y focus */
   --color-gob-link: var(--gob-link);
@@ -249,6 +255,12 @@
   --gob-danger-bg: #FFEBEF;
   --gob-info: #2196F3;
   --gob-info-bg: #E3F2FD;
+  --sev-review: #8A6D00;
+  --sev-review-bg: #FFF6CC;
+  --sev-watch: #1D70B8;
+  --sev-watch-bg: #E3F2FD;
+  --sev-closed: #4B5563;
+  --sev-closed-bg: #EEF0F4;
 
   /* Enlaces y focus */
   --gob-link: #1D70B8;
@@ -379,6 +391,12 @@
   --gob-danger-bg: #3D1F24;
   --gob-info: #64B5F6;
   --gob-info-bg: #1A2838;
+  --sev-review: #F5D76E;
+  --sev-review-bg: #3A3214;
+  --sev-watch: #7EB6FF;
+  --sev-watch-bg: #16324F;
+  --sev-closed: #C5CDD8;
+  --sev-closed-bg: #2A3038;
 
   /* Enlaces y focus — variante más suave sobre fondo oscuro */
   --gob-link: #A1D2FF;
@@ -863,15 +881,14 @@
 }
 .story-card-hover-paper:hover,
 .story-card-hover-paper:focus-visible {
-  background-color: #1d70b8 !important;
-  color: #fff;
-  border-color: transparent;
+  background-color: var(--gob-surface-elevated) !important;
+  color: var(--gob-text);
+  border-color: color-mix(in srgb, var(--gob-primary) 45%, var(--gob-border));
 }
-.story-card-hover-paper:hover,
-.story-card-hover-paper:hover *,
-.story-card-hover-paper:focus-visible,
-.story-card-hover-paper:focus-visible * {
-  color: #fff !important;
+.dark .story-card-hover-paper:hover,
+.dark .story-card-hover-paper:focus-visible {
+  background-color: color-mix(in srgb, white 8%, var(--card)) !important;
+  color: var(--gob-text);
 }
 .story-card-hover-paper[data-open='true'],
 .story-card-hover-paper[data-open='true']:hover,
@@ -896,9 +913,9 @@
   color: #8ec8ff;
 }
 
-.dark .story-card-hover-paper:hover .text-gob-link,
-.dark .story-card-hover-paper:hover .text-gob-primary-dark,
-.dark .story-card-hover-paper:hover .text-muted-foreground {
+.dark .story-card-hover-paper[data-open='true']:hover .text-gob-link,
+.dark .story-card-hover-paper[data-open='true']:hover .text-gob-primary-dark,
+.dark .story-card-hover-paper[data-open='true']:hover .text-muted-foreground {
   color: #fff;
 }
 

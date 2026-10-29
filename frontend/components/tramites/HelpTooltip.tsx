@@ -11,8 +11,8 @@ function deriveHelp(text: string, example?: string, action?: string) {
   return {
     example:
       example ??
-      (fromText ? fromText[1].replace(/\.$/, '').trim() : 'Un dato válido del trámite, como un número de solicitud o un nombre.'),
-    action: action ?? 'Haz clic en el campo, escribe el dato y continúa con Buscar, Guardar o Siguiente.',
+      (fromText ? fromText[1].replace(/\.$/, '').trim() : undefined),
+    action: action,
   }
 }
 
@@ -21,6 +21,10 @@ export function HelpTooltip({
   title,
   example,
   action,
+  href,
+  hrefLabel,
+  hrefHint,
+  quiet,
   label = 'Ayuda',
   children,
 }: {
@@ -28,11 +32,17 @@ export function HelpTooltip({
   title?: string
   example?: string
   action?: string
+  href?: string
+  hrefLabel?: string
+  hrefHint?: string
+  quiet?: boolean
   label?: string
   children?: ReactNode
 }) {
   const { tx } = useI18n()
   const extra = deriveHelp(text, example, action)
+  const showExample = !quiet && (extra.example || example)
+  const showAction = !quiet && extra.action
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -51,17 +61,34 @@ export function HelpTooltip({
       >
         <p className="font-heading text-gri-body font-semibold text-gob-text">{tx(title ?? 'Ayuda de este dato')}</p>
         <p>{tx(text)}</p>
-        <p className="flex items-start gap-gob-2 text-gri-body-sm">
-          <Lightbulb className="mt-0.5 size-4 shrink-0 text-gob-primary" aria-hidden />
-          <span>
-            <span className="font-semibold">{tx('Ejemplo')}: </span>
-            {tx(extra.example)}
-          </span>
-        </p>
-        <p className="flex items-start gap-gob-2 text-gri-body-sm">
-          <MousePointerClick className="mt-0.5 size-4 shrink-0 text-gob-primary" aria-hidden />
-          <span>{tx(extra.action)}</span>
-        </p>
+        {showExample ? (
+          <p className="flex items-start gap-gob-2 text-gri-body-sm">
+            <Lightbulb className="mt-0.5 size-4 shrink-0 text-gob-primary" aria-hidden />
+            <span>
+              <span className="font-semibold">{tx('Ejemplo')}: </span>
+              {tx(extra.example ?? '')}
+            </span>
+          </p>
+        ) : null}
+        {showAction ? (
+          <p className="flex items-start gap-gob-2 text-gri-body-sm">
+            <MousePointerClick className="mt-0.5 size-4 shrink-0 text-gob-primary" aria-hidden />
+            <span>{tx(extra.action ?? '')}</span>
+          </p>
+        ) : !quiet ? (
+          <p className="flex items-start gap-gob-2 text-gri-body-sm">
+            <MousePointerClick className="mt-0.5 size-4 shrink-0 text-gob-primary" aria-hidden />
+            <span>{tx('Lee esta ayuda y continúa con el dato o el botón del trámite.')}</span>
+          </p>
+        ) : null}
+        {href ? (
+          <p className="text-gri-body-sm">
+            {hrefHint ? <span className="block mb-1">{tx(hrefHint)}</span> : null}
+            <a href={href} className="text-gob-link underline underline-offset-4" rel="noopener noreferrer" target="_blank">
+              {tx(hrefLabel ?? href)}
+            </a>
+          </p>
+        ) : null}
         {children}
       </PopoverContent>
     </Popover>
@@ -90,12 +117,12 @@ export function TipWrap({
           <Lightbulb className="mt-0.5 size-4 shrink-0 text-gob-primary" aria-hidden />
           <span>
             <span className="font-semibold">{tx('Ejemplo')}: </span>
-            {tx(extra.example)}
+            {tx(extra.example ?? '')}
           </span>
         </p>
         <p className="flex items-start gap-gob-2 text-gri-body-sm">
           <MousePointerClick className="mt-0.5 size-4 shrink-0 text-gob-primary" aria-hidden />
-          <span>{tx(extra.action)}</span>
+          <span>{tx(extra.action ?? '')}</span>
         </p>
       </PopoverContent>
     </Popover>

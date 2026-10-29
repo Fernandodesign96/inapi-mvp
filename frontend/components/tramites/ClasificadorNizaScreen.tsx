@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from 'react'
 import Fuse from 'fuse.js'
-import { Search, X } from 'lucide-react'
+import { BadgeCheck, Coins, Layers, Search, ShoppingBag, Sparkles, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PlainTerm } from '@/components/GlosarioTerm'
 import { FieldLabel } from '@/components/tramites/HelpTooltip'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
-import { ControlChip, ControlChipRow } from '@/components/tramites/TramitesExperience'
+import { ControlChip, ControlChipRow, PaperPanel, ScreenIntro } from '@/components/tramites/TramitesExperience'
 import { TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import coberturas from '@/data/coberturas.json'
 import { NIZA_CLASES } from '@/lib/tramites/mock-data'
@@ -75,54 +75,95 @@ export function ClasificadorNizaScreen() {
   return (
     <RequireAuth>
       <TramitesMain>
-        <p className="max-w-3xl text-gri-body leading-relaxed text-gob-text">
-          Este buscador te ayuda a elegir los productos o servicios de tu marca. Te sugiere la{' '}
-          <PlainTerm term="clase de Niza">clase de Niza</PlainTerm>. Cada clase se cobra aparte. Describe lo que vendes u
-          ofreces: no hace falta usar el término oficial.
-        </p>
+        <ScreenIntro
+          lead={
+            <p>
+              Este buscador te ayuda a elegir los <strong>productos o servicios</strong> de tu marca y te sugiere la{' '}
+              <PlainTerm term="clase de Niza" showMeaning={false}>
+                clase de Niza
+              </PlainTerm>
+              . Describe lo que vendes u ofreces:{' '}
+              <em>no hace falta usar el término oficial</em>.
+            </p>
+          }
+          points={[
+            {
+              icon: <Coins />,
+              title: 'Cada clase se cobra aparte',
+              body: 'Pagas una tasa por cada clase que elijas. Si tu negocio cubre más de un rubro, revisa si realmente necesitas todas.',
+            },
+            {
+              icon: <BadgeCheck />,
+              title: 'Coberturas preaprobadas',
+              body: 'Son descripciones ya aceptadas por INAPI y por la clasificación de Niza. Si eliges una, reduces correcciones en el examen de forma.',
+            },
+          ]}
+          cards={[
+            {
+              icon: <ShoppingBag />,
+              title: 'Ejemplo de producto',
+              body: (
+                <>
+                  Escribes <em>ropa deportiva</em> y el buscador te sugiere la <strong>clase 25</strong>.
+                </>
+              ),
+            },
+            {
+              icon: <Sparkles />,
+              title: 'Ejemplo de servicio',
+              body: (
+                <>
+                  Escribes <em>desarrollo de software</em> y te sugiere la <strong>clase 42</strong>.
+                </>
+              ),
+            },
+          ]}
+        />
 
         <h2 className="font-heading text-gri-h2 font-medium text-gob-text">Escoge tu producto o servicio</h2>
 
-        <div className="grid gap-gob-5 min-[800px]:grid-cols-2">
-          <div className="space-y-gob-2 rounded-gob-lg border-2 border-gob-border bg-transparent p-gob-5">
-            <FieldLabel
-              htmlFor="palabra"
-              help={{
-                title: 'Producto o servicio',
-                text: 'Describe lo que vas a vender u ofrecer. No hace falta usar el término oficial.',
-                example: 'software para gestión de certificados digitales, ropa deportiva, restaurante',
-              }}
-            >
-              Producto o servicio
-            </FieldLabel>
-            <Input
-              id="palabra"
-              value={palabra}
-              onChange={e => setPalabra(e.target.value)}
-              placeholder="Escribe tu producto o servicio"
-              className="h-12 border-2 border-gob-text/40 bg-card"
-            />
+        <PaperPanel>
+          <div className="grid gap-gob-5 min-[800px]:grid-cols-2">
+            <div className="space-y-gob-2">
+              <FieldLabel
+                htmlFor="palabra"
+                help={{
+                  title: 'Producto o servicio',
+                  text: 'Describe lo que vas a vender u ofrecer, con tus palabras. El buscador las compara con coberturas preaprobadas.',
+                  example: 'software para gestión de certificados digitales, ropa deportiva, restaurante',
+                }}
+              >
+                Producto o servicio
+              </FieldLabel>
+              <Input
+                id="palabra"
+                value={palabra}
+                onChange={e => setPalabra(e.target.value)}
+                placeholder="Escribe tu producto o servicio"
+                className="h-12 border-2 border-gob-text/40 bg-card"
+              />
+            </div>
+            <div className="space-y-gob-2">
+              <FieldLabel
+                htmlFor="clase"
+                help={{
+                  title: 'Clase de Niza',
+                  text: 'Las clases 1 a 34 cubren productos. Las clases 35 a 45 cubren servicios. Cada clase se cobra aparte.',
+                }}
+              >
+                ¿Ya sabes tu clase? Elígela por su número
+              </FieldLabel>
+              <select id="clase" className={cn(selectClass(), 'h-12 border-2 border-gob-text/40 bg-card')} value={clase} onChange={e => setClase(e.target.value)}>
+                <option value="">Todas las clases</option>
+                {NIZA_CLASES.map(c => (
+                  <option key={c.n} value={c.n}>
+                    Clase {c.n} · {c.titulo}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className="space-y-gob-2 rounded-gob-lg border-2 border-gob-border bg-transparent p-gob-5">
-            <FieldLabel
-              htmlFor="clase"
-              help={{
-                title: 'Clase de Niza',
-                text: 'Las clases 1 a 34 cubren productos. Las clases 35 a 45 cubren servicios. Cada clase se cobra aparte.',
-              }}
-            >
-              ¿Ya sabes tu clase? Elígela por su número
-            </FieldLabel>
-            <select id="clase" className={cn(selectClass(), 'h-12 border-2 border-gob-text/40 bg-card')} value={clase} onChange={e => setClase(e.target.value)}>
-              <option value="">Todas las clases</option>
-              {NIZA_CLASES.map(c => (
-                <option key={c.n} value={c.n}>
-                  Clase {c.n} · {c.titulo}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
+        </PaperPanel>
         <div className="flex flex-wrap gap-gob-3">
           <Button
             size="form"
@@ -143,7 +184,7 @@ export function ClasificadorNizaScreen() {
         <section className="space-y-gob-4">
           <div className="flex flex-wrap items-end justify-between gap-gob-3">
             <h2 className="font-heading text-gri-h2 font-medium text-gob-text">Resultados</h2>
-            <label className="flex items-center gap-gob-2 text-gri-body-sm">
+            <label className="flex items-center gap-gob-2 text-gri-body-sm text-gob-text">
               Mostrar
               <select
                 className={cn(selectClass(), 'w-24')}
@@ -161,6 +202,18 @@ export function ClasificadorNizaScreen() {
             </label>
           </div>
 
+          {buscado ? (
+            <PaperPanel className="space-y-gob-2">
+              <p className="flex items-start gap-gob-3 text-gri-body-sm text-gob-text">
+                <Layers className="mt-0.5 size-4 shrink-0 text-gob-primary-dark" aria-hidden />
+                <span>
+                  Cada resultado es una <strong>cobertura preaprobada</strong>: un texto ya alineado con tu producto o servicio y con la clase de Niza. Elegir esa clase
+                  protege el rubro, no solo la frase exacta.
+                </span>
+              </p>
+            </PaperPanel>
+          ) : null}
+
           {!buscado ? (
             <p className="text-gri-body-sm text-muted-foreground">Escribe un producto o servicio y pulsa Buscar.</p>
           ) : slice.length === 0 ? (
@@ -174,7 +227,7 @@ export function ClasificadorNizaScreen() {
                   <li
                     key={`${r.clase}-${r.descripcion}`}
                     className={cn(
-                      'flex flex-col gap-gob-3 rounded-gob-lg border bg-card p-gob-5 shadow-elevation-01 min-[800px]:flex-row min-[800px]:items-center',
+                      'flex flex-col gap-gob-3 rounded-gob-lg border-2 bg-card p-gob-5 min-[800px]:flex-row min-[800px]:items-center',
                       on ? 'border-inapi-marcas-accent' : 'border-gob-border',
                     )}
                   >
@@ -208,20 +261,33 @@ export function ClasificadorNizaScreen() {
                 registros
               </p>
               <nav className="flex flex-wrap items-center gap-2" aria-label="Paginación">
-                <button type="button" className="min-h-11 px-3 disabled:opacity-40" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
+                <button
+                  type="button"
+                  className="min-h-11 px-3 text-gob-text hover:bg-muted disabled:opacity-40"
+                  disabled={page <= 1}
+                  onClick={() => setPage(p => p - 1)}
+                >
                   ‹ Anterior
                 </button>
                 {pageWindow(page, pages).map(n => (
                   <button
                     key={n}
                     type="button"
-                    className={cn('min-h-11 min-w-11 rounded-gob-md px-3', n === page && 'bg-gob-primary text-white')}
+                    className={cn(
+                      'min-h-11 min-w-11 rounded-gob-md px-3',
+                      n === page ? 'bg-gob-primary text-white' : 'text-gob-text hover:bg-muted',
+                    )}
                     onClick={() => setPage(n)}
                   >
                     {n}
                   </button>
                 ))}
-                <button type="button" className="min-h-11 px-3 disabled:opacity-40" disabled={page >= pages} onClick={() => setPage(p => p + 1)}>
+                <button
+                  type="button"
+                  className="min-h-11 px-3 text-gob-text hover:bg-muted disabled:opacity-40"
+                  disabled={page >= pages}
+                  onClick={() => setPage(p => p + 1)}
+                >
                   Siguiente ›
                 </button>
               </nav>
@@ -229,7 +295,7 @@ export function ClasificadorNizaScreen() {
           ) : null}
         </section>
 
-        <section className="space-y-gob-3">
+        <PaperPanel className="space-y-gob-3">
           <h2 className="font-heading text-gri-h2 font-medium text-gob-text">{elegidas.length} clases elegidas</h2>
           {elegidas.length === 0 ? (
             <p className="text-gri-body-sm text-muted-foreground">Aún no has elegido ninguna clase.</p>
@@ -248,10 +314,10 @@ export function ClasificadorNizaScreen() {
                   <caption className="sr-only">Clases elegidas</caption>
                   <thead>
                     <tr className="border-b border-gob-border">
-                      <th className="py-gob-2 pr-gob-3 font-heading font-medium">Clase</th>
-                      <th className="py-gob-2 pr-gob-3 font-heading font-medium">Cobertura</th>
-                      <th className="py-gob-2 pr-gob-3 font-heading font-medium">Tipo de clase</th>
-                      <th className="py-gob-2 font-heading font-medium">Acción</th>
+                      <th className="py-gob-2 pr-gob-3 font-heading font-medium text-gob-text">Clase</th>
+                      <th className="py-gob-2 pr-gob-3 font-heading font-medium text-gob-text">Cobertura</th>
+                      <th className="py-gob-2 pr-gob-3 font-heading font-medium text-gob-text">Tipo de clase</th>
+                      <th className="py-gob-2 font-heading font-medium text-gob-text">Acción</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -259,9 +325,9 @@ export function ClasificadorNizaScreen() {
                       const meta = NIZA_CLASES.find(c => c.n === n)
                       const tipo = n <= 34 ? 'Producto' : 'Servicio'
                       return (
-                        <tr key={n} className="border-b border-gob-border">
-                          <td className="py-gob-3 pr-gob-3 font-medium">Clase {n}</td>
-                          <td className="py-gob-3 pr-gob-3">{meta?.titulo}</td>
+                        <tr key={n} className="border-b border-gob-border hover:bg-muted">
+                          <td className="py-gob-3 pr-gob-3 font-medium text-gob-text">Clase {n}</td>
+                          <td className="py-gob-3 pr-gob-3 text-gob-text">{meta?.titulo}</td>
                           <td className="py-gob-3 pr-gob-3">
                             <span
                               className={cn(
@@ -273,7 +339,7 @@ export function ClasificadorNizaScreen() {
                             </span>
                           </td>
                           <td className="py-gob-3">
-                            <button type="button" className="text-gob-link underline" onClick={() => toggle(n)}>
+                            <button type="button" className="font-medium text-gob-link underline underline-offset-4 hover:text-gob-primary-dark" onClick={() => toggle(n)}>
                               Quitar
                             </button>
                           </td>
@@ -285,9 +351,9 @@ export function ClasificadorNizaScreen() {
               </div>
             </>
           )}
-        </section>
+        </PaperPanel>
         <p className="text-gri-body-sm text-gob-text">
-          Si desea el listado alfabético de la Clasificación de Niza, consulte el que proporciona la Organización Mundial de la Propiedad Intelectual (OMPI).{' '}
+          Si necesita el listado alfabético de la Clasificación de Niza, consulte el que proporciona la Organización Mundial de la Propiedad Intelectual (OMPI).{' '}
           <a href={URLS_EXTERNAS.ompiNiza} className="text-gob-link underline" rel="noopener noreferrer">
             Ver listado OMPI
           </a>

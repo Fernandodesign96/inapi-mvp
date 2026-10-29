@@ -401,8 +401,8 @@ function UnderlineTab({
     'inline-flex min-h-11 shrink-0 items-center gap-gob-2 border-b-2 px-gob-4 text-gri-body-sm font-medium whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
     pressed
       ? accent === 'marcas'
-        ? 'border-inapi-marcas-accent text-gob-text'
-        : 'border-gob-primary text-gob-text'
+        ? 'border-inapi-marcas-accent bg-inapi-marcas-surface text-gob-text'
+        : 'border-gob-primary bg-gob-primary/10 text-gob-primary-dark dark:text-white dark:bg-gob-primary/25'
       : 'border-transparent text-muted-foreground hover:text-gob-text',
   )
   return (
