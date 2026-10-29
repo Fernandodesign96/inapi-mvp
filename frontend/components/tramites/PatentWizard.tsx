@@ -195,7 +195,7 @@ export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
               {step === 'cip' && (
                 <StepSection title="Clasificación Internacional de Patentes">
                   <div className="flex items-start gap-gob-2">
-                    <p className="max-w-3xl text-gri-body-sm leading-[1.55] text-muted-foreground">
+                    <p className="w-full text-gri-body-sm leading-[1.55] text-gob-text">
                       Agrega al menos un código <PlainTerm term="CIP">CIP</PlainTerm>. Completa sección, clase y subclase.
                     </p>
                     <HelpTooltip title="CIP" text="La Clasificación Internacional de Patentes agrupa invenciones por campo técnico.">
@@ -207,7 +207,7 @@ export function PatentWizard({ variant }: { variant: 'patente' | 'diseno' }) {
 
                   <div className="grid gap-gob-5 min-[800px]:grid-cols-2">
                     {(['seccion', 'clase', 'subclase', 'grupo', 'subgrupo'] as const).map(k => (
-                      <div key={k} className="space-y-gob-2 rounded-gob-lg border-2 border-gob-border bg-transparent p-gob-4">
+                      <div key={k} className="space-y-gob-2 rounded-gob-lg border-2 border-gob-border bg-card p-gob-4">
                         <FieldLabel
                           htmlFor={`cip-${k}`}
                           help={{

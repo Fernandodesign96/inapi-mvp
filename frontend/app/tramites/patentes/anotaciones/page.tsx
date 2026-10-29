@@ -1,3 +1,12 @@
 'use client'
-import { CrearAnotacionScreen } from '@/components/tramites/part2-screens'
-export default function Page() { return <CrearAnotacionScreen domain="patentes" /> }
+
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
+export default function Page() {
+  const router = useRouter()
+  useEffect(() => {
+    router.replace('/tramites/patentes/tramites?tipo=anotacion')
+  }, [router])
+  return null
+}

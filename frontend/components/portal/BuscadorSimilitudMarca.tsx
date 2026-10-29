@@ -2,11 +2,12 @@
 
 import { useCallback, useMemo, useState } from 'react'
 import Fuse from 'fuse.js'
-import { Ban, ChevronDown, ChevronLeft, ChevronRight, Info, Scale, Search } from 'lucide-react'
+import { Ban, ChevronDown, ChevronLeft, ChevronRight, Info, Scale, Search, Sparkles, Type } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { GlosarioTerm } from '@/components/GlosarioTerm'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
+import { PaperPanel, ScreenIntro } from '@/components/tramites/TramitesExperience'
 import { selectClass } from '@/components/tramites/ui-helpers'
 import { useClaseSugerida } from '@/hooks/useClaseSugerida'
 import { NIZA_CLASES } from '@/lib/tramites/mock-data'
@@ -291,8 +292,28 @@ export function BuscadorSimilitudMarca() {
 
   return (
     <section className="space-y-gob-6">
-      <p className="text-gri-body text-gob-text">Escribe el nombre de tu marca y el producto o servicio para ver marcas parecidas.</p>
+      <ScreenIntro
+        lead={
+          <p>
+            Escribe el <strong>nombre de tu marca</strong> y el producto o servicio para ver marcas parecidas. El buscador compara{' '}
+            <em>cómo se escribe</em> y <em>cómo suena</em>, no el logo.
+          </p>
+        }
+        points={[
+          {
+            icon: <Type />,
+            title: 'Números también en palabras',
+            body: 'Si tu marca tiene números, búscala de dos formas: «Café 24» y «Café veinticuatro».',
+          },
+          {
+            icon: <Sparkles />,
+            title: 'La clase importa',
+            body: 'Dos marcas parecidas en la misma clase de Niza tienen más riesgo de obstáculo que si están en rubros distintos.',
+          },
+        ]}
+      />
 
+      <PaperPanel className="space-y-gob-5">
       <div className="space-y-gob-2">
         <label htmlFor="marca-query" className="flex items-center gap-gob-2 text-gri-body-sm font-medium">
           Nombre de tu marca
@@ -443,6 +464,7 @@ export function BuscadorSimilitudMarca() {
           </p>
         </div>
       </div>
+      </PaperPanel>
 
       <div className="flex flex-wrap gap-gob-3">
         <Button size="form" disabled={!hasName || cargando} onClick={handleBuscar} className="bg-gob-primary hover:bg-gob-primary-dark">

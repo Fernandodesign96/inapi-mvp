@@ -33,7 +33,7 @@ export function ClaseSugeridaPanel({
 
   return (
     <div className="space-y-gob-6">
-      <section className="space-y-gob-2 rounded-gob-md border-2 border-gob-border bg-transparent p-gob-4">
+      <section className="space-y-gob-2 rounded-gob-md border-2 border-gob-border bg-card p-gob-4">
         <label htmlFor="prod" className="flex items-center text-gri-body font-medium">
           Producto o servicio de tu marca
           <HelpTooltip

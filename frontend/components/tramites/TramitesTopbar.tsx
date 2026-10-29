@@ -11,7 +11,7 @@ import { ScopeSwitch, SidebarBrand, TramitesSidebarNav } from '@/components/tram
 import { TramitesCommandPalette, useCommandShortcut } from '@/components/tramites/TramitesCommandPalette'
 import { useDashboardPrefs } from '@/hooks/useDashboardPrefs'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
-import { NOTIFICACIONES } from '@/lib/tramites/mock-data'
+import { useSolicitudes } from '@/hooks/useSolicitudes'
 import { resolveTramitesHeading } from '@/lib/tramites/nav'
 import { cn } from '@/lib/utils'
 
@@ -33,11 +33,12 @@ function TopbarCrumbs() {
 export function TramitesTopbar() {
   const { tx } = useI18n()
   const { scope, setPrefs } = useDashboardPrefs()
+  const { items } = useSolicitudes()
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const togglePalette = useCallback(() => setPaletteOpen(open => !open), [])
   useCommandShortcut(togglePalette)
-  const count = NOTIFICACIONES.filter(n => n.dominio === scope).length
+  const count = items.filter(n => n.dominio === scope && n.tone === 'required').length
 
   return (
     <header className="sticky top-0 z-40 border-b border-gob-border bg-background/90 backdrop-blur-md">

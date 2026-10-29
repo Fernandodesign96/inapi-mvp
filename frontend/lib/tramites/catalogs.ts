@@ -243,7 +243,34 @@ export const URLS_EXTERNAS = {
   documentosInapi: 'https://documentos.inapi.cl',
   ompiNiza: 'https://www.wipo.int/classifications/nice/nclpub/es/fr/',
   entidadesAcreditadas: 'https://www.entidadacreditadora.gob.cl/entidades/',
+  chileAtiendeFea: 'https://www.chileatiende.gob.cl/fichas/21201-firma-electronica-avanzada',
+  oficioCircular524:
+    'https://www.inapi.cl/docs/default-source/default-document-library/oficio_524_20_imparte_instrucciones_comparecencia.pdf?sfvrsn=3cc687d4_0',
 } as const
+
+export const PODER_TIPO_HELP: Record<string, { title: string; body: string[] }> = {
+  'Poder o Personería': {
+    title: 'Advertencia, usted seleccionó la opción "Poder o Personería"',
+    body: [
+      'La opción "Poder o Personería" permite a los solicitantes de marcas o patentes presentar solo una vez el documento original o copia digital íntegra que otorga el poder a un representante para que tramite marcas o patentes.',
+      'Archivos en formato PDF, digitalizados en PDF o documentos escaneados. Se recomienda guardar como PDF desde Word.',
+      'El tamaño del archivo no debe ser superior a 10 megabytes (10 MB).',
+      'Los documentos deben firmarse, de preferencia, con firma electrónica avanzada emitida por una empresa acreditada en Chile, o debe existir tratado internacional de reciprocidad con el país emisor.',
+      'Si no cuentas con firma electrónica avanzada, puedes presentar una copia digital íntegra, fiel a su original. Revisa el Oficio Circular 524.',
+      'Evita presentar otro tipo de documentos con esta opción. Si el documento no está en español, acompaña una traducción simple.',
+    ],
+  },
+  'Documento Fundante de Anotación': {
+    title: 'Advertencia, usted seleccionó la opción "Documento Fundante de Anotación"',
+    body: [
+      'La opción "Documento Fundante de Anotación" corresponde al documento en que se basa la inscripción solicitada.',
+      'Ejemplo: contrato de compraventa, para una anotación de transferencia total.',
+      'Ejemplo: resolución del tribunal que ordena la traba del embargo, para una anotación de embargo.',
+      'Si el documento fue extendido en un idioma distinto al español, debe acompañarse traducción simple.',
+      'Esta opción es para ingresar los datos del documento fundante. Evita presentar poderes o personerías aquí.',
+    ],
+  },
+}
 
 export type BorradorGuardado = {
   nAtencion: string

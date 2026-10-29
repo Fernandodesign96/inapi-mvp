@@ -7,26 +7,39 @@ import { ArrowLeft, ArrowRight, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ClaveUnicaButton } from '@/components/auth/ClaveUnicaButton'
+import { DemoAccountsPanel } from '@/components/tramites/DemoAccountsPanel'
 import { SkipIfAuthenticated } from '@/components/tramites/SkipIfAuthenticated'
+import { findDemoAccount, type DemoAccount } from '@/lib/tramites/demo-accounts'
 import { nextAfterAuth } from '@/lib/tramites/entry'
 import { goTramites } from '@/lib/tramites/go'
-import { DEMO_USER, signIn } from '@/lib/tramites/session'
-
-function normalizarRun(value: string) {
-  return value.replace(/\./g, '').replace(/\s/g, '').toUpperCase()
-}
+import { signIn } from '@/lib/tramites/session'
 
 export default function TramitesAuthPage() {
   const [run, setRun] = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
+  const [error, setError] = useState('')
   const [cargandoInstitucional, setCargandoInstitucional] = useState(false)
 
-  const entrar = () => {
+  const pickAccount = (account: DemoAccount) => {
+    setRun(account.runDigits)
+    setPassword(account.clave)
+    setError('')
+  }
+
+  const entrar = (account?: DemoAccount) => {
+    const found = account ?? findDemoAccount(run, password)
+    if (!found) {
+      setError('Usa un RUT de las cuentas de ejemplo y, como clave, los últimos 4 dígitos.')
+      return
+    }
     setCargandoInstitucional(true)
     signIn({
       metodo: 'clave-inapi',
-      run: run ? normalizarRun(run) : DEMO_USER.run,
+      run: found.runDigits,
+      nombre: found.nombre,
+      email: `${found.runDigits}@demo.inapi.cl`,
+      registered: found.persona !== 'nuevo',
     })
     window.setTimeout(() => goTramites(nextAfterAuth(window.location.search)), 800)
   }
@@ -40,7 +53,7 @@ export default function TramitesAuthPage() {
   return (
     <SkipIfAuthenticated>
     <div className="flex min-h-svh items-center justify-center bg-[var(--story-mist)] px-gob-4 py-gob-8">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-2xl">
         <Link
           href="/tramites"
           className="mb-gob-4 inline-flex min-h-11 items-center gap-gob-2 rounded-gob-sm text-gri-body font-medium text-gob-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus"
@@ -49,8 +62,8 @@ export default function TramitesAuthPage() {
           Volver a trámites en línea
         </Link>
 
-        <div className="overflow-hidden rounded-gob-xl border border-gob-border bg-card text-card-foreground shadow-elevation-04">
-          <div className="h-1.5 bg-gradient-to-r from-gob-primary to-gob-primary-dark" />
+        <div className="overflow-hidden rounded-gob-xl border-2 border-gob-border bg-card text-card-foreground shadow-elevation-04">
+          <div className="h-1.5 bg-gradient-to-r from-gob-primary to-[var(--story-night)]" />
 
           <div className="space-y-gob-5 px-gob-6 pb-gob-7 pt-gob-6">
             <div className="flex flex-col items-center gap-gob-4 text-center">
@@ -66,7 +79,7 @@ export default function TramitesAuthPage() {
                   Bienvenido al portal de trámites INAPI
                 </h1>
                 <p className="text-gri-body-sm leading-relaxed text-gob-text">
-                  Inicia sesión para gestionar tus marcas y patentes.
+                  Inicia sesión para consultar el estado de tus marcas y patentes.
                 </p>
               </div>
             </div>
@@ -74,13 +87,13 @@ export default function TramitesAuthPage() {
             <form onSubmit={handleLoginForm} className="space-y-gob-4">
               <div className="space-y-2">
                 <label htmlFor="run" className="gri-field-label block">
-                  RUN
+                  Cuenta INAPI
                 </label>
                 <Input
                   id="run"
                   type="text"
-                  inputMode="text"
-                  placeholder="12.345.678-9"
+                  inputMode="numeric"
+                  placeholder="RUT numérico sin dígito verificador"
                   value={run}
                   onChange={e => setRun(e.target.value)}
                   className="h-11 text-gri-body-sm"
@@ -91,13 +104,13 @@ export default function TramitesAuthPage() {
 
               <div className="space-y-2">
                 <label htmlFor="password" className="gri-field-label block">
-                  Contraseña institucional
+                  Contraseña
                 </label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPass ? 'text' : 'password'}
-                    placeholder="Contraseña institucional"
+                    placeholder="Ingresa tu contraseña"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     className="h-11 pr-11 text-gri-body-sm"
@@ -115,6 +128,8 @@ export default function TramitesAuthPage() {
                 </div>
               </div>
 
+              {error ? <p className="text-gri-body-sm text-gob-danger">{error}</p> : null}
+
               <Button
                 type="submit"
                 disabled={!run.trim() || !password || cargandoInstitucional}
@@ -125,7 +140,7 @@ export default function TramitesAuthPage() {
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                 ) : (
                   <>
-                    Iniciar sesión
+                    Ingresar
                     <ArrowRight className="h-4 w-4" />
                   </>
                 )}
@@ -135,19 +150,23 @@ export default function TramitesAuthPage() {
             <div className="space-y-gob-4">
               <div className="flex items-center gap-gob-3">
                 <div className="h-px flex-1 bg-gob-border" />
-                <span className="whitespace-nowrap text-gri-body-xs font-medium text-gob-text">
-                  O puedes ingresar con tu ClaveÚnica
-                </span>
+                <span className="whitespace-nowrap text-gri-body-xs font-medium text-gob-text">o</span>
                 <div className="h-px flex-1 bg-gob-border" />
               </div>
 
-              <div className="flex justify-center">
-                <ClaveUnicaButton
-                  onClick={() => goTramites(`/tramites/clave-unica${window.location.search}`)}
-                  disabled={cargandoInstitucional}
-                />
-              </div>
+              <ClaveUnicaButton
+                onClick={() => goTramites(`/tramites/clave-unica${window.location.search}`)}
+                disabled={cargandoInstitucional}
+                className="w-full"
+              />
             </div>
+
+            <p className="text-gri-body-xs leading-relaxed text-muted-foreground">
+              Cuenta INAPI: RUT numérico sin dígito verificador y los últimos 4 dígitos como clave. ClaveÚnica abre los 3
+              perfiles de demostración (nuevo, con acciones y con un trámite).
+            </p>
+
+            <DemoAccountsPanel onPick={pickAccount} />
           </div>
         </div>
 

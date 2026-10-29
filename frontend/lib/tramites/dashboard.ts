@@ -112,7 +112,7 @@ const TO_PATENTES: Record<string, string> = {
   '/tramites/marcas/solicitar': '/tramites/patentes/solicitar',
   '/tramites/marcas/clasificador': '/tramites/patentes/buscador',
   '/tramites/marcas/solicitudes-guardadas': '/tramites/patentes/solicitudes-guardadas',
-  '/tramites/marcas/tramites': '/tramites/patentes/anotaciones',
+  '/tramites/marcas/tramites': '/tramites/patentes/tramites',
   '/tramites/marcas/pagos': '/tramites/patentes/pagos',
   '/tramites/marcas/escritos': '/tramites/patentes/escritos',
   '/tramites/marcas/anotaciones-guardadas': '/tramites/patentes/anotaciones-guardadas',
@@ -131,6 +131,8 @@ const TO_MARCAS: Record<string, string> = {
   ...Object.fromEntries(Object.entries(TO_PATENTES).map(([from, to]) => [to, from])),
   '/tramites/patentes/solicitar-diseno': '/tramites/marcas/solicitar',
   '/tramites/patentes/presentar-escritos': '/tramites/marcas/escritos',
+  '/tramites/patentes/anotaciones': '/tramites/marcas/tramites',
+  '/tramites/patentes/tramites': '/tramites/marcas/tramites',
   '/tramites/patentes/documentacion-pct': '/tramites/marcas/datos-abiertos',
   '/tramites/patentes/buscador/avanzada': '/tramites/marcas/clasificador',
 }
@@ -139,7 +141,9 @@ export function counterpartHref(pathname: string, search: string, target: Tramit
   const path = tramitesPath(pathname)
   if (path === '/tramites' || path === '/') return '/tramites'
   if (path === '/tramites/notificaciones') return `/tramites/notificaciones?ambito=${target}`
-  if (path === '/tramites/custodia-poderes') return path
+  if (path === '/tramites/custodia-poderes') {
+    return target === 'patentes' ? '/tramites/patentes/tramites?tipo=poderes' : '/tramites/marcas/tramites?tipo=poderes'
+  }
   const mapped = target === 'patentes' ? TO_PATENTES[path] : TO_MARCAS[path]
   if (mapped) return mapped
   const cat = categoryForPath(path)
@@ -154,9 +158,9 @@ export function counterpartHref(pathname: string, search: string, target: Tramit
 
 const PREFS_EVENT = 'tramites-dashboard-prefs'
 
-export type DashboardPrefs = { scope: TramitesDomain; collapsed: boolean }
+export type DashboardPrefs = { scope: TramitesDomain; collapsed: boolean; persona: 'frecuente' | 'natural' | 'nuevo' }
 
-const DEFAULT_PREFS: DashboardPrefs = { scope: 'marcas', collapsed: false }
+const DEFAULT_PREFS: DashboardPrefs = { scope: 'marcas', collapsed: false, persona: 'frecuente' }
 const PREFS_KEY = 'inapi-tramites-dashboard'
 
 let cachedRaw: string | null | undefined
@@ -176,6 +180,7 @@ export function readDashboardPrefs(): DashboardPrefs {
     cachedPrefs = {
       scope: parsed.scope === 'patentes' ? 'patentes' : 'marcas',
       collapsed: parsed.collapsed === true,
+      persona: parsed.persona === 'natural' || parsed.persona === 'nuevo' ? parsed.persona : 'frecuente',
     }
   } catch {
     cachedPrefs = DEFAULT_PREFS

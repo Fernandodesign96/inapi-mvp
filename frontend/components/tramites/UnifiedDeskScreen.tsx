@@ -2,14 +2,15 @@
 
 import { useMemo, useState, type FormEvent } from 'react'
 import { CalendarDays, ChevronDown, CircleDot, FileText, Landmark } from 'lucide-react'
-import { CompactProcessTimeline, type JourneyStep } from '@/components/story/JourneyRail'
+import { CompactGuideTimeline, CompactProcessTimeline, type JourneyStep } from '@/components/story/JourneyRail'
+import { DeskProcedureBody, type DeskPanel } from '@/components/tramites/DeskProcedureBody'
 import { FactList, HelperCard } from '@/components/tramites/TramitesExperience'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { HelpTooltip } from '@/components/tramites/HelpTooltip'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
 import { Field, FilterPanel } from '@/components/tramites/FilterPanel'
-import { AlertBanner, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
+import { TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import { FilterActionBar, useTramitesChrome } from '@/components/tramites/TramitesScreenChrome'
 import { useI18n } from '@/lib/i18n/LocaleProvider'
 import { DEMO_NUMEROS } from '@/lib/tramites/catalogs'
@@ -30,6 +31,15 @@ export type DeskResult = {
   details: { label: string; value: string }[]
 }
 
+type DeskHelp = {
+  title: string
+  hint?: string
+  sections: { title: string; body: string }[]
+  panel?: DeskPanel
+  guideSteps?: string[]
+  actions?: { title: string; body: string }[]
+}
+
 type DeskConfig = {
   domain: 'marcas' | 'patentes'
   title: string
@@ -38,7 +48,9 @@ type DeskConfig = {
   fields: DeskField[]
   results: DeskResult[]
   presentation?: 'search' | 'tabs'
-  typeHelp?: Record<string, { title: string; hint?: string; sections: { title: string; body: string }[] }>
+  extraFilters?: boolean
+  cardMode?: 'status' | 'guide'
+  typeHelp?: Record<string, DeskHelp>
 }
 
 const KIND_LABEL: Record<DeskKind, string> = {
@@ -52,114 +64,93 @@ export const MARCAS_TRAMITES_DESK: DeskConfig = {
   domain: 'marcas',
   title: 'Realiza otras solicitudes y presentaciones de marcas',
   description:
-    'Es el envío de un escrito o una solicitud a un expediente ya abierto: renovación, anotación, oposición, Sistema de Madrid o custodia de poderes. Completa un dato identificador y revisa los expedientes relacionados.',
+    'Completa el número de solicitud, de registro o el nombre de la marca una vez. Con esos datos puedes abrir renovación, anotación, escritos, oposición, Madrid o custodia de poderes sin volver a escribirlos.',
+  extraFilters: false,
+  cardMode: 'guide',
   typeHelp: {
     'Solicitar marca Sistema de Madrid': {
       title: 'Sistema de Madrid',
       hint: 'Registro internacional desde Chile',
+      panel: 'madrid',
+      guideSteps: ['Marca base en Chile', 'Oficina de origen INAPI', 'Tasas OMPI', 'Países designados'],
+      actions: [
+        { title: 'Qué puedes hacer', body: 'Pedir protección de tu marca chilena en otros países con una sola gestión internacional.' },
+        { title: 'Dónde se tramita', body: 'En Madrid e-filing, un sitio distinto. Este portal no comparte tu sesión.' },
+      ],
       sections: [
-        {
-          title: 'Qué cubre este trámite',
-          body: 'Extiende tu marca chilena a otros países del Sistema de Madrid con una sola gestión ante INAPI, que actúa como oficina de origen.',
-        },
-        {
-          title: 'Qué necesitas',
-          body: 'Una solicitud o registro de marca en Chile, el listado de países designados y el signo igual al de la marca de origen.',
-        },
-        {
-          title: 'Plazo y tasas',
-          body: 'Las tasas se pagan a la OMPI en francos suizos. INAPI cobra además la tarifa de oficina de origen. Revisa el calculador de tasas Madrid antes de presentar.',
-        },
+        { title: 'Qué cubre', body: 'Extiende tu marca chilena a países del Sistema de Madrid. INAPI actúa como oficina de origen.' },
+        { title: 'Qué necesitas', body: 'Una solicitud o registro en Chile, los países designados y el mismo signo de la marca de origen.' },
+        { title: 'Tasas', body: 'Las tasas internacionales se pagan a la OMPI en francos suizos. INAPI cobra la tarifa de oficina de origen.' },
       ],
     },
     'Solicitar renovaciones': {
       title: 'Renovación',
       hint: 'Vigencia por un nuevo decenio',
+      panel: 'renovacion',
+      guideSteps: ['Identificar el registro', 'Revisar el vencimiento', 'Pagar la tasa', 'Nueva vigencia'],
+      actions: [
+        { title: 'Plazo', body: 'Desde 6 meses antes del vencimiento y hasta 6 meses después.' },
+        { title: 'Qué se paga', body: 'La tasa cubre diez años más, por cada clase que mantengas.' },
+      ],
       sections: [
-        {
-          title: 'Cuándo renovar',
-          body: 'Puedes renovar desde 6 meses antes del vencimiento y hasta 6 meses después, con recargo si ya venció.',
-        },
-        {
-          title: 'Qué se paga',
-          body: 'La tasa cubre 10 años más. Si el registro tiene varias clases, el monto se calcula por cada clase que mantengas.',
-        },
-        {
-          title: 'Después del pago',
-          body: 'INAPI actualiza la vigencia en el expediente. Conserva el comprobante TGR o el Formulario 10 si pagaste en banco.',
-        },
+        { title: 'Cuándo renovar', body: 'Ingresa el número de registro vigente. Puedes solicitarla 6 meses antes y hasta 6 meses después del vencimiento.' },
+        { title: 'Después del pago', body: 'INAPI actualiza la vigencia. Conserva el comprobante TGR o el Formulario 10 si pagaste en banco.' },
       ],
     },
     'Solicitar anotación de marcas': {
       title: 'Anotación',
       hint: 'Cambio de titular, nombre u otro acto',
+      panel: 'anotacion',
+      guideSteps: ['Elegir el tipo', 'Adjuntar respaldo', 'Examen de forma', 'Constancia en el registro'],
+      actions: [
+        { title: 'Inscripción', body: 'Transferencia, embargo, licencia, prenda o medida que debe constar.' },
+        { title: 'Alzamiento', body: 'Deja sin efecto una anotación ya inscrita cuando cesa el acto.' },
+      ],
       sections: [
-        {
-          title: 'Qué puedes anotar',
-          body: 'Transferencia, cambio de nombre o domicilio, embargo, licencia, prenda y otros actos que deben constar en el registro.',
-        },
-        {
-          title: 'Documentos',
-          body: 'Adjunta el instrumento que acredita el acto (escritura, contrato o resolución) y el poder si actúa un representante.',
-        },
-        {
-          title: 'Efecto',
-          body: 'La anotación queda visible en el expediente y en el libro de registro una vez aceptada y pagada, si corresponde tasa.',
-        },
+        { title: 'Cambio de nombre', body: 'Cuando el titular cambia de nombre. El RUT del titular actual coincide con el del nuevo titular.' },
+        { title: 'Transferencia total', body: 'El derecho pasa a otra persona (compraventa, donación, sucesión u otro título), en todas las clases del registro.' },
+        { title: 'Otros tipos', body: 'Embargo, licencia, medida precautoria, prenda y prohibición, cada uno con inscripción o alzamiento. Ábrelos con Ver tipos.' },
       ],
     },
     'Presentar escritos de marcas': {
       title: 'Escritos',
       hint: 'Respuesta a un oficio o presentación',
+      panel: 'escritos',
+      guideSteps: ['Identificar el expediente', 'Elegir el destino', 'Adjuntar el PDF', 'Presentar'],
+      actions: [
+        { title: 'Cuándo usarlo', body: 'Contestar un oficio, acompañar documentos o presentar en un expediente ya abierto.' },
+        { title: 'Formato', body: 'PDF firmado cuando se exija. Hay ejemplos en Formularios de marcas.' },
+      ],
       sections: [
-        {
-          title: 'Cuándo usarlo',
-          body: 'Para contestar un oficio de forma o de fondo, acompañar documentos o hacer una presentación en un expediente ya iniciado.',
-        },
-        {
-          title: 'Plazo',
-          body: 'El oficio indica el plazo. Si vence, el trámite puede abandonarse. Revisa la notificación en Mis solicitudes.',
-        },
-        {
-          title: 'Formato',
-          body: 'Puedes descargar ejemplos de escritos en Formularios de marcas. El archivo debe ser PDF y estar firmado cuando se exija.',
-        },
+        { title: 'Destinos', body: 'Solicitud de marcas, anotación y renovación, nulidad, caducidad, cancelación de IG/DO o limitación territorial.' },
+        { title: 'Plazo', body: 'El oficio indica el plazo. Si vence, el trámite puede abandonarse.' },
       ],
     },
     'Presentar demanda de oposición': {
       title: 'Oposición',
       hint: 'Impugnar una marca publicada',
+      panel: 'oposicion',
+      guideSteps: ['Publicación', 'Fundamento y pruebas', 'Presentación con abogado', 'Traslado al solicitante'],
+      actions: [
+        { title: 'Requisito legal', body: 'Debes comparecer patrocinado por abogado habilitado (Ley 18.120).' },
+        { title: 'Plazo', body: 'Dentro del plazo de publicación en el Diario Oficial, según el art. 5° de la Ley de Propiedad Industrial.' },
+      ],
       sections: [
-        {
-          title: 'Plazo',
-          body: 'Tienes 30 días hábiles desde la publicación en el Diario Oficial para oponerte a una solicitud de marca.',
-        },
-        {
-          title: 'Fundamento',
-          body: 'Indica el número de la marca publicada y las causales (similitud, anterioridad u otras). Adjunta pruebas y poder si aplica.',
-        },
-        {
-          title: 'Qué sigue',
-          body: 'INAPI notifica al solicitante. El expediente queda en oposición hasta la resolución. Puedes seguir el estado aquí.',
-        },
+        { title: 'Qué presentar', body: 'El número de la marca publicada, las causales y las pruebas. INAPI notifica al solicitante.' },
       ],
     },
     'Custodia de poderes y personerías': {
       title: 'Custodia de poderes',
       hint: 'Un poder para varios trámites',
+      panel: 'poderes',
+      guideSteps: ['Identificar a las partes', 'Adjuntar el PDF', 'Declaración de responsabilidad', 'Código de custodia'],
+      actions: [
+        { title: 'Poder o personería', body: 'Se presenta una vez y se cita en trámites siguientes.' },
+        { title: 'Documento fundante', body: 'Instrumento que respalda una anotación, por ejemplo un contrato o una resolución.' },
+      ],
       sections: [
-        {
-          title: 'Para qué sirve',
-          body: 'Dejas el poder o la personería en INAPI y lo citas en los trámites siguientes, sin volver a adjuntar el mismo documento.',
-        },
-        {
-          title: 'Vigencia',
-          body: 'El poder rige mientras no lo revoques o venza. Conserva el código de custodia que se asigna al ingresarlo.',
-        },
-        {
-          title: 'Quién puede usarlo',
-          body: 'El representante individualizado en el poder. Si cambia el representante, presenta un poder nuevo.',
-        },
+        { title: 'Requisitos del archivo', body: 'Solo PDF, máximo 10 MB. Preferir firma electrónica avanzada de una empresa acreditada en Chile.' },
+        { title: 'Sin FEA', body: 'Puedes presentar copia digital íntegra, fiel al original. Revisa el Oficio Circular 524.' },
       ],
     },
   },
@@ -190,99 +181,81 @@ export const MARCAS_TRAMITES_DESK: DeskConfig = {
       placeholder: 'Ejemplo: Andes Café',
     },
   ],
-  results: [
-    {
-      id: 'm-ren',
-      title: 'Renovación — Andes Café',
-      procedure: 'Solicitar renovaciones',
-      kind: 'marca',
-      updated: '2026-10-08',
-      status: 'Vigente',
-      stage: 'Pago de renovación',
-      summary: 'El registro vence el 12-03-2027. Puedes renovar ahora y pagar la tasa del nuevo decenio.',
-      details: [
-        { label: 'Número de registro', value: DEMO_NUMEROS.registroMarca },
-        { label: 'Clases', value: '30, 43' },
-        { label: 'Titular', value: 'Andes Café SpA' },
+  results: [],
+}
+
+export const PATENTES_TRAMITES_DESK: DeskConfig = {
+  domain: 'patentes',
+  title: 'Realiza otras solicitudes y presentaciones de patentes',
+  description:
+    'Completa el número de solicitud o de registro una vez. Con esos datos puedes abrir una anotación, un escrito o la custodia de poderes sin volver a escribirlos.',
+  extraFilters: false,
+  cardMode: 'guide',
+  typeHelp: {
+    'Solicitar anotación de patentes': {
+      title: 'Anotación',
+      hint: 'Cambio en patente, modelo o diseño',
+      panel: 'anotacion',
+      guideSteps: ['Elegir el tipo', 'Adjuntar respaldo', 'Examen de forma', 'Constancia en el registro'],
+      actions: [
+        { title: 'Inscripción', body: 'Embargo, licencia, prenda, quiebra u otro acto que debe constar en el derecho.' },
+        { title: 'Alzamiento', body: 'Deja sin efecto una anotación ya inscrita.' },
+      ],
+      sections: [
+        { title: 'Tipos', body: 'Cambio de nombre, transferencia, embargo, licencia, medida precautoria, prenda, prohibición, quiebra u otros, en inscripción o alzamiento.' },
+        { title: 'Documentos', body: 'Adjunta el instrumento que acredita el acto y el poder si actúa un representante.' },
       ],
     },
-    {
-      id: 'm-anot',
-      title: 'Anotación de transferencia',
-      procedure: 'Solicitar anotación de marcas',
-      kind: 'marca',
-      updated: '2026-09-22',
-      status: 'En trámite',
-      stage: 'Examen de forma',
-      summary: 'Cambio de titular pendiente de documentos de respaldo.',
-      details: [
-        { label: 'Número de solicitud', value: DEMO_NUMEROS.solicitudMarca },
-        { label: 'Tipo de anotación', value: 'Transferencia' },
+    'Presentar escritos de patentes': {
+      title: 'Escritos',
+      hint: 'Presentación a un expediente abierto',
+      panel: 'escritos',
+      guideSteps: ['Identificar el expediente', 'Elegir el destino', 'Adjuntar el PDF', 'Presentar'],
+      actions: [
+        { title: 'Destinos', body: 'Solicitud de patente, anotación de patente o demanda de nulidad.' },
+        { title: 'Formato', body: 'PDF. Hay ejemplos de escritos en Formularios de patentes.' },
+      ],
+      sections: [
+        { title: 'Cuándo usarlo', body: 'Para contestar un oficio, acompañar documentos o presentar en un expediente ya iniciado.' },
       ],
     },
-    {
-      id: 'm-esc',
-      title: 'Escrito de respuesta a oficio',
-      procedure: 'Presentar escritos de marcas',
-      kind: 'marca',
-      updated: '2026-08-14',
-      status: 'Notificado',
-      stage: 'Plazo de 30 días',
-      summary: 'Hay un oficio de forma. Adjunta el escrito y los anexos en este expediente.',
-      details: [
-        { label: 'Número de solicitud', value: DEMO_NUMEROS.solicitudMarca },
-        { label: 'Oficio', value: 'OF-2026-4412' },
+    'Custodia de poderes y personerías': {
+      title: 'Custodia de poderes',
+      hint: 'Un poder para varios trámites',
+      panel: 'poderes',
+      guideSteps: ['Identificar a las partes', 'Adjuntar el PDF', 'Declaración de responsabilidad', 'Código de custodia'],
+      actions: [
+        { title: 'Poder o personería', body: 'Se presenta una vez y se cita en trámites de marcas o patentes.' },
+        { title: 'Documento fundante', body: 'Instrumento que respalda una anotación.' },
+      ],
+      sections: [
+        { title: 'Requisitos', body: 'PDF de hasta 10 MB. Preferir FEA de una empresa acreditada en Chile o copia digital íntegra según el Oficio Circular 524.' },
       ],
     },
+  },
+  types: ['Solicitar anotación de patentes', 'Presentar escritos de patentes', 'Custodia de poderes y personerías'],
+  fields: [
     {
-      id: 'm-opo',
-      title: 'Oposición a solicitud publicada',
-      procedure: 'Presentar demanda de oposición',
-      kind: 'marca',
-      updated: '2026-07-30',
-      status: 'Publicada',
-      stage: 'Plazo de oposición',
-      summary: 'La solicitud 1388221 “Andes Koffee” está en publicación. Puedes oponerte con tu marca anterior.',
-      details: [
-        { label: 'Solicitud impugnada', value: '1388221' },
-        { label: 'Diario Oficial', value: '04-07-2026' },
-      ],
+      id: 'solicitud',
+      label: 'Número de solicitud',
+      placeholder: `Ejemplo: ${DEMO_NUMEROS.solicitudPatente}`,
+      tooltip: `Prueba con ${DEMO_NUMEROS.solicitudPatente}.`,
     },
     {
-      id: 'm-mad',
-      title: 'Extensión Sistema de Madrid',
-      procedure: 'Solicitar marca Sistema de Madrid',
-      kind: 'marca',
-      updated: '2026-06-18',
-      status: 'Registrada',
-      stage: 'Oficina de origen',
-      summary: 'Marca base chilena lista para designar países en Madrid e-filing.',
-      details: [
-        { label: 'Número de registro', value: DEMO_NUMEROS.registroMarca },
-        { label: 'Países sugeridos', value: 'Perú, Colombia' },
-      ],
-    },
-    {
-      id: 'm-pod',
-      title: 'Poder en custodia',
-      procedure: 'Custodia de poderes y personerías',
-      kind: 'marca',
-      updated: '2026-05-02',
-      status: 'Custodiado',
-      stage: 'Vigente',
-      summary: 'El poder de Andes Café SpA ya está ingresado. Cítalo en los trámites siguientes sin volver a adjuntarlo.',
-      details: [
-        { label: 'Código de custodia', value: 'POD-2026-771' },
-        { label: 'Representante', value: 'Marina Soto' },
-      ],
+      id: 'registro',
+      label: 'Número de registro',
+      placeholder: 'Ejemplo: 61234',
     },
   ],
+  results: [],
 }
 
 export const MARCAS_PAGOS_DESK: DeskConfig = {
   domain: 'marcas',
   title: 'Realiza todos tus pagos de marcas aquí',
   presentation: 'tabs',
+  extraFilters: true,
+  cardMode: 'guide',
   description:
     'Son las vías para pagar tasas de INAPI: Tesorería, Formulario 10 en banco y otros pagos del expediente. El pago de la publicación en el Diario Oficial se hace en el sitio de esa publicación.',
   typeHelp: {
@@ -417,6 +390,8 @@ export const PATENTES_PAGOS_DESK: DeskConfig = {
   domain: 'patentes',
   title: 'Realiza todos tus pagos de patentes aquí',
   presentation: 'tabs',
+  extraFilters: true,
+  cardMode: 'guide',
   description:
     'Son las vías para pagar tasas de INAPI: Tesorería, Formulario 10 en banco y otros pagos del expediente. Completa un identificador y revisa el detalle a la derecha.',
   typeHelp: {
@@ -673,6 +648,27 @@ function deskPipeline(item: DeskResult): JourneyStep[] {
   }))
 }
 
+function GuideCard({ item, steps }: { item: DeskResult; steps?: string[] }) {
+  const { tx } = useI18n()
+  return (
+    <article className="space-y-gob-4 rounded-gob-lg border-2 border-gob-border bg-card p-gob-5">
+      <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-gob-primary-dark">
+        {tx(item.procedure)} · {tx(KIND_LABEL[item.kind])}
+      </p>
+      <h3 className="font-heading text-xl font-medium text-gob-text">{tx(item.title)}</h3>
+      <p className="text-gri-body-sm leading-[1.55] text-gob-text/80">{tx(item.summary)}</p>
+      {steps?.length ? <CompactGuideTimeline steps={steps} /> : null}
+      <FactList
+        items={item.details.map(row => ({
+          icon: <FileText />,
+          label: tx(row.label),
+          value: row.value,
+        }))}
+      />
+    </article>
+  )
+}
+
 function ResultCard({ item }: { item: DeskResult }) {
   const { tx } = useI18n()
   const [open, setOpen] = useState(false)
@@ -714,12 +710,44 @@ function ResultCard({ item }: { item: DeskResult }) {
   )
 }
 
+const TIPO_SLUG: Record<string, string> = {
+  madrid: 'Solicitar marca Sistema de Madrid',
+  renovacion: 'Solicitar renovaciones',
+  anotacion: 'Solicitar anotación de marcas',
+  escritos: 'Presentar escritos de marcas',
+  oposicion: 'Presentar demanda de oposición',
+  poderes: 'Custodia de poderes y personerías',
+  'anotacion-patentes': 'Solicitar anotación de patentes',
+  'escritos-patentes': 'Presentar escritos de patentes',
+}
+
+function initialProcedure(types: string[]) {
+  if (typeof window === 'undefined') return types[0]
+  const tipo = new URLSearchParams(window.location.search).get('tipo') ?? ''
+  const mapped = TIPO_SLUG[tipo]
+  if (mapped && types.includes(mapped)) return mapped
+  if (tipo && types.includes(tipo)) return tipo
+  const poderes = types.find(t => t.toLowerCase().includes('poder'))
+  if (tipo === 'poderes' && poderes) return poderes
+  const anot = types.find(t => t.toLowerCase().includes('anotación') || t.toLowerCase().includes('anotacion'))
+  if ((tipo === 'anotacion' || tipo === 'anotacion-patentes') && anot) return anot
+  const esc = types.find(t => t.toLowerCase().includes('escrito'))
+  if ((tipo === 'escritos' || tipo === 'escritos-patentes') && esc) return esc
+  return types[0]
+}
+
 export function UnifiedDeskScreen({ config }: { config: DeskConfig }) {
   const { tx } = useI18n()
   const [values, setValues] = useState<Record<string, string>>({})
   const [searched, setSearched] = useState(false)
   const tabs = config.presentation === 'tabs'
-  const [procedure, setProcedure] = useState(config.types[0])
+  const typesKey = config.types.join('\0')
+  const [procedure, setProcedure] = useState(() => initialProcedure(config.types))
+  const [syncedTypes, setSyncedTypes] = useState(typesKey)
+  if (syncedTypes !== typesKey) {
+    setSyncedTypes(typesKey)
+    setProcedure(initialProcedure(config.types))
+  }
   const [kind, setKind] = useState('todas')
   const [status, setStatus] = useState('todas')
   const [stage, setStage] = useState('todas')
@@ -763,18 +791,14 @@ export function UnifiedDeskScreen({ config }: { config: DeskConfig }) {
         id: type,
         label: type,
         pressed: procedure === type,
-        onSelect: () => {
-          setProcedure(type)
-          setSearched(false)
-          setValues({})
-        },
+        onSelect: () => setProcedure(type),
       })),
-      filterEnabled: true,
+      filterEnabled: Boolean(config.extraFilters),
       filterInline: true,
       filterOpen,
       onFilterToggle: () => setFilterOpen(v => !v),
     },
-    [config.types, procedure, filterOpen],
+    [config.types, procedure, filterOpen, config.extraFilters],
   )
 
   const fieldCount = Math.max(config.fields.length, 1)
@@ -828,16 +852,18 @@ export function UnifiedDeskScreen({ config }: { config: DeskConfig }) {
   ) : null
 
   const resultsBlock =
-    visible.length === 0 ? (
-      <AlertBanner>{tx('No hay trámites que coincidan con los filtros.')}</AlertBanner>
-    ) : (
+    visible.length === 0 ? null : (
       <div className="space-y-gob-3">
         <p className="text-gri-body-sm text-muted-foreground">
           {visible.length} {tx(visible.length === 1 ? 'resultado' : 'resultados')}
         </p>
-        {visible.map(item => (
-          <ResultCard key={item.id} item={item} />
-        ))}
+        {visible.map(item =>
+          config.cardMode === 'guide' ? (
+            <GuideCard key={item.id} item={item} steps={help?.guideSteps} />
+          ) : (
+            <ResultCard key={item.id} item={item} />
+          ),
+        )}
       </div>
     )
 
@@ -846,6 +872,9 @@ export function UnifiedDeskScreen({ config }: { config: DeskConfig }) {
       <TramitesMain>
         <div className="flex items-start gap-gob-5">
           <div className="min-w-0 flex-1 space-y-gob-4">
+            <p className="text-gri-body-sm leading-[1.55] text-gob-text/80">
+              Completa estos datos para acceder a cualquiera de los trámites de esta sección. Al cambiar de pestaña no los vuelves a ingresar.
+            </p>
             <form className="space-y-gob-4" onSubmit={submitForm}>
               {help ? (
                 <>
@@ -874,7 +903,7 @@ export function UnifiedDeskScreen({ config }: { config: DeskConfig }) {
               )}
             </form>
 
-        {filterOpen ? (
+        {config.extraFilters && filterOpen ? (
             <FilterPanel title={tx('Filtros')} bare>
               <Field id="f-proc" label={tx('Tipo de trámite')}>
                 <select id="f-proc" className={selectClass()} value={procedure} onChange={e => setProcedure(e.target.value)}>
@@ -930,7 +959,21 @@ export function UnifiedDeskScreen({ config }: { config: DeskConfig }) {
             </FilterPanel>
         ) : null}
 
-            {resultsBlock}
+            {help?.panel || help?.actions || help?.guideSteps || config.extraFilters ? (
+              <DeskProcedureBody
+                panel={help?.panel}
+                domain={config.domain}
+                unlocked={searched}
+                guideSteps={
+                  help?.guideSteps ??
+                  (config.extraFilters
+                    ? ['Identificar el expediente', 'Revisar el cobro', 'Pagar en TGR o banco', 'Comprobante']
+                    : undefined)
+                }
+                actions={help?.actions}
+              />
+            ) : null}
+            {searched ? resultsBlock : null}
           </div>
           {helpCard ? <aside className="hidden w-[18.5rem] shrink-0 min-[1100px]:block">{helpCard}</aside> : null}
         </div>

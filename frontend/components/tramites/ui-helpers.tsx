@@ -131,8 +131,10 @@ export function ScopeTabs({
       className={cn(
         'rounded-t-md px-gob-4 py-gob-2 text-gri-body-sm font-medium transition-colors duration-150',
         current === id
-          ? 'bg-[var(--story-night)] text-white dark:bg-[#0F69C4]'
-          : 'bg-gob-surface-elevated text-gob-text hover:bg-gob-border',
+          ? id === 'marcas'
+            ? 'bg-inapi-marcas-accent text-white'
+            : 'bg-gob-primary text-white'
+          : 'bg-gob-surface-elevated text-gob-text hover:bg-muted',
       )}
     >
       {label}
@@ -159,7 +161,7 @@ export function StepSection({
     <section className="space-y-gob-5 rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01 min-[905px]:p-gob-6">
       <header className="space-y-gob-2 border-b border-gob-border pb-gob-4">
         <h2 className="font-heading text-gri-h2 font-medium text-gob-text">{title}</h2>
-        {description ? <p className="max-w-3xl text-gri-body-sm leading-[1.55] text-muted-foreground">{description}</p> : null}
+        {description ? <p className="w-full text-gri-body-sm leading-[1.55] text-muted-foreground">{description}</p> : null}
       </header>
       {children}
     </section>

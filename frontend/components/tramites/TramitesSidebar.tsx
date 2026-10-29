@@ -30,9 +30,10 @@ import {
   tramitesPath,
   type TramitesCategoryId,
 } from '@/lib/tramites/dashboard'
-import { NOTIFICACIONES } from '@/lib/tramites/mock-data'
+import { useSolicitudes } from '@/hooks/useSolicitudes'
 import type { TramitesDomain } from '@/lib/tramites/nav'
 import { cn } from '@/lib/utils'
+import { scopeFill, scopeSubItem } from '@/lib/tramites/scope-ui'
 
 export const CATEGORY_ICONS: Record<TramitesCategoryId, React.ReactNode> = {
   herramientas: <Search />,
@@ -42,23 +43,17 @@ export const CATEGORY_ICONS: Record<TramitesCategoryId, React.ReactNode> = {
   documentos: <FolderOpen />,
 }
 
-const navFill =
-  'bg-[var(--story-night)] text-white [&_svg]:text-white dark:bg-[#0F69C4] dark:text-white dark:[&_svg]:text-white'
-
-const navIdle =
-  'text-gob-text hover:bg-[var(--story-night)] hover:text-white hover:[&_svg]:text-white dark:text-[#E8EAED] dark:hover:bg-[#0F69C4] dark:hover:text-white [&_svg]:text-current'
-
 const rowBase =
   'group/row flex min-h-11 w-full items-center gap-gob-3 rounded-gob-md px-gob-3 text-gri-body-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus [&_svg]:size-[1.125rem] [&_svg]:shrink-0'
 
-function rowClass(active: boolean) {
-  return cn(rowBase, active ? navFill : navIdle)
+function rowClass(active: boolean, scope: TramitesDomain) {
+  return cn(rowBase, scopeFill(scope, active))
 }
 
-function groupRowClass(on: boolean) {
+function groupRowClass(on: boolean, scope: TramitesDomain) {
   return cn(
     'group/row flex min-h-11 w-full items-center gap-gob-3 rounded-gob-md text-gri-body-sm font-medium transition-colors [&_svg]:size-[1.125rem] [&_svg]:shrink-0',
-    on ? navFill : navIdle,
+    scopeFill(scope, on),
   )
 }
 
@@ -92,7 +87,7 @@ export function ScopeSwitch({
         onClick={() => go(scope === 'marcas' ? 'patentes' : 'marcas')}
         className={cn(
           'flex min-h-11 w-full items-center justify-center gap-gob-2 border-b border-gob-border text-gri-body-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus',
-          'bg-[var(--story-night)] text-white dark:bg-[#0F69C4] dark:text-white',
+          scope === 'marcas' ? 'bg-inapi-marcas-accent text-white' : 'bg-gob-primary text-white',
           className,
         )}
         aria-label={tx(scope === 'marcas' ? 'Ámbito: Marcas. Cambiar a Patentes' : 'Ámbito: Patentes. Cambiar a Marcas')}
@@ -118,8 +113,12 @@ export function ScopeSwitch({
           className={cn(
             'inline-flex min-h-11 items-center justify-center gap-gob-2 px-gob-3 text-gri-body-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gob-focus',
             scope === id
-              ? 'bg-[var(--story-night)] text-white dark:bg-[#0F69C4] dark:text-white'
-              : 'text-gob-text/80 hover:text-gob-text dark:text-white/80 dark:hover:bg-white/10 dark:hover:text-white',
+              ? id === 'marcas'
+                ? 'bg-inapi-marcas-accent text-white'
+                : 'bg-gob-primary text-white'
+              : id === 'marcas'
+                ? 'text-gob-text/80 hover:bg-inapi-marcas-surface hover:text-gob-text dark:text-white/80 dark:hover:bg-inapi-marcas-surface/30 dark:hover:text-white'
+                : 'text-gob-text/80 hover:bg-gob-primary/10 hover:text-gob-text dark:text-white/80 dark:hover:bg-gob-primary/20 dark:hover:text-white',
           )}
         >
           <span
@@ -146,9 +145,10 @@ export function TramitesSidebarNav({
   const { tx } = useI18n()
   const pathname = tramitesPath(usePathname())
   const { scope, setPrefs } = useDashboardPrefs()
+  const { items } = useSolicitudes()
   const activeCategory = categoryForPath(pathname)?.id
   const [groupOverrides, setGroupOverrides] = useState<Partial<Record<TramitesCategoryId, boolean>>>({})
-  const pending = NOTIFICACIONES.filter(n => n.dominio === scope).length
+  const pending = items.filter(n => n.dominio === scope && n.tone === 'required').length
   const isGroupOpen = (id: TramitesCategoryId) => groupOverrides[id] ?? activeCategory === id
 
   useEffect(() => {
@@ -169,7 +169,7 @@ export function TramitesSidebarNav({
             aria-current={pathname === '/tramites' ? 'page' : undefined}
             aria-label={collapsed ? tx('Inicio') : undefined}
             title={collapsed ? tx('Inicio') : undefined}
-            className={cn(rowClass(pathname === '/tramites'), collapsed && 'justify-center px-0')}
+            className={cn(rowClass(pathname === '/tramites', scope), collapsed && 'justify-center px-0')}
           >
             <Home aria-hidden />
             {collapsed ? null : <span>{tx('Inicio')}</span>}
@@ -182,7 +182,7 @@ export function TramitesSidebarNav({
             aria-current={pathname === '/tramites/notificaciones' ? 'page' : undefined}
             aria-label={collapsed ? `${tx('Mis Notificaciones')} (${pending})` : undefined}
             title={collapsed ? `${tx('Mis Notificaciones')} (${pending})` : undefined}
-            className={cn(rowClass(pathname === '/tramites/notificaciones'), collapsed && 'relative justify-center px-0')}
+            className={cn(rowClass(pathname === '/tramites/notificaciones', scope), collapsed && 'relative justify-center px-0')}
           >
             <Bell aria-hidden />
             {collapsed ? (
@@ -193,7 +193,11 @@ export function TramitesSidebarNav({
                 <span
                   className={cn(
                     'story-tabular inline-flex min-w-6 items-center justify-center rounded-full px-1.5 text-[0.6875rem] font-bold leading-5',
-                    pathname === '/tramites/notificaciones' ? 'bg-white text-[var(--story-night)]' : 'bg-gob-accent text-white',
+                    pathname === '/tramites/notificaciones'
+                      ? 'bg-white text-gob-text'
+                      : scope === 'marcas'
+                        ? 'bg-white/90 text-inapi-marcas-hover'
+                        : 'bg-white/90 text-gob-primary-dark',
                   )}
                 >
                   {pending}
@@ -226,7 +230,7 @@ export function TramitesSidebarNav({
                   }
                   toggleGroup(cat.id)
                 }}
-                className={cn(groupRowClass(open), 'w-full px-gob-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus', collapsed && 'justify-center px-0')}
+                className={cn(groupRowClass(open, scope), 'w-full px-gob-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus', collapsed && 'justify-center px-0')}
               >
                 {CATEGORY_ICONS[cat.id]}
                 {collapsed ? null : <span className="min-w-0 flex-1 truncate">{tx(cat.label)}</span>}
@@ -241,9 +245,7 @@ export function TramitesSidebarNav({
                     const itemActive = !item.external && itemPath === pathname && itemPath !== '/tramites/notificaciones'
                     const cls = cn(
                       'flex min-h-10 items-center gap-gob-2 rounded-gob-sm px-gob-2 py-1.5 text-gri-body-xs leading-snug focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gob-focus',
-                      itemActive
-                        ? 'bg-gob-surface-elevated font-semibold text-gob-text dark:bg-white/10 dark:text-white'
-                        : 'text-gob-text/85 hover:bg-gob-surface-elevated hover:text-gob-text dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white',
+                      scopeSubItem(itemActive),
                     )
                     return (
                       <li key={item.href + item.label}>
@@ -356,7 +358,7 @@ export function TramitesSidebar() {
         href="/"
         aria-label={collapsed ? tx('Volver al sitio informativo') : undefined}
         title={collapsed ? tx('Volver al sitio informativo') : undefined}
-        className={cn(rowClass(false), 'mx-gob-3 mb-gob-4 mt-gob-8 shrink-0', collapsed && 'justify-center px-0')}
+        className={cn(rowClass(false, scope), 'mx-gob-3 mb-gob-4 mt-gob-8 shrink-0', collapsed && 'justify-center px-0')}
       >
         <ArrowLeft aria-hidden />
         {collapsed ? null : <span>{tx('Volver al sitio informativo')}</span>}

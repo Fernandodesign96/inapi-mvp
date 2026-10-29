@@ -19,7 +19,7 @@ import { MARCAS_MEGA, PATENTES_MEGA, TRAMITES_SECONDARY_NAV, type MegaColumn } f
 export function useCommandShortcut(onToggle: () => void) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey)) {
+      if ((e.key ?? '').toLowerCase() === 'k' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault()
         onToggle()
       }

@@ -17,7 +17,7 @@ export function glossarySlug(term: string) {
 
 export const glossaryTerms: Record<string, GlossaryEntry> = {
   'clase-de-niza': {
-    shortDef: 'Categoría internacional de productos o servicios. Pagas una tasa por cada clase.',
+    shortDef: 'Categoría internacional de productos o servicios.',
     fullDef:
       'Las clases de Niza agrupan los productos y servicios en 45 categorías internacionales. Al solicitar una marca, debes indicar en qué clase o clases quieres protegerla, porque tu marca solo te protege en las clases elegidas.',
     exampleText: 'Una cafetería probablemente necesita clase 30 (café, té) y clase 43 (servicios de restaurante).',

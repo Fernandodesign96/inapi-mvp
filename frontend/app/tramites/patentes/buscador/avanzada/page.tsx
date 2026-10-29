@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { Filter, Layers } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTable, Td } from '@/components/tramites/DataTable'
+import { ScreenIntro } from '@/components/tramites/TramitesExperience'
 import { EmptyState, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import { RESULTADOS_PATENTES } from '@/lib/tramites/mock-data'
 
@@ -20,7 +22,7 @@ function Block({
   children: React.ReactNode
 }) {
   return (
-    <section className="space-y-gob-3 rounded-gob-xl border border-gob-border bg-card p-gob-5 shadow-elevation-01">
+    <section className="space-y-gob-3 rounded-gob-xl border-2 border-gob-border bg-card p-gob-5">
       <div>
         <h2 className="font-heading text-lg font-medium text-gob-text">{title}</h2>
         <p className="text-gri-body-sm text-muted-foreground">{hint}</p>
@@ -53,9 +55,26 @@ export default function BusquedaAvanzadaPage() {
 
   return (
     <TramitesMain>
-      <p className="text-gri-body text-gob-text max-w-3xl">
-        Combina criterios. Los operadores son «contiene», «es» y «comienza con».
-      </p>
+      <ScreenIntro
+        lead={
+          <p>
+            Combina criterios para afinar la búsqueda. Los operadores son <strong>contiene</strong>, <strong>es</strong> y{' '}
+            <strong>comienza con</strong>.
+          </p>
+        }
+        points={[
+          {
+            icon: <Filter />,
+            title: 'Empieza por lo que ya sabes',
+            body: 'Un número, un titular o un código CIP reduce el ruido de los resultados.',
+          },
+          {
+            icon: <Layers />,
+            title: 'Clasificación',
+            body: 'CIP agrupa invenciones por campo técnico. Úsalo si conoces el código o quieres un rubro concreto.',
+          },
+        ]}
+      />
       <Link href="/tramites/patentes/buscador" className="text-gob-link underline underline-offset-4">
         Volver a búsqueda simple
       </Link>

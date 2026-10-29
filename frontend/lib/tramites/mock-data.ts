@@ -1,3 +1,5 @@
+import { CASE_SEEDS, digitsOnly, ifNoActFor, nextStepsFor, STEREOTYPE_ACCOUNTS } from './demo-accounts'
+import type { DemoPersona, MarcaEtapaId, SolicitudTone } from './marca-etapas'
 import type { TramitesDomain } from './nav'
 
 export const CERT_PRICE_CLP = 500
@@ -7,41 +9,319 @@ export type Notificacion = {
   id: string
   dominio: TramitesDomain
   numero: string
+  nAtencion: string
   titular: string
   fecha: string
+  presentacion: string
   tipo: string
   resumen: string
+  nombre: string
+  categoria: string
+  tipoDerecho: string
+  etapa: MarcaEtapaId
+  tone: SolicitudTone
+  estadoIpas: string
+  estadoUnificado: string
+  ultimaAccion: string
+  plazo: string
+  claseNiza?: string
+  contacto?: string
+  accionUsuario?: string
+  runDigits: string
+  nextSteps: string[]
+  ifNoAct: string
+  dondePresentar: string
+  personas: DemoPersona[]
 }
 
 export const NOTIFICACIONES: Notificacion[] = [
   {
-    id: 'n1',
+    id: 'eco',
     dominio: 'marcas',
-    numero: '1000000',
+    numero: '1612458',
+    nAtencion: 'SM1612458',
     titular: 'Fernando Ignacio Arriagada Castillo',
-    fecha: '2026-04-12',
-    tipo: 'Publicación',
-    resumen: 'Tu solicitud OMNIdanz se publicó en el Diario Oficial.',
+    fecha: '2026-03-10',
+    presentacion: '2026-03-10',
+    tipo: 'Requerimiento',
+    resumen:
+      'Estado IPAS: Aguardando fin de plazo de observaciones de forma. INAPI verifica que la solicitud cumpla los requisitos legales y formales. Última acción registrada: «Resolución de observaciones de forma». Esta gestión se realiza en los canales oficiales de INAPI, no dentro de MiINAPI.',
+    nombre: 'Eco-Tech Solutions',
+    categoria: 'Marca',
+    tipoDerecho: 'Marca comercial',
+    etapa: 'forma',
+    tone: 'required',
+    estadoIpas: 'Aguardando fin de plazo de observaciones de forma',
+    estadoUnificado: 'En trámite',
+    ultimaAccion: 'Resolución de observaciones de forma',
+    accionUsuario: 'Resolución de observaciones de forma',
+    plazo: 'Según expediente IPAS',
+    claseNiza: 'Clase 9',
+    contacto: 'forma@inapi.cl',
+    nextSteps: [
+      'Revisa el estado «Aguardando fin de plazo de observaciones de forma» y la acción «Resolución de observaciones de forma» en el expediente.',
+      'Sigue las instrucciones del oficio o de la notificación oficial de INAPI.',
+      'Presenta la gestión en los canales oficiales (portal INAPI, correo o ventanilla indicados en el oficio).',
+    ],
+    ifNoAct: 'Si el plazo del estado IPAS vence sin la gestión correspondiente, el expediente puede no avanzar o abandonarse, según la normativa aplicable a este estado.',
+    dondePresentar: 'Canales oficiales de INAPI según el oficio o la notificación del expediente.',
+    runDigits: '18618492',
+    personas: ['frecuente'],
   },
   {
-    id: 'n2',
+    id: 'neo',
     dominio: 'marcas',
-    numero: 'SM1196003',
+    numero: '1647823',
+    nAtencion: 'SM1647823',
     titular: 'Fernando Ignacio Arriagada Castillo',
-    fecha: '2026-03-02',
+    fecha: '2026-02-18',
+    presentacion: '2026-02-18',
+    tipo: 'Publicación',
+    resumen:
+      'Estado IPAS: Aguardando fin de plazo de pago de publicación al Diario Oficial. Su marca se publica en el Diario Oficial y terceros pueden oponerse dentro de un plazo. Última acción registrada: «Resolución de aceptación a trámite de marca».',
+    nombre: 'NeoGraphix Design',
+    categoria: 'Marca',
+    tipoDerecho: 'Marca comercial',
+    etapa: 'publicacion',
+    tone: 'required',
+    estadoIpas: 'Aguardando fin de plazo de pago de publicación al Diario Oficial',
+    estadoUnificado: 'En trámite',
+    ultimaAccion: 'Resolución de aceptación a trámite de marca',
+    plazo: 'Según expediente IPAS',
+    claseNiza: 'Clase 35',
+    contacto: 'publicacion@inapi.cl',
+    nextSteps: [
+      'Revisa el estado «Aguardando fin de plazo de pago de publicación al Diario Oficial».',
+      'Sigue las instrucciones del oficio de aceptación a trámite de marca.',
+      'Efectúa el pago por los medios habilitados por INAPI, no desde esta pantalla.',
+    ],
+    ifNoAct: 'Si el plazo del estado IPAS vence sin el pago de publicación, la solicitud puede tenerse por no presentada por falta de publicación.',
+    dondePresentar: 'Medios de pago y canales oficiales indicados en el oficio de INAPI.',
+    runDigits: '18618492',
+    personas: ['frecuente'],
+  },
+  {
+    id: 'farma',
+    dominio: 'marcas',
+    numero: '1623891',
+    nAtencion: 'SM1623891',
+    titular: 'Fernando Ignacio Arriagada Castillo',
+    fecha: '2026-01-22',
+    presentacion: '2026-01-22',
+    tipo: 'Examen de fondo',
+    resumen:
+      'Estado IPAS: Aguardando fin de plazo de observaciones de fondo. Se le ha asignado un especialista de INAPI, quien evalúa si su marca cumple con la ley para ser registrada. Última acción registrada: «Resolución de observaciones de fondo».',
+    nombre: 'FarmaTech Chile',
+    categoria: 'Marca',
+    tipoDerecho: 'Marca comercial',
+    etapa: 'fondo',
+    tone: 'required',
+    estadoIpas: 'Aguardando fin de plazo de observaciones de fondo',
+    estadoUnificado: 'En trámite',
+    ultimaAccion: 'Resolución de observaciones de fondo',
+    plazo: 'Según expediente IPAS',
+    claseNiza: 'Clase 5',
+    contacto: 'fondo@inapi.cl',
+    nextSteps: [
+      'Revisa el estado «Aguardando fin de plazo de observaciones de fondo» y la acción «Resolución de observaciones de fondo» en el expediente.',
+      'Sigue las instrucciones del oficio o de la notificación oficial de INAPI.',
+      'Presenta la gestión en los canales oficiales de INAPI.',
+    ],
+    ifNoAct: 'Si el plazo del estado IPAS vence sin la gestión correspondiente, el expediente puede no avanzar, según la normativa aplicable a este estado.',
+    dondePresentar: 'Canales oficiales de INAPI según el oficio o la notificación del expediente.',
+    runDigits: '18618492',
+    personas: ['frecuente'],
+  },
+  {
+    id: 'aura',
+    dominio: 'marcas',
+    numero: '1634567',
+    nAtencion: 'SM1634567',
+    titular: 'Fernando Ignacio Arriagada Castillo',
+    fecha: '2025-11-04',
+    presentacion: '2025-11-04',
+    tipo: 'Examen de fondo',
+    resumen: 'INAPI evalúa si tu marca Aura Cosmetics cumple con la ley. No hay un plazo abierto a tu cargo en este momento.',
+    nombre: 'Aura Cosmetics',
+    categoria: 'Marca',
+    tipoDerecho: 'Marca comercial',
+    etapa: 'fondo',
+    tone: 'progress',
+    estadoIpas: 'En examen de fondo',
+    estadoUnificado: 'En trámite',
+    ultimaAccion: 'Asignación de responsable para examen de fondo',
+    plazo: 'Sin plazo abierto a tu cargo',
+    claseNiza: 'Clase 3',
+    nextSteps: [
+      'Revisa el expediente cuando INAPI publique una nueva resolución.',
+      'No debes presentar un escrito mientras no haya observaciones.',
+    ],
+    ifNoAct: 'Si no hay plazo abierto, el expediente sigue en INAPI.',
+    dondePresentar: 'Portal de trámites de INAPI, si más adelante se notifica un oficio.',
+    runDigits: '18618492',
+    personas: ['frecuente'],
+  },
+  {
+    id: 'terra',
+    dominio: 'marcas',
+    numero: '1659012',
+    nAtencion: 'SM1659012',
+    titular: 'Fernando Ignacio Arriagada Castillo',
+    fecha: '2025-03-15',
+    presentacion: '2025-03-15',
+    tipo: 'Registrada',
+    resumen: 'Tu marca Terra Verde SPA está registrada. Desde aquí puedes renovar o pedir cambios al registro.',
+    nombre: 'Terra Verde SPA',
+    categoria: 'Marca',
+    tipoDerecho: 'Marca comercial',
+    etapa: 'pago',
+    tone: 'registered',
+    estadoIpas: 'Registrada',
+    estadoUnificado: 'Registrada',
+    ultimaAccion: 'Publicación de marca en Diario Oficial',
+    plazo: 'Sin plazo de trámite',
+    claseNiza: 'Clase 43',
+    nextSteps: ['Guarda el título y anota la fecha de renovación.', 'Si cambian el titular o el nombre, presenta una anotación.'],
+    ifNoAct: 'El registro se mantiene vigente mientras se paguen las renovaciones a tiempo.',
+    dondePresentar: 'Portal de trámites de INAPI, en renovaciones y anotaciones.',
+    runDigits: '18618492',
+    personas: ['frecuente'],
+  },
+  {
+    id: 'audilex',
+    dominio: 'marcas',
+    numero: '1694791',
+    nAtencion: 'SM1694791',
+    titular: 'Luis Atiliano Vásquez Díaz',
+    fecha: '2026-10-12',
+    presentacion: '2026-10-12',
     tipo: 'Requerimiento',
-    resumen: 'INAPI te pide complementar antecedentes de tu solicitud.',
+    resumen: 'Tu solicitud AUDILEX está en examen de forma. INAPI revisa que cumpla los requisitos legales y formales.',
+    nombre: 'AUDILEX',
+    categoria: 'Marca',
+    tipoDerecho: 'Denominativa',
+    etapa: 'forma',
+    tone: 'progress',
+    estadoIpas: 'En examen de forma',
+    estadoUnificado: 'En trámite',
+    ultimaAccion: 'Fin de captura diaria de expedientes',
+    plazo: 'Sin plazo abierto a tu cargo',
+    claseNiza: 'Clase 35',
+    nextSteps: [
+      'Espera el resultado del examen de forma.',
+      'Si llega una resolución de observaciones, responde dentro del plazo del oficio.',
+    ],
+    ifNoAct: 'Si más adelante hay observaciones y no respondes a tiempo, la solicitud puede abandonarse.',
+    dondePresentar: 'Portal de trámites de INAPI, cuando se notifique un oficio.',
+    runDigits: '22222222',
+    personas: ['natural'],
+  },
+  {
+    id: 'capitan',
+    dominio: 'marcas',
+    numero: '1687456',
+    nAtencion: 'SM1687456',
+    titular: 'Pilar De Las Nieves Rodríguez Aros',
+    fecha: '2026-08-24',
+    presentacion: '2026-08-24',
+    tipo: 'Publicación',
+    resumen: 'Pagaste la publicación. INAPI espera la aparición de Capitán Emilio en el Diario Oficial.',
+    nombre: 'Capitán Emilio',
+    categoria: 'Marca',
+    tipoDerecho: 'Denominativa',
+    etapa: 'publicacion',
+    tone: 'progress',
+    estadoIpas: 'Aguardando por publicación en Diario Oficial',
+    estadoUnificado: 'En trámite',
+    ultimaAccion: 'Pago de publicación efectuado (Diario Oficial)',
+    plazo: 'Según Diario Oficial',
+    claseNiza: 'Clase 43',
+    nextSteps: [
+      'Revisa cuando se publique el extracto.',
+      'Después corre el plazo de oposición de terceros.',
+    ],
+    ifNoAct: 'No hay un pago pendiente de publicación. El expediente sigue en INAPI.',
+    dondePresentar: 'No aplica mientras espera la publicación.',
+    runDigits: '22222222',
+    personas: ['natural'],
   },
   {
     id: 'n3',
     dominio: 'patentes',
     numero: '202101234',
+    nAtencion: 'PA202101234',
     titular: 'Fernando Ignacio Arriagada Castillo',
     fecha: '2026-05-18',
+    presentacion: '2021-05-18',
     tipo: 'Examen de fondo',
     resumen: 'Se inició el examen de fondo de tu solicitud de patente.',
+    nombre: 'Sistema de anclaje para tarima',
+    categoria: 'Patente',
+    tipoDerecho: 'Patente de invención',
+    etapa: 'fondo',
+    tone: 'progress',
+    estadoIpas: 'En examen de fondo',
+    estadoUnificado: 'En trámite',
+    ultimaAccion: 'Asignación de responsable para examen de fondo',
+    plazo: 'Sin plazo abierto a tu cargo',
+    nextSteps: ['Revisa el expediente cuando INAPI publique una nueva resolución.'],
+    ifNoAct: 'Si no hay plazo abierto, el expediente sigue en INAPI.',
+    dondePresentar: 'Portal de trámites de INAPI.',
+    runDigits: '18618492',
+    personas: ['frecuente'],
   },
+  ...CASE_SEEDS.map(seed => ({
+    id: `ex-${seed.run}`,
+    runDigits: seed.run,
+    dominio: 'marcas' as const,
+    numero: seed.run.padStart(7, '0'),
+    nAtencion: `SM${seed.run}`,
+    titular: seed.titular,
+    fecha: '2026-10-12',
+    presentacion: '2026-03-10',
+    tipo: seed.tone === 'required' ? 'Requerimiento' : seed.tone === 'registered' ? 'Registrada' : seed.estadoIpas,
+    resumen:
+      seed.tone === 'required'
+        ? `Estado IPAS: ${seed.estadoIpas}. INAPI verifica que la solicitud cumpla los requisitos legales y formales. Última acción registrada: «${seed.ultimaAccion}». Esta gestión se realiza en los canales oficiales de INAPI, no dentro de MiINAPI.`
+        : `Estado IPAS: ${seed.estadoIpas}. Última acción registrada: «${seed.ultimaAccion}».`,
+    nombre: seed.marca,
+    categoria: 'Marca',
+    tipoDerecho: 'Marca comercial',
+    etapa: seed.etapa,
+    tone: seed.tone,
+    estadoIpas: seed.estadoIpas,
+    estadoUnificado: seed.tone === 'registered' ? 'Registrada' : seed.tone === 'closed' ? seed.estadoIpas : 'En trámite',
+    ultimaAccion: seed.ultimaAccion,
+    plazo: seed.tone === 'required' ? 'Según expediente IPAS' : 'Sin plazo abierto a tu cargo',
+    claseNiza: seed.claseNiza,
+    accionUsuario: seed.accionUsuario,
+    nextSteps: nextStepsFor(seed),
+    ifNoAct: ifNoActFor(seed),
+    dondePresentar:
+      seed.tone === 'required'
+        ? 'Canales oficiales de INAPI según el oficio o la notificación del expediente.'
+        : 'Portal de trámites de INAPI, si más adelante se notifica un oficio.',
+    personas: ['natural'] as DemoPersona[],
+  })),
 ]
+
+const FRECUENTE_RUN = STEREOTYPE_ACCOUNTS[0].runDigits
+const NATURAL_RUN = STEREOTYPE_ACCOUNTS[1].runDigits
+
+export function solicitudesForRun(run: string) {
+  const digits = digitsOnly(run)
+  if (!digits) return [] as Notificacion[]
+  if (digits === STEREOTYPE_ACCOUNTS[2].runDigits) return []
+  if (digits === FRECUENTE_RUN) return NOTIFICACIONES.filter(n => n.personas.includes('frecuente'))
+  if (digits === NATURAL_RUN) return NOTIFICACIONES.filter(n => n.id === 'audilex' || n.id === 'capitan')
+  return NOTIFICACIONES.filter(n => n.runDigits === digits)
+}
+
+export function solicitudesDe(persona: DemoPersona) {
+  if (persona === 'nuevo') return [] as Notificacion[]
+  if (persona === 'natural') return solicitudesForRun(NATURAL_RUN)
+  return solicitudesForRun(FRECUENTE_RUN)
+}
 
 export type PagoPendiente = {
   id: string
@@ -55,11 +335,16 @@ export const PAGOS_PENDIENTES: PagoPendiente[] = [
   {
     id: 'pg1',
     dominio: 'marcas',
-    numero: 'SM1196003',
-    concepto: 'Pago de publicación en el Diario Oficial',
+    numero: '1647823',
+    concepto: 'Pago de publicación en el Diario Oficial · NeoGraphix Design',
     href: '/tramites/marcas/pagos',
   },
 ]
+
+export function pagosForRun(run: string) {
+  const items = solicitudesForRun(run)
+  return PAGOS_PENDIENTES.filter(p => items.some(n => n.numero === p.numero))
+}
 
 export type DocumentoExpediente = {
   id: string

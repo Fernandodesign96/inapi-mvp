@@ -31,7 +31,7 @@ function TramitesSubheaderInner() {
           <h1 key={`${pathname}?${search}`} className="portal-h1 text-gob-text">
             {tx(meta.title)}
           </h1>
-          {meta.subtitle ? <p className="portal-lead max-w-3xl text-muted-foreground">{tx(meta.subtitle)}</p> : null}
+          {meta.subtitle ? <p className="portal-lead w-full text-muted-foreground">{tx(meta.subtitle)}</p> : null}
         </div>
       </div>
     </div>

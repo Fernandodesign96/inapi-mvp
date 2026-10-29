@@ -71,7 +71,7 @@ export function PlainTerm({
   return (
     <span className="inline">
       <GlosarioTerm termino={term}>{label}</GlosarioTerm>
-      {showMeaning ? <span className="text-muted-foreground">: {entry.shortDef}</span> : null}
+      {showMeaning ? <span className="text-muted-foreground">: {entry.shortDef.replace(/\.$/, '')}</span> : null}
     </span>
   )
 }

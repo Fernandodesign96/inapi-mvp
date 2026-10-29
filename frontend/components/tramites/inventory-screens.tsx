@@ -2,7 +2,7 @@
 
 import { useMemo, useState, type ReactNode } from 'react'
 import Link from 'next/link'
-import { CalendarDays, ChevronDown, Clock3, Download, Shield } from 'lucide-react'
+import { CalendarDays, ChevronDown, Clock3, Download, FileArchive, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { notifyDownload } from '@/components/tramites/DownloadToast'
@@ -10,6 +10,7 @@ import { LegalNotice } from '@/components/tramites/LegalNotice'
 import { RequireAuth } from '@/components/tramites/RequireAuth'
 import { DataTable, Td } from '@/components/tramites/DataTable'
 import { LookupForm, SiteMessage } from '@/components/tramites/part2-forms'
+import { ScreenIntro } from '@/components/tramites/TramitesExperience'
 import { AlertBanner, TramitesMain, selectClass } from '@/components/tramites/ui-helpers'
 import {
   DEMO_NUMEROS,
@@ -604,9 +605,25 @@ export function DocumentacionPctScreen() {
   return (
     <RequireAuth>
       <TramitesMain>
-        <p className="text-gri-body leading-relaxed text-gob-text">
-          Authority File y XML de la colección nacional de patentes. Consulta los XML de registros concedidos conforme al Tratado de Cooperación en Materia de Patentes (PCT).
-        </p>
+        <ScreenIntro
+          lead={
+            <p>
+              Descarga el <strong>Authority File</strong> y los <strong>XML</strong> de la colección nacional de patentes concedidas conforme al Tratado de Cooperación en Materia de Patentes (PCT).
+            </p>
+          }
+          points={[
+            {
+              icon: <FileArchive />,
+              title: 'Authority File',
+              body: 'Listado de registros de patentes desde 1991, actualizado al 31.03.2026.',
+            },
+            {
+              icon: <Download />,
+              title: 'XML de registros concedidos',
+              body: 'Archivos para quien necesita reutilizar los datos, no para seguir un expediente propio.',
+            },
+          ]}
+        />
         <AccordionBlock title="Authority File INAPI" open={open === 'af'} onToggle={() => setOpen(open === 'af' ? null : 'af')}>
           <p className="text-gri-body-sm">Registros de Patentes, desde el año 1991 (Actualizado al 31.03.2026)</p>
           <ArchiveToolbar pageSize={10} onPageSize={() => undefined} query="" onQuery={() => undefined} />
